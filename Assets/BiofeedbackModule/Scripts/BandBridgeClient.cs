@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Communication.Client;
+using Communication.Data;
 
 public class BandBridgeClient : MonoBehaviour {
 
@@ -25,7 +24,11 @@ public class BandBridgeClient : MonoBehaviour {
     {
         if(GUI.Button(new Rect(50, 50, 100, 30), "Connect test"))
         {
-            SocketClient.StartClient(HostName, ServicePort);
+            Message message = new Message(Command.SHOW_ASK, null);
+            Debug.Log(">>__La message: " + message);
+
+            Message response = SocketClient.StartClient(HostName, ServicePort, message);
+            Debug.Log(">>__La response: " + response);
         }
     }
 }
