@@ -8,32 +8,25 @@ using UnityEngine;
 
 namespace Communication.Client
 {
-    // State object for receiving data from remote device.
-    public class StateObject {
-        // Client socket.
-        public Socket workSocket = null;
-        // Size of receive buffer.
-        public const int BufferSize = 256;
-        // Receive buffer.
-        public byte[] buffer = new byte[BufferSize];
-        // Received data string.
-        // public StringBuilder sb = new StringBuilder();
-    }
+    // Original source: https://msdn.microsoft.com/en-us/library/bew39x2a(v=vs.110).aspx
 
+    /// <summary>
+    /// Asynchronous client working on sockets.
+    /// </summary>
     public class SocketClient {
 
-        // ManualResetEvent instances signal completion.  
+        // ManualResetEvent instances signal completion:
         private static ManualResetEvent connectDone = new ManualResetEvent(false);
         private static ManualResetEvent sendDone = new ManualResetEvent(false);
         private static ManualResetEvent receiveDone = new ManualResetEvent(false);
 
         private static PacketProtocol packetizer = null;
-        private static String response = String.Empty;
         private static Message receivedResponse;
 
-        private static void StartClient(string hostName, int port) {
+        public static void StartClient(string hostName, int port) {
             // Connect to a remote device.
-            // try {
+            try
+            {
                 // Establish the remote endpoint for the socket
                 IPHostEntry ipHostInfo = Dns.GetHostEntry(hostName);
                 Debug.Log("Host IP addresses:");
@@ -78,16 +71,18 @@ namespace Communication.Client
                 receiveDone.WaitOne();
 
                 // Write the response to the console.
-                if (response != null) Debug.Log("Response received: " + response);
+                if (receivedResponse != null) Debug.Log("Response received: " + receivedResponse);
                 else Debug.Log("Buka - response received == null!");
 
                 // Release the socket.
                 client.Shutdown(SocketShutdown.Both);
                 client.Close();
 
-            // } catch (Exception e) {
-            //     Debug.Log(e.ToString());
-            // }
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.ToString());
+            }
         }
 
 
