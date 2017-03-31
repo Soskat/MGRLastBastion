@@ -8,7 +8,13 @@ using System.Text;
 using System.Threading;
 using UnityEngine;
 
+
+public enum DataStatus { decrease, increase, steady, unknown }
+
+
 public class MessageSystemTest : MonoBehaviour {
+
+    private const string defaultNone = "<none>";
 
     public string HostName = "192.168.0.73";
     //public string HostName = "DESKTOP-KPBRM2V";
@@ -40,7 +46,21 @@ public class MessageSystemTest : MonoBehaviour {
     }
 
     
+    private GUIStyle sensorLabelStyle;
+    private int currHrReading;
+    private int oldHrReading;
+    private DataStatus statusHr = DataStatus.unknown;
+    private int currGsrReading;
+    private int oldGsrReading;
+    private DataStatus statusGsr = DataStatus.unknown;
 
+
+
+    private void Awake()
+    {
+        sensorLabelStyle = new GUIStyle();
+        sensorLabelStyle.fontSize = 20;
+    }
 
 
     private void OnGUI()
@@ -50,15 +70,6 @@ public class MessageSystemTest : MonoBehaviour {
         HostName = GUI.TextField(new Rect(100, 10, 150, 20), HostName);
         GUI.Label(new Rect(10, 35, 90, 20), "Service port:");
         ServicePortStr = GUI.TextField(new Rect(100, 35, 150, 20), ServicePortStr);
-        #endregion
-
-        #region Connected Bands settings:
-        GUI.Label(new Rect(280, 10, 250, 20), "Connected Bands:");
-        scrollPos = GUI.BeginScrollView(new Rect(280, 35, 250, 100), scrollPos, new Rect(0, 0, 230, 300));
-            selectionGridIndex = GUILayout.SelectionGrid(selectionGridIndex, ConnectedBands, 1, GUILayout.ExpandHeight(true), GUILayout.MaxHeight(300), GUILayout.Height(100));
-        GUI.EndScrollView();
-        GUI.Label(new Rect(280, 145, 90, 20), "Selected Band:");
-        ChoosenBandName = GUI.TextField(new Rect(380, 145, 150, 20), ConnectedBands[selectionGridIndex]);
         #endregion
 
         #region Buttons
@@ -182,6 +193,42 @@ public class MessageSystemTest : MonoBehaviour {
                 Debug.Assert(resp.Result == null, "Wrong response Result - expected null, but get: " + resp.Result);
             }
         }
+        #endregion
+
+        #region Connected Bands settings:
+        GUI.Label(new Rect(280, 10, 250, 20), "Connected Bands:");
+        {
+            scrollPos = GUI.BeginScrollView(new Rect(280, 35, 250, 100), scrollPos, new Rect(0, 0, 230, 300));
+            selectionGridIndex = GUILayout.SelectionGrid(selectionGridIndex, ConnectedBands, 1, 
+                                                         GUILayout.ExpandHeight(true), GUILayout.MaxHeight(300), GUILayout.Height(100));
+        }
+        GUI.EndScrollView();
+        GUI.Label(new Rect(280, 145, 90, 20), "Selected Band:");
+        if (ConnectedBands.Length > 0) ChoosenBandName = ConnectedBands[selectionGridIndex];
+        else ChoosenBandName = defaultNone;
+        GUI.TextField(new Rect(380, 145, 150, 20), ChoosenBandName);
+        #endregion
+
+        #region Biofeedback info
+        GUI.BeginGroup(new Rect(280, 100, 200, 160));
+        {
+            GUILayout.BeginHorizontal();
+            {
+                GUILayout.Label("HR:", GUILayout.Width(30));
+                GUILayout.TextField(currHrReading.ToString(), GUILayout.Width(75));
+                GUILayout.TextField(statusHr.ToString(), GUILayout.Width(75));
+            }
+            GUILayout.EndHorizontal();
+            GUILayout.Space(10);
+            GUILayout.BeginHorizontal();
+            {
+                GUILayout.Label("GSR:", GUILayout.Width(30));
+                GUILayout.TextField(currGsrReading.ToString(), GUILayout.Width(75));
+                GUILayout.TextField(statusGsr.ToString(), GUILayout.Width(75));
+            }
+            GUILayout.EndHorizontal();
+        }
+        GUI.EndGroup();
         #endregion
 
         #region Debug log

@@ -297,7 +297,7 @@ Camera:
   m_GameObject: {fileID: 1564250843}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 2
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
@@ -377,5 +377,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HostName: 192.168.0.73
-  ServicePort: 2055
+  ServicePortStr: 2055
   ChoosenBandName: Test Fake Band
+  ConnectedBands:
+  - Test Fake Band
+  - Test
+  - Fake
+  - Band
+  selectionGridIndex: 0
