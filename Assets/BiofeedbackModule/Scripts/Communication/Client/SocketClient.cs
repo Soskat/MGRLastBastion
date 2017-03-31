@@ -30,13 +30,7 @@ namespace Communication.Client
             {
                 // Establish the remote endpoint for the socket:
                 IPHostEntry ipHostInfo = Dns.GetHostEntry(hostName);
-                Debug.Log("Host IP addresses:");
-                foreach (var item in ipHostInfo.AddressList)
-                {
-                    Debug.Log(item.ToString());
-                }
-                IPAddress ipAddress = ipHostInfo.AddressList[ipHostInfo.AddressList.Length - 1];
-                Debug.Log("ipAddress: " + ipAddress.ToString());
+                IPAddress ipAddress = Array.Find(ipHostInfo.AddressList, a => a.AddressFamily == AddressFamily.InterNetwork);
                 IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
 
                 // Create a TCP/IP socket:
@@ -55,14 +49,14 @@ namespace Communication.Client
                 
                 packetizer.MessageArrived += receivedMsg => 
                 {
-                    Console.Write(":: Received bytes: " + receivedMsg.Length + " => ");
+                    Debug.Log(":: Received bytes: " + receivedMsg.Length + " => ");
                     if (receivedMsg.Length > 0)
                     {
-                        Debug.Log("deserialize message");
+                        //Debug.Log("deserialize message");
                         receivedResponse = Message.Deserialize(receivedMsg);
-                        Debug.Log(":: Received: " + receivedResponse);
+                        //Debug.Log(":: Received: " + receivedResponse);
                     }
-                    else Debug.Log("keepalive message");
+                    //else Debug.Log("keepalive message");
                 };
 
                 // Receive the response from the remote device:
@@ -72,6 +66,11 @@ namespace Communication.Client
                 // Release the socket.
                 client.Shutdown(SocketShutdown.Both);
                 client.Close();
+
+                // reset signals completion:
+                connectDone.Reset();
+                sendDone.Reset();
+                receiveDone.Reset();
 
                 return receivedResponse;
             }
@@ -104,10 +103,10 @@ namespace Communication.Client
         private static void Send(Socket client, Message data) {
             // convert message into byte array and wrap it for network transport:
             var serializedMsg = Message.Serialize(data);
-            Debug.Log("serialized msg length: " + serializedMsg.Length);
+            //Debug.Log("serialized msg length: " + serializedMsg.Length);
 
             byte[] byteData = PacketProtocol.WrapMessage(serializedMsg);
-            Debug.Log("wrapped serialized msg length: " + byteData.Length);
+            //Debug.Log("wrapped serialized msg length: " + byteData.Length);
 
             // Begin sending the data to the remote device:
             client.BeginSend(byteData, 0, byteData.Length, 0, new AsyncCallback(SendCallback), client);

@@ -26,30 +26,37 @@ public class BandBridgeClient : MonoBehaviour {
         if(GUI.Button(new Rect(50, 50, 100, 30), "Connect test"))
         {
             Message message = new Message(Command.SHOW_ASK, null);
-            SendMessageToBandBridge(message);
+            Message response = SendMessageToBandBridge(message);
+            DealWithResponse(response);
         }
     }
 
 
-    private void SendMessageToBandBridge(Message message)
+    private Message SendMessageToBandBridge(Message message)
     {
         // original source: http://stackoverflow.com/a/34040733
 
         Debug.Log("Prepaired message: " + message);
+        Message response = null;
+
 
         BackgroundWorker worker = new BackgroundWorker();
         worker.DoWork += (s, e) => {
             e.Result = SocketClient.StartClient(HostName, ServicePort, message);
         };
         worker.RunWorkerCompleted += (s, e) => {
-            DealWithResponse((Message)e.Result);
+            response = (Message)e.Result;
+            //DealWithResponse((Message)e.Result);
         };
         worker.RunWorkerAsync();
+
+
+        return response;
     }
 
 
     private void DealWithResponse(Message response)
     {
-        Debug.Log("Received response: " + response);
+        Debug.Log("Received response: " + response + " ------------------------------------");
     }
 }
