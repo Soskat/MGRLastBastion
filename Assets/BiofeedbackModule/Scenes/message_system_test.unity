@@ -378,7 +378,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HostName: 192.168.0.73
   ServicePortStr: 2055
-  ChoosenBandName: Test Fake Band
+  ChoosenBandName: 
   ConnectedBands:
   - Test Fake Band
   - Test

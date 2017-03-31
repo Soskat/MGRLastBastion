@@ -46,175 +46,236 @@ public class MessageSystemTest : MonoBehaviour {
     }
 
     
-    private GUIStyle sensorLabelStyle;
     private int currHrReading;
     private int oldHrReading;
     private DataStatus statusHr = DataStatus.unknown;
     private int currGsrReading;
     private int oldGsrReading;
     private DataStatus statusGsr = DataStatus.unknown;
-
-
-
-    private void Awake()
-    {
-        sensorLabelStyle = new GUIStyle();
-        sensorLabelStyle.fontSize = 20;
-    }
+    
 
 
     private void OnGUI()
     {
-        #region Server data & other settings        
-        GUI.Label(new Rect(10, 10, 90, 20), "Server IP:");
-        HostName = GUI.TextField(new Rect(100, 10, 150, 20), HostName);
-        GUI.Label(new Rect(10, 35, 90, 20), "Service port:");
-        ServicePortStr = GUI.TextField(new Rect(100, 35, 150, 20), ServicePortStr);
-        #endregion
-
-        #region Buttons
-        // === test SHOW_ASK message ===========================
-        if (GUI.Button(new Rect(10, 75, 250, 30), "[SHOW_ASK][null]"))
-        {
-            Message message = new Message(Command.SHOW_ASK, null);
-            Debug.Log("Prepaired message: " + message);
-            Message resp = Test_SendMessageToBandBridge(message);
-            Debug.Assert(resp != null, "Response is null!");
-            if (resp != null)
-            {
-                Debug.Log("Received response: " + resp);
-                Debug.Assert(resp.Code == Command.SHOW_ANS, "Wrong response Code - expected SHOW_ANS, but get: " + resp.Code);
-                Debug.Assert((resp.Result == null) || (resp.Result.GetType() == typeof(List<string>)),
-                            "Wrong response Result - expected null or List<string>, but get: " + resp.Result);
-            }
-        }
-        if (GUI.Button(new Rect(10, 105, 250, 30), "[SHOW_ASK][42]"))
-        {
-            Message message = new Message(Command.SHOW_ASK, 42);
-            Debug.Log("Prepaired message: " + message);
-            Message resp = Test_SendMessageToBandBridge(message);
-            Debug.Assert(resp != null, "Response is null!");
-            if (resp != null)
-            {
-                Debug.Log("Received response: " + resp);
-                Debug.Assert(resp.Code == Command.SHOW_ANS, "Wrong response Code - expected SHOW_ANS, but get: " + resp.Code);
-                Debug.Assert((resp.Result == null) || (resp.Result.GetType() == typeof(List<string>)),
-                            "Wrong response Result - expected null or List<string>, but get: " + resp.Result);
-
-
-                // if there are bands connected to BandBridge, choose first from the list:
-                if (resp.Result != null && resp.Result.GetType() == typeof(List<string>))
-                {
-                    if (((List<string>)resp.Result).Count > 0)
-                    {
-                        ChoosenBandName = ((List<string>)resp.Result)[0];
-                    }
-                }
-            }
-        }
-        // === test GET_DATA_ASK message =======================
-        if (GUI.Button(new Rect(10, 145, 250, 30), "[GET_DATA_ASK][null]"))
-        {
-            Message message = new Message(Command.GET_DATA_ASK, null);
-            Debug.Log("Prepaired message: " + message);
-            Message resp = Test_SendMessageToBandBridge(message);
-            Debug.Assert(resp != null, "Response is null!");
-            if (resp != null)
-            {
-                Debug.Log("Received response: " + resp);
-                Debug.Assert(resp.Code == Command.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
-                Debug.Assert(resp.Result == null, "Wrong response Result - expected null, but get: " + resp.Result);
-            }
-        }
-        if (GUI.Button(new Rect(10, 175, 250, 30), "[GET_DATA_ASK][42]"))
-        {
-            Message message = new Message(Command.GET_DATA_ASK, 42);
-            Debug.Log("Prepaired message: " + message);
-            Message resp = Test_SendMessageToBandBridge(message);
-            Debug.Assert(resp != null, "Response is null!");
-            if (resp != null)
-            {
-                Debug.Log("Received response: " + resp);
-                Debug.Assert(resp.Code == Command.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
-                Debug.Assert(resp.Result == null, "Wrong response Result - expected null, but get: " + resp.Result);
-            }
-        }
-        if (GUI.Button(new Rect(10, 205, 250, 30), "[GET_DATA_ASK][" + ChoosenBandName + "]"))
-        {
-            Message message = new Message(Command.GET_DATA_ASK, ChoosenBandName);
-            Debug.Log("Prepaired message: " + message);
-            Message resp = Test_SendMessageToBandBridge(message);
-            Debug.Assert(resp != null, "Response is null!");
-            if (resp != null)
-            {
-                Debug.Log("Received response: " + resp);
-                Debug.Assert(resp.Code == Command.GET_DATA_ANS, "Wrong response Code - expected GET_DATA_ANS, but get: " + resp.Code);
-                Debug.Assert((resp.Result == null) || (resp.Result.GetType() == typeof(SensorData[])),
-                            "Wrong response Result - expected null or typeof(SensorData), but get: " + resp.Result);
-            }
-        }
-        // === test SHOW_ANS, GET_DATA_ANS & CTR_MSG message ===
-        if (GUI.Button(new Rect(10, 245, 250, 30), "[SHOW_ANS][null]"))
-        {
-            Message message = new Message(Command.SHOW_ANS, null);
-            Debug.Log("Prepaired message: " + message);
-            Message resp = Test_SendMessageToBandBridge(message);
-            Debug.Assert(resp != null, "Response is null!");
-            if (resp != null)
-            {
-                Debug.Log("Received response: " + resp);
-                Debug.Assert(resp.Code == Command.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
-                Debug.Assert(resp.Result == null, "Wrong response Result - expected null, but get: " + resp.Result);
-            }
-        }
-        if (GUI.Button(new Rect(10, 275, 250, 30), "[GET_DATA_ANS][null]"))
-        {
-            Message message = new Message(Command.GET_DATA_ANS, null);
-            Debug.Log("Prepaired message: " + message);
-            Message resp = Test_SendMessageToBandBridge(message);
-            Debug.Assert(resp != null, "Response is null!");
-            if (resp != null)
-            {
-                Debug.Log("Received response: " + resp);
-                Debug.Assert(resp.Code == Command.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
-                Debug.Assert(resp.Result == null, "Wrong response Result - expected null, but get: " + resp.Result);
-            }
-        }
-        if (GUI.Button(new Rect(10, 305, 250, 30), "[CTR_MSG][null]"))
-        {
-            Message message = new Message(Command.CTR_MSG, null);
-            Debug.Log("Prepaired message: " + message);
-            Message resp = Test_SendMessageToBandBridge(message);
-            Debug.Assert(resp != null, "Response is null!");
-            if (resp != null)
-            {
-                Debug.Log("Received response: " + resp);
-                Debug.Assert(resp.Code == Command.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
-                Debug.Assert(resp.Result == null, "Wrong response Result - expected null, but get: " + resp.Result);
-            }
-        }
-        #endregion
-
-        #region Connected Bands settings:
-        GUI.Label(new Rect(280, 10, 250, 20), "Connected Bands:");
-        {
-            scrollPos = GUI.BeginScrollView(new Rect(280, 35, 250, 100), scrollPos, new Rect(0, 0, 230, 300));
-            selectionGridIndex = GUILayout.SelectionGrid(selectionGridIndex, ConnectedBands, 1, 
-                                                         GUILayout.ExpandHeight(true), GUILayout.MaxHeight(300), GUILayout.Height(100));
-        }
-        GUI.EndScrollView();
-        GUI.Label(new Rect(280, 145, 90, 20), "Selected Band:");
-        if (ConnectedBands.Length > 0) ChoosenBandName = ConnectedBands[selectionGridIndex];
-        else ChoosenBandName = defaultNone;
-        GUI.TextField(new Rect(380, 145, 150, 20), ChoosenBandName);
-        #endregion
-
-        #region Biofeedback info
-        GUI.BeginGroup(new Rect(280, 100, 200, 160));
+        #region Server data & other settings
+        GUILayout.BeginArea(new Rect(10, 10, 250, 50));
         {
             GUILayout.BeginHorizontal();
             {
-                GUILayout.Label("HR:", GUILayout.Width(30));
+                GUILayout.Label("Server IP:", GUILayout.Width(90));
+                HostName = GUILayout.TextField(HostName, GUILayout.Width(150));
+            }
+            GUILayout.EndHorizontal();
+            GUILayout.Space(3);
+            GUILayout.BeginHorizontal();
+            {
+                GUILayout.Label("Service port:", GUILayout.Width(90));
+                ServicePortStr = GUILayout.TextField(ServicePortStr, GUILayout.Width(150));
+            }
+            GUILayout.EndHorizontal();
+        }
+        GUILayout.EndArea();
+        #endregion
+
+        #region Buttons
+        GUILayout.BeginArea(new Rect(10, 75, 250, 335));
+        {
+            // === test SHOW_ASK message =======================================================================================
+            GUILayout.BeginVertical();
+            {
+                if (GUILayout.Button("[SHOW_ASK][null]", GUILayout.Width(250), GUILayout.Height(25)))
+                {
+                    Message message = new Message(Command.SHOW_ASK, null);
+                    Debug.Log("Prepaired message: " + message);
+                    Message resp = Test_SendMessageToBandBridge(message);
+                    Debug.Assert(resp != null, "Response is null!");
+                    if (resp != null)
+                    {
+                        Debug.Log("Received response: " + resp);
+                        Debug.Assert(resp.Code == Command.SHOW_ANS, "Wrong response Code - expected SHOW_ANS, but get: " + resp.Code);
+                        Debug.Assert((resp.Result == null) || (resp.Result.GetType() == typeof(string[])),
+                                    "Wrong response Result - expected null or string[], but get: " + resp.Result);
+
+                        // if respone Result was correct, update ConnectedBands list:
+                        if (resp.Result == null || resp.Result.GetType() == typeof(string[]))
+                        {
+                            SetConnectedBandsList((string[])resp.Result);
+                        }
+                    }
+                }
+                if (GUILayout.Button("[SHOW_ASK][42]", GUILayout.Width(250), GUILayout.Height(25)))
+                {
+                    Message message = new Message(Command.SHOW_ASK, 42);
+                    Debug.Log("Prepaired message: " + message);
+                    Message resp = Test_SendMessageToBandBridge(message);
+                    Debug.Assert(resp != null, "Response is null!");
+                    if (resp != null)
+                    {
+                        Debug.Log("Received response: " + resp);
+                        Debug.Assert(resp.Code == Command.SHOW_ANS, "Wrong response Code - expected SHOW_ANS, but get: " + resp.Code);
+                        Debug.Assert((resp.Result == null) || (resp.Result.GetType() == typeof(string[])),
+                                    "Wrong response Result - expected null or string[], but get: " + resp.Result);
+
+                        // if respone Result was correct, update ConnectedBands list:
+                        if (resp.Result == null || resp.Result.GetType() == typeof(string[]))
+                        {
+                            SetConnectedBandsList((string[])resp.Result);
+                        }
+                    }
+                }
+            }
+            GUILayout.EndVertical();
+            GUILayout.Space(10);
+            // === test GET_DATA_ASK message ===================================================================================
+            GUILayout.BeginVertical();
+            {
+                if (GUILayout.Button("[GET_DATA_ASK][null]", GUILayout.Width(250), GUILayout.Height(25)))
+                {
+                    Message message = new Message(Command.GET_DATA_ASK, null);
+                    Debug.Log("Prepaired message: " + message);
+                    Message resp = Test_SendMessageToBandBridge(message);
+                    Debug.Assert(resp != null, "Response is null!");
+                    if (resp != null)
+                    {
+                        Debug.Log("Received response: " + resp);
+                        Debug.Assert(resp.Code == Command.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
+                        Debug.Assert(resp.Result == null, "Wrong response Result - expected null, but get: " + resp.Result);
+                    }
+                }
+                if (GUILayout.Button("[GET_DATA_ASK][42]", GUILayout.Width(250), GUILayout.Height(25)))
+                {
+                    Message message = new Message(Command.GET_DATA_ASK, 42);
+                    Debug.Log("Prepaired message: " + message);
+                    Message resp = Test_SendMessageToBandBridge(message);
+                    Debug.Assert(resp != null, "Response is null!");
+                    if (resp != null)
+                    {
+                        Debug.Log("Received response: " + resp);
+                        Debug.Assert(resp.Code == Command.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
+                        Debug.Assert(resp.Result == null, "Wrong response Result - expected null, but get: " + resp.Result);
+                    }
+                }
+                if (GUILayout.Button("[GET_DATA_ASK][" + ChoosenBandName + "]", GUILayout.Width(250), GUILayout.Height(25)))
+                {
+                    Message message = new Message(Command.GET_DATA_ASK, ChoosenBandName);
+                    Debug.Log("Prepaired message: " + message);
+                    Message resp = Test_SendMessageToBandBridge(message);
+                    Debug.Assert(resp != null, "Response is null!");
+                    if (resp != null)
+                    {
+                        Debug.Log("Received response: " + resp);
+                        Debug.Assert(resp.Code == Command.GET_DATA_ANS, "Wrong response Code - expected GET_DATA_ANS, but get: " + resp.Code);
+                        Debug.Assert((resp.Result == null) || (resp.Result.GetType() == typeof(SensorData[])),
+                                    "Wrong response Result - expected null or typeof(SensorData), but get: " + resp.Result);
+
+                        // show data in GUI:
+                        if (resp.Result != null)
+                        {
+                            SensorData[] sensorDataArray = (SensorData[])resp.Result;
+                            foreach(SensorData data in sensorDataArray)
+                            {
+                                if (data.Code == SensorCode.HR)
+                                {
+                                    oldHrReading = currHrReading;
+                                    currHrReading = data.Data;
+                                    statusHr = UpdateDataStatus(oldHrReading, currHrReading);
+                                }
+                                else if (data.Code == SensorCode.GSR)
+                                {
+                                    oldGsrReading = currGsrReading;
+                                    currGsrReading = data.Data;
+                                    statusGsr = UpdateDataStatus(oldGsrReading, currGsrReading);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            GUILayout.EndVertical();
+            GUILayout.Space(10);
+            // === test SHOW_ANS, GET_DATA_ANS & CTR_MSG message ===============================================================
+            GUILayout.BeginVertical();
+            {
+                if (GUILayout.Button("[SHOW_ANS][null]", GUILayout.Width(250), GUILayout.Height(25)))
+                {
+                    Message message = new Message(Command.SHOW_ANS, null);
+                    Debug.Log("Prepaired message: " + message);
+                    Message resp = Test_SendMessageToBandBridge(message);
+                    Debug.Assert(resp != null, "Response is null!");
+                    if (resp != null)
+                    {
+                        Debug.Log("Received response: " + resp);
+                        Debug.Assert(resp.Code == Command.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
+                        Debug.Assert(resp.Result == null, "Wrong response Result - expected null, but get: " + resp.Result);
+                    }
+                }
+                if (GUILayout.Button("[GET_DATA_ANS][null]", GUILayout.Width(250), GUILayout.Height(25)))
+                {
+                    Message message = new Message(Command.GET_DATA_ANS, null);
+                    Debug.Log("Prepaired message: " + message);
+                    Message resp = Test_SendMessageToBandBridge(message);
+                    Debug.Assert(resp != null, "Response is null!");
+                    if (resp != null)
+                    {
+                        Debug.Log("Received response: " + resp);
+                        Debug.Assert(resp.Code == Command.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
+                        Debug.Assert(resp.Result == null, "Wrong response Result - expected null, but get: " + resp.Result);
+                    }
+                }
+                if (GUILayout.Button("[CTR_MSG][null]", GUILayout.Width(250), GUILayout.Height(25)))
+                {
+                    Message message = new Message(Command.CTR_MSG, null);
+                    Debug.Log("Prepaired message: " + message);
+                    Message resp = Test_SendMessageToBandBridge(message);
+                    Debug.Assert(resp != null, "Response is null!");
+                    if (resp != null)
+                    {
+                        Debug.Log("Received response: " + resp);
+                        Debug.Assert(resp.Code == Command.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
+                        Debug.Assert(resp.Result == null, "Wrong response Result - expected null, but get: " + resp.Result);
+                    }
+                }
+            }
+            GUILayout.EndVertical();
+        }
+        GUILayout.EndArea();
+        #endregion
+
+        #region Connected Bands settings:
+        GUILayout.BeginArea(new Rect(280, 10, 250, 350));
+        {
+            GUILayout.BeginVertical();
+            {
+                GUILayout.Label("Connected Bands:", GUILayout.Width(250));
+                scrollPos = GUILayout.BeginScrollView(scrollPos, GUILayout.Width(250), GUILayout.Height(100));
+                {
+                    selectionGridIndex = GUILayout.SelectionGrid(selectionGridIndex, ConnectedBands, 1,
+                                                                 GUILayout.ExpandHeight(true),
+                                                                 GUILayout.MaxHeight(300),
+                                                                 GUILayout.Height(100));
+                }
+                GUILayout.EndScrollView();
+                GUILayout.Space(10);
+                GUILayout.BeginHorizontal();
+                {
+                    GUILayout.Label("Selected Band:", GUILayout.Width(90));
+                    if (ConnectedBands.Length > 0) ChoosenBandName = ConnectedBands[selectionGridIndex];
+                    else ChoosenBandName = defaultNone;
+                    GUILayout.TextField(ChoosenBandName, GUILayout.Width(150));
+                }
+                GUILayout.EndHorizontal();
+            }
+            GUILayout.EndVertical();
+        }
+        GUILayout.EndArea();
+        #endregion
+
+        #region Biofeedback info
+        GUILayout.BeginArea(new Rect(300, 220, 200, 200));
+        {
+            GUILayout.BeginHorizontal();
+            {
+                GUILayout.Label("HR:", GUILayout.Width(35));
                 GUILayout.TextField(currHrReading.ToString(), GUILayout.Width(75));
                 GUILayout.TextField(statusHr.ToString(), GUILayout.Width(75));
             }
@@ -222,18 +283,26 @@ public class MessageSystemTest : MonoBehaviour {
             GUILayout.Space(10);
             GUILayout.BeginHorizontal();
             {
-                GUILayout.Label("GSR:", GUILayout.Width(30));
+                GUILayout.Label("GSR:", GUILayout.Width(35));
                 GUILayout.TextField(currGsrReading.ToString(), GUILayout.Width(75));
                 GUILayout.TextField(statusGsr.ToString(), GUILayout.Width(75));
             }
             GUILayout.EndHorizontal();
         }
-        GUI.EndGroup();
+        GUILayout.EndArea();
         #endregion
 
         #region Debug log
-        GUI.Label(new Rect(10, 350, 200, 25), "Debug info:");
-        GUI.TextArea(new Rect(10, 375, 520, 75), DebugInfo);
+        GUILayout.BeginArea(new Rect(10, 350, 520, 120));
+        {
+            GUILayout.BeginVertical();
+            {
+                GUILayout.Label("Debug info:");
+                GUILayout.TextArea(DebugInfo, GUILayout.Height(80));
+            }
+            GUILayout.EndVertical();
+        }
+        GUILayout.EndArea();
         #endregion
     }
 
@@ -259,5 +328,33 @@ public class MessageSystemTest : MonoBehaviour {
         sendDone.WaitOne();
 
         return response;
+    }
+
+
+    private DataStatus UpdateDataStatus(int oldReading, int currReading)
+    {
+        if (oldReading > currReading)
+            return DataStatus.decrease;
+        else if (oldReading == currReading)
+            return DataStatus.steady;
+        else
+            return DataStatus.increase;
+    }
+
+    private void ResetBandData()
+    {
+        oldHrReading = currHrReading = 0;
+        statusHr = DataStatus.unknown;
+        oldGsrReading = currGsrReading = 0;
+        statusGsr = DataStatus.unknown;
+    }
+
+    private void SetConnectedBandsList(string[] newList)
+    {
+        ConnectedBands = newList;
+        if (newList == null)
+        {
+            ResetBandData();
+        }
     }
 }
