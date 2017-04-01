@@ -16,7 +16,7 @@ namespace Communication.Client
     public class SocketClient {
 
         // ManualResetEvent instances signal completion:
-        private static ManualResetEvent connectDone = new ManualResetEvent(false);
+        //private static ManualResetEvent connectDone = new ManualResetEvent(false);
         private static ManualResetEvent sendDone = new ManualResetEvent(false);
         private static ManualResetEvent receiveDone = new ManualResetEvent(false);
 
@@ -35,10 +35,26 @@ namespace Communication.Client
 
                 // Create a TCP/IP socket:
                 Socket client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-    
+
                 // Connect to the remote endpoint:
-                client.BeginConnect( remoteEP, new AsyncCallback(ConnectCallback), client);
-                connectDone.WaitOne();
+                //client.BeginConnect(remoteEP, new AsyncCallback(ConnectCallback), client);
+                //connectDone.WaitOne();
+
+
+                var result = client.BeginConnect(remoteEP, null, null);
+                bool success = result.AsyncWaitHandle.WaitOne(3000);
+                //bool success = result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(5.0));
+                if (success)
+                {
+                    client.EndConnect(result);
+                    Debug.Log("Socket connected to " + client.RemoteEndPoint.ToString());
+                }
+                else
+                {
+                    Debug.Log("Could not connect to " + client.RemoteEndPoint.ToString());
+                    client.Close();
+                    return null;
+                }
 
                 // create packetizer object:
                 packetizer = new PacketProtocol(2048);
@@ -68,7 +84,7 @@ namespace Communication.Client
                 client.Close();
 
                 // reset signals completion:
-                connectDone.Reset();
+                //connectDone.Reset();
                 sendDone.Reset();
                 receiveDone.Reset();
 
@@ -82,22 +98,22 @@ namespace Communication.Client
         }
 
 
-        private static void ConnectCallback(IAsyncResult ar) {
-            try {
-                // Retrieve the socket from the state object:
-                Socket client = (Socket) ar.AsyncState;
+        //private static void ConnectCallback(IAsyncResult ar) {
+        //    try {
+        //        // Retrieve the socket from the state object:
+        //        Socket client = (Socket) ar.AsyncState;
 
-                // Complete the connection:
-                client.EndConnect(ar);
-                Debug.Log("Socket connected to " + client.RemoteEndPoint.ToString());
+        //        // Complete the connection:
+        //        client.EndConnect(ar);
+        //        Debug.Log("Socket connected to " + client.RemoteEndPoint.ToString());
 
-                // Signal that the connection has been made:
-                connectDone.Set();
+        //        // Signal that the connection has been made:
+        //        connectDone.Set();
 
-            } catch (Exception e) {
-                Debug.Log(e.ToString());
-            }
-        }
+        //    } catch (Exception e) {
+        //        Debug.Log(e.ToString());
+        //    }
+        //}
 
 
         private static void Send(Socket client, Message data) {

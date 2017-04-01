@@ -23,13 +23,19 @@ public class MessageSystemTest : MonoBehaviour {
     public string[] ConnectedBands = new string[] { "Test Fake Band", "Test", "Fake", "Band" };
     public int selectionGridIndex = 0;
 
-    private Vector2 scrollPos;
+    private Vector2 scrollPosList;
+    private Vector2 scrollPosLog;
 
+    private int debugInfoLines = 0;
     private StringBuilder debugInfo = new StringBuilder();
     private string DebugInfo
     {
         get { return debugInfo.ToString(); }
-        set { debugInfo.Append("\n" + value); }
+        set
+        {
+            debugInfo.AppendLine(value);
+            debugInfoLines += 1;
+        }
     }
 
     private int servicePort = 2055;
@@ -86,14 +92,14 @@ public class MessageSystemTest : MonoBehaviour {
                 if (GUILayout.Button("[SHOW_ASK][null]", GUILayout.Width(250), GUILayout.Height(25)))
                 {
                     Message message = new Message(Command.SHOW_ASK, null);
-                    Debug.Log("Prepaired message: " + message);
-                    Message resp = Test_SendMessageToBandBridge(message);
-                    Debug.Assert(resp != null, "Response is null!");
+                    ShowDebugLog("Prepaired message: " + message);
+                    Message resp = SendMessageToBandBridge(message);
+                    DoAssert(resp != null, "Response is null!");
                     if (resp != null)
                     {
-                        Debug.Log("Received response: " + resp);
-                        Debug.Assert(resp.Code == Command.SHOW_ANS, "Wrong response Code - expected SHOW_ANS, but get: " + resp.Code);
-                        Debug.Assert((resp.Result == null) || (resp.Result.GetType() == typeof(string[])),
+                        ShowDebugLog("Received response: " + resp);
+                        DoAssert(resp.Code == Command.SHOW_ANS, "Wrong response Code - expected SHOW_ANS, but get: " + resp.Code);
+                        DoAssert((resp.Result == null) || (resp.Result.GetType() == typeof(string[])),
                                     "Wrong response Result - expected null or string[], but get: " + resp.Result);
 
                         // if respone Result was correct, update ConnectedBands list:
@@ -102,18 +108,19 @@ public class MessageSystemTest : MonoBehaviour {
                             SetConnectedBandsList((string[])resp.Result);
                         }
                     }
+                    ShowDebugLog("-------------------------------");
                 }
                 if (GUILayout.Button("[SHOW_ASK][42]", GUILayout.Width(250), GUILayout.Height(25)))
                 {
                     Message message = new Message(Command.SHOW_ASK, 42);
-                    Debug.Log("Prepaired message: " + message);
-                    Message resp = Test_SendMessageToBandBridge(message);
-                    Debug.Assert(resp != null, "Response is null!");
+                    ShowDebugLog("Prepaired message: " + message);
+                    Message resp = SendMessageToBandBridge(message);
+                    DoAssert(resp != null, "Response is null!");
                     if (resp != null)
                     {
-                        Debug.Log("Received response: " + resp);
-                        Debug.Assert(resp.Code == Command.SHOW_ANS, "Wrong response Code - expected SHOW_ANS, but get: " + resp.Code);
-                        Debug.Assert((resp.Result == null) || (resp.Result.GetType() == typeof(string[])),
+                        ShowDebugLog("Received response: " + resp);
+                        DoAssert(resp.Code == Command.SHOW_ANS, "Wrong response Code - expected SHOW_ANS, but get: " + resp.Code);
+                        DoAssert((resp.Result == null) || (resp.Result.GetType() == typeof(string[])),
                                     "Wrong response Result - expected null or string[], but get: " + resp.Result);
 
                         // if respone Result was correct, update ConnectedBands list:
@@ -122,6 +129,7 @@ public class MessageSystemTest : MonoBehaviour {
                             SetConnectedBandsList((string[])resp.Result);
                         }
                     }
+                    ShowDebugLog("-------------------------------");
                 }
             }
             GUILayout.EndVertical();
@@ -132,40 +140,42 @@ public class MessageSystemTest : MonoBehaviour {
                 if (GUILayout.Button("[GET_DATA_ASK][null]", GUILayout.Width(250), GUILayout.Height(25)))
                 {
                     Message message = new Message(Command.GET_DATA_ASK, null);
-                    Debug.Log("Prepaired message: " + message);
-                    Message resp = Test_SendMessageToBandBridge(message);
-                    Debug.Assert(resp != null, "Response is null!");
+                    ShowDebugLog("Prepaired message: " + message);
+                    Message resp = SendMessageToBandBridge(message);
+                    DoAssert(resp != null, "Response is null!");
                     if (resp != null)
                     {
-                        Debug.Log("Received response: " + resp);
-                        Debug.Assert(resp.Code == Command.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
-                        Debug.Assert(resp.Result == null, "Wrong response Result - expected null, but get: " + resp.Result);
+                        ShowDebugLog("Received response: " + resp);
+                        DoAssert(resp.Code == Command.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
+                        DoAssert(resp.Result == null, "Wrong response Result - expected null, but get: " + resp.Result);
                     }
+                    ShowDebugLog("-------------------------------");
                 }
                 if (GUILayout.Button("[GET_DATA_ASK][42]", GUILayout.Width(250), GUILayout.Height(25)))
                 {
                     Message message = new Message(Command.GET_DATA_ASK, 42);
-                    Debug.Log("Prepaired message: " + message);
-                    Message resp = Test_SendMessageToBandBridge(message);
-                    Debug.Assert(resp != null, "Response is null!");
+                    ShowDebugLog("Prepaired message: " + message);
+                    Message resp = SendMessageToBandBridge(message);
+                    DoAssert(resp != null, "Response is null!");
                     if (resp != null)
                     {
-                        Debug.Log("Received response: " + resp);
-                        Debug.Assert(resp.Code == Command.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
-                        Debug.Assert(resp.Result == null, "Wrong response Result - expected null, but get: " + resp.Result);
+                        ShowDebugLog("Received response: " + resp);
+                        DoAssert(resp.Code == Command.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
+                        DoAssert(resp.Result == null, "Wrong response Result - expected null, but get: " + resp.Result);
                     }
+                    ShowDebugLog("-------------------------------");
                 }
                 if (GUILayout.Button("[GET_DATA_ASK][" + ChoosenBandName + "]", GUILayout.Width(250), GUILayout.Height(25)))
                 {
                     Message message = new Message(Command.GET_DATA_ASK, ChoosenBandName);
-                    Debug.Log("Prepaired message: " + message);
-                    Message resp = Test_SendMessageToBandBridge(message);
-                    Debug.Assert(resp != null, "Response is null!");
+                    ShowDebugLog("Prepaired message: " + message);
+                    Message resp = SendMessageToBandBridge(message);
+                    DoAssert(resp != null, "Response is null!");
                     if (resp != null)
                     {
-                        Debug.Log("Received response: " + resp);
-                        Debug.Assert(resp.Code == Command.GET_DATA_ANS, "Wrong response Code - expected GET_DATA_ANS, but get: " + resp.Code);
-                        Debug.Assert((resp.Result == null) || (resp.Result.GetType() == typeof(SensorData[])),
+                        ShowDebugLog("Received response: " + resp);
+                        DoAssert(resp.Code == Command.GET_DATA_ANS, "Wrong response Code - expected GET_DATA_ANS, but get: " + resp.Code);
+                        DoAssert((resp.Result == null) || (resp.Result.GetType() == typeof(SensorData[])),
                                     "Wrong response Result - expected null or typeof(SensorData), but get: " + resp.Result);
 
                         // show data in GUI:
@@ -189,6 +199,7 @@ public class MessageSystemTest : MonoBehaviour {
                             }
                         }
                     }
+                    ShowDebugLog("-------------------------------");
                 }
             }
             GUILayout.EndVertical();
@@ -199,41 +210,44 @@ public class MessageSystemTest : MonoBehaviour {
                 if (GUILayout.Button("[SHOW_ANS][null]", GUILayout.Width(250), GUILayout.Height(25)))
                 {
                     Message message = new Message(Command.SHOW_ANS, null);
-                    Debug.Log("Prepaired message: " + message);
-                    Message resp = Test_SendMessageToBandBridge(message);
-                    Debug.Assert(resp != null, "Response is null!");
+                    ShowDebugLog("Prepaired message: " + message);
+                    Message resp = SendMessageToBandBridge(message);
+                    DoAssert(resp != null, "Response is null!");
                     if (resp != null)
                     {
-                        Debug.Log("Received response: " + resp);
-                        Debug.Assert(resp.Code == Command.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
-                        Debug.Assert(resp.Result == null, "Wrong response Result - expected null, but get: " + resp.Result);
+                        ShowDebugLog("Received response: " + resp);
+                        DoAssert(resp.Code == Command.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
+                        DoAssert(resp.Result == null, "Wrong response Result - expected null, but get: " + resp.Result);
                     }
+                    ShowDebugLog("-------------------------------");
                 }
                 if (GUILayout.Button("[GET_DATA_ANS][null]", GUILayout.Width(250), GUILayout.Height(25)))
                 {
                     Message message = new Message(Command.GET_DATA_ANS, null);
-                    Debug.Log("Prepaired message: " + message);
-                    Message resp = Test_SendMessageToBandBridge(message);
-                    Debug.Assert(resp != null, "Response is null!");
+                    ShowDebugLog("Prepaired message: " + message);
+                    Message resp = SendMessageToBandBridge(message);
+                    DoAssert(resp != null, "Response is null!");
                     if (resp != null)
                     {
-                        Debug.Log("Received response: " + resp);
-                        Debug.Assert(resp.Code == Command.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
-                        Debug.Assert(resp.Result == null, "Wrong response Result - expected null, but get: " + resp.Result);
+                        ShowDebugLog("Received response: " + resp);
+                        DoAssert(resp.Code == Command.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
+                        DoAssert(resp.Result == null, "Wrong response Result - expected null, but get: " + resp.Result);
                     }
+                    ShowDebugLog("-------------------------------");
                 }
                 if (GUILayout.Button("[CTR_MSG][null]", GUILayout.Width(250), GUILayout.Height(25)))
                 {
                     Message message = new Message(Command.CTR_MSG, null);
-                    Debug.Log("Prepaired message: " + message);
-                    Message resp = Test_SendMessageToBandBridge(message);
-                    Debug.Assert(resp != null, "Response is null!");
+                    ShowDebugLog("Prepaired message: " + message);
+                    Message resp = SendMessageToBandBridge(message);
+                    DoAssert(resp != null, "Response is null!");
                     if (resp != null)
                     {
-                        Debug.Log("Received response: " + resp);
-                        Debug.Assert(resp.Code == Command.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
-                        Debug.Assert(resp.Result == null, "Wrong response Result - expected null, but get: " + resp.Result);
+                        ShowDebugLog("Received response: " + resp);
+                        DoAssert(resp.Code == Command.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
+                        DoAssert(resp.Result == null, "Wrong response Result - expected null, but get: " + resp.Result);
                     }
+                    ShowDebugLog("-------------------------------");
                 }
             }
             GUILayout.EndVertical();
@@ -247,7 +261,7 @@ public class MessageSystemTest : MonoBehaviour {
             GUILayout.BeginVertical();
             {
                 GUILayout.Label("Connected Bands:", GUILayout.Width(250));
-                scrollPos = GUILayout.BeginScrollView(scrollPos, GUILayout.Width(250), GUILayout.Height(100));
+                scrollPosList = GUILayout.BeginScrollView(scrollPosList, GUILayout.Width(250), GUILayout.Height(100));
                 {
                     selectionGridIndex = GUILayout.SelectionGrid(selectionGridIndex, ConnectedBands, 1,
                                                                  GUILayout.ExpandHeight(true),
@@ -293,12 +307,16 @@ public class MessageSystemTest : MonoBehaviour {
         #endregion
 
         #region Debug log
-        GUILayout.BeginArea(new Rect(10, 350, 520, 120));
+        GUILayout.BeginArea(new Rect(10, 350, 520, 150));
         {
             GUILayout.BeginVertical();
             {
                 GUILayout.Label("Debug info:");
-                GUILayout.TextArea(DebugInfo, GUILayout.Height(80));
+                scrollPosLog = GUILayout.BeginScrollView(scrollPosLog, GUILayout.Height(120));
+                {
+                    GUILayout.TextArea(DebugInfo, GUILayout.MinHeight(80), GUILayout.Height(debugInfoLines * 15));
+                }
+                GUILayout.EndScrollView();
             }
             GUILayout.EndVertical();
         }
@@ -309,12 +327,12 @@ public class MessageSystemTest : MonoBehaviour {
 
 
 
-    private Message Test_SendMessageToBandBridge(Message message)
+    private Message SendMessageToBandBridge(Message message)
     {
         // original source: http://stackoverflow.com/a/34040733
 
         Message response = null;
-        ManualResetEvent sendDone = new ManualResetEvent(false);
+        ManualResetEvent sendDone = new ManualResetEvent(false);    // ------------------------------- to remove
 
         BackgroundWorker worker = new BackgroundWorker();
         worker.DoWork += (s, e) => {
@@ -322,10 +340,10 @@ public class MessageSystemTest : MonoBehaviour {
         };
         worker.RunWorkerCompleted += (s, e) => {
             response = (Message)e.Result;
-            sendDone.Set();
+            sendDone.Set();    // ------------------------------- to remove
         };
         worker.RunWorkerAsync();
-        sendDone.WaitOne();
+        sendDone.WaitOne();    // ------------------------------- to remove
 
         return response;
     }
@@ -355,6 +373,22 @@ public class MessageSystemTest : MonoBehaviour {
         if (newList == null)
         {
             ResetBandData();
+        }
+    }
+
+
+    private void ShowDebugLog(string message)
+    {
+        Debug.Log(message);
+        DebugInfo = message;
+    }
+
+    private void DoAssert(bool condition, string message)
+    {
+        if (!condition)
+        {
+            Debug.Log(message);
+            DebugInfo = message;
         }
     }
 }
