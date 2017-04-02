@@ -373,10 +373,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1992198323}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f0bed4770e0e69409389590ae7e652e, type: 3}
+  m_Script: {fileID: 11500000, guid: f1ca4d6534025d24eb6eb24de50b50a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   HostName: 192.168.0.73
-  ServicePort: 2055
-  ChoosenBandName: Fake Band Name
-  ConnectedBands: []
+  ServicePortStr: 2055
+  ChoosenBandName: 
+  ConnectedBands:
+  - Test Fake Band
+  - Test
+  - Fake
+  - Band
+  selectionGridIndex: 0
