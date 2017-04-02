@@ -17,30 +17,61 @@ namespace Assets.BiofeedbackModule.Scripts
         public string[] ConnectedBands = new string[] {  };
 
 
-
-        #region Test methods
-
+        // that's what it should look like: ===========================================================   !!!
         private void Test__SHOW_ASK__Result_null()
         {
             Debug.Log(">> SHOW_ASK / Result == null ---------------------");
             Message msg = new Message(Command.SHOW_ASK, null);
             Debug.Log("MSG = " + msg);
-            Message resp = SendMessageToBandBridge(msg);
-            //Message resp = SocketClient.StartClient(HostName, ServicePort, msg);
-            Debug.Assert(resp != null, "Response is null!");
-            if (resp != null)
-            {
-                Debug.Assert(resp.Code == Command.SHOW_ANS, "Wrong response Code - expected SHOW_ANS, but get: " + resp.Code);
-                Debug.Assert((resp.Result == null) || (resp.Result.GetType() == typeof(string[])),
-                             "Wrong response Result - expected null or string[], but get: " + resp.Result.GetType());
 
-                if (resp.Result != null && resp.Result.GetType() == typeof(string[]) && ((string[])resp.Result).Length > 0)
+            BackgroundWorker worker = new BackgroundWorker();
+            worker.DoWork += (s, e) => {
+                e.Result = SocketClient.StartClient(HostName, ServicePort, msg);
+            };
+            worker.RunWorkerCompleted += (s, e) => {
+                Message resp = (Message)e.Result;
+
+                while (resp == null) ; // little hack here - wait until whole response from server come
+
+                Debug.Assert(resp != null, "Response is null!");
+                if (resp != null)
                 {
-                    ConnectedBands = (string[])resp.Result;
-                    ChoosenBandName = ConnectedBands[0];
+                    Debug.Assert(resp.Code == Command.SHOW_ANS, "Wrong response Code - expected SHOW_ANS, but get: " + resp.Code);
+                    Debug.Assert((resp.Result == null) || (resp.Result.GetType() == typeof(string[])),
+                                 "Wrong response Result - expected null or string[], but get: " + resp.Result.GetType());
+
+                    if (resp.Result != null && resp.Result.GetType() == typeof(string[]) && ((string[])resp.Result).Length > 0)
+                    {
+                        ConnectedBands = (string[])resp.Result;
+                        ChoosenBandName = ConnectedBands[0];
+                    }
                 }
-            }
+            };
+
+            worker.RunWorkerAsync();
+            
+            //Debug.Log(">> SHOW_ASK / Result == null ---------------------");
+            //Message msg = new Message(Command.SHOW_ASK, null);
+            //Debug.Log("MSG = " + msg);
+            //Message resp = SendMessageToBandBridge(msg);
+            //Debug.Assert(resp != null, "Response is null!");
+            //if (resp != null)
+            //{
+            //    Debug.Assert(resp.Code == Command.SHOW_ANS, "Wrong response Code - expected SHOW_ANS, but get: " + resp.Code);
+            //    Debug.Assert((resp.Result == null) || (resp.Result.GetType() == typeof(string[])),
+            //                 "Wrong response Result - expected null or string[], but get: " + resp.Result.GetType());
+
+            //    if (resp.Result != null && resp.Result.GetType() == typeof(string[]) && ((string[])resp.Result).Length > 0)
+            //    {
+            //        ConnectedBands = (string[])resp.Result;
+            //        ChoosenBandName = ConnectedBands[0];
+            //    }
+            //}
         }
+
+
+        #region Test methods
+
 
         private void Test__SHOW_ASK__Result_not_null()
         {
@@ -170,9 +201,9 @@ namespace Assets.BiofeedbackModule.Scripts
             //t = new Thread(new ThreadStart(Test__GET_DATA_ASK__Result_not_string));
             //t.Start(); t.Join(); Thread.Sleep(1);
             //Debug.Log("\n");
-            //t = new Thread(new ThreadStart(Test__GET_DATA_ASK__Result_string));
-            //t.Start(); t.Join(); Thread.Sleep(1);
-            //Debug.Log("\n");
+            t = new Thread(new ThreadStart(Test__GET_DATA_ASK__Result_string));
+            t.Start(); t.Join(); Thread.Sleep(1);
+            Debug.Log("\n");
             //t = new Thread(new ThreadStart(Test__SHOW_ANS));
             //t.Start(); t.Join(); Thread.Sleep(1);
             //Debug.Log("\n");
@@ -202,6 +233,22 @@ namespace Assets.BiofeedbackModule.Scripts
             };
             worker.RunWorkerCompleted += (s, e) => {
                 response = (Message)e.Result;
+
+                //while (response == null) ; // little hack here - wait until whole response from server come
+
+                //Debug.Assert(response != null, "Response is null!");
+                //if (response != null)
+                //{
+                //    Debug.Assert(response.Code == Command.SHOW_ANS, "Wrong response Code - expected SHOW_ANS, but get: " + response.Code);
+                //    Debug.Assert((response.Result == null) || (response.Result.GetType() == typeof(string[])),
+                //                 "Wrong response Result - expected null or string[], but get: " + response.Result.GetType());
+
+                //    if (response.Result != null && response.Result.GetType() == typeof(string[]) && ((string[])response.Result).Length > 0)
+                //    {
+                //        ConnectedBands = (string[])response.Result;
+                //        ChoosenBandName = ConnectedBands[0];
+                //    }
+                //}
             };
 
             worker.RunWorkerAsync();
