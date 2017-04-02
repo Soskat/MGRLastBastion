@@ -85,6 +85,13 @@ namespace Communication.Packet
         /// </remarks>
         public Action<byte[]> MessageArrived { get; set; }
 
+
+        /// <summary>
+        /// Signal that all bytes of incoming message were received, even if the message came in several packets.
+        /// </summary>
+        public bool AllBytesReceived { get; set; }
+
+
         /// <summary>
         /// Notifies the <see cref="PacketProtocol"/> instance that incoming data has been received from the stream. This method will invoke <see cref="MessageArrived"/> as necessary.
         /// </summary>
@@ -189,6 +196,9 @@ namespace Communication.Packet
                 }
                 else
                 {
+                    // set flag that all message's bytes was reveived:
+                    AllBytesReceived = true;
+
                     // We've gotten an entire packet
                     if (this.MessageArrived != null)
                         this.MessageArrived(this.dataBuffer);

@@ -23,8 +23,10 @@ namespace Communication.Client
         private static PacketProtocol packetizer = null;
         private static Message receivedResponse;
 
-
-        public static Message StartClient(string hostName, int port, Message message) {
+        private static int receiveBytesOffset = 0;
+        
+        public static Message StartClient(string hostName, int port, Message message)
+        {
             // Connect to a remote device:
             try
             {
@@ -39,8 +41,6 @@ namespace Communication.Client
                 // Connect to the remote endpoint:
                 //client.BeginConnect(remoteEP, new AsyncCallback(ConnectCallback), client);
                 //connectDone.WaitOne();
-
-
                 var result = client.BeginConnect(remoteEP, null, null);
                 bool success = result.AsyncWaitHandle.WaitOne(3000);
                 //bool success = result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(5.0));
@@ -56,29 +56,35 @@ namespace Communication.Client
                     return null;
                 }
 
-                // create packetizer object:
-                packetizer = new PacketProtocol(2048);
 
                 // Send test data to the remote device:
                 Send(client, message);
                 sendDone.WaitOne();
-                
-                packetizer.MessageArrived += receivedMsg => 
+
+                // create packetizer object:
+                packetizer = new PacketProtocol(2048);
+                packetizer.MessageArrived += receivedMsg =>
                 {
                     Debug.Log(":: Received bytes: " + receivedMsg.Length + " => ");
                     if (receivedMsg.Length > 0)
                     {
-                        //Debug.Log("deserialize message");
+                        Debug.Log("deserialize message");
                         receivedResponse = Message.Deserialize(receivedMsg);
-                        //Debug.Log(":: Received: " + receivedResponse);
+                        Debug.Log(":: Received: " + receivedResponse);
                     }
                     //else Debug.Log("keepalive message");
                 };
 
                 // Receive the response from the remote device:
-                Receive(client);
-                receiveDone.WaitOne();
-                
+                //Receive(client);
+                //receiveDone.WaitOne();
+
+                while (!packetizer.AllBytesReceived)
+                {
+                    Receive(client);
+                    receiveDone.WaitOne();
+                }
+
                 // Release the socket.
                 client.Shutdown(SocketShutdown.Both);
                 client.Close();
@@ -87,7 +93,7 @@ namespace Communication.Client
                 //connectDone.Reset();
                 sendDone.Reset();
                 receiveDone.Reset();
-
+                
                 return receivedResponse;
             }
             catch (Exception e)
@@ -154,7 +160,8 @@ namespace Communication.Client
                 state.workSocket = client;
 
                 // Begin receiving the data from the remote device:
-                client.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReceiveCallback), state);
+                client.BeginReceive(state.buffer, receiveBytesOffset, StateObject.BufferSize, 0, new AsyncCallback(ReceiveCallback), state);
+                //client.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReceiveCallback), state);
 
             } catch (Exception e) {
                 Debug.Log(e.ToString());
