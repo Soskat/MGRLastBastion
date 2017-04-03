@@ -23,13 +23,12 @@ namespace Communication.Sockets
         private static PacketProtocol packetizer = null;
         private static Message receivedResponse;
 
-        private static int receiveBytesOffset = 0;
+        //private static int receiveBytesOffset = 0;
         
-        public static Message StartClient(string hostName, int port, Message message)
+        public static Message StartClient(string hostName, int port, Message message, int maxMessageSize)
         {
             // Connect to a remote device:
-            try
-            {
+            try {
                 // Establish the remote endpoint for the socket:
                 IPHostEntry ipHostInfo = Dns.GetHostEntry(hostName);
                 IPAddress ipAddress = Array.Find(ipHostInfo.AddressList, a => a.AddressFamily == AddressFamily.InterNetwork);
@@ -39,11 +38,8 @@ namespace Communication.Sockets
                 Socket client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
                 // Connect to the remote endpoint:
-                //client.BeginConnect(remoteEP, new AsyncCallback(ConnectCallback), client);
-                //connectDone.WaitOne();
                 var result = client.BeginConnect(remoteEP, null, null);
                 bool success = result.AsyncWaitHandle.WaitOne(3000);
-                //bool success = result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(5.0));
                 if (success)
                 {
                     client.EndConnect(result);
@@ -62,7 +58,7 @@ namespace Communication.Sockets
                 sendDone.WaitOne();
 
                 // create packetizer object:
-                packetizer = new PacketProtocol(2048);
+                packetizer = new PacketProtocol(maxMessageSize);
                 packetizer.MessageArrived += receivedMsg =>
                 {
                     Debug.Log(":: Received bytes: " + receivedMsg.Length + " => ");
@@ -72,12 +68,9 @@ namespace Communication.Sockets
                         receivedResponse = Message.Deserialize(receivedMsg);
                         Debug.Log(":: Received: " + receivedResponse);
                     }
-                    //else Debug.Log("keepalive message");
                 };
 
                 // Receive the response from the remote device:
-                //Receive(client);
-                //receiveDone.WaitOne();
                 while (!packetizer.AllBytesReceived)
                 {
                     Receive(client);
@@ -89,52 +82,37 @@ namespace Communication.Sockets
                 client.Close();
 
                 // reset signals completion:
-                //connectDone.Reset();
                 sendDone.Reset();
                 receiveDone.Reset();
                 
                 return receivedResponse;
-            }
-            catch (Exception e)
-            {
+
+            } catch (Exception e) {
                 Debug.Log(e.ToString());
                 return null;
             }
         }
 
 
-        //private static void ConnectCallback(IAsyncResult ar) {
-        //    try {
-        //        // Retrieve the socket from the state object:
-        //        Socket client = (Socket) ar.AsyncState;
+        private static void Send(Socket client, Message data)
+        {
+            try {
+                // convert message into byte array and wrap it for network transport:
+                var serializedMsg = Message.Serialize(data);
 
-        //        // Complete the connection:
-        //        client.EndConnect(ar);
-        //        Debug.Log("Socket connected to " + client.RemoteEndPoint.ToString());
+                byte[] byteData = PacketProtocol.WrapMessage(serializedMsg);
 
-        //        // Signal that the connection has been made:
-        //        connectDone.Set();
+                // Begin sending the data to the remote device:
+                client.BeginSend(byteData, 0, byteData.Length, 0, new AsyncCallback(SendCallback), client);
 
-        //    } catch (Exception e) {
-        //        Debug.Log(e.ToString());
-        //    }
-        //}
-
-
-        private static void Send(Socket client, Message data) {
-            // convert message into byte array and wrap it for network transport:
-            var serializedMsg = Message.Serialize(data);
-            //Debug.Log("serialized msg length: " + serializedMsg.Length);
-
-            byte[] byteData = PacketProtocol.WrapMessage(serializedMsg);
-            //Debug.Log("wrapped serialized msg length: " + byteData.Length);
-
-            // Begin sending the data to the remote device:
-            client.BeginSend(byteData, 0, byteData.Length, 0, new AsyncCallback(SendCallback), client);
+            } catch(Exception e) {
+                Debug.Log(e.ToString());
+            }
         }
 
 
-        private static void SendCallback(IAsyncResult ar) {
+        private static void SendCallback(IAsyncResult ar)
+        {
             try {
                 // Retrieve the socket from the state object:
                 Socket client = (Socket) ar.AsyncState;
@@ -152,14 +130,14 @@ namespace Communication.Sockets
         }
 
 
-        private static void Receive(Socket client) {
+        private static void Receive(Socket client)
+        {
             try {
                 // Create the state object:
                 StateObject state = new StateObject();
                 state.workSocket = client;
 
                 // Begin receiving the data from the remote device:
-                //client.BeginReceive(state.buffer, receiveBytesOffset, StateObject.BufferSize, 0, new AsyncCallback(ReceiveCallback), state);
                 client.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReceiveCallback), state);
 
             } catch (Exception e) {
@@ -168,7 +146,8 @@ namespace Communication.Sockets
         }
 
 
-        private static void ReceiveCallback( IAsyncResult ar ) {
+        private static void ReceiveCallback(IAsyncResult ar)
+        {
             try {
                 // Retrieve the state object and the client socket from the asynchronous state object:
                 StateObject state = (StateObject) ar.AsyncState;

@@ -16,6 +16,8 @@ namespace Assets.BiofeedbackModule.Scripts
         public string ChoosenBandName = "Fake Band Name";
         public string[] ConnectedBands = new string[] {  };
 
+        public int maxMessageSize = 2048;
+
 
         // that's what it should look like: ===========================================================   !!!
         private void Test__SHOW_ASK__Result_null()
@@ -26,7 +28,7 @@ namespace Assets.BiofeedbackModule.Scripts
 
             BackgroundWorker worker = new BackgroundWorker();
             worker.DoWork += (s, e) => {
-                e.Result = SocketClient.StartClient(HostName, ServicePort, msg);
+                e.Result = SocketClient.StartClient(HostName, ServicePort, msg, maxMessageSize);
             };
             worker.RunWorkerCompleted += (s, e) => {
                 Message resp = (Message)e.Result;
@@ -78,7 +80,7 @@ namespace Assets.BiofeedbackModule.Scripts
             Debug.Log(">> SHOW_ASK / Result != null ---------------------");
             Message msg = new Message(MessageCode.SHOW_ASK, 42);
             Debug.Log("MSG = " + msg);
-            Message resp = SocketClient.StartClient(HostName, ServicePort, msg);
+            Message resp = SocketClient.StartClient(HostName, ServicePort, msg, maxMessageSize);
             Debug.Assert(resp != null, "Response is null!");
             if (resp != null)
             {
@@ -99,7 +101,7 @@ namespace Assets.BiofeedbackModule.Scripts
             Debug.Log(">> GET_DATA_ASK / Result == null ---------------------");
             Message msg = new Message(MessageCode.GET_DATA_ASK, null);
             Debug.Log("MSG = " + msg);
-            Message resp = SocketClient.StartClient(HostName, ServicePort, msg);
+            Message resp = SocketClient.StartClient(HostName, ServicePort, msg, maxMessageSize);
             Debug.Assert(resp != null, "Response is null!");
             if (resp != null)
             {
@@ -113,7 +115,7 @@ namespace Assets.BiofeedbackModule.Scripts
             Debug.Log(">> GET_DATA_ASK / typeof(Result) != typeof(string) ----");
             Message msg = new Message(MessageCode.GET_DATA_ASK, 42);
             Debug.Log("MSG = " + msg);
-            Message resp = SocketClient.StartClient(HostName, ServicePort, msg);
+            Message resp = SocketClient.StartClient(HostName, ServicePort, msg, maxMessageSize);
             Debug.Assert(resp != null, "Response is null!");
             if (resp != null)
             {
@@ -127,7 +129,7 @@ namespace Assets.BiofeedbackModule.Scripts
             Debug.Log(">> GET_DATA_ASK / typeof(Result) == typeof(string) ----");
             Message msg = new Message(MessageCode.GET_DATA_ASK, ChoosenBandName);
             Debug.Log("MSG = " + msg);
-            Message resp = SocketClient.StartClient(HostName, ServicePort, msg);
+            Message resp = SocketClient.StartClient(HostName, ServicePort, msg, maxMessageSize);
             Debug.Assert(resp != null, "Response is null!");
             if (resp != null)
             {
@@ -142,7 +144,7 @@ namespace Assets.BiofeedbackModule.Scripts
             Debug.Log(">> SHOW_ANS / Result == null ----------------------");
             Message msg = new Message(MessageCode.SHOW_ANS, null);
             Debug.Log("MSG = " + msg);
-            Message resp = SocketClient.StartClient(HostName, ServicePort, msg);
+            Message resp = SocketClient.StartClient(HostName, ServicePort, msg, maxMessageSize);
             Debug.Assert(resp != null, "Response is null!");
             if (resp != null)
             {
@@ -156,7 +158,7 @@ namespace Assets.BiofeedbackModule.Scripts
             Debug.Log(">> GET_DATA_ANS / Result == null ----------------------");
             Message msg = new Message(MessageCode.GET_DATA_ANS, null);
             Debug.Log("MSG = " + msg);
-            Message resp = SocketClient.StartClient(HostName, ServicePort, msg);
+            Message resp = SocketClient.StartClient(HostName, ServicePort, msg, maxMessageSize);
             Debug.Assert(resp != null, "Response is null!");
             if (resp != null)
             {
@@ -170,7 +172,7 @@ namespace Assets.BiofeedbackModule.Scripts
             Debug.Log(">> CTR_MSG / Result == null ---------------------------");
             Message msg = new Message(MessageCode.CTR_MSG, null);
             Debug.Log("MSG = " + msg);
-            Message resp = SocketClient.StartClient(HostName, ServicePort, msg);
+            Message resp = SocketClient.StartClient(HostName, ServicePort, msg, maxMessageSize);
             Debug.Assert(resp != null, "Response is null!");
             if (resp != null)
             {
@@ -229,7 +231,7 @@ namespace Assets.BiofeedbackModule.Scripts
 
             BackgroundWorker worker = new BackgroundWorker();
             worker.DoWork += (s, e) => {
-                e.Result = SocketClient.StartClient(HostName, ServicePort, message);
+                e.Result = SocketClient.StartClient(HostName, ServicePort, message, maxMessageSize);
             };
             worker.RunWorkerCompleted += (s, e) => {
                 response = (Message)e.Result;

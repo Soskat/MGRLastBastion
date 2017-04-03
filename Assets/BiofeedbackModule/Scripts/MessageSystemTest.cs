@@ -58,8 +58,8 @@ public class MessageSystemTest : MonoBehaviour {
     private int currGsrReading;
     private int oldGsrReading;
     private DataStatus statusGsr = DataStatus.unknown;
-    
 
+    int maxMessageSize = 2048;
 
     private void OnGUI()
     {
@@ -336,7 +336,7 @@ public class MessageSystemTest : MonoBehaviour {
 
         BackgroundWorker worker = new BackgroundWorker();
         worker.DoWork += (s, e) => {
-            e.Result = SocketClient.StartClient(HostName, ServicePort, message);
+            e.Result = SocketClient.StartClient(HostName, ServicePort, message, maxMessageSize);
         };
         worker.RunWorkerCompleted += (s, e) => {
             response = (Message)e.Result;

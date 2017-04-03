@@ -8,8 +8,10 @@ public class BandBridgeClient : MonoBehaviour {
     public string HostName = "DESKTOP-KPBRM2V";
     public int ServicePort = 2055;
 
-	// Use this for initialization
-	void Start () {
+    public int maxMessageSize = 2048;
+
+    // Use this for initialization
+    void Start () {
 		
 	}
 	
@@ -42,7 +44,7 @@ public class BandBridgeClient : MonoBehaviour {
 
         BackgroundWorker worker = new BackgroundWorker();
         worker.DoWork += (s, e) => {
-            e.Result = SocketClient.StartClient(HostName, ServicePort, message);
+            e.Result = SocketClient.StartClient(HostName, ServicePort, message, maxMessageSize);
         };
         worker.RunWorkerCompleted += (s, e) => {
             response = (Message)e.Result;
