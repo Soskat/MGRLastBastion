@@ -78,7 +78,6 @@ namespace Communication.Client
                 // Receive the response from the remote device:
                 //Receive(client);
                 //receiveDone.WaitOne();
-
                 while (!packetizer.AllBytesReceived)
                 {
                     Receive(client);
@@ -160,8 +159,8 @@ namespace Communication.Client
                 state.workSocket = client;
 
                 // Begin receiving the data from the remote device:
-                client.BeginReceive(state.buffer, receiveBytesOffset, StateObject.BufferSize, 0, new AsyncCallback(ReceiveCallback), state);
-                //client.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReceiveCallback), state);
+                //client.BeginReceive(state.buffer, receiveBytesOffset, StateObject.BufferSize, 0, new AsyncCallback(ReceiveCallback), state);
+                client.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReceiveCallback), state);
 
             } catch (Exception e) {
                 Debug.Log(e.ToString());
