@@ -6,7 +6,7 @@ using Communication.Data;
 using Communication.Packet;
 using UnityEngine;
 
-namespace Communication.Client
+namespace Communication.Sockets
 {
     // Original source: https://msdn.microsoft.com/en-us/library/bew39x2a(v=vs.110).aspx
 

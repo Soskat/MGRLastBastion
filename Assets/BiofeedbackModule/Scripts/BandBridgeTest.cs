@@ -1,4 +1,4 @@
-﻿using Communication.Client;
+﻿using Communication.Sockets;
 using Communication.Data;
 using System;
 using System.ComponentModel;
@@ -21,7 +21,7 @@ namespace Assets.BiofeedbackModule.Scripts
         private void Test__SHOW_ASK__Result_null()
         {
             Debug.Log(">> SHOW_ASK / Result == null ---------------------");
-            Message msg = new Message(Command.SHOW_ASK, null);
+            Message msg = new Message(MessageCode.SHOW_ASK, null);
             Debug.Log("MSG = " + msg);
 
             BackgroundWorker worker = new BackgroundWorker();
@@ -36,7 +36,7 @@ namespace Assets.BiofeedbackModule.Scripts
                 Debug.Assert(resp != null, "Response is null!");
                 if (resp != null)
                 {
-                    Debug.Assert(resp.Code == Command.SHOW_ANS, "Wrong response Code - expected SHOW_ANS, but get: " + resp.Code);
+                    Debug.Assert(resp.Code == MessageCode.SHOW_ANS, "Wrong response Code - expected SHOW_ANS, but get: " + resp.Code);
                     Debug.Assert((resp.Result == null) || (resp.Result.GetType() == typeof(string[])),
                                  "Wrong response Result - expected null or string[], but get: " + resp.Result.GetType());
 
@@ -51,13 +51,13 @@ namespace Assets.BiofeedbackModule.Scripts
             worker.RunWorkerAsync();
             
             //Debug.Log(">> SHOW_ASK / Result == null ---------------------");
-            //Message msg = new Message(Command.SHOW_ASK, null);
+            //Message msg = new Message(MessageCode.SHOW_ASK, null);
             //Debug.Log("MSG = " + msg);
             //Message resp = SendMessageToBandBridge(msg);
             //Debug.Assert(resp != null, "Response is null!");
             //if (resp != null)
             //{
-            //    Debug.Assert(resp.Code == Command.SHOW_ANS, "Wrong response Code - expected SHOW_ANS, but get: " + resp.Code);
+            //    Debug.Assert(resp.Code == MessageCode.SHOW_ANS, "Wrong response Code - expected SHOW_ANS, but get: " + resp.Code);
             //    Debug.Assert((resp.Result == null) || (resp.Result.GetType() == typeof(string[])),
             //                 "Wrong response Result - expected null or string[], but get: " + resp.Result.GetType());
 
@@ -76,13 +76,13 @@ namespace Assets.BiofeedbackModule.Scripts
         private void Test__SHOW_ASK__Result_not_null()
         {
             Debug.Log(">> SHOW_ASK / Result != null ---------------------");
-            Message msg = new Message(Command.SHOW_ASK, 42);
+            Message msg = new Message(MessageCode.SHOW_ASK, 42);
             Debug.Log("MSG = " + msg);
             Message resp = SocketClient.StartClient(HostName, ServicePort, msg);
             Debug.Assert(resp != null, "Response is null!");
             if (resp != null)
             {
-                Debug.Assert(resp.Code == Command.SHOW_ANS, "Wrong response Code - expected SHOW_ANS, but get: " + resp.Code);
+                Debug.Assert(resp.Code == MessageCode.SHOW_ANS, "Wrong response Code - expected SHOW_ANS, but get: " + resp.Code);
                 Debug.Assert((resp.Result == null) || (resp.Result.GetType() == typeof(string[])),
                              "Wrong response Result - expected null or string[], but get: " + resp.Result.GetType());
 
@@ -97,13 +97,13 @@ namespace Assets.BiofeedbackModule.Scripts
         private void Test__GET_DATA_ASK__Result_null()
         {
             Debug.Log(">> GET_DATA_ASK / Result == null ---------------------");
-            Message msg = new Message(Command.GET_DATA_ASK, null);
+            Message msg = new Message(MessageCode.GET_DATA_ASK, null);
             Debug.Log("MSG = " + msg);
             Message resp = SocketClient.StartClient(HostName, ServicePort, msg);
             Debug.Assert(resp != null, "Response is null!");
             if (resp != null)
             {
-                Debug.Assert(resp.Code == Command.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
+                Debug.Assert(resp.Code == MessageCode.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
                 Debug.Assert(resp.Result == null, "Wrong response Result - expected null, but get: " + resp.Result.GetType());
             }
         }
@@ -111,13 +111,13 @@ namespace Assets.BiofeedbackModule.Scripts
         private void Test__GET_DATA_ASK__Result_not_string()
         {
             Debug.Log(">> GET_DATA_ASK / typeof(Result) != typeof(string) ----");
-            Message msg = new Message(Command.GET_DATA_ASK, 42);
+            Message msg = new Message(MessageCode.GET_DATA_ASK, 42);
             Debug.Log("MSG = " + msg);
             Message resp = SocketClient.StartClient(HostName, ServicePort, msg);
             Debug.Assert(resp != null, "Response is null!");
             if (resp != null)
             {
-                Debug.Assert(resp.Code == Command.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
+                Debug.Assert(resp.Code == MessageCode.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
                 Debug.Assert(resp.Result == null, "Wrong response Result - expected null, but get: " + resp.Result.GetType());
             }
         }
@@ -125,13 +125,13 @@ namespace Assets.BiofeedbackModule.Scripts
         private void Test__GET_DATA_ASK__Result_string()
         {
             Debug.Log(">> GET_DATA_ASK / typeof(Result) == typeof(string) ----");
-            Message msg = new Message(Command.GET_DATA_ASK, ChoosenBandName);
+            Message msg = new Message(MessageCode.GET_DATA_ASK, ChoosenBandName);
             Debug.Log("MSG = " + msg);
             Message resp = SocketClient.StartClient(HostName, ServicePort, msg);
             Debug.Assert(resp != null, "Response is null!");
             if (resp != null)
             {
-                Debug.Assert(resp.Code == Command.GET_DATA_ANS, "Wrong response Code - expected GET_DATA_ANS, but get: " + resp.Code);
+                Debug.Assert(resp.Code == MessageCode.GET_DATA_ANS, "Wrong response Code - expected GET_DATA_ANS, but get: " + resp.Code);
                 Debug.Assert((resp.Result == null) || (resp.Result.GetType() == typeof(SensorData[])),
                              "Wrong response Result - expected null or typeof(SensorData[]), but get: " + resp.Result.GetType());
             }
@@ -140,13 +140,13 @@ namespace Assets.BiofeedbackModule.Scripts
         private void Test__SHOW_ANS()
         {
             Debug.Log(">> SHOW_ANS / Result == null ----------------------");
-            Message msg = new Message(Command.SHOW_ANS, null);
+            Message msg = new Message(MessageCode.SHOW_ANS, null);
             Debug.Log("MSG = " + msg);
             Message resp = SocketClient.StartClient(HostName, ServicePort, msg);
             Debug.Assert(resp != null, "Response is null!");
             if (resp != null)
             {
-                Debug.Assert(resp.Code == Command.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
+                Debug.Assert(resp.Code == MessageCode.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
                 Debug.Assert(resp.Result == null, "Wrong response Result - expected null, but get: " + resp.Result.GetType());
             }
         }
@@ -154,13 +154,13 @@ namespace Assets.BiofeedbackModule.Scripts
         private void Test__GET_DATA_ANS()
         {
             Debug.Log(">> GET_DATA_ANS / Result == null ----------------------");
-            Message msg = new Message(Command.GET_DATA_ANS, null);
+            Message msg = new Message(MessageCode.GET_DATA_ANS, null);
             Debug.Log("MSG = " + msg);
             Message resp = SocketClient.StartClient(HostName, ServicePort, msg);
             Debug.Assert(resp != null, "Response is null!");
             if (resp != null)
             {
-                Debug.Assert(resp.Code == Command.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
+                Debug.Assert(resp.Code == MessageCode.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
                 Debug.Assert(resp.Result == null, "Wrong response Result - expected null, but get: " + resp.Result.GetType());
             }
         }
@@ -168,13 +168,13 @@ namespace Assets.BiofeedbackModule.Scripts
         private void Test__CTR_MSG()
         {
             Debug.Log(">> CTR_MSG / Result == null ---------------------------");
-            Message msg = new Message(Command.CTR_MSG, null);
+            Message msg = new Message(MessageCode.CTR_MSG, null);
             Debug.Log("MSG = " + msg);
             Message resp = SocketClient.StartClient(HostName, ServicePort, msg);
             Debug.Assert(resp != null, "Response is null!");
             if (resp != null)
             {
-                Debug.Assert(resp.Code == Command.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
+                Debug.Assert(resp.Code == MessageCode.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
                 Debug.Assert(resp.Result == null, "Wrong response Result - expected null, but get: " + resp.Result.GetType());
             }
         }
@@ -239,7 +239,7 @@ namespace Assets.BiofeedbackModule.Scripts
                 //Debug.Assert(response != null, "Response is null!");
                 //if (response != null)
                 //{
-                //    Debug.Assert(response.Code == Command.SHOW_ANS, "Wrong response Code - expected SHOW_ANS, but get: " + response.Code);
+                //    Debug.Assert(response.Code == MessageCode.SHOW_ANS, "Wrong response Code - expected SHOW_ANS, but get: " + response.Code);
                 //    Debug.Assert((response.Result == null) || (response.Result.GetType() == typeof(string[])),
                 //                 "Wrong response Result - expected null or string[], but get: " + response.Result.GetType());
 

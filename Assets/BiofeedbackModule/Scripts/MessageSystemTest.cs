@@ -1,4 +1,4 @@
-﻿using Communication.Client;
+﻿using Communication.Sockets;
 using Communication.Data;
 using System;
 using System.Collections;
@@ -91,14 +91,14 @@ public class MessageSystemTest : MonoBehaviour {
             {
                 if (GUILayout.Button("[SHOW_ASK][null]", GUILayout.Width(250), GUILayout.Height(25)))
                 {
-                    Message message = new Message(Command.SHOW_ASK, null);
+                    Message message = new Message(MessageCode.SHOW_ASK, null);
                     ShowDebugLog("Prepaired message: " + message);
                     Message resp = SendMessageToBandBridge(message);
                     DoAssert(resp != null, "Response is null!");
                     if (resp != null)
                     {
                         ShowDebugLog("Received response: " + resp);
-                        DoAssert(resp.Code == Command.SHOW_ANS, "Wrong response Code - expected SHOW_ANS, but get: " + resp.Code);
+                        DoAssert(resp.Code == MessageCode.SHOW_ANS, "Wrong response Code - expected SHOW_ANS, but get: " + resp.Code);
                         DoAssert((resp.Result == null) || (resp.Result.GetType() == typeof(string[])),
                                     "Wrong response Result - expected null or string[], but get: " + resp.Result);
 
@@ -112,14 +112,14 @@ public class MessageSystemTest : MonoBehaviour {
                 }
                 if (GUILayout.Button("[SHOW_ASK][42]", GUILayout.Width(250), GUILayout.Height(25)))
                 {
-                    Message message = new Message(Command.SHOW_ASK, 42);
+                    Message message = new Message(MessageCode.SHOW_ASK, 42);
                     ShowDebugLog("Prepaired message: " + message);
                     Message resp = SendMessageToBandBridge(message);
                     DoAssert(resp != null, "Response is null!");
                     if (resp != null)
                     {
                         ShowDebugLog("Received response: " + resp);
-                        DoAssert(resp.Code == Command.SHOW_ANS, "Wrong response Code - expected SHOW_ANS, but get: " + resp.Code);
+                        DoAssert(resp.Code == MessageCode.SHOW_ANS, "Wrong response Code - expected SHOW_ANS, but get: " + resp.Code);
                         DoAssert((resp.Result == null) || (resp.Result.GetType() == typeof(string[])),
                                     "Wrong response Result - expected null or string[], but get: " + resp.Result);
 
@@ -139,42 +139,42 @@ public class MessageSystemTest : MonoBehaviour {
             {
                 if (GUILayout.Button("[GET_DATA_ASK][null]", GUILayout.Width(250), GUILayout.Height(25)))
                 {
-                    Message message = new Message(Command.GET_DATA_ASK, null);
+                    Message message = new Message(MessageCode.GET_DATA_ASK, null);
                     ShowDebugLog("Prepaired message: " + message);
                     Message resp = SendMessageToBandBridge(message);
                     DoAssert(resp != null, "Response is null!");
                     if (resp != null)
                     {
                         ShowDebugLog("Received response: " + resp);
-                        DoAssert(resp.Code == Command.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
+                        DoAssert(resp.Code == MessageCode.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
                         DoAssert(resp.Result == null, "Wrong response Result - expected null, but get: " + resp.Result);
                     }
                     ShowDebugLog("-------------------------------");
                 }
                 if (GUILayout.Button("[GET_DATA_ASK][42]", GUILayout.Width(250), GUILayout.Height(25)))
                 {
-                    Message message = new Message(Command.GET_DATA_ASK, 42);
+                    Message message = new Message(MessageCode.GET_DATA_ASK, 42);
                     ShowDebugLog("Prepaired message: " + message);
                     Message resp = SendMessageToBandBridge(message);
                     DoAssert(resp != null, "Response is null!");
                     if (resp != null)
                     {
                         ShowDebugLog("Received response: " + resp);
-                        DoAssert(resp.Code == Command.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
+                        DoAssert(resp.Code == MessageCode.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
                         DoAssert(resp.Result == null, "Wrong response Result - expected null, but get: " + resp.Result);
                     }
                     ShowDebugLog("-------------------------------");
                 }
                 if (GUILayout.Button("[GET_DATA_ASK][" + ChoosenBandName + "]", GUILayout.Width(250), GUILayout.Height(25)))
                 {
-                    Message message = new Message(Command.GET_DATA_ASK, ChoosenBandName);
+                    Message message = new Message(MessageCode.GET_DATA_ASK, ChoosenBandName);
                     ShowDebugLog("Prepaired message: " + message);
                     Message resp = SendMessageToBandBridge(message);
                     DoAssert(resp != null, "Response is null!");
                     if (resp != null)
                     {
                         ShowDebugLog("Received response: " + resp);
-                        DoAssert(resp.Code == Command.GET_DATA_ANS, "Wrong response Code - expected GET_DATA_ANS, but get: " + resp.Code);
+                        DoAssert(resp.Code == MessageCode.GET_DATA_ANS, "Wrong response Code - expected GET_DATA_ANS, but get: " + resp.Code);
                         DoAssert((resp.Result == null) || (resp.Result.GetType() == typeof(SensorData[])),
                                     "Wrong response Result - expected null or typeof(SensorData), but get: " + resp.Result);
 
@@ -209,42 +209,42 @@ public class MessageSystemTest : MonoBehaviour {
             {
                 if (GUILayout.Button("[SHOW_ANS][null]", GUILayout.Width(250), GUILayout.Height(25)))
                 {
-                    Message message = new Message(Command.SHOW_ANS, null);
+                    Message message = new Message(MessageCode.SHOW_ANS, null);
                     ShowDebugLog("Prepaired message: " + message);
                     Message resp = SendMessageToBandBridge(message);
                     DoAssert(resp != null, "Response is null!");
                     if (resp != null)
                     {
                         ShowDebugLog("Received response: " + resp);
-                        DoAssert(resp.Code == Command.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
+                        DoAssert(resp.Code == MessageCode.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
                         DoAssert(resp.Result == null, "Wrong response Result - expected null, but get: " + resp.Result);
                     }
                     ShowDebugLog("-------------------------------");
                 }
                 if (GUILayout.Button("[GET_DATA_ANS][null]", GUILayout.Width(250), GUILayout.Height(25)))
                 {
-                    Message message = new Message(Command.GET_DATA_ANS, null);
+                    Message message = new Message(MessageCode.GET_DATA_ANS, null);
                     ShowDebugLog("Prepaired message: " + message);
                     Message resp = SendMessageToBandBridge(message);
                     DoAssert(resp != null, "Response is null!");
                     if (resp != null)
                     {
                         ShowDebugLog("Received response: " + resp);
-                        DoAssert(resp.Code == Command.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
+                        DoAssert(resp.Code == MessageCode.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
                         DoAssert(resp.Result == null, "Wrong response Result - expected null, but get: " + resp.Result);
                     }
                     ShowDebugLog("-------------------------------");
                 }
                 if (GUILayout.Button("[CTR_MSG][null]", GUILayout.Width(250), GUILayout.Height(25)))
                 {
-                    Message message = new Message(Command.CTR_MSG, null);
+                    Message message = new Message(MessageCode.CTR_MSG, null);
                     ShowDebugLog("Prepaired message: " + message);
                     Message resp = SendMessageToBandBridge(message);
                     DoAssert(resp != null, "Response is null!");
                     if (resp != null)
                     {
                         ShowDebugLog("Received response: " + resp);
-                        DoAssert(resp.Code == Command.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
+                        DoAssert(resp.Code == MessageCode.CTR_MSG, "Wrong response Code - expected CTR_MSG, but get: " + resp.Code);
                         DoAssert(resp.Result == null, "Wrong response Result - expected null, but get: " + resp.Result);
                     }
                     ShowDebugLog("-------------------------------");
