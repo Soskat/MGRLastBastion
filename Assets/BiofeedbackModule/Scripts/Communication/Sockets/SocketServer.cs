@@ -20,11 +20,11 @@ namespace Assets.BiofeedbackModule.Scripts.Communication.Sockets
         private static ManualResetEvent connectDone = new ManualResetEvent(false);
         private static ManualResetEvent receiveDone = new ManualResetEvent(false);
 
+        private static PacketProtocol packetizer = null;
+        private static Message receivedResponse;
 
         public static bool EnableWorking { get; set; }
 
-        private static PacketProtocol packetizer = null;
-        private static Message receivedResponse;
 
         public static void StartListening(int openPort, int backlogLength, int maxMessageSize)
         {
@@ -76,7 +76,6 @@ namespace Assets.BiofeedbackModule.Scripts.Communication.Sockets
                         Receive(listener);
                         receiveDone.WaitOne();
                     }
-
                 }
 
             } catch (Exception e) {

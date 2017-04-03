@@ -13,10 +13,9 @@ namespace Communication.Sockets
     /// <summary>
     /// Asynchronous client working on sockets.
     /// </summary>
-    public class SocketClient {
-
+    public class SocketClient
+    {
         // ManualResetEvent instances signal completion:
-        //private static ManualResetEvent connectDone = new ManualResetEvent(false);
         private static ManualResetEvent sendDone = new ManualResetEvent(false);
         private static ManualResetEvent receiveDone = new ManualResetEvent(false);
 
