@@ -8,23 +8,21 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
 
+
+
 public class CommunicationManager : MonoBehaviour {
 
     public GameObject menuPanel;
+    public GameObject listView;
+    public Text choosenBandLabel;
     public InputField hostNameInput;
     public InputField servicePortInput;
 
     private string defaultHostName = "DESKTOP-KPBRM2V";
     private int defaultServicePort = 2055;
-    public string HostName;
-    public int ServicePort;
-
-
-    public string ChoosenBand = "";
-    public GameObject contentPanel;
-    public GameObject itemPrefab;
-    public List<string> ConnectedBands;
-
+    [SerializeField] private string HostName;
+    [SerializeField] private int ServicePort;
+    [SerializeField] private string ChoosenBand = "";
     private bool isMenuOn = false;
 
 
@@ -42,7 +40,7 @@ public class CommunicationManager : MonoBehaviour {
         menuPanel.SetActive(false);
         hostNameInput.text = HostName;
         servicePortInput.text = ServicePort.ToString();
-        ConnectedBands = new List<string>();
+        //ConnectedBands = new List<string>();
 
         ListTest();
     }
@@ -54,13 +52,38 @@ public class CommunicationManager : MonoBehaviour {
 	}
 
 
-    public void ChooseBand()
-    {
 
+    #region Public methods
+
+    /// <summary>
+    /// Turns BandBridge menu on and off.
+    /// </summary>
+    public void SwitchMenuState()
+    {
+        isMenuOn = !isMenuOn;
+        if (isMenuOn)
+            menuPanel.SetActive(true);
+        else
+            menuPanel.SetActive(false);
     }
 
+    /// <summary>
+    /// Saves info about choosen Band and sends to BandBridge server request to pair with it.
+    /// </summary>
+    public void ChooseBand()
+    {
+        ChoosenBand = listView.GetComponent<ListController>().GetSelectedItem();
+        choosenBandLabel.text = ChoosenBand;
+    }
+
+    /// <summary>
+    /// Sends to BandBridge server request to get latest list of connected MS Band devices.
+    /// </summary>
     public void RefreshList()
     {
+        //ListTest();
+        //return;
+
         Debug.Log("Connect to BandBridge to refresh Bands list...");
         // create new request:
         Message msg = new Message(MessageCode.SHOW_ASK, null);
@@ -85,39 +108,23 @@ public class CommunicationManager : MonoBehaviour {
 
             if (resp != null && resp.Code == MessageCode.SHOW_ANS)
             {
-                if(resp.Result != null && resp.Result.GetType() == typeof(string[]) && ((string[])resp.Result).Length > 0)
+                if (resp.Result.GetType() == typeof(string[]) || resp.Result == null)
                 {
-                    foreach(string bandName in (string[])resp.Result)
-                    {
-                        ConnectedBands.Add(bandName);
-                        GameObject newItem = Instantiate(itemPrefab) as GameObject;
-                        newItem.GetComponent<Text>().text = bandName;
-                        newItem.transform.SetParent(contentPanel.transform);
-                    }
+                    listView.GetComponent<ListController>().UpdateList((string[])resp.Result);
                 }
             }
             Debug.Log("End of work");
         };
+
+        listView.GetComponent<ListController>().ClearList();
         worker.RunWorkerAsync();
     }
 
-
-
-    private void ListTest()
-    {
-        ConnectedBands.Add("buka");
-        ConnectedBands.Add("jest");
-        ConnectedBands.Add("fioletowa");
-        foreach(var item in ConnectedBands)
-        {
-            GameObject newItem = Instantiate(itemPrefab) as GameObject;
-            newItem.GetComponent<Text>().text = item;
-            newItem.transform.SetParent(contentPanel.transform);
-        }
-    }
+    #endregion
 
 
     #region UI events
+
     /// <summary>
     /// HostNameInput's <see cref="InputField.onEndEdit"/> behaviour.
     /// </summary>
@@ -138,22 +145,11 @@ public class CommunicationManager : MonoBehaviour {
             ServicePort = defaultServicePort;
         }
     }
+
     #endregion
 
 
-
-
-    /// <summary>
-    /// Turns BandBridge menu on and off.
-    /// </summary>
-    public void SwitchMenuState()
-    {
-        isMenuOn = !isMenuOn;
-        if (isMenuOn)
-            menuPanel.SetActive(true);
-        else
-            menuPanel.SetActive(false);
-    }
+    #region Private methods
 
     /// <summary>
     /// Performs assertions to make sure everything is properly initialized.
@@ -161,9 +157,25 @@ public class CommunicationManager : MonoBehaviour {
     private void DoAssertTests()
     {
         Assert.IsNotNull(menuPanel);
+        Assert.IsNotNull(listView);
         Assert.IsNotNull(hostNameInput);
         Assert.IsNotNull(servicePortInput);
-        Assert.IsNotNull(contentPanel);
-        Assert.IsNotNull(itemPrefab);
     }
+
+    #endregion
+
+
+    #region Debug & test methods
+
+    private void ListTest()
+    {
+        List<string> temp = new List<string>();
+        for (int i = 0; i < UnityEngine.Random.Range(3, 7); i++)
+        {
+            temp.Add("miau" + i);
+        }
+        listView.GetComponent<ListController>().UpdateList(temp.ToArray());
+    }
+
+    #endregion
 }
