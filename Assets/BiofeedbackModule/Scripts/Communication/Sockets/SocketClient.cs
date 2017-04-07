@@ -15,6 +15,8 @@ namespace Communication.Sockets
     /// </summary>
     public class SocketClient
     {
+        public const int MaxMessageSize = 2048;
+
         // ManualResetEvent instances signal completion:
         private static ManualResetEvent sendDone = new ManualResetEvent(false);
         private static ManualResetEvent receiveDone = new ManualResetEvent(false);
@@ -88,7 +90,7 @@ namespace Communication.Sockets
 
             } catch (Exception e) {
                 Debug.Log(e.ToString());
-                return null;
+                return new Message(MessageCode.CTR_MSG, null);
             }
         }
 
