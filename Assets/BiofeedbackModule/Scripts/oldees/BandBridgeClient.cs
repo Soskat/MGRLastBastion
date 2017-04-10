@@ -27,7 +27,7 @@ public class BandBridgeClient : MonoBehaviour {
     {
         if(GUI.Button(new Rect(50, 50, 100, 30), "Connect test"))
         {
-            Message message = new Message(MessageCode.SHOW_ASK, null);
+            Message message = new Message(MessageCode.SHOW_LIST_ASK, null);
             Message response = SendMessageToBandBridge(message);
             DealWithResponse(response);
         }

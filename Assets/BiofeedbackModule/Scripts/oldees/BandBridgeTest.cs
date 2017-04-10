@@ -20,8 +20,8 @@ namespace Assets.BiofeedbackModule.Scripts
         // that's what it should look like: ===========================================================   !!!
         private void Test__SHOW_ASK__Result_null()
         {
-            Debug.Log(">> SHOW_ASK / Result == null ---------------------");
-            Message msg = new Message(MessageCode.SHOW_ASK, null);
+            Debug.Log(">> SHOW_LIST_ASK / Result == null ---------------------");
+            Message msg = new Message(MessageCode.SHOW_LIST_ASK, null);
             Debug.Log("MSG = " + msg);
 
             BackgroundWorker worker = new BackgroundWorker();
@@ -36,7 +36,7 @@ namespace Assets.BiofeedbackModule.Scripts
                 Debug.Assert(resp != null, "Response is null!");
                 if (resp != null)
                 {
-                    Debug.Assert(resp.Code == MessageCode.SHOW_ANS, "Wrong response Code - expected SHOW_ANS, but get: " + resp.Code);
+                    Debug.Assert(resp.Code == MessageCode.SHOW_LIST_ANS, "Wrong response Code - expected SHOW_LIST_ANS, but get: " + resp.Code);
                     Debug.Assert((resp.Result == null) || (resp.Result.GetType() == typeof(string[])),
                                  "Wrong response Result - expected null or string[], but get: " + resp.Result.GetType());
 
@@ -50,14 +50,14 @@ namespace Assets.BiofeedbackModule.Scripts
 
             worker.RunWorkerAsync();
             
-            //Debug.Log(">> SHOW_ASK / Result == null ---------------------");
-            //Message msg = new Message(MessageCode.SHOW_ASK, null);
+            //Debug.Log(">> SHOW_LIST_ASK / Result == null ---------------------");
+            //Message msg = new Message(MessageCode.SHOW_LIST_ASK, null);
             //Debug.Log("MSG = " + msg);
             //Message resp = SendMessageToBandBridge(msg);
             //Debug.Assert(resp != null, "Response is null!");
             //if (resp != null)
             //{
-            //    Debug.Assert(resp.Code == MessageCode.SHOW_ANS, "Wrong response Code - expected SHOW_ANS, but get: " + resp.Code);
+            //    Debug.Assert(resp.Code == MessageCode.SHOW_LIST_ANS, "Wrong response Code - expected SHOW_LIST_ANS, but get: " + resp.Code);
             //    Debug.Assert((resp.Result == null) || (resp.Result.GetType() == typeof(string[])),
             //                 "Wrong response Result - expected null or string[], but get: " + resp.Result.GetType());
 
@@ -75,14 +75,14 @@ namespace Assets.BiofeedbackModule.Scripts
 
         private void Test__SHOW_ASK__Result_not_null()
         {
-            Debug.Log(">> SHOW_ASK / Result != null ---------------------");
-            Message msg = new Message(MessageCode.SHOW_ASK, 42);
+            Debug.Log(">> SHOW_LIST_ASK / Result != null ---------------------");
+            Message msg = new Message(MessageCode.SHOW_LIST_ASK, 42);
             Debug.Log("MSG = " + msg);
             Message resp = SocketClient.StartClient(HostName, ServicePort, msg, SocketClient.MaxMessageSize);
             Debug.Assert(resp != null, "Response is null!");
             if (resp != null)
             {
-                Debug.Assert(resp.Code == MessageCode.SHOW_ANS, "Wrong response Code - expected SHOW_ANS, but get: " + resp.Code);
+                Debug.Assert(resp.Code == MessageCode.SHOW_LIST_ANS, "Wrong response Code - expected SHOW_LIST_ANS, but get: " + resp.Code);
                 Debug.Assert((resp.Result == null) || (resp.Result.GetType() == typeof(string[])),
                              "Wrong response Result - expected null or string[], but get: " + resp.Result.GetType());
 
@@ -139,8 +139,8 @@ namespace Assets.BiofeedbackModule.Scripts
 
         private void Test__SHOW_ANS()
         {
-            Debug.Log(">> SHOW_ANS / Result == null ----------------------");
-            Message msg = new Message(MessageCode.SHOW_ANS, null);
+            Debug.Log(">> SHOW_LIST_ANS / Result == null ----------------------");
+            Message msg = new Message(MessageCode.SHOW_LIST_ANS, null);
             Debug.Log("MSG = " + msg);
             Message resp = SocketClient.StartClient(HostName, ServicePort, msg, SocketClient.MaxMessageSize);
             Debug.Assert(resp != null, "Response is null!");
@@ -239,7 +239,7 @@ namespace Assets.BiofeedbackModule.Scripts
                 //Debug.Assert(response != null, "Response is null!");
                 //if (response != null)
                 //{
-                //    Debug.Assert(response.Code == MessageCode.SHOW_ANS, "Wrong response Code - expected SHOW_ANS, but get: " + response.Code);
+                //    Debug.Assert(response.Code == MessageCode.SHOW_LIST_ANS, "Wrong response Code - expected SHOW_LIST_ANS, but get: " + response.Code);
                 //    Debug.Assert((response.Result == null) || (response.Result.GetType() == typeof(string[])),
                 //                 "Wrong response Result - expected null or string[], but get: " + response.Result.GetType());
 

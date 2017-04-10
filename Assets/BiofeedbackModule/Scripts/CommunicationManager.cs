@@ -86,7 +86,7 @@ public class CommunicationManager : MonoBehaviour {
 
         Debug.Log("Connect to BandBridge to refresh Bands list...");
         // create new request:
-        Message msg = new Message(MessageCode.SHOW_ASK, null);
+        Message msg = new Message(MessageCode.SHOW_LIST_ASK, null);
         // start background work:
         BackgroundWorker worker = new BackgroundWorker();
         worker.DoWork += (s, e) =>
@@ -106,7 +106,7 @@ public class CommunicationManager : MonoBehaviour {
             Message resp = (Message)e.Result;
             while (resp == null) ; // little hack here - wait until whole response from server come
 
-            if (resp != null && resp.Code == MessageCode.SHOW_ANS)
+            if (resp != null && resp.Code == MessageCode.SHOW_LIST_ANS)
             {
                 if (resp.Result.GetType() == typeof(string[]) || resp.Result == null)
                 {

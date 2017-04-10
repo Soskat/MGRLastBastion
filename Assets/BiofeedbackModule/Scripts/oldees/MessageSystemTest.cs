@@ -86,19 +86,19 @@ public class MessageSystemTest : MonoBehaviour {
         #region Buttons
         GUILayout.BeginArea(new Rect(10, 75, 250, 335));
         {
-            // === test SHOW_ASK message =======================================================================================
+            // === test SHOW_LIST_ASK message =======================================================================================
             GUILayout.BeginVertical();
             {
-                if (GUILayout.Button("[SHOW_ASK][null]", GUILayout.Width(250), GUILayout.Height(25)))
+                if (GUILayout.Button("[SHOW_LIST_ASK][null]", GUILayout.Width(250), GUILayout.Height(25)))
                 {
-                    Message message = new Message(MessageCode.SHOW_ASK, null);
+                    Message message = new Message(MessageCode.SHOW_LIST_ASK, null);
                     ShowDebugLog("Prepaired message: " + message);
                     Message resp = SendMessageToBandBridge(message);
                     DoAssert(resp != null, "Response is null!");
                     if (resp != null)
                     {
                         ShowDebugLog("Received response: " + resp);
-                        DoAssert(resp.Code == MessageCode.SHOW_ANS, "Wrong response Code - expected SHOW_ANS, but get: " + resp.Code);
+                        DoAssert(resp.Code == MessageCode.SHOW_LIST_ANS, "Wrong response Code - expected SHOW_LIST_ANS, but get: " + resp.Code);
                         DoAssert((resp.Result == null) || (resp.Result.GetType() == typeof(string[])),
                                     "Wrong response Result - expected null or string[], but get: " + resp.Result);
 
@@ -110,16 +110,16 @@ public class MessageSystemTest : MonoBehaviour {
                     }
                     ShowDebugLog("-------------------------------");
                 }
-                if (GUILayout.Button("[SHOW_ASK][42]", GUILayout.Width(250), GUILayout.Height(25)))
+                if (GUILayout.Button("[SHOW_LIST_ASK][42]", GUILayout.Width(250), GUILayout.Height(25)))
                 {
-                    Message message = new Message(MessageCode.SHOW_ASK, 42);
+                    Message message = new Message(MessageCode.SHOW_LIST_ASK, 42);
                     ShowDebugLog("Prepaired message: " + message);
                     Message resp = SendMessageToBandBridge(message);
                     DoAssert(resp != null, "Response is null!");
                     if (resp != null)
                     {
                         ShowDebugLog("Received response: " + resp);
-                        DoAssert(resp.Code == MessageCode.SHOW_ANS, "Wrong response Code - expected SHOW_ANS, but get: " + resp.Code);
+                        DoAssert(resp.Code == MessageCode.SHOW_LIST_ANS, "Wrong response Code - expected SHOW_LIST_ANS, but get: " + resp.Code);
                         DoAssert((resp.Result == null) || (resp.Result.GetType() == typeof(string[])),
                                     "Wrong response Result - expected null or string[], but get: " + resp.Result);
 
@@ -204,12 +204,12 @@ public class MessageSystemTest : MonoBehaviour {
             }
             GUILayout.EndVertical();
             GUILayout.Space(10);
-            // === test SHOW_ANS, GET_DATA_ANS & CTR_MSG message ===============================================================
+            // === test SHOW_LIST_ANS, GET_DATA_ANS & CTR_MSG message ===============================================================
             GUILayout.BeginVertical();
             {
-                if (GUILayout.Button("[SHOW_ANS][null]", GUILayout.Width(250), GUILayout.Height(25)))
+                if (GUILayout.Button("[SHOW_LIST_ANS][null]", GUILayout.Width(250), GUILayout.Height(25)))
                 {
-                    Message message = new Message(MessageCode.SHOW_ANS, null);
+                    Message message = new Message(MessageCode.SHOW_LIST_ANS, null);
                     ShowDebugLog("Prepaired message: " + message);
                     Message resp = SendMessageToBandBridge(message);
                     DoAssert(resp != null, "Response is null!");
