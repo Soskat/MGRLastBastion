@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Net;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
@@ -29,6 +30,8 @@ public class CommunicationManager : MonoBehaviour {
     [SerializeField] private string pairedBand = "";
     private bool isMenuOn = false;
 
+    private Thread serverThread;
+
 
 
     private void Awake()
@@ -49,6 +52,8 @@ public class CommunicationManager : MonoBehaviour {
         hostNameInput.text = remoteHostName;
         servicePortInput.text = remoteServicePort.ToString();
         //ConnectedBands = new List<string>();
+
+        serverThread = new Thread(new ThreadStart(BandDataServerService));
 
         ListTest();
     }
@@ -80,6 +85,12 @@ public class CommunicationManager : MonoBehaviour {
     /// </summary>
     public void PairBand()
     {
+        // first, unpair Band if needed:
+        if(pairedBand != null && pairedBand != "")
+        {
+            UnpairBand();
+        }
+
         pairedBand = listView.GetComponent<ListController>().GetSelectedItem();
         //pairedBandLabel.text = pairedBand;
 
@@ -94,6 +105,7 @@ public class CommunicationManager : MonoBehaviour {
                 // choosen Band was paired succesfully:
                 if ((bool)resp.Result)
                 {
+                    //StartListeningForBandData();
                     pairedBandLabel.text = pairedBand;
                 }
             }
@@ -111,6 +123,7 @@ public class CommunicationManager : MonoBehaviour {
         try
         {
             Message resp = SendMessageToBandBridgeServer(msg);
+            StopListeningForBandData();
         }
         catch (Exception ex)
         {
@@ -131,6 +144,7 @@ public class CommunicationManager : MonoBehaviour {
         // choosen Band is not connected any more:
         pairedBand = "";
         pairedBandLabel.text = pairedBand;
+        //StopListeningForBandData();
     }
 
     /// <summary>
@@ -203,6 +217,23 @@ public class CommunicationManager : MonoBehaviour {
         Assert.IsNotNull(servicePortInput);
     }
 
+    private void BandDataServerService()
+    {
+        SocketServer.EnableWorking = true;
+        SocketServer.StartListening(localOpenPort, 10, SocketClient.MaxMessageSize);
+    }
+
+    private void StartListeningForBandData()
+    {
+        Debug.Log("_=_=__START SERVER THREAD");
+        serverThread.Start();
+    }
+
+    private void StopListeningForBandData()
+    {
+        Debug.Log("_=_=__STOP SERVER THREAD");
+        serverThread.Abort();
+    }
 
     private Message SendMessageToBandBridgeServer(Message msg)
     {

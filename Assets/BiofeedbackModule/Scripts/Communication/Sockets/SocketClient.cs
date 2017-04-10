@@ -79,7 +79,7 @@ namespace Communication.Sockets
                     receiveDone.WaitOne();
                     //Debug.Log("Received package... --------------------------");
                 }
-                //Debug.Log("Release socket...");
+                Debug.Log("Release socket...");
 
                 // Release the socket.
                 client.Shutdown(SocketShutdown.Both);

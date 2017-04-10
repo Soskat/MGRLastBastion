@@ -926,6 +926,8 @@ MonoBehaviour:
   pairedBandLabel: {fileID: 1207490875}
   hostNameInput: {fileID: 1420352658}
   servicePortInput: {fileID: 1750446445}
-  HostName: 
-  ServicePort: 0
-  PairedBand: 
+  remoteHostName: 
+  remoteServicePort: 0
+  localHostName: 
+  localOpenPort: 0
+  pairedBand: 

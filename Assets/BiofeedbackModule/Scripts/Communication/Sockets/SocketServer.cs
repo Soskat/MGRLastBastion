@@ -7,7 +7,7 @@ using System.Net.Sockets;
 using System.Threading;
 using UnityEngine;
 
-namespace Assets.BiofeedbackModule.Scripts.Communication.Sockets
+namespace Communication.Sockets
 {
     // Original source: https://msdn.microsoft.com/en-us/library/fx6588te(v=vs.110).aspx
 
@@ -42,12 +42,12 @@ namespace Assets.BiofeedbackModule.Scripts.Communication.Sockets
                 packetizer = new PacketProtocol(maxMessageSize);
                 packetizer.MessageArrived += receivedMsg =>
                 {
-                    Debug.Log(":: Received bytes: " + receivedMsg.Length + " => ");
+                    Debug.Log("SS:: Received bytes: " + receivedMsg.Length + " => ");
                     if (receivedMsg.Length > 0)
                     {
-                        Debug.Log("deserialize message");
+                        //Debug.Log("deserialize message");
                         receivedResponse = Message.Deserialize(receivedMsg);
-                        Debug.Log(":: Received: " + receivedResponse);
+                        Debug.Log(receivedResponse);
 
                         // signal that new message arrived:
                         // ...
