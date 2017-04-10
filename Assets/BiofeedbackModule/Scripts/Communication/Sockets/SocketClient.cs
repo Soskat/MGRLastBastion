@@ -65,9 +65,10 @@ namespace Communication.Sockets
                     Debug.Log(":: Received bytes: " + receivedMsg.Length + " => ");
                     if (receivedMsg.Length > 0)
                     {
-                        Debug.Log("deserialize message");
+                        //Debug.Log("deserialize message");
                         receivedResponse = Message.Deserialize(receivedMsg);
-                        Debug.Log(":: Received: " + receivedResponse);
+                        Debug.Log(receivedResponse);
+                        //Debug.Log(":: Received: " + receivedResponse);
                     }
                 };
 
@@ -76,16 +77,20 @@ namespace Communication.Sockets
                 {
                     Receive(client);
                     receiveDone.WaitOne();
+                    //Debug.Log("Received package... --------------------------");
                 }
+                //Debug.Log("Release socket...");
 
                 // Release the socket.
                 client.Shutdown(SocketShutdown.Both);
                 client.Close();
 
                 // reset signals completion:
-                sendDone.Reset();
-                receiveDone.Reset();
-                
+                //sendDone.Reset();
+                //receiveDone.Reset();
+
+                Debug.Log("Return response...");
+
                 return receivedResponse;
 
             } catch (Exception e) {

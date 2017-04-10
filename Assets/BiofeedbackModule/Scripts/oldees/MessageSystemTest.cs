@@ -17,7 +17,7 @@ public class MessageSystemTest : MonoBehaviour {
     private const string defaultNone = "<none>";
 
     public string HostName = "192.168.0.73";
-    //public string HostName = "DESKTOP-KPBRM2V";
+    //public string remoteHostName = "DESKTOP-KPBRM2V";
     public string ServicePortStr = "2055";
     public string ChoosenBandName;
     public string[] ConnectedBands = new string[] { "Test Fake Band", "Test", "Fake", "Band" };

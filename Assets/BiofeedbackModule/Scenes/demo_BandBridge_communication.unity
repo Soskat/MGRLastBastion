@@ -728,11 +728,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 1206956809}
     m_Modifications:
-    - target: {fileID: 114153680772640064, guid: 9d15228a3b808c049837e91ad3783c22,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 224300381322104922, guid: 9d15228a3b808c049837e91ad3783c22,
         type: 2}
       propertyPath: m_LocalPosition.x
@@ -828,6 +823,11 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1992198325}
+    - target: {fileID: 114153680772640064, guid: 9d15228a3b808c049837e91ad3783c22,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1992198325}
     - target: {fileID: 114250203491486056, guid: 9d15228a3b808c049837e91ad3783c22,
         type: 2}
       propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -838,6 +838,11 @@ Prefab:
       propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1992198325}
+    - target: {fileID: 224081772266537730, guid: 9d15228a3b808c049837e91ad3783c22,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 224081772266537730, guid: 9d15228a3b808c049837e91ad3783c22,
         type: 2}
       propertyPath: m_AnchorMax.x
@@ -870,32 +875,8 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 114153680772640064, guid: 9d15228a3b808c049837e91ad3783c22,
         type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114153680772640064, guid: 9d15228a3b808c049837e91ad3783c22,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114153680772640064, guid: 9d15228a3b808c049837e91ad3783c22,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1992198325}
-    - target: {fileID: 114153680772640064, guid: 9d15228a3b808c049837e91ad3783c22,
-        type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ChooseBand
-      objectReference: {fileID: 0}
-    - target: {fileID: 114153680772640064, guid: 9d15228a3b808c049837e91ad3783c22,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 1009260769402458, guid: 9d15228a3b808c049837e91ad3783c22, type: 2}
-      propertyPath: m_Name
-      value: ChoosenBandNameLabel
+      value: PairBand
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9d15228a3b808c049837e91ad3783c22, type: 2}
@@ -942,9 +923,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menuPanel: {fileID: 963283631}
   listView: {fileID: 590871333}
-  choosenBandLabel: {fileID: 1207490875}
+  pairedBandLabel: {fileID: 1207490875}
   hostNameInput: {fileID: 1420352658}
   servicePortInput: {fileID: 1750446445}
   HostName: 
   ServicePort: 0
-  ChoosenBand: 
+  PairedBand: 

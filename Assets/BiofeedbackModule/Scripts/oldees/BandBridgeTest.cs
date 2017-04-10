@@ -11,7 +11,7 @@ namespace Assets.BiofeedbackModule.Scripts
     class BandBridgeTest : MonoBehaviour
     {
         public string HostName = "192.168.0.73";
-        //public string HostName = "DESKTOP-KPBRM2V";
+        //public string remoteHostName = "DESKTOP-KPBRM2V";
         public int ServicePort = 2055;
         public string ChoosenBandName = "Fake Band Name";
         public string[] ConnectedBands = new string[] {  };
