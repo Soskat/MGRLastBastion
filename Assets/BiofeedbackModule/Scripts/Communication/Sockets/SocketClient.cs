@@ -20,6 +20,7 @@ namespace Communication.Sockets
         // ManualResetEvent instances signal completion:
         private static ManualResetEvent sendDone = new ManualResetEvent(false);
         private static ManualResetEvent receiveDone = new ManualResetEvent(false);
+        private static ManualResetEvent allDone = new ManualResetEvent(false);
 
         private static PacketProtocol packetizer = null;
         private static Message receivedResponse;
@@ -69,6 +70,7 @@ namespace Communication.Sockets
                         receivedResponse = Message.Deserialize(receivedMsg);
                         Debug.Log(receivedResponse);
                         //Debug.Log(":: Received: " + receivedResponse);
+                        allDone.Set();
                     }
                 };
 
@@ -79,6 +81,8 @@ namespace Communication.Sockets
                     receiveDone.WaitOne();
                     //Debug.Log("Received package... --------------------------");
                 }
+
+                allDone.WaitOne();
                 Debug.Log("Release socket...");
 
                 // Release the socket.

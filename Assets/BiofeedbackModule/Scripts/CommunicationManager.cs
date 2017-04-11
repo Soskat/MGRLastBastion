@@ -91,21 +91,24 @@ public class CommunicationManager : MonoBehaviour {
             UnpairBand();
         }
 
-        pairedBand = listView.GetComponent<ListController>().GetSelectedItem();
+        string newPairedBand = listView.GetComponent<ListController>().GetSelectedItem();
         //pairedBandLabel.text = pairedBand;
 
         // create new message:
-        PairRequest request = new PairRequest(localHostName, localOpenPort, pairedBand);
+        PairRequest request = new PairRequest(localHostName, localOpenPort, newPairedBand);
         Message msg = new Message(MessageCode.PAIR_BAND_ASK, request);
         try
         {
+            Debug.Log("______________Try to send PairRequest to BBserver");
             Message resp = SendMessageToBandBridgeServer(msg);
+            Debug.Log("______________Got resp: " + resp);
             if (resp != null && resp.Code == MessageCode.PAIR_BAND_ANS)
             {
                 // choosen Band was paired succesfully:
                 if ((bool)resp.Result)
                 {
                     //StartListeningForBandData();
+                    pairedBand = newPairedBand;
                     pairedBandLabel.text = pairedBand;
                 }
             }
@@ -123,7 +126,7 @@ public class CommunicationManager : MonoBehaviour {
         try
         {
             Message resp = SendMessageToBandBridgeServer(msg);
-            StopListeningForBandData();
+            //StopListeningForBandData();
         }
         catch (Exception ex)
         {
