@@ -16,20 +16,25 @@ public class CommunicationManager : MonoBehaviour {
 
     public GameObject menuPanel;
     public GameObject listView;
+    public Text pairedBandMenuLabel;
     public Text pairedBandLabel;
+    public Text hrReadingLabel;
+    public Text gsrReadingLabel;
     public InputField hostNameInput;
     public InputField servicePortInput;
 
-    private string defaultHostName = "DESKTOP-KPBRM2V";
-    private int defaultServicePort = 2055;
-    private int defaultOpenPort = 2065;
+    private const string defaultHostName = "DESKTOP-KPBRM2V";
+    private const int defaultServicePort = 2055;
+    private const int defaultOpenPort = 2065;
+    private const int defaultBacklog = 10;
     [SerializeField] private string remoteHostName;
     [SerializeField] private int remoteServicePort;
     [SerializeField] private string localHostName;
     [SerializeField] private int localOpenPort;
+    [SerializeField] private int localBacklog;
     [SerializeField] private string pairedBand = "";
-    private bool isMenuOn = false;
 
+    private bool isMenuOn = false;
     private Thread serverThread;
 
 
@@ -47,15 +52,20 @@ public class CommunicationManager : MonoBehaviour {
         remoteServicePort = defaultServicePort;
         localHostName = Dns.GetHostName();
         localOpenPort = defaultOpenPort;
+        localBacklog = defaultBacklog;
         // update GUI:
         menuPanel.SetActive(false);
         hostNameInput.text = remoteHostName;
         servicePortInput.text = remoteServicePort.ToString();
+        pairedBandLabel.text = "";
+        hrReadingLabel.text = "";
+        gsrReadingLabel.text = "";
         //ConnectedBands = new List<string>();
+        ListTest();
 
+        // setup server for incoming paired Band's sensors readings:
         serverThread = new Thread(new ThreadStart(BandDataServerService));
 
-        ListTest();
     }
 	
 	// Update is called once per frame
@@ -64,7 +74,11 @@ public class CommunicationManager : MonoBehaviour {
             SwitchMenuState();
 	}
 
-
+    private void OnApplicationQuit()
+    {
+        SocketServer.EnableWorking = false;
+        serverThread.Join();
+    }
 
     #region Public methods
 
@@ -92,28 +106,28 @@ public class CommunicationManager : MonoBehaviour {
         }
 
         string newPairedBand = listView.GetComponent<ListController>().GetSelectedItem();
-        //pairedBandLabel.text = pairedBand;
+        //pairedBandMenuLabel.text = pairedBand;
 
         // create new message:
         PairRequest request = new PairRequest(localHostName, localOpenPort, newPairedBand);
         Message msg = new Message(MessageCode.PAIR_BAND_ASK, request);
         try
         {
-            Debug.Log("______________Try to send PairRequest to BBserver");
+            //Debug.Log("______________Try to send PairRequest to BBserver");
             Message resp = SendMessageToBandBridgeServer(msg);
-            Debug.Log("______________Got resp: " + resp);
+            //Debug.Log("______________Got resp: " + resp);
             if (resp != null && resp.Code == MessageCode.PAIR_BAND_ANS)
             {
                 // choosen Band was paired succesfully:
                 if ((bool)resp.Result)
                 {
-                    //StartListeningForBandData();
+                    StartListeningForBandData();
                     pairedBand = newPairedBand;
-                    pairedBandLabel.text = pairedBand;
+                    UpdatePairedBandGUI(pairedBand);
                 }
             }
         } catch(Exception ex) {
-            Debug.Log(ex);
+            Debug.Log(ex.ToString());
         }
     }
 
@@ -125,12 +139,18 @@ public class CommunicationManager : MonoBehaviour {
         Message msg = new Message(MessageCode.FREE_BAND_ASK, pairedBand);
         try
         {
-            Message resp = SendMessageToBandBridgeServer(msg);
-            //StopListeningForBandData();
+            // send request to BandBridge server:
+            SendMessageToBandBridgeServer(msg);
+            // update GUI:
+            pairedBand = "";
+            UpdatePairedBandGUI(pairedBand);
+            hrReadingLabel.text = "";
+            gsrReadingLabel.text = "";
+            // stop listening for incoming sensors readings data:
+            StopListeningForBandData();
         }
-        catch (Exception ex)
-        {
-            Debug.Log(ex);
+        catch (Exception ex) {
+            Debug.Log(ex.ToString());
         }
     }
 
@@ -146,8 +166,14 @@ public class CommunicationManager : MonoBehaviour {
         }
         // choosen Band is not connected any more:
         pairedBand = "";
-        pairedBandLabel.text = pairedBand;
-        //StopListeningForBandData();
+        UpdatePairedBandGUI(pairedBand);
+        StopListeningForBandData();
+    }
+
+    private void UpdatePairedBandGUI(string newText)
+    {
+        pairedBandLabel.text = newText;
+        pairedBandMenuLabel.text = newText;
     }
 
     /// <summary>
@@ -173,10 +199,23 @@ public class CommunicationManager : MonoBehaviour {
             RefreshPairedBand();
 
         } catch(Exception ex) {
-            Debug.Log(ex);
+            Debug.Log(ex.ToString());
         }
     }
 
+    public void UpdateSensorReading(SensorData sd)
+    {
+        // update HR:
+        if (sd.Code == SensorCode.HR)
+        {
+            hrReadingLabel.text = sd.Data.ToString();
+        }
+        // update GSR:
+        else
+        {
+            gsrReadingLabel.text = sd.Data.ToString();
+        }
+    }
 
     #endregion
 
@@ -216,6 +255,10 @@ public class CommunicationManager : MonoBehaviour {
     {
         Assert.IsNotNull(menuPanel);
         Assert.IsNotNull(listView);
+        Assert.IsNotNull(pairedBandMenuLabel);
+        Assert.IsNotNull(pairedBandLabel);
+        Assert.IsNotNull(hrReadingLabel);
+        Assert.IsNotNull(gsrReadingLabel);
         Assert.IsNotNull(hostNameInput);
         Assert.IsNotNull(servicePortInput);
     }
@@ -223,21 +266,31 @@ public class CommunicationManager : MonoBehaviour {
     private void BandDataServerService()
     {
         SocketServer.EnableWorking = true;
-        SocketServer.StartListening(localOpenPort, 10, SocketClient.MaxMessageSize);
+        SocketServer.NewReadingArrived += newReading =>
+        {
+            Debug.Log("Got new reading!: " + newReading);
+            UpdateSensorReading(newReading);
+        };
+        SocketServer.StartListening(localOpenPort, localBacklog, SocketClient.MaxMessageSize);
+        Debug.Log("_=_=__SERVER THREAD STARTED");
     }
 
-    private void StartListeningForBandData()
+    public void StartListeningForBandData()
     {
-        Debug.Log("_=_=__START SERVER THREAD");
         serverThread.Start();
     }
 
-    private void StopListeningForBandData()
+    public void StopListeningForBandData()
     {
-        Debug.Log("_=_=__STOP SERVER THREAD");
-        serverThread.Abort();
+        //SocketServer.EnableWorking = false;
+        //Debug.Log("_=_=__SERVER THREAD STOPPED");
     }
 
+    /// <summary>
+    /// Sends specified message to BandBridge server and returns its response.
+    /// </summary>
+    /// <param name="msg">Message to send</param>
+    /// <returns>Received response</returns>
     private Message SendMessageToBandBridgeServer(Message msg)
     {
         return SocketClient.StartClient(remoteHostName, remoteServicePort, msg, SocketClient.MaxMessageSize);

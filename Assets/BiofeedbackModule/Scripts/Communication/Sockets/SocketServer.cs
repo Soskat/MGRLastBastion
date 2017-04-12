@@ -25,10 +25,14 @@ namespace Communication.Sockets
 
         public static bool EnableWorking { get; set; }
 
+        public static Action<SensorData> NewReadingArrived { get; set; }
+
+
 
         public static void StartListening(int openPort, int backlogLength, int maxMessageSize)
         {
-            try {
+            try
+            {
                 // Establish the local endpoint for the socket:
                 IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
                 IPAddress ipAddress = Array.Find(ipHostInfo.AddressList, a => a.AddressFamily == AddressFamily.InterNetwork);
@@ -50,13 +54,17 @@ namespace Communication.Sockets
                         Debug.Log(receivedResponse);
 
                         // signal that new message arrived:
-                        // ...
+                        if (receivedResponse != null && receivedResponse.Code == MessageCode.BAND_DATA && receivedResponse.Result != null)
+                        {
+                            NewReadingArrived((SensorData)receivedResponse.Result);
+                        }
                     }
                 };
 
                 // Bind the socket to the local endpoint and listen for incoming connections:
                 listener.Bind(localEndPoint);
                 listener.Listen(backlogLength);
+                Debug.Log("SS: Waiting for a connection...");
 
                 while (EnableWorking)
                 {
@@ -65,10 +73,22 @@ namespace Communication.Sockets
                     receiveDone.Reset();
 
                     // Start an asynchronous socket to listen for connections.  
-                    Debug.Log("Waiting for a connection...");
-                    listener.BeginAccept(new AsyncCallback(AcceptCallback), listener);
-                    // Wait until a connection is made before continuing.  
-                    connectDone.WaitOne();
+                    IAsyncResult result = listener.BeginAccept(new AsyncCallback(AcceptCallback), listener);
+                    result.AsyncWaitHandle.WaitOne(2000);
+
+                    //// Wait until a connection is made before continuing.  
+                    //connectDone.WaitOne();
+
+                    if (!result.IsCompleted)
+                    {
+                        // timed out:
+                        Debug.Log("Timed out");
+                        continue;
+                    }
+                    else
+                    {
+                        Debug.Log("GOT CONNECTION");
+                    }
 
                     // receive the whole message from the remote device:
                     while (!packetizer.AllBytesReceived)
@@ -76,16 +96,38 @@ namespace Communication.Sockets
                         Receive(listener);
                         receiveDone.WaitOne();
                     }
-                }
 
-            } catch (Exception e) {
+
+                    //// Set the event to nonsignaled state.  
+                    //connectDone.Reset();
+                    //receiveDone.Reset();
+
+                    //// Start an asynchronous socket to listen for connections.  
+                    //Debug.Log("SS: Waiting for a connection...");
+                    //listener.BeginAccept(new AsyncCallback(AcceptCallback), listener);
+                    //// Wait until a connection is made before continuing.  
+                    //connectDone.WaitOne();
+
+                    //// receive the whole message from the remote device:
+                    //while (!packetizer.AllBytesReceived)
+                    //{
+                    //    Receive(listener);
+                    //    receiveDone.WaitOne();
+                    //}
+                }
+                Debug.Log("SS: Work is done...");
+
+            }
+            catch (Exception e)
+            {
                 Debug.Log(e.ToString());
             }
         }
 
         public static void AcceptCallback(IAsyncResult ar)
         {
-            try {
+            try
+            {
                 // Get the socket that handles the client request.  
                 Socket listener = (Socket)ar.AsyncState;
                 listener.EndAccept(ar);
@@ -93,14 +135,17 @@ namespace Communication.Sockets
                 // Signal the main thread to continue.  
                 connectDone.Set();
 
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 Debug.Log(e.ToString());
             }
         }
 
         private static void Receive(Socket listener)
         {
-            try {
+            try
+            {
                 // Create the state object:
                 StateObject state = new StateObject();
                 state.workSocket = listener;
@@ -108,14 +153,17 @@ namespace Communication.Sockets
                 // Begin receiving the data from the remote device:
                 listener.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReceiveCallback), state);
 
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 Debug.Log(e.ToString());
             }
         }
 
         public static void ReceiveCallback(IAsyncResult ar)
         {
-            try {
+            try
+            {
                 // Retrieve the state object and the handler socket from the asynchronous state object:
                 StateObject state = (StateObject)ar.AsyncState;
                 Socket handler = state.workSocket;
@@ -132,13 +180,12 @@ namespace Communication.Sockets
                 // Signal that all bytes have been received:
                 receiveDone.Set();
 
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 Debug.Log(e.ToString());
             }
         }
-        
-
-
 
     }
 }

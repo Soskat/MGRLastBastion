@@ -45,11 +45,11 @@ namespace Communication.Sockets
                 if (success)
                 {
                     client.EndConnect(result);
-                    Debug.Log("Socket connected to " + client.RemoteEndPoint.ToString());
+                    //Debug.Log("Socket connected to " + client.RemoteEndPoint.ToString());
                 }
                 else
                 {
-                    Debug.Log("Could not connect to " + client.RemoteEndPoint.ToString());
+                    //Debug.Log("Could not connect to " + client.RemoteEndPoint.ToString());
                     client.Close();
                     return null;
                 }
@@ -63,7 +63,7 @@ namespace Communication.Sockets
                 packetizer = new PacketProtocol(maxMessageSize);
                 packetizer.MessageArrived += receivedMsg =>
                 {
-                    Debug.Log(":: Received bytes: " + receivedMsg.Length + " => ");
+                    //Debug.Log(":: Received bytes: " + receivedMsg.Length + " => ");
                     if (receivedMsg.Length > 0)
                     {
                         //Debug.Log("deserialize message");
@@ -83,7 +83,7 @@ namespace Communication.Sockets
                 }
 
                 allDone.WaitOne();
-                Debug.Log("Release socket...");
+                //Debug.Log("Release socket...");
 
                 // Release the socket.
                 client.Shutdown(SocketShutdown.Both);
@@ -93,12 +93,12 @@ namespace Communication.Sockets
                 //sendDone.Reset();
                 //receiveDone.Reset();
 
-                Debug.Log("Return response...");
+                //Debug.Log("Return response...");
 
                 return receivedResponse;
 
-            } catch (Exception e) {
-                Debug.Log(e.ToString());
+            } catch (Exception ex) {
+                Debug.Log(ex.ToString());
                 return new Message(MessageCode.CTR_MSG, null);
             }
         }
@@ -115,8 +115,8 @@ namespace Communication.Sockets
                 // Begin sending the data to the remote device:
                 client.BeginSend(byteData, 0, byteData.Length, 0, new AsyncCallback(SendCallback), client);
 
-            } catch(Exception e) {
-                Debug.Log(e.ToString());
+            } catch(Exception ex) {
+                Debug.Log(ex.ToString());
             }
         }
 
@@ -128,14 +128,15 @@ namespace Communication.Sockets
                 Socket client = (Socket) ar.AsyncState;
 
                 // Complete sending the data to the remote device:
-                int bytesSent = client.EndSend(ar);
-                Debug.Log(":: Sent " + bytesSent + " bytes to server.");
+                client.EndSend(ar);
+                //int bytesSent = client.EndSend(ar);
+                //Debug.Log(":: Sent " + bytesSent + " bytes to server.");
 
                 // Signal that all bytes have been sent:
                 sendDone.Set();
 
-            } catch (Exception e) {
-                Debug.Log(e.ToString());
+            } catch (Exception ex) {
+                Debug.Log(ex.ToString());
             }
         }
 
@@ -150,8 +151,8 @@ namespace Communication.Sockets
                 // Begin receiving the data from the remote device:
                 client.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReceiveCallback), state);
 
-            } catch (Exception e) {
-                Debug.Log(e.ToString());
+            } catch (Exception ex) {
+                Debug.Log(ex.ToString());
             }
         }
 
@@ -174,8 +175,8 @@ namespace Communication.Sockets
                 // Signal that all bytes have been received:
                 receiveDone.Set();
 
-            } catch (Exception e) {
-                Debug.Log(e.ToString());
+            } catch (Exception ex) {
+                Debug.Log(ex.ToString());
             }
         }
 
