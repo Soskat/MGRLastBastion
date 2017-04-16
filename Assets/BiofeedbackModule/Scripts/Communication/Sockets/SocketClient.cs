@@ -77,6 +77,7 @@ namespace Communication.Sockets
                 // Receive the response from the remote device:
                 while (!packetizer.AllBytesReceived)
                 {
+                    receiveDone.Reset();
                     Receive(client);
                     receiveDone.WaitOne();
                     //Debug.Log("Received package... --------------------------");
