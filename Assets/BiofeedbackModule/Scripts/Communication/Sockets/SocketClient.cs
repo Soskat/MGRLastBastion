@@ -63,13 +63,13 @@ namespace Communication.Sockets
                 packetizer = new PacketProtocol(maxMessageSize);
                 packetizer.MessageArrived += receivedMsg =>
                 {
-                    //Debug.Log(":: Received bytes: " + receivedMsg.Length + " => ");
+                    Debug.Log(":: Received bytes: " + receivedMsg.Length + " => ");
                     if (receivedMsg.Length > 0)
                     {
-                        //Debug.Log("deserialize message");
+                        Debug.Log("deserialize message");
                         receivedResponse = Message.Deserialize(receivedMsg);
                         Debug.Log(receivedResponse);
-                        //Debug.Log(":: Received: " + receivedResponse);
+                        Debug.Log(":: Received: " + receivedResponse);
                         allDone.Set();
                     }
                 };
@@ -84,7 +84,7 @@ namespace Communication.Sockets
                 }
 
                 allDone.WaitOne();
-                //Debug.Log("Release socket...");
+                Debug.Log("Release socket...");
 
                 // Release the socket.
                 client.Shutdown(SocketShutdown.Both);

@@ -33,7 +33,8 @@ public class CommunicationManager : MonoBehaviour {
     //[SerializeField] private string localHostName;
     //[SerializeField] private int localOpenPort;
     //[SerializeField] private int localBacklog;
-    [SerializeField] private StringBuilder pairedBand = new StringBuilder();
+    [SerializeField] private StringBuilder pairedBand = new StringBuilder("Fake Band 1");
+    //[SerializeField] private StringBuilder pairedBand = new StringBuilder();
     //[SerializeField] private string pairedBand = "";
 
     private bool isMenuOn = false;
@@ -43,10 +44,25 @@ public class CommunicationManager : MonoBehaviour {
 
 
 
+
+    public static Action<Message> MessageArrived { get; set; }
+
+
+
+
+
+
     private void Awake()
     {
         // make sure all objects exist:
         DoAssertTests();
+
+        MessageArrived += receivedMsg =>
+        {
+            Debug.Log("__New message arrived!: " + receivedMsg);
+            DealWithReceivedMessage(receivedMsg);
+            Debug.Log("__Dealing is done");
+        };
     }
 
     // Use this for initialization
@@ -88,14 +104,24 @@ public class CommunicationManager : MonoBehaviour {
 
     public void GetBandData()
     {
-        Message resp = SendMessageToBandBridgeServer(new Message(MessageCode.GET_DATA_ASK, pairedBand.ToString()));
-        if(resp != null && resp.Result.GetType() == typeof(SensorData[]))
+        Message msg = new Message(MessageCode.GET_DATA_ASK, pairedBand.ToString());
+        try
         {
-            // update sensors data:
-            UpdateSensorReading(((SensorData[])resp.Result)[0]);
-            UpdateSensorReading(((SensorData[])resp.Result)[1]);
+            SendMessageToBandBridgeServer(msg);
+            //Message resp = SendMessageToBandBridgeServer(msg);
+            //Debug.Log("response arrived");
+            //if (resp != null && resp.Code == MessageCode.GET_DATA_ANS && resp.Result.GetType() == typeof(SensorData[]))
+            //{
+            //    // update sensors data:
+            //    UpdateSensorReading(((SensorData[])resp.Result)[0]);
+            //    UpdateSensorReading(((SensorData[])resp.Result)[1]);
+            //}
+            //Debug.Log("Got response: " + resp);
+
+        } catch (Exception ex) {
+
+            Debug.Log(ex);
         }
-        Debug.Log("Got sensors data: " + resp);
     }
 
 
@@ -159,6 +185,7 @@ public class CommunicationManager : MonoBehaviour {
     public void UnpairBand()
     {
         pairedBand.Remove(0, pairedBand.Length);
+        UpdatePairedBandGUI(pairedBand.ToString());
         //Message msg = new Message(MessageCode.FREE_BAND_ASK, pairedBand);
         //try
         //{
@@ -212,8 +239,8 @@ public class CommunicationManager : MonoBehaviour {
         try
         {
             listView.GetComponent<ListController>().ClearList();
-            Message resp = SendMessageToBandBridgeServer(msg);
-
+            //SendMessageToBandBridgeServer(msg);
+            Message resp = SendMessageToBandBridgeServer_BACKUP(msg);
             if (resp != null && resp.Code == MessageCode.SHOW_LIST_ANS)
             {
                 if (resp.Result.GetType() == typeof(string[]) || resp.Result == null)
@@ -320,7 +347,66 @@ public class CommunicationManager : MonoBehaviour {
     /// </summary>
     /// <param name="msg">Message to send</param>
     /// <returns>Received response</returns>
-    private Message SendMessageToBandBridgeServer(Message msg)
+    private void SendMessageToBandBridgeServer(Message msg)
+    {
+        BackgroundWorker worker = new BackgroundWorker();
+        worker.DoWork += (s, e) =>
+        {
+            e.Result = SocketClient.StartClient(remoteHostName, remoteServicePort, msg, SocketClient.MaxMessageSize);
+        };
+        worker.RunWorkerCompleted += (s, e) =>
+        {
+            Message resp = (Message)e.Result;
+            Debug.Log(">> Received response: " + resp);
+
+            MessageArrived(resp);
+            Debug.Log("Work is done");
+        };
+        worker.RunWorkerAsync();
+    }
+
+
+    private void DealWithReceivedMessage(Message msg)
+    {
+        if (msg == null) return;
+        
+        switch (msg.Code)
+        {
+            // refresh list of connected Band devices:
+            case MessageCode.SHOW_LIST_ANS:
+                if (msg != null && msg.Code == MessageCode.SHOW_LIST_ANS)
+                {
+                    if (msg.Result.GetType() == typeof(string[]) || msg.Result == null)
+                    {
+                        listView.GetComponent<ListController>().UpdateList((string[])msg.Result);
+                    }
+                }
+                RefreshPairedBand();
+                break;
+            
+            // update current sensors readings:
+            case MessageCode.GET_DATA_ANS:
+                if (msg != null && msg.Code == MessageCode.GET_DATA_ANS && msg.Result.GetType() == typeof(SensorData[]))
+                {
+                    Debug.Log(((SensorData[])msg.Result)[0]);
+                    Debug.Log(((SensorData[])msg.Result)[1]);
+                    //// update sensors data:
+                    //UpdateSensorReading(((SensorData[])msg.Result)[0]);
+                    //UpdateSensorReading(((SensorData[])msg.Result)[1]);
+                }
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Sends specified message to BandBridge server and returns its response.
+    /// </summary>
+    /// <param name="msg">Message to send</param>
+    /// <returns>Received response</returns>
+    private Message SendMessageToBandBridgeServer_BACKUP(Message msg)
     {
         return SocketClient.StartClient(remoteHostName, remoteServicePort, msg, SocketClient.MaxMessageSize);
     }
