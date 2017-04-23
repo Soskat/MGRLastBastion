@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Net;
+using System.Text;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -25,17 +26,20 @@ public class CommunicationManager : MonoBehaviour {
 
     private const string defaultHostName = "DESKTOP-KPBRM2V";
     private const int defaultServicePort = 2055;
-    private const int defaultOpenPort = 2065;
-    private const int defaultBacklog = 10;
+    //private const int defaultOpenPort = 2065;
+    //private const int defaultBacklog = 10;
     [SerializeField] private string remoteHostName;
     [SerializeField] private int remoteServicePort;
-    [SerializeField] private string localHostName;
-    [SerializeField] private int localOpenPort;
-    [SerializeField] private int localBacklog;
-    [SerializeField] private string pairedBand = "";
+    //[SerializeField] private string localHostName;
+    //[SerializeField] private int localOpenPort;
+    //[SerializeField] private int localBacklog;
+    [SerializeField] private StringBuilder pairedBand = new StringBuilder();
+    //[SerializeField] private string pairedBand = "";
 
     private bool isMenuOn = false;
-    private Thread serverThread;
+    //private Thread serverThread;
+    private int currHrReading = 0;
+    private int currGsrReading = 0;
 
 
 
@@ -47,12 +51,13 @@ public class CommunicationManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        // setup remote & local hosts info:
+        //// setup remote & local hosts info:
         remoteHostName = defaultHostName;
         remoteServicePort = defaultServicePort;
-        localHostName = Dns.GetHostName();
-        localOpenPort = defaultOpenPort;
-        localBacklog = defaultBacklog;
+        //localHostName = Dns.GetHostName();
+        //localOpenPort = defaultOpenPort;
+        //localBacklog = defaultBacklog;
+
         // update GUI:
         menuPanel.SetActive(false);
         hostNameInput.text = remoteHostName;
@@ -63,8 +68,8 @@ public class CommunicationManager : MonoBehaviour {
         //ConnectedBands = new List<string>();
         ListTest();
 
-        // setup server for incoming paired Band's sensors readings:
-        serverThread = new Thread(new ThreadStart(BandDataServerService));
+        //// setup server for incoming paired Band's sensors readings:
+        //serverThread = new Thread(new ThreadStart(BandDataServerService));
 
     }
 	
@@ -74,11 +79,25 @@ public class CommunicationManager : MonoBehaviour {
             SwitchMenuState();
 	}
 
-    private void OnApplicationQuit()
+    //private void OnApplicationQuit()
+    //{
+    //    SocketServer.EnableWorking = false;
+    //    serverThread.Join();
+    //}
+
+
+    public void GetBandData()
     {
-        SocketServer.EnableWorking = false;
-        serverThread.Join();
+        Message resp = SendMessageToBandBridgeServer(new Message(MessageCode.GET_DATA_ASK, pairedBand.ToString()));
+        if(resp != null && resp.Result.GetType() == typeof(SensorData[]))
+        {
+            // update sensors data:
+            UpdateSensorReading(((SensorData[])resp.Result)[0]);
+            UpdateSensorReading(((SensorData[])resp.Result)[1]);
+        }
+        Debug.Log("Got sensors data: " + resp);
     }
+
 
     #region Public methods
 
@@ -100,35 +119,38 @@ public class CommunicationManager : MonoBehaviour {
     public void PairBand()
     {
         // first, unpair Band if needed:
-        if(pairedBand != null && pairedBand != "")
+        if(pairedBand != null && pairedBand.ToString() != "")
         {
             UnpairBand();
         }
 
-        string newPairedBand = listView.GetComponent<ListController>().GetSelectedItem();
+        pairedBand.Append(listView.GetComponent<ListController>().GetSelectedItem());
+        UpdatePairedBandGUI(pairedBand.ToString());
+
+        //string newPairedBand = listView.GetComponent<ListController>().GetSelectedItem();
         //pairedBandMenuLabel.text = pairedBand;
 
-        // create new message:
-        PairRequest request = new PairRequest(localHostName, localOpenPort, newPairedBand);
-        Message msg = new Message(MessageCode.PAIR_BAND_ASK, request);
-        try
-        {
-            //Debug.Log("______________Try to send PairRequest to BBserver");
-            Message resp = SendMessageToBandBridgeServer(msg);
-            //Debug.Log("______________Got resp: " + resp);
-            if (resp != null && resp.Code == MessageCode.PAIR_BAND_ANS)
-            {
-                // choosen Band was paired succesfully:
-                if ((bool)resp.Result)
-                {
-                    StartListeningForBandData();
-                    pairedBand = newPairedBand;
-                    UpdatePairedBandGUI(pairedBand);
-                }
-            }
-        } catch(Exception ex) {
-            Debug.Log(ex.ToString());
-        }
+        //// create new message:
+        //PairRequest request = new PairRequest(localHostName, localOpenPort, newPairedBand);
+        //Message msg = new Message(MessageCode.PAIR_BAND_ASK, request);
+        //try
+        //{
+        //    //Debug.Log("______________Try to send PairRequest to BBserver");
+        //    Message resp = SendMessageToBandBridgeServer(msg);
+        //    //Debug.Log("______________Got resp: " + resp);
+        //    if (resp != null && resp.Code == MessageCode.PAIR_BAND_ANS)
+        //    {
+        //        // choosen Band was paired succesfully:
+        //        if ((bool)resp.Result)
+        //        {
+        //            StartListeningForBandData();
+        //            pairedBand = newPairedBand;
+        //            UpdatePairedBandGUI(pairedBand);
+        //        }
+        //    }
+        //} catch(Exception ex) {
+        //    Debug.Log(ex.ToString());
+        //}
     }
 
     /// <summary>
@@ -136,22 +158,23 @@ public class CommunicationManager : MonoBehaviour {
     /// </summary>
     public void UnpairBand()
     {
-        Message msg = new Message(MessageCode.FREE_BAND_ASK, pairedBand);
-        try
-        {
-            // send request to BandBridge server:
-            SendMessageToBandBridgeServer(msg);
-            // update GUI:
-            pairedBand = "";
-            UpdatePairedBandGUI(pairedBand);
-            hrReadingLabel.text = "";
-            gsrReadingLabel.text = "";
-            // stop listening for incoming sensors readings data:
-            StopListeningForBandData();
-        }
-        catch (Exception ex) {
-            Debug.Log(ex.ToString());
-        }
+        pairedBand.Remove(0, pairedBand.Length);
+        //Message msg = new Message(MessageCode.FREE_BAND_ASK, pairedBand);
+        //try
+        //{
+        //    // send request to BandBridge server:
+        //    SendMessageToBandBridgeServer(msg);
+        //    // update GUI:
+        //    pairedBand = "";
+        //    UpdatePairedBandGUI(pairedBand);
+        //    hrReadingLabel.text = "";
+        //    gsrReadingLabel.text = "";
+        //    // stop listening for incoming sensors readings data:
+        //    StopListeningForBandData();
+        //}
+        //catch (Exception ex) {
+        //    Debug.Log(ex.ToString());
+        //}
     }
 
     /// <summary>
@@ -159,15 +182,17 @@ public class CommunicationManager : MonoBehaviour {
     /// </summary>
     public void RefreshPairedBand()
     {
+        string choosenBand = pairedBand.ToString();
         foreach(string bandName in listView.GetComponent<ListController>().connectedBands)
         {
             // choosen Band is still connected:
-            if (pairedBand == bandName) return;
+            if (choosenBand == bandName) return;
         }
         // choosen Band is not connected any more:
-        pairedBand = "";
-        UpdatePairedBandGUI(pairedBand);
-        StopListeningForBandData();
+        UnpairBand();
+        //pairedBand = "";
+        UpdatePairedBandGUI(pairedBand.ToString());
+        //StopListeningForBandData();
     }
 
     private void UpdatePairedBandGUI(string newText)
@@ -208,12 +233,16 @@ public class CommunicationManager : MonoBehaviour {
         // update HR:
         if (sd.Code == SensorCode.HR)
         {
-            hrReadingLabel.text = sd.Data.ToString();
+            currHrReading = sd.Data;
+            // update GUI:
+            hrReadingLabel.text = currHrReading.ToString();
         }
         // update GSR:
         else
         {
-            gsrReadingLabel.text = sd.Data.ToString();
+            currGsrReading = sd.Data;
+            // update GUI:
+            gsrReadingLabel.text = currGsrReading.ToString();
         }
     }
 
@@ -263,28 +292,28 @@ public class CommunicationManager : MonoBehaviour {
         Assert.IsNotNull(servicePortInput);
     }
 
-    private void BandDataServerService()
-    {
-        SocketServer.EnableWorking = true;
-        SocketServer.NewReadingArrived += newReading =>
-        {
-            Debug.Log("Got new reading!: " + newReading);
-            UpdateSensorReading(newReading);
-        };
-        SocketServer.StartListening(localOpenPort, localBacklog, SocketClient.MaxMessageSize);
-        Debug.Log("_=_=__SERVER THREAD STARTED");
-    }
+    //private void BandDataServerService()
+    //{
+    //    SocketServer.EnableWorking = true;
+    //    SocketServer.NewReadingArrived += newReading =>
+    //    {
+    //        Debug.Log("Got new reading!: " + newReading);
+    //        UpdateSensorReading(newReading);
+    //    };
+    //    SocketServer.StartListening(localOpenPort, localBacklog, SocketClient.MaxMessageSize);
+    //    Debug.Log("_=_=__SERVER THREAD STARTED");
+    //}
 
-    public void StartListeningForBandData()
-    {
-        serverThread.Start();
-    }
+    //public void StartListeningForBandData()
+    //{
+    //    serverThread.Start();
+    //}
 
-    public void StopListeningForBandData()
-    {
-        //SocketServer.EnableWorking = false;
-        //Debug.Log("_=_=__SERVER THREAD STOPPED");
-    }
+    //public void StopListeningForBandData()
+    //{
+    //    //SocketServer.EnableWorking = false;
+    //    //Debug.Log("_=_=__SERVER THREAD STOPPED");
+    //}
 
     /// <summary>
     /// Sends specified message to BandBridge server and returns its response.
@@ -315,96 +344,96 @@ public class CommunicationManager : MonoBehaviour {
 
     #region BACKUP -- BACKUP -- BACKUP
 
-    public void RefreshList_OLD_BackgroundWorker()
-    {
-        Debug.Log("___________Connect to BandBridge to refresh Bands list...");
-        // create new request:
-        Message msg = new Message(MessageCode.SHOW_LIST_ASK, null);
-        // start background work:
-        BackgroundWorker worker = new BackgroundWorker();
-        worker.WorkerReportsProgress = true;
-        worker.WorkerSupportsCancellation = true;   // ---------- ??????
+    //public void RefreshList_OLD_BackgroundWorker()
+    //{
+    //    Debug.Log("___________Connect to BandBridge to refresh Bands list...");
+    //    // create new request:
+    //    Message msg = new Message(MessageCode.SHOW_LIST_ASK, null);
+    //    // start background work:
+    //    BackgroundWorker worker = new BackgroundWorker();
+    //    worker.WorkerReportsProgress = true;
+    //    worker.WorkerSupportsCancellation = true;   // ---------- ??????
 
-        worker.ProgressChanged += (s, e) =>
-        {
-            Debug.Log(e.ProgressPercentage + "%");
+    //    worker.ProgressChanged += (s, e) =>
+    //    {
+    //        Debug.Log(e.ProgressPercentage + "%");
 
-            if (e.UserState != null)
-            {
-                Debug.Log("___________Buka 2.5: " + (string[])e.UserState);
-                listView.GetComponent<ListController>().UpdateList((string[])e.UserState);
-                Debug.Log("___________List view was updated");
-            }
-            else
-            {
-                Debug.Log("Buka a nie Bands list");
-            }
-        };
+    //        if (e.UserState != null)
+    //        {
+    //            Debug.Log("___________Buka 2.5: " + (string[])e.UserState);
+    //            listView.GetComponent<ListController>().UpdateList((string[])e.UserState);
+    //            Debug.Log("___________List view was updated");
+    //        }
+    //        else
+    //        {
+    //            Debug.Log("Buka a nie Bands list");
+    //        }
+    //    };
 
-        worker.DoWork += (s, e) =>
-        {
-            try
-            {
-                e.Result = SocketClient.StartClient(remoteHostName, remoteServicePort, msg, SocketClient.MaxMessageSize);
-                Debug.Log("___________" + e.Result);
-
-
-                Message resp = (Message)e.Result;
-
-                if (resp != null && resp.Code == MessageCode.SHOW_LIST_ANS)
-                {
-                    Debug.Log("___________Buka 1");
-                    if (resp.Result.GetType() == typeof(string[]) || resp.Result == null)
-                    {
-                        Debug.Log("___________Buka 2");
-                        //(s as BackgroundWorker).ReportProgress(0);
-                        //(s as BackgroundWorker).ReportProgress(0, resp.Result);
-                        lock (listView)
-                        {
-                            listView.GetComponent<ListController>().UpdateList((string[])resp.Result);
-                        }
-                        Debug.Log("___________Buka 3");
-                    }
-                }
-                Debug.Log("___________End of work");
-            }
-            catch (Exception ex)
-            {
-                Debug.Log("___________" + ex.Message);
-                e.Result = null;
-                worker.CancelAsync();
-            }
-        };
+    //    worker.DoWork += (s, e) =>
+    //    {
+    //        try
+    //        {
+    //            e.Result = SocketClient.StartClient(remoteHostName, remoteServicePort, msg, SocketClient.MaxMessageSize);
+    //            Debug.Log("___________" + e.Result);
 
 
-        //worker.RunWorkerCompleted += (s, e) =>
-        //{
-        //    Debug.Log("___________Work completed");
-        //    Message resp = (Message)e.Result;
+    //            Message resp = (Message)e.Result;
 
-        //    // little hack here - wait until whole response from server come
-        //    //while (resp == null) { Debug.Log(resp); }
+    //            if (resp != null && resp.Code == MessageCode.SHOW_LIST_ANS)
+    //            {
+    //                Debug.Log("___________Buka 1");
+    //                if (resp.Result.GetType() == typeof(string[]) || resp.Result == null)
+    //                {
+    //                    Debug.Log("___________Buka 2");
+    //                    //(s as BackgroundWorker).ReportProgress(0);
+    //                    //(s as BackgroundWorker).ReportProgress(0, resp.Result);
+    //                    lock (listView)
+    //                    {
+    //                        listView.GetComponent<ListController>().UpdateList((string[])resp.Result);
+    //                    }
+    //                    Debug.Log("___________Buka 3");
+    //                }
+    //            }
+    //            Debug.Log("___________End of work");
+    //        }
+    //        catch (Exception ex)
+    //        {
+    //            Debug.Log("___________" + ex.Message);
+    //            e.Result = null;
+    //            worker.CancelAsync();
+    //        }
+    //    };
 
 
-        //    Debug.Log("___________Got response: " + resp);
+    //    //worker.RunWorkerCompleted += (s, e) =>
+    //    //{
+    //    //    Debug.Log("___________Work completed");
+    //    //    Message resp = (Message)e.Result;
 
-        //    if (resp != null && resp.Code == MessageCode.SHOW_LIST_ANS)
-        //    {
-        //        Debug.Log("___________Buka 1");
-        //        if (resp.Result.GetType() == typeof(string[]) || resp.Result == null)
-        //        {
-        //            Debug.Log("___________Buka 2");
-        //            (s as BackgroundWorker).ReportProgress(0);
-        //            //(s as BackgroundWorker).ReportProgress(0, resp.Result);
-        //            Debug.Log("___________Buka 3");
-        //        }
-        //    }
-        //    Debug.Log("___________End of work");
-        //};
+    //    //    // little hack here - wait until whole response from server come
+    //    //    //while (resp == null) { Debug.Log(resp); }
 
-        listView.GetComponent<ListController>().ClearList();
-        worker.RunWorkerAsync();
-    }
+
+    //    //    Debug.Log("___________Got response: " + resp);
+
+    //    //    if (resp != null && resp.Code == MessageCode.SHOW_LIST_ANS)
+    //    //    {
+    //    //        Debug.Log("___________Buka 1");
+    //    //        if (resp.Result.GetType() == typeof(string[]) || resp.Result == null)
+    //    //        {
+    //    //            Debug.Log("___________Buka 2");
+    //    //            (s as BackgroundWorker).ReportProgress(0);
+    //    //            //(s as BackgroundWorker).ReportProgress(0, resp.Result);
+    //    //            Debug.Log("___________Buka 3");
+    //    //        }
+    //    //    }
+    //    //    Debug.Log("___________End of work");
+    //    //};
+
+    //    listView.GetComponent<ListController>().ClearList();
+    //    worker.RunWorkerAsync();
+    //}
 
     #endregion
 }
