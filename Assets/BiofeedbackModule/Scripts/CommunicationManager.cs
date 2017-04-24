@@ -33,7 +33,8 @@ public class CommunicationManager : MonoBehaviour {
     //[SerializeField] private string localHostName;
     //[SerializeField] private int localOpenPort;
     //[SerializeField] private int localBacklog;
-    [SerializeField] private StringBuilder pairedBand = new StringBuilder("Fake Band 1");
+    [SerializeField] private StringBuilder pairedBand = new StringBuilder();
+    private bool isPairedBandChanged = false;
     //[SerializeField] private StringBuilder pairedBand = new StringBuilder();
     //[SerializeField] private string pairedBand = "";
 
@@ -41,10 +42,11 @@ public class CommunicationManager : MonoBehaviour {
     //private Thread serverThread;
     private int currHrReading = 0;
     private int currGsrReading = 0;
+    private bool isSensorsReadingsChanged = false;
 
-
-
-
+    private List<string> connectedBands;
+    private bool isConnectedBandsListChanged = false;
+    
     public static Action<Message> MessageArrived { get; set; }
 
 
@@ -81,7 +83,8 @@ public class CommunicationManager : MonoBehaviour {
         pairedBandLabel.text = "";
         hrReadingLabel.text = "";
         gsrReadingLabel.text = "";
-        //ConnectedBands = new List<string>();
+
+        connectedBands = new List<string>();
         ListTest();
 
         //// setup server for incoming paired Band's sensors readings:
@@ -93,6 +96,27 @@ public class CommunicationManager : MonoBehaviour {
 	void Update () {
         if (Input.GetKeyDown(KeyCode.Tab))
             SwitchMenuState();
+
+        if (isSensorsReadingsChanged)
+        {
+            hrReadingLabel.text = currHrReading.ToString();
+            gsrReadingLabel.text = currGsrReading.ToString();
+            isSensorsReadingsChanged = false;
+        }
+
+        if (isConnectedBandsListChanged)
+        {
+            listView.GetComponent<ListController>().ClearList();
+            listView.GetComponent<ListController>().UpdateList(connectedBands.ToArray());
+            isConnectedBandsListChanged = false;
+        }
+
+        if (isPairedBandChanged)
+        {
+            pairedBandLabel.text = pairedBand.ToString();
+            pairedBandMenuLabel.text = pairedBand.ToString();
+            isPairedBandChanged = false;
+        }
 	}
 
     //private void OnApplicationQuit()
@@ -151,7 +175,8 @@ public class CommunicationManager : MonoBehaviour {
         }
 
         pairedBand.Append(listView.GetComponent<ListController>().GetSelectedItem());
-        UpdatePairedBandGUI(pairedBand.ToString());
+        //UpdatePairedBandGUI(pairedBand.ToString());
+        isPairedBandChanged = true;
 
         //string newPairedBand = listView.GetComponent<ListController>().GetSelectedItem();
         //pairedBandMenuLabel.text = pairedBand;
@@ -185,7 +210,8 @@ public class CommunicationManager : MonoBehaviour {
     public void UnpairBand()
     {
         pairedBand.Remove(0, pairedBand.Length);
-        UpdatePairedBandGUI(pairedBand.ToString());
+        //UpdatePairedBandGUI(pairedBand.ToString());
+        isPairedBandChanged = true;
         //Message msg = new Message(MessageCode.FREE_BAND_ASK, pairedBand);
         //try
         //{
@@ -210,7 +236,7 @@ public class CommunicationManager : MonoBehaviour {
     public void RefreshPairedBand()
     {
         string choosenBand = pairedBand.ToString();
-        foreach(string bandName in listView.GetComponent<ListController>().connectedBands)
+        foreach(string bandName in connectedBands)
         {
             // choosen Band is still connected:
             if (choosenBand == bandName) return;
@@ -218,7 +244,8 @@ public class CommunicationManager : MonoBehaviour {
         // choosen Band is not connected any more:
         UnpairBand();
         //pairedBand = "";
-        UpdatePairedBandGUI(pairedBand.ToString());
+        isPairedBandChanged = true;
+        //UpdatePairedBandGUI(pairedBand.ToString());
         //StopListeningForBandData();
     }
 
@@ -239,39 +266,39 @@ public class CommunicationManager : MonoBehaviour {
         try
         {
             listView.GetComponent<ListController>().ClearList();
-            //SendMessageToBandBridgeServer(msg);
-            Message resp = SendMessageToBandBridgeServer_BACKUP(msg);
-            if (resp != null && resp.Code == MessageCode.SHOW_LIST_ANS)
-            {
-                if (resp.Result.GetType() == typeof(string[]) || resp.Result == null)
-                {
-                    listView.GetComponent<ListController>().UpdateList((string[])resp.Result);
-                }
-            }
-            RefreshPairedBand();
+            SendMessageToBandBridgeServer(msg);
+            //Message resp = SendMessageToBandBridgeServer_BACKUP(msg);
+            //if (resp != null && resp.Code == MessageCode.SHOW_LIST_ANS)
+            //{
+            //    if (resp.Result.GetType() == typeof(string[]) || resp.Result == null)
+            //    {
+            //        listView.GetComponent<ListController>().UpdateList((string[])resp.Result);
+            //    }
+            //}
+            //RefreshPairedBand();
 
         } catch(Exception ex) {
             Debug.Log(ex.ToString());
         }
     }
 
-    public void UpdateSensorReading(SensorData sd)
-    {
-        // update HR:
-        if (sd.Code == SensorCode.HR)
-        {
-            currHrReading = sd.Data;
-            // update GUI:
-            hrReadingLabel.text = currHrReading.ToString();
-        }
-        // update GSR:
-        else
-        {
-            currGsrReading = sd.Data;
-            // update GUI:
-            gsrReadingLabel.text = currGsrReading.ToString();
-        }
-    }
+    //public void UpdateSensorReading(SensorData sd)
+    //{
+    //    // update HR:
+    //    if (sd.Code == SensorCode.HR)
+    //    {
+    //        currHrReading = sd.Data;
+    //        // update GUI:
+    //        hrReadingLabel.text = currHrReading.ToString();
+    //    }
+    //    // update GSR:
+    //    else
+    //    {
+    //        currGsrReading = sd.Data;
+    //        // update GUI:
+    //        gsrReadingLabel.text = currGsrReading.ToString();
+    //    }
+    //}
 
     #endregion
 
@@ -352,6 +379,7 @@ public class CommunicationManager : MonoBehaviour {
         BackgroundWorker worker = new BackgroundWorker();
         worker.DoWork += (s, e) =>
         {
+            //e.Result = FakeBandBridgeService(msg);  // fake the BandBridge app service for testing purposes
             e.Result = SocketClient.StartClient(remoteHostName, remoteServicePort, msg, SocketClient.MaxMessageSize);
         };
         worker.RunWorkerCompleted += (s, e) =>
@@ -378,7 +406,10 @@ public class CommunicationManager : MonoBehaviour {
                 {
                     if (msg.Result.GetType() == typeof(string[]) || msg.Result == null)
                     {
-                        listView.GetComponent<ListController>().UpdateList((string[])msg.Result);
+                        connectedBands.Clear();
+                        connectedBands.AddRange((string[])msg.Result);
+                        isConnectedBandsListChanged = true;
+                        //listView.GetComponent<ListController>().UpdateList((string[])msg.Result);
                     }
                 }
                 RefreshPairedBand();
@@ -388,8 +419,11 @@ public class CommunicationManager : MonoBehaviour {
             case MessageCode.GET_DATA_ANS:
                 if (msg != null && msg.Code == MessageCode.GET_DATA_ANS && msg.Result.GetType() == typeof(SensorData[]))
                 {
-                    Debug.Log(((SensorData[])msg.Result)[0]);
-                    Debug.Log(((SensorData[])msg.Result)[1]);
+                    //Debug.Log(((SensorData[])msg.Result)[0]);
+                    //Debug.Log(((SensorData[])msg.Result)[1]);
+                    currHrReading = ((SensorData[])msg.Result)[0].Data;
+                    currGsrReading = ((SensorData[])msg.Result)[1].Data;
+                    isSensorsReadingsChanged = true;
                     //// update sensors data:
                     //UpdateSensorReading(((SensorData[])msg.Result)[0]);
                     //UpdateSensorReading(((SensorData[])msg.Result)[1]);
@@ -413,6 +447,23 @@ public class CommunicationManager : MonoBehaviour {
 
     #endregion
 
+    private Message FakeBandBridgeService(Message msg)
+    {
+        Thread.Sleep(1000);
+        switch (msg.Code)
+        {
+            case MessageCode.SHOW_LIST_ASK:
+                return new Message(MessageCode.SHOW_LIST_ANS, new string[] { "FakeBand 1", "FakeBand 2", "FakeBand 3" });
+
+            case MessageCode.GET_DATA_ASK:
+                SensorData hrData = new SensorData(SensorCode.HR, 75);
+                SensorData gsrData = new SensorData(SensorCode.HR, 11);
+                return new Message(MessageCode.GET_DATA_ANS, new SensorData[] { hrData, gsrData });
+
+            default:
+                return new Message(MessageCode.CTR_MSG, null);
+        }
+    }
 
     #region Debug & test methods
 

@@ -8,7 +8,8 @@ public class ListController : MonoBehaviour {
 
     public GameObject contentPanel;
     public GameObject listItemPrefab;
-    public List<string> connectedBands;
+    private List<string> connectedBands;
+    //public List<string> connectedBands;
 
     [SerializeField] private int selectedItem = 0;
 
