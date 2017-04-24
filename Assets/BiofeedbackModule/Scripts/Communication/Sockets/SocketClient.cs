@@ -15,6 +15,13 @@ namespace Communication.Sockets
     /// </summary>
     public class SocketClient
     {
+        #region Constants
+        /// <summary>
+        /// Maximum size of one message packet.
+        /// </summary>
+        public const int MaxMessageSize = 2048;
+        #endregion
+
         #region Static fields
         /// <summary>
         /// ManualResetEvent instance signal completion for sending action.
