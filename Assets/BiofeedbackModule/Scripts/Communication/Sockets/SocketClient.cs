@@ -15,22 +15,43 @@ namespace Communication.Sockets
     /// </summary>
     public class SocketClient
     {
-        public const int MaxMessageSize = 2048;
-
-        // ManualResetEvent instances signal completion:
+        #region Static fields
+        /// <summary>
+        /// ManualResetEvent instance signal completion for sending action.
+        /// </summary>
         private static ManualResetEvent sendDone = new ManualResetEvent(false);
+        /// <summary>
+        /// ManualResetEvent instance signal completion for receiving action.
+        /// </summary>
         private static ManualResetEvent receiveDone = new ManualResetEvent(false);
+        /// <summary>
+        /// ManualResetEvent instances signal completion for completing all actions.
+        /// </summary>
         private static ManualResetEvent allDone = new ManualResetEvent(false);
-
+        /// <summary>
+        /// <see cref="PacketProtocol"/> object.
+        /// </summary>
         private static PacketProtocol packetizer = null;
+        /// <summary>
+        /// Received response. Is instance of <see cref="Message"/>.
+        /// </summary>
         private static Message receivedResponse;
+        #endregion
 
-        //private static int receiveBytesOffset = 0;
-        
+        #region Public static methods
+        /// <summary>
+        /// Starts asynchronous socket client.
+        /// </summary>
+        /// <param name="hostName">Name of the remote host to connect</param>
+        /// <param name="port">Number of the remote host service port</param>
+        /// <param name="message">Message to send</param>
+        /// <param name="maxMessageSize">Maximum size of one message packet</param>
+        /// <returns>Received response</returns>
         public static Message StartClient(string hostName, int port, Message message, int maxMessageSize)
         {
             // Connect to a remote device:
-            try {
+            try
+            {
                 // Establish the remote endpoint for the socket:
                 IPHostEntry ipHostInfo = Dns.GetHostEntry(hostName);
                 IPAddress ipAddress = Array.Find(ipHostInfo.AddressList, a => a.AddressFamily == AddressFamily.InterNetwork);
@@ -45,15 +66,12 @@ namespace Communication.Sockets
                 if (success)
                 {
                     client.EndConnect(result);
-                    //Debug.Log("Socket connected to " + client.RemoteEndPoint.ToString());
                 }
                 else
                 {
-                    //Debug.Log("Could not connect to " + client.RemoteEndPoint.ToString());
                     client.Close();
                     return null;
                 }
-
 
                 // Send test data to the remote device:
                 Send(client, message);
@@ -63,13 +81,9 @@ namespace Communication.Sockets
                 packetizer = new PacketProtocol(maxMessageSize);
                 packetizer.MessageArrived += receivedMsg =>
                 {
-                    Debug.Log(":: Received bytes: " + receivedMsg.Length + " => ");
                     if (receivedMsg.Length > 0)
                     {
-                        Debug.Log("deserialize message");
                         receivedResponse = Message.Deserialize(receivedMsg);
-                        Debug.Log(receivedResponse);
-                        Debug.Log(":: Received: " + receivedResponse);
                         allDone.Set();
                     }
                 };
@@ -80,71 +94,80 @@ namespace Communication.Sockets
                     receiveDone.Reset();
                     Receive(client);
                     receiveDone.WaitOne();
-                    //Debug.Log("Received package... --------------------------");
                 }
-
                 allDone.WaitOne();
-                Debug.Log("Release socket...");
 
                 // Release the socket.
                 client.Shutdown(SocketShutdown.Both);
                 client.Close();
 
-                // reset signals completion:
-                //sendDone.Reset();
-                //receiveDone.Reset();
-
-                //Debug.Log("Return response...");
-
                 return receivedResponse;
 
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 Debug.Log(ex.ToString());
                 return new Message(MessageCode.CTR_MSG, null);
             }
         }
+        #endregion
 
-
+        #region Private static methods
+        /// <summary>
+        /// Sends message to remote client.
+        /// </summary>
+        /// <param name="client">Remote client socket object</param>
+        /// <param name="data">Message to send</param>
         private static void Send(Socket client, Message data)
         {
-            try {
+            try
+            {
                 // convert message into byte array and wrap it for network transport:
                 var serializedMsg = Message.Serialize(data);
-
                 byte[] byteData = PacketProtocol.WrapMessage(serializedMsg);
 
                 // Begin sending the data to the remote device:
                 client.BeginSend(byteData, 0, byteData.Length, 0, new AsyncCallback(SendCallback), client);
 
-            } catch(Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 Debug.Log(ex.ToString());
             }
         }
 
-
+        /// <summary>
+        /// Ends sending the message to remote client.
+        /// </summary>
+        /// <param name="ar"></param>
         private static void SendCallback(IAsyncResult ar)
         {
-            try {
+            try
+            {
                 // Retrieve the socket from the state object:
-                Socket client = (Socket) ar.AsyncState;
+                Socket client = (Socket)ar.AsyncState;
 
                 // Complete sending the data to the remote device:
                 client.EndSend(ar);
-                //int bytesSent = client.EndSend(ar);
-                //Debug.Log(":: Sent " + bytesSent + " bytes to server.");
 
                 // Signal that all bytes have been sent:
                 sendDone.Set();
 
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 Debug.Log(ex.ToString());
             }
         }
 
-
+        /// <summary>
+        /// Receives message from remote client.
+        /// </summary>
+        /// <param name="client">Remote client socket object</param>
         private static void Receive(Socket client)
         {
-            try {
+            try
+            {
                 // Create the state object:
                 StateObject state = new StateObject();
                 state.workSocket = client;
@@ -152,23 +175,30 @@ namespace Communication.Sockets
                 // Begin receiving the data from the remote device:
                 client.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReceiveCallback), state);
 
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 Debug.Log(ex.ToString());
             }
         }
 
-
+        /// <summary>
+        /// Ends receiving message from remote client.
+        /// </summary>
+        /// <param name="ar"></param>
         private static void ReceiveCallback(IAsyncResult ar)
         {
-            try {
+            try
+            {
                 // Retrieve the state object and the client socket from the asynchronous state object:
-                StateObject state = (StateObject) ar.AsyncState;
+                StateObject state = (StateObject)ar.AsyncState;
                 Socket client = state.workSocket;
 
                 // Read data from the remote device:
                 int bytesRead = client.EndReceive(ar);
 
-                if (bytesRead > 0) {
+                if (bytesRead > 0)
+                {
                     // pass received data and receiving process to packetizer object:
                     packetizer.DataReceived(state.buffer);
                 }
@@ -176,10 +206,12 @@ namespace Communication.Sockets
                 // Signal that all bytes have been received:
                 receiveDone.Set();
 
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 Debug.Log(ex.ToString());
             }
         }
-
+        #endregion
     }
 }
