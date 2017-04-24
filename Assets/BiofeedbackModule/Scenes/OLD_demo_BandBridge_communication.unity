@@ -281,12 +281,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!114 &381066723 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114457150370414706, guid: 877c31be58846714b9ac314831cca78c,
-    type: 2}
-  m_PrefabInternal: {fileID: 1000756330}
-  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1 &470053258
 GameObject:
   m_ObjectHideFlags: 0
@@ -349,11 +343,6 @@ Transform:
   m_Father: {fileID: 1206956809}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &590871333 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1254235503847950, guid: 9d15228a3b808c049837e91ad3783c22,
-    type: 2}
-  m_PrefabInternal: {fileID: 1895779026}
 --- !u!1 &618726060
 GameObject:
   m_ObjectHideFlags: 0
@@ -449,12 +438,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Angle: 5
   SpinAxis: {x: 0, y: 1, z: 0}
---- !u!114 &636037421 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114778396658599236, guid: 877c31be58846714b9ac314831cca78c,
-    type: 2}
-  m_PrefabInternal: {fileID: 1000756330}
-  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!224 &656044230 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224300381322104922, guid: 9d15228a3b808c049837e91ad3783c22,
@@ -534,11 +517,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 817386476}
---- !u!1 &963283631 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1933565374090300, guid: 9d15228a3b808c049837e91ad3783c22,
-    type: 2}
-  m_PrefabInternal: {fileID: 1895779026}
 --- !u!1001 &1000756330
 Prefab:
   m_ObjectHideFlags: 0
@@ -736,24 +714,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1207490875 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114723699633568244, guid: 9d15228a3b808c049837e91ad3783c22,
-    type: 2}
-  m_PrefabInternal: {fileID: 1895779026}
-  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
---- !u!114 &1232855785 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114200075617728446, guid: 877c31be58846714b9ac314831cca78c,
-    type: 2}
-  m_PrefabInternal: {fileID: 1000756330}
-  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
---- !u!114 &1420352658 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114250203491486056, guid: 9d15228a3b808c049837e91ad3783c22,
-    type: 2}
-  m_PrefabInternal: {fileID: 1895779026}
-  m_Script: {fileID: 575553740, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1 &1564250843
 GameObject:
   m_ObjectHideFlags: 0
@@ -841,12 +801,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1750446445 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114538836882130140, guid: 9d15228a3b808c049837e91ad3783c22,
-    type: 2}
-  m_PrefabInternal: {fileID: 1895779026}
-  m_Script: {fileID: 575553740, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1 &1757326783
 GameObject:
   m_ObjectHideFlags: 0
@@ -1121,16 +1075,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 483b2638f5c963a4f99f919f9423c29b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuPanel: {fileID: 963283631}
-  listView: {fileID: 590871333}
-  pairedBandMenuLabel: {fileID: 1207490875}
-  pairedBandLabel: {fileID: 381066723}
-  hrReadingLabel: {fileID: 1232855785}
-  gsrReadingLabel: {fileID: 636037421}
-  hostNameInput: {fileID: 1420352658}
-  servicePortInput: {fileID: 1750446445}
-  remoteHostName: 
-  remoteServicePort: 0
+  RemoteHostName: DESKTOP-KPBRM2V
+  RemoteServicePort: 2055
+  IsPairedBandChanged: 0
+  CurrHrReading: 0
+  CurrGsrReading: 0
+  IsSensorsReadingsChanged: 0
+  ConnectedBands: []
+  IsConnectedBandsListChanged: 0
 --- !u!1 &2129279012
 GameObject:
   m_ObjectHideFlags: 0

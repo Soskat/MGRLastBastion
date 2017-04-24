@@ -1,30 +1,35 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
 
 public class ListController : MonoBehaviour {
 
+    #region Public fields
     public GameObject contentPanel;
     public GameObject listItemPrefab;
-    private List<string> connectedBands;
-    //public List<string> connectedBands;
+    #endregion
 
+    #region Private fields
+    [SerializeField] private List<string> connectedBands;
     [SerializeField] private int selectedItem = 0;
+    #endregion
 
-
+    #region Unity methods
     private void Awake()
     {
         // check if everything is initialized:
         Assert.IsNotNull(listItemPrefab);
         Assert.IsNotNull(contentPanel);
     }
-    
-    void Start () {
+
+    void Start()
+    {
         connectedBands = new List<string>();
-	}
-	
+    }
+    #endregion
+
+    #region Public methods
     /// <summary>
     /// Updates list content with specified items.
     /// </summary>
@@ -67,17 +72,6 @@ public class ListController : MonoBehaviour {
     }
 
     /// <summary>
-    /// Selects list item with specified index.
-    /// </summary>
-    /// <param name="index">Index of selected item</param>
-    private void SelectItem(int index)
-    {
-        contentPanel.transform.GetChild(selectedItem).GetComponent<Image>().color = Color.white;
-        selectedItem = index;
-        contentPanel.transform.GetChild(selectedItem).GetComponent<Image>().color = Color.grey;
-    }
-
-    /// <summary>
     /// Returns list's selected item.
     /// </summary>
     /// <returns>List's selected item</returns>
@@ -88,4 +82,18 @@ public class ListController : MonoBehaviour {
         else
             return null;
     }
+    #endregion
+
+    #region Private methods
+    /// <summary>
+    /// Selects list item with specified index.
+    /// </summary>
+    /// <param name="index">Index of selected item</param>
+    private void SelectItem(int index)
+    {
+        contentPanel.transform.GetChild(selectedItem).GetComponent<Image>().color = Color.white;
+        selectedItem = index;
+        contentPanel.transform.GetChild(selectedItem).GetComponent<Image>().color = Color.grey;
+    }
+    #endregion
 }
