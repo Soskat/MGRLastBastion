@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour {
     #endregion
 
 
-    private bool isReadyForNewBandData = false;
+    public bool isReadyForNewBandData = false;
 
 
 
@@ -57,16 +57,16 @@ public class GameManager : MonoBehaviour {
         menuPanel.SetActive(false);
         hostNameInput.text = bbModule.RemoteHostName;
         servicePortInput.text = bbModule.RemoteServicePort.ToString();
-        pairedBandLabel.text = "";
-        hrReadingLabel.text = "";
-        gsrReadingLabel.text = "";
+        pairedBandLabel.text = "-";
+        hrReadingLabel.text = "-";
+        gsrReadingLabel.text = "-";
     }
 
 
     void Update()
     {
         // get current Band sensors readings:
-        if (bbModule.PairedBand != null && bbModule.PairedBand.ToString() != "" && isReadyForNewBandData)
+        if (bbModule.IsBandPaired && isReadyForNewBandData)
         {
             bbModule.GetBandData();
             isReadyForNewBandData = false;
@@ -74,7 +74,9 @@ public class GameManager : MonoBehaviour {
 
         // show biofeedback module menu if needed:
         if (Input.GetKeyDown(KeyCode.Tab))
+        {
             SwitchMenuState();
+        }
 
         // update GUI if needed:
         if (bbModule.IsSensorsReadingsChanged)
@@ -82,6 +84,7 @@ public class GameManager : MonoBehaviour {
             hrReadingLabel.text = bbModule.CurrHrReading.ToString();
             gsrReadingLabel.text = bbModule.CurrGsrReading.ToString();
             bbModule.IsSensorsReadingsChanged = false;
+            isReadyForNewBandData = true;
         }
 
         if (bbModule.IsConnectedBandsListChanged)
@@ -129,24 +132,26 @@ public class GameManager : MonoBehaviour {
     /// <summary>
     /// HostNameInput's <see cref="InputField.onEndEdit"/> behaviour.
     /// </summary>
-    /// <param name="newHostName">New host name</param>
-    public void OnHostNameEndEdit(string newHostName)
+    public void OnHostNameEndEdit()
     {
-        bbModule.RemoteHostName = newHostName;
+        bbModule.RemoteHostName = hostNameInput.text;
     }
 
     /// <summary>
     /// ServicePortInput's <see cref="InputField.onEndEdit"/> behaviour.
     /// </summary>
     /// <param name="newServicePort">New service port number</param>
-    public void OnServicePortEndEdit(string newServicePort)
+    public void OnServicePortEndEdit()
     {
-        int servicePort = bbModule.RemoteServicePort;
-        if (!Int32.TryParse(newServicePort, out servicePort))
+        int servicePort;
+        if (!Int32.TryParse(servicePortInput.text, out servicePort))
         {
             bbModule.RemoteServicePort = BandBridgeModule.DefaultServicePort;
         }
-        bbModule.RemoteServicePort = servicePort;
+        else
+        {
+            bbModule.RemoteServicePort = servicePort;
+        }
     }
     #endregion
     

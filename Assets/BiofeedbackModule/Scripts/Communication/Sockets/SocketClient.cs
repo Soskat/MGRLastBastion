@@ -59,6 +59,10 @@ namespace Communication.Sockets
             // Connect to a remote device:
             try
             {
+                // reset signals:
+                sendDone.Reset();
+                allDone.Reset();
+
                 // Establish the remote endpoint for the socket:
                 IPHostEntry ipHostInfo = Dns.GetHostEntry(hostName);
                 IPAddress ipAddress = Array.Find(ipHostInfo.AddressList, a => a.AddressFamily == AddressFamily.InterNetwork);
