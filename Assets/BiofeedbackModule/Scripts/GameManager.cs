@@ -81,8 +81,16 @@ public class GameManager : MonoBehaviour {
         // update GUI if needed:
         if (bbModule.IsSensorsReadingsChanged)
         {
-            hrReadingLabel.text = bbModule.CurrHrReading.ToString();
-            gsrReadingLabel.text = bbModule.CurrGsrReading.ToString();
+            if (bbModule.IsBandPaired)
+            {
+                hrReadingLabel.text = bbModule.CurrHrReading.ToString();
+                gsrReadingLabel.text = bbModule.CurrGsrReading.ToString();
+            }
+            else
+            {
+                hrReadingLabel.text = "-";
+                gsrReadingLabel.text = "-";
+            }
             bbModule.IsSensorsReadingsChanged = false;
             isReadyForNewBandData = true;
         }
