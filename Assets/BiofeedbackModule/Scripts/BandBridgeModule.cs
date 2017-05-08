@@ -29,8 +29,14 @@ public class BandBridgeModule : MonoBehaviour {
     public StringBuilder PairedBand;
     public bool IsBandPaired = false;
     public bool IsPairedBandChanged = false;
-    public int CurrHrReading = 0;
-    public int CurrGsrReading = 0;
+
+    public int AverageHrReading = 0;
+    public int AverageGsrReading = 0;
+    public bool IsCalibrationOn = false;
+    public bool IsAverageReadingsChanged = false;
+
+    public int CurrentHrReading = 0;
+    public int CurrentGsrReading = 0;
     public bool IsSensorsReadingsChanged = false;
     public List<string> ConnectedBands;
     public bool IsConnectedBandsListChanged = false;
@@ -47,6 +53,8 @@ public class BandBridgeModule : MonoBehaviour {
         MessageArrived += receivedMsg =>
         {
             DealWithReceivedMessage(receivedMsg);
+            // reset all GUI flags:
+            IsCalibrationOn = false;
         };
     }
 
@@ -130,8 +138,8 @@ public class BandBridgeModule : MonoBehaviour {
         PairedBand.Remove(0, PairedBand.Length);
         IsBandPaired = false;
         IsPairedBandChanged = true;
-        CurrHrReading = 0;
-        CurrGsrReading = 0;
+        CurrentHrReading = 0;
+        CurrentGsrReading = 0;
         IsSensorsReadingsChanged = true;
     }
 
@@ -159,6 +167,24 @@ public class BandBridgeModule : MonoBehaviour {
         try
         {
             SendMessageToBandBridgeServer(msg);
+        }
+        catch (Exception ex)
+        {
+            Debug.Log(ex);
+        }
+    }
+
+    /// <summary>
+    /// Initiates calibration of sensors data on choosen Band.
+    /// The result of calibration is the control average value of sensors data from specific range of time.
+    /// </summary>
+    public void CalibrateBandData()
+    {
+        Message msg = new Message(MessageCode.CALIB_ASK, PairedBand.ToString());
+        try
+        {
+            SendMessageToBandBridgeServer(msg);
+            IsCalibrationOn = true;
         }
         catch (Exception ex)
         {
@@ -200,27 +226,35 @@ public class BandBridgeModule : MonoBehaviour {
         {
             // refresh list of connected Band devices:
             case MessageCode.SHOW_LIST_ANS:
-                if (msg != null && msg.Code == MessageCode.SHOW_LIST_ANS)
+                if (msg.Result.GetType() == typeof(string[]) || msg.Result == null)
                 {
-                    if (msg.Result.GetType() == typeof(string[]) || msg.Result == null)
-                    {
-                        // update connected Bands list:
-                        ConnectedBands.Clear();
-                        ConnectedBands.AddRange((string[])msg.Result);
-                        IsConnectedBandsListChanged = true;
-                    }
+                    // update connected Bands list:
+                    ConnectedBands.Clear();
+                    ConnectedBands.AddRange((string[])msg.Result);
+                    IsConnectedBandsListChanged = true;
                 }
                 RefreshPairedBand();
                 break;
             
             // update current sensors readings:
             case MessageCode.GET_DATA_ANS:
-                if (msg != null && msg.Code == MessageCode.GET_DATA_ANS && msg.Result.GetType() == typeof(SensorData[]))
+                if (msg.Result != null && msg.Result.GetType() == typeof(SensorData[]))
                 {
                     // update sensors data readings:
-                    CurrHrReading = ((SensorData[])msg.Result)[0].Data;
-                    CurrGsrReading = ((SensorData[])msg.Result)[1].Data;
+                    CurrentHrReading = ((SensorData[])msg.Result)[0].Data;
+                    CurrentGsrReading = ((SensorData[])msg.Result)[1].Data;
                     IsSensorsReadingsChanged = true;
+                }
+                break;
+
+            // update control calibrated sensors readings values:
+            case MessageCode.CALIB_ANS:
+                if (msg.Result != null && msg.Result.GetType() == typeof(SensorData[]))
+                {
+                    // update sensors data readings:
+                    AverageHrReading = ((SensorData[])msg.Result)[0].Data;
+                    AverageGsrReading = ((SensorData[])msg.Result)[1].Data;
+                    IsAverageReadingsChanged = true;
                 }
                 break;
 

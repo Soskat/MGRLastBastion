@@ -12,8 +12,13 @@ public class GameManager : MonoBehaviour {
     public Text pairedBandLabel;
     public Text hrReadingLabel;
     public Text gsrReadingLabel;
+
+    public Text averageHrLabel;
+    public Text averageGsrLabel;
+
     public InputField hostNameInput;
     public InputField servicePortInput;
+    public GameObject calibrationInfoLabel;
 
     /// <summary>
     /// <see cref="GameManager"/> public static object.
@@ -60,6 +65,9 @@ public class GameManager : MonoBehaviour {
         pairedBandLabel.text = "-";
         hrReadingLabel.text = "-";
         gsrReadingLabel.text = "-";
+
+        averageHrLabel.text = "-";
+        averageGsrLabel.text = "-";
     }
 
 
@@ -83,8 +91,8 @@ public class GameManager : MonoBehaviour {
         {
             if (bbModule.IsBandPaired)
             {
-                hrReadingLabel.text = bbModule.CurrHrReading.ToString();
-                gsrReadingLabel.text = bbModule.CurrGsrReading.ToString();
+                hrReadingLabel.text = bbModule.CurrentHrReading.ToString();
+                gsrReadingLabel.text = bbModule.CurrentGsrReading.ToString();
             }
             else
             {
@@ -108,6 +116,31 @@ public class GameManager : MonoBehaviour {
             pairedBandLabel.text = bbModule.PairedBand.ToString();
             pairedBandMenuLabel.text = bbModule.PairedBand.ToString();
             bbModule.IsPairedBandChanged = false;
+        }
+
+        // ----- not the best solution:
+        if (bbModule.IsCalibrationOn)
+        {
+            calibrationInfoLabel.SetActive(true);
+        }
+        else
+        {
+            calibrationInfoLabel.SetActive(false);
+        }
+
+        if (bbModule.IsAverageReadingsChanged)
+        {
+            if (bbModule.IsBandPaired)
+            {
+                averageHrLabel.text = bbModule.AverageHrReading.ToString();
+                averageGsrLabel.text = bbModule.AverageGsrReading.ToString();
+            }
+            else
+            {
+                averageHrLabel.text = "-";
+                averageGsrLabel.text = "-";
+            }
+            bbModule.IsAverageReadingsChanged = false;
         }
     }
     #endregion
@@ -175,8 +208,13 @@ public class GameManager : MonoBehaviour {
         Assert.IsNotNull(pairedBandLabel);
         Assert.IsNotNull(hrReadingLabel);
         Assert.IsNotNull(gsrReadingLabel);
+
+        Assert.IsNotNull(averageHrLabel);
+        Assert.IsNotNull(averageGsrLabel);
+
         Assert.IsNotNull(hostNameInput);
         Assert.IsNotNull(servicePortInput);
+        Assert.IsNotNull(calibrationInfoLabel);
     }    
     #endregion    
 }
