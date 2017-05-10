@@ -180,6 +180,8 @@ public class BandBridgeModule : MonoBehaviour {
     /// </summary>
     public void CalibrateBandData()
     {
+        if (PairedBand == null || PairedBand.ToString() == "") return;
+
         Message msg = new Message(MessageCode.CALIB_ASK, PairedBand.ToString());
         try
         {
