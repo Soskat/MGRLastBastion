@@ -95,6 +95,7 @@ namespace Communication.Sockets
                     if (receivedMsg.Length > 0)
                     {
                         receivedResponse = Message.Deserialize(receivedMsg);
+                        Debug.Log("Received: " + receivedResponse);
                         allDone.Set();
                     }
                 };
@@ -205,6 +206,11 @@ namespace Communication.Sockets
                 StateObject state = (StateObject)ar.AsyncState;
                 Socket client = state.workSocket;
 
+
+                if (state == null) Debug.Log("State is null");
+                if (packetizer == null) Debug.Log("packetizer is null");
+
+
                 // Read data from the remote device:
                 int bytesRead = client.EndReceive(ar);
 
@@ -216,7 +222,6 @@ namespace Communication.Sockets
 
                 // Signal that all bytes have been received:
                 receiveDone.Set();
-
             }
             catch (Exception ex)
             {

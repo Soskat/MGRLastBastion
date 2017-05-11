@@ -32,8 +32,14 @@ public class BandBridgeModule : MonoBehaviour {
 
     public int AverageHrReading = 0;
     public int AverageGsrReading = 0;
-    public bool IsCalibrationOn = false;
+    private bool isCalibrationOn = false;
+    public bool IsCalibrationOn
+    {
+        get { return isCalibrationOn; }
+    }
     public bool IsAverageReadingsChanged = false;
+
+    public bool CanReceiveBandReadings = false;
 
     public int CurrentHrReading = 0;
     public int CurrentGsrReading = 0;
@@ -54,7 +60,7 @@ public class BandBridgeModule : MonoBehaviour {
         {
             DealWithReceivedMessage(receivedMsg);
             // reset all GUI flags:
-            IsCalibrationOn = false;
+            isCalibrationOn = false;
         };
     }
 
@@ -185,8 +191,9 @@ public class BandBridgeModule : MonoBehaviour {
         Message msg = new Message(MessageCode.CALIB_ASK, PairedBand.ToString());
         try
         {
+            CanReceiveBandReadings = false;
             SendMessageToBandBridgeServer(msg);
-            IsCalibrationOn = true;
+            isCalibrationOn = true;
         }
         catch (Exception ex)
         {
@@ -257,6 +264,7 @@ public class BandBridgeModule : MonoBehaviour {
                     AverageHrReading = ((SensorData[])msg.Result)[0].Data;
                     AverageGsrReading = ((SensorData[])msg.Result)[1].Data;
                     IsAverageReadingsChanged = true;
+                    CanReceiveBandReadings = true;
                 }
                 break;
 

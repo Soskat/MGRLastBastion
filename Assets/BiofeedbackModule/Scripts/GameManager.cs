@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour {
     void Update()
     {
         // get current Band sensors readings:
-        if (bbModule.IsBandPaired && isReadyForNewBandData)
+        if (bbModule.CanReceiveBandReadings && bbModule.IsBandPaired && isReadyForNewBandData)
         {
             bbModule.GetBandData();
             isReadyForNewBandData = false;
@@ -86,7 +86,9 @@ public class GameManager : MonoBehaviour {
             SwitchMenuState();
         }
 
-        // update GUI if needed:
+        // Update GUI if needed: =============================================
+
+        // update sensors readings values:
         if (bbModule.IsSensorsReadingsChanged)
         {
             if (bbModule.IsBandPaired)
@@ -103,6 +105,7 @@ public class GameManager : MonoBehaviour {
             isReadyForNewBandData = true;
         }
 
+        // update the list of connected Bands:
         if (bbModule.IsConnectedBandsListChanged)
         {
             listController.ClearList();
@@ -111,14 +114,15 @@ public class GameManager : MonoBehaviour {
             isReadyForNewBandData = true;
         }
 
+        // update PairedBand label:
         if (bbModule.IsPairedBandChanged)
         {
             pairedBandLabel.text = bbModule.PairedBand.ToString();
             pairedBandMenuLabel.text = bbModule.PairedBand.ToString();
             bbModule.IsPairedBandChanged = false;
         }
-
-        // ----- not the best solution:
+        
+        // update calibration info label:
         if (bbModule.IsCalibrationOn)
         {
             calibrationInfoLabel.SetActive(true);
@@ -128,6 +132,7 @@ public class GameManager : MonoBehaviour {
             calibrationInfoLabel.SetActive(false);
         }
 
+        // update average sensors readings values:
         if (bbModule.IsAverageReadingsChanged)
         {
             if (bbModule.IsBandPaired)
