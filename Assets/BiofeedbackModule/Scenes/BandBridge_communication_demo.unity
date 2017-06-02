@@ -1433,8 +1433,8 @@ MonoBehaviour:
   IsPairedBandChanged: 0
   AverageHrReading: 0
   AverageGsrReading: 0
-  IsCalibrationOn: 0
   IsAverageReadingsChanged: 0
+  CanReceiveBandReadings: 0
   CurrentHrReading: 0
   CurrentGsrReading: 0
   IsSensorsReadingsChanged: 0

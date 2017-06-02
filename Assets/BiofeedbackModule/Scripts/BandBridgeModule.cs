@@ -1,7 +1,6 @@
 ﻿using Communication.Data;
 using Communication.Sockets;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
@@ -144,6 +143,8 @@ public class BandBridgeModule : MonoBehaviour {
         PairedBand.Remove(0, PairedBand.Length);
         IsBandPaired = false;
         IsPairedBandChanged = true;
+        AverageHrReading = 0;
+        AverageGsrReading = 0;
         CurrentHrReading = 0;
         CurrentGsrReading = 0;
         IsSensorsReadingsChanged = true;
@@ -230,7 +231,7 @@ public class BandBridgeModule : MonoBehaviour {
     private void DealWithReceivedMessage(Message msg)
     {
         if (msg == null) return;
-        
+
         switch (msg.Code)
         {
             // refresh list of connected Band devices:
