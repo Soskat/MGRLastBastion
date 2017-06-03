@@ -10,6 +10,7 @@ namespace FuzzyLogicEngine
     {
         static void Main(string[] args)
         {
+
         }
     }
 }

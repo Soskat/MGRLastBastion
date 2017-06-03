@@ -43,8 +43,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FuzzyValues\FuzzyValue.cs" />
+    <Compile Include="MembershipFunctions\BaseMembershipFunction.cs" />
+    <Compile Include="MembershipFunctions\TrapezoidMembershipFunction.cs" />
+    <Compile Include="Variables\LinguisticVariable.cs" />
+    <Compile Include="MembershipFunctions\TriangleMembershipFunction.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Variables\VariableName.cs" />
+    <Compile Include="Variables\VariableValue.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
