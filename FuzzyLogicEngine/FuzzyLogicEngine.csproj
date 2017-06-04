@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="FuzzyValues\FuzzyValue.cs" />
     <Compile Include="MembershipFunctions\BaseMembershipFunction.cs" />
+    <Compile Include="MembershipFunctions\LinearMembershipFunction.cs" />
     <Compile Include="MembershipFunctions\TrapezoidMembershipFunction.cs" />
     <Compile Include="Variables\LinguisticVariable.cs" />
     <Compile Include="MembershipFunctions\TriangleMembershipFunction.cs" />

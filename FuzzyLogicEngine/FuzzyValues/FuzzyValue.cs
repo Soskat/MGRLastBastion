@@ -24,5 +24,10 @@ namespace FuzzyLogicEngine.FuzzyValues
             this.linguisticValue = linguisticValue;
             this.membershipValue = membershipValue;
         }
+
+        public override string ToString()
+        {
+            return linguisticVariable + " - " + linguisticValue + " - " + membershipValue;
+        }
     }
 }

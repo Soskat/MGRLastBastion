@@ -13,16 +13,33 @@ namespace FuzzyLogicEngine.Variables
         private VariableName name;
         private List<BaseMembershipFunction> functions;
 
+        public VariableName Name { get { return name; } }
+
         // constructors:
         public LinguisticVariable(VariableName name)
         {
             this.name = name;
+            functions = new List<BaseMembershipFunction>();
         }
 
 
-        public List<FuzzyValue> Fuzzify(float x)
+        public void AddFunction(BaseMembershipFunction func)
         {
-            return null;
+            functions.Add(func);
+        }
+
+
+        // do fuzzify on given input crisp value
+        public List<FuzzyValue> Fuzzify(float inputValue)
+        {
+            List<FuzzyValue> fuzzyNumbers = new List<FuzzyValue>();
+
+            foreach(var func in functions)
+            {
+                fuzzyNumbers.Add(func.GetMembershipValue(inputValue));
+            }
+
+            return fuzzyNumbers;
         }
     }
 }

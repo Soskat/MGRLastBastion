@@ -48,7 +48,38 @@ namespace FuzzyLogicEngine.MembershipFunctions
         // calculate the function's membership value
         public override FuzzyValue GetMembershipValue(float inputValue)
         {
-            throw new NotImplementedException();
+            float outputValue = 0f;
+            if (inputValue <= a) outputValue = base.PreValue;
+            else if (inputValue >= d) outputValue = base.PostValue;
+            else if (inputValue >= b && inputValue <= c) outputValue = base.MidValue;
+            else if (inputValue < b)
+            {
+                // function values: 0 - 1 - 0
+                if (base.PreValue < base.MidValue)
+                {
+                    outputValue = (inputValue - a) / (b - a);
+                }
+                // function values: 1 - 0 - 1
+                else
+                {
+                    outputValue = (b - inputValue) / (b - a);
+                }
+            }
+            else if (inputValue > c)
+            {
+                // function values: 0 - 1 - 0
+                if (base.PreValue < base.MidValue)
+                {
+                    outputValue = (d - inputValue) / (d - c);
+                }
+                // function values: 1 - 0 - 1
+                else
+                {
+                    outputValue = (inputValue - c) / (d - c);
+                }
+            }
+
+            return new FuzzyValue(base.Name, base.Value, outputValue);
         }
     }
 }
