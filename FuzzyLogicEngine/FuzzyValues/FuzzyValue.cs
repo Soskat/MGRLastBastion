@@ -15,8 +15,20 @@ namespace FuzzyLogicEngine.FuzzyValues
         
         public VariableName LinguisticVariable { get { return linguisticVariable; } }
         public VariableValue LinguisticValue { get { return linguisticValue; } }
-        public float MembershipValue { get { return membershipValue; } }
+        public float MembershipValue
+        {
+            get { return membershipValue; }
+            set { membershipValue = value; }
+        }
 
+
+        // constructors:
+        public FuzzyValue(VariableName linguisticVariable, VariableValue linguisticValue)
+        {
+            this.linguisticVariable = linguisticVariable;
+            this.linguisticValue = linguisticValue;
+            this.membershipValue = 0f;
+        }
 
         public FuzzyValue(VariableName linguisticVariable, VariableValue linguisticValue, float membershipValue)
         {
@@ -25,6 +37,8 @@ namespace FuzzyLogicEngine.FuzzyValues
             this.membershipValue = membershipValue;
         }
 
+
+        // methods:
         public override string ToString()
         {
             return linguisticVariable + " - " + linguisticValue + " - " + membershipValue;

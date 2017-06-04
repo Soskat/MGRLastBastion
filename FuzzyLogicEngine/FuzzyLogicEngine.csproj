@@ -47,6 +47,9 @@
     <Compile Include="MembershipFunctions\BaseMembershipFunction.cs" />
     <Compile Include="MembershipFunctions\LinearMembershipFunction.cs" />
     <Compile Include="MembershipFunctions\TrapezoidMembershipFunction.cs" />
+    <Compile Include="Rules\RuleOperator.cs" />
+    <Compile Include="Rules\Rule.cs" />
+    <Compile Include="Rules\RuleSet.cs" />
     <Compile Include="Variables\LinguisticVariable.cs" />
     <Compile Include="MembershipFunctions\TriangleMembershipFunction.cs" />
     <Compile Include="Program.cs" />
