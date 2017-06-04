@@ -14,24 +14,21 @@ namespace FuzzyLogicEngine.MembershipFunctions
         private float b;
         private float c;
         private float d;
+        private float centerOfHeight;
 
         public float A { get { return a; } }
         public float B { get { return b; } }
         public float C { get { return c; } }
         public float D { get { return d; } }
+        public float CenterOfHeight { get { return centerOfHeight; } }
 
 
 
         // constructors:
         public TrapezoidMembershipFunction(VariableName name, VariableValue value,
                                            float a, float b, float c, float d)
-            : base(name, value)
-        {
-            this.a = a;
-            this.b = b;
-            this.c = c;
-            this.d = d;
-        }
+            : this(name, value, a, b, c, d, 0f, 1f, 0f)
+        { }
         
         public TrapezoidMembershipFunction(VariableName name, VariableValue value,
                                            float a, float b, float c, float d,
@@ -42,6 +39,15 @@ namespace FuzzyLogicEngine.MembershipFunctions
             this.b = b;
             this.c = c;
             this.d = d;
+
+            // calculate function's center of height:
+            if (this.b == this.c)
+            {
+                if (this.c != this.d) centerOfHeight = this.b;                      // triangular shape
+                else if (base.PreValue < base.MidValue) centerOfHeight = this.b;    // linear .../''' shape
+                else if (base.PreValue > base.MidValue) centerOfHeight = this.a;    // linear '''\... shape
+            }
+            else centerOfHeight = (this.c - this.b) / 2f + this.b;                           // trapezoid shape
         }
 
 
@@ -54,12 +60,12 @@ namespace FuzzyLogicEngine.MembershipFunctions
             else if (inputValue >= b && inputValue <= c) outputValue = base.MidValue;
             else if (inputValue < b)
             {
-                // function values: 0 - 1 - 0
+                // function shape: .../'''\...
                 if (base.PreValue < base.MidValue)
                 {
                     outputValue = (inputValue - a) / (b - a);
                 }
-                // function values: 1 - 0 - 1
+                // function shape: '''\.../'''
                 else
                 {
                     outputValue = (b - inputValue) / (b - a);
@@ -67,12 +73,12 @@ namespace FuzzyLogicEngine.MembershipFunctions
             }
             else if (inputValue > c)
             {
-                // function values: 0 - 1 - 0
+                // function shape: .../'''\...
                 if (base.PreValue < base.MidValue)
                 {
                     outputValue = (d - inputValue) / (d - c);
                 }
-                // function values: 1 - 0 - 1
+                // function shape: '''\.../'''
                 else
                 {
                     outputValue = (inputValue - c) / (d - c);

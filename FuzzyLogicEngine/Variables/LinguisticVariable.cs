@@ -29,7 +29,7 @@ namespace FuzzyLogicEngine.Variables
         }
 
 
-        // do fuzzify on given input crisp value
+        // do fuzzification on given input crisp value
         public List<FuzzyValue> Fuzzify(float inputValue)
         {
             List<FuzzyValue> fuzzyNumbers = new List<FuzzyValue>();
@@ -40,6 +40,21 @@ namespace FuzzyLogicEngine.Variables
             }
 
             return fuzzyNumbers;
+        }
+
+        // do deffuziffication on given input fuzzy values using the weighted average method:
+        public float Deffuzify(List<FuzzyValue> fuzzyValues)
+        {
+            float numerator = 0f;
+            float denominator = 0f;
+
+            foreach(FuzzyValue value in fuzzyValues)
+            {
+                numerator += value.MembershipValue * ((TrapezoidMembershipFunction)functions.Find(f => f.Value == value.LinguisticValue)).CenterOfHeight;
+                denominator += value.MembershipValue;
+            }
+
+            return numerator / denominator;
         }
     }
 }
