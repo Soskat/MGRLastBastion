@@ -17,6 +17,8 @@ namespace FuzzyLogicEngine.Rules
         [SerializeField]
         private FuzzyValue conclusion;
 
+
+
         public FuzzyValue Condition1 { get { return condition1; } }
         public RuleOperator RuleOper { get { return ruleOper; } }
         public FuzzyValue Condition2 { get { return condition2; } }
@@ -24,6 +26,8 @@ namespace FuzzyLogicEngine.Rules
 
 
         // constructors:
+        public Rule () { }
+
         public Rule(FuzzyValue condition1, FuzzyValue result) : this(condition1, RuleOperator.NONE, null, result)
         { }
 

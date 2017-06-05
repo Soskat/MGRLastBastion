@@ -7,25 +7,25 @@ using UnityEngine;
 
 public class FuzzyEngine : MonoBehaviour {
 
-    [SerializeField]
-    private List<LinguisticVariable> inputVariables;
-    [SerializeField]
-    private List<LinguisticVariable> outputVariables;
-    [SerializeField]
-    private RuleSet ruleSet;
+    //[SerializeField]
+    //private List<LinguisticVariable> inputVariables;
+    //[SerializeField]
+    //private List<LinguisticVariable> outputVariables;
+    //[SerializeField]
+    //private RuleSet ruleSet;
 
 
 
 
     // Use this for initialization
     void Start () {
-        inputVariables = new List<LinguisticVariable>();
-        outputVariables = new List<LinguisticVariable>();
-        ruleSet = CreateRuleSet();
+        //    inputVariables = new List<LinguisticVariable>();
+        //    outputVariables = new List<LinguisticVariable>();
+        //    ruleSet = CreateRuleSet();
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 

@@ -1,5 +1,8 @@
-﻿namespace FuzzyLogicEngine.Rules
+﻿using System;
+
+namespace FuzzyLogicEngine.Rules
 {
+    [Serializable]
     public enum RuleOperator
     {
         NONE,

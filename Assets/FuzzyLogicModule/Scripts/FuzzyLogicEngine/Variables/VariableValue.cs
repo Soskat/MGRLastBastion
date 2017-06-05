@@ -1,5 +1,8 @@
-﻿namespace FuzzyLogicEngine.Variables
+﻿using System;
+
+namespace FuzzyLogicEngine.Variables
 {
+    [Serializable]
     public enum VariableValue
     {
         Low,

@@ -24,6 +24,9 @@ namespace FuzzyLogicEngine.FuzzyValues
 
 
         // constructors:
+
+        public FuzzyValue() { }
+
         public FuzzyValue(VariableName linguisticVariable, VariableValue linguisticValue)
         {
             this.linguisticVariable = linguisticVariable;
