@@ -1,11 +1,17 @@
 ﻿using FuzzyLogicEngine.Variables;
+using System;
+using UnityEngine;
 
 namespace FuzzyLogicEngine.FuzzyValues
 {
+    [Serializable]
     public class FuzzyValue
     {
+        [SerializeField]
         private VariableName linguisticVariable;
+        [SerializeField]
         private VariableValue linguisticValue;
+        [SerializeField]
         private float membershipValue;
         
         public VariableName LinguisticVariable { get { return linguisticVariable; } }

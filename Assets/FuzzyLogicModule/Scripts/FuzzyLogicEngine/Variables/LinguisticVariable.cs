@@ -1,12 +1,17 @@
 ﻿using FuzzyLogicEngine.FuzzyValues;
 using FuzzyLogicEngine.MembershipFunctions;
+using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace FuzzyLogicEngine.Variables
 {
+    [Serializable]
     class LinguisticVariable
     {
+        [SerializeField]
         private VariableName name;
+        [SerializeField]
         private List<BaseMembershipFunction> functions;
 
         public VariableName Name { get { return name; } }

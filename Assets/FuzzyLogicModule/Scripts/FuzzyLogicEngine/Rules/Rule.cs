@@ -1,13 +1,20 @@
 ﻿using FuzzyLogicEngine.FuzzyValues;
+using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace FuzzyLogicEngine.Rules
 {
-    class Rule
+    [Serializable]
+    public class Rule
     {
+        [SerializeField]
         private FuzzyValue condition1;
+        [SerializeField]
         private RuleOperator ruleOper;
+        [SerializeField]
         private FuzzyValue condition2;
+        [SerializeField]
         private FuzzyValue conclusion;
 
         public FuzzyValue Condition1 { get { return condition1; } }

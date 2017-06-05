@@ -1,8 +1,10 @@
 ﻿using FuzzyLogicEngine.Variables;
+using System;
 
 namespace FuzzyLogicEngine.MembershipFunctions
 {
-    class TriangleMembershipFunction : TrapezoidMembershipFunction
+    [Serializable]
+    public class TriangleMembershipFunction : TrapezoidMembershipFunction
     {
         // constructors:
         public TriangleMembershipFunction(VariableName name, VariableValue value,

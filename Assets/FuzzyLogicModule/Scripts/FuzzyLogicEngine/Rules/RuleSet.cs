@@ -1,27 +1,32 @@
 ﻿using FuzzyLogicEngine.FuzzyValues;
 using FuzzyLogicEngine.Variables;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using UnityEngine;
+
 
 namespace FuzzyLogicEngine.Rules
 {
-    class RuleSet : Collection<Rule>
+    [Serializable]
+    public class RuleSet
     {
-        //private Dictionary<VariableName, Dictionary<VariableValue, Rule>> rules;
+        [SerializeField]
+        private List<Rule> rules;
 
 
-        //// constructors:
-        //public RuleSet()
-        //{
-        //    rules = new Dictionary<VariableName, Dictionary<VariableValue, Rule>>();
-        //}
+        // constructors:
+        public RuleSet()
+        {
+            rules = new List<Rule>();
+        }
 
 
         // methods
         public void AddRule(Rule rule)
         {
-            this.Add(rule);
+            rules.Add(rule);
         }
 
 
@@ -31,7 +36,7 @@ namespace FuzzyLogicEngine.Rules
             Dictionary<VariableValue, FuzzyValue> outputValues = new Dictionary<VariableValue, FuzzyValue>();
 
             // check each rule:
-            foreach(Rule rule in this)
+            foreach(Rule rule in rules)
             {
                 FuzzyValue result = rule.Conclude(inputValues);
                 if (result == null) continue;

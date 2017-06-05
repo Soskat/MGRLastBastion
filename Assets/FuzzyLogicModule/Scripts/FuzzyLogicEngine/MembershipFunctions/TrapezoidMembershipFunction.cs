@@ -1,14 +1,22 @@
 ﻿using FuzzyLogicEngine.FuzzyValues;
 using FuzzyLogicEngine.Variables;
+using System;
+using UnityEngine;
 
 namespace FuzzyLogicEngine.MembershipFunctions
 {
-    class TrapezoidMembershipFunction : BaseMembershipFunction
+    [Serializable]
+    public class TrapezoidMembershipFunction : BaseMembershipFunction
     {
+        [SerializeField]
         private float a;
+        [SerializeField]
         private float b;
+        [SerializeField]
         private float c;
+        [SerializeField]
         private float d;
+        [SerializeField]
         private float centerOfHeight;
 
         public float A { get { return a; } }

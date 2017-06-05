@@ -1,22 +1,30 @@
 ﻿using FuzzyLogicEngine.FuzzyValues;
 using FuzzyLogicEngine.Variables;
+using System;
+using UnityEngine;
 
 namespace FuzzyLogicEngine.MembershipFunctions
 {
+    [Serializable]
     public abstract class BaseMembershipFunction
     {
+        [SerializeField]
         private VariableName name;
+        [SerializeField]
         private VariableValue value;
+
+        // function values areas:
+        [SerializeField]
+        private float preValue;
+        [SerializeField]
+        private float midValue;
+        [SerializeField]
+        private float postValue;
+
+
 
         public VariableName Name { get { return name; } }
         public VariableValue Value { get { return value; } }
-
-
-        // function values areas:
-        private float preValue;
-        private float midValue;
-        private float postValue;
-
         public float PreValue { get { return preValue; } }
         public float MidValue { get { return midValue; } }
         public float PostValue { get { return postValue; } }

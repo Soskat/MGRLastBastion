@@ -1,6 +1,6 @@
 ﻿namespace FuzzyLogicEngine.Rules
 {
-    enum RuleOperator
+    public enum RuleOperator
     {
         NONE,
         AND,
