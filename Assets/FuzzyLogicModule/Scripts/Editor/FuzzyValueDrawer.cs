@@ -4,7 +4,9 @@ using FuzzyLogicEngine.FuzzyValues;
 
 [CustomPropertyDrawer(typeof(FuzzyValue))]
 public class FuzzyValueDrawer : PropertyDrawer {
-    
+
+    private static bool drawLabels = true;
+
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         label = EditorGUI.BeginProperty(position, label, property);
@@ -12,6 +14,11 @@ public class FuzzyValueDrawer : PropertyDrawer {
             // save current indent level:
             int oldIndentLevel = EditorGUI.indentLevel;
             EditorGUI.indentLevel = 0;
+
+            // some set-ups:
+            drawLabels = (position.width > 300) ? true : false;
+            EditorGUIUtility.labelWidth = 85f;
+
             // draw object's label:
             Rect contentPosition = EditorGUI.PrefixLabel(position, label);
             // calculate rectangles for properties:
@@ -20,16 +27,25 @@ public class FuzzyValueDrawer : PropertyDrawer {
             Rect linguisticNameRect = new Rect(contentPosition.x + contentPosition.width, contentPosition.y, contentPosition.width, contentPosition.height);
             Rect membershipValueRect = new Rect(contentPosition.x + 2*contentPosition.width, contentPosition.y, contentPosition.width, contentPosition.height);
             // draw properties:
-            EditorGUIUtility.labelWidth = 40f;
-            EditorGUI.PropertyField(linguisticVariableRect, property.FindPropertyRelative("linguisticVariable"), new GUIContent("Type"));
-            EditorGUI.PropertyField(linguisticNameRect, property.FindPropertyRelative("linguisticValue"), new GUIContent("Value"));
-            EditorGUIUtility.labelWidth = 80f;
-            EditorGUI.PropertyField(membershipValueRect, property.FindPropertyRelative("membershipValue"), new GUIContent("membValue"));
+            if (drawLabels)
+            {
+                EditorGUIUtility.labelWidth = 40f;
+                EditorGUI.PropertyField(linguisticVariableRect, property.FindPropertyRelative("linguisticVariable"), new GUIContent("Type"));
+                EditorGUI.PropertyField(linguisticNameRect, property.FindPropertyRelative("linguisticValue"), new GUIContent("Value"));
+                EditorGUIUtility.labelWidth = 60f;
+                EditorGUI.PropertyField(membershipValueRect, property.FindPropertyRelative("membershipValue"), new GUIContent("memVal"));
+            }
+            else
+            {
+                EditorGUI.PropertyField(linguisticVariableRect, property.FindPropertyRelative("linguisticVariable"), GUIContent.none);
+                EditorGUI.PropertyField(linguisticNameRect, property.FindPropertyRelative("linguisticValue"), GUIContent.none);
+                EditorGUI.PropertyField(membershipValueRect, property.FindPropertyRelative("membershipValue"), GUIContent.none);
+            }
             // restore saved indent level:
             EditorGUI.indentLevel = oldIndentLevel;
         }
         EditorGUI.EndProperty();
-    }    
+    }
 }
 
 

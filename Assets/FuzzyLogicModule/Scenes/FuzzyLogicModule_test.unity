@@ -194,7 +194,7 @@ Prefab:
     - target: {fileID: 114006152405089894, guid: d4ba79761c489934992ba1bc13a4abf9,
         type: 2}
       propertyPath: fuzzyValues.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4177891700613448, guid: d4ba79761c489934992ba1bc13a4abf9, type: 2}
       propertyPath: m_LocalPosition.x
@@ -301,12 +301,12 @@ Prefab:
     - target: {fileID: 114006152405089894, guid: d4ba79761c489934992ba1bc13a4abf9,
         type: 2}
       propertyPath: fuzzyValues.Array.data[2].linguisticVariable
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114006152405089894, guid: d4ba79761c489934992ba1bc13a4abf9,
         type: 2}
       propertyPath: fuzzyValues.Array.data[2].linguisticValue
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114006152405089894, guid: d4ba79761c489934992ba1bc13a4abf9,
         type: 2}

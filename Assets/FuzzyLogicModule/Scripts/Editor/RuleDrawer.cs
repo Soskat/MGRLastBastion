@@ -13,7 +13,7 @@ public class RuleDrawer : PropertyDrawer
             int oldIndentLevel = EditorGUI.indentLevel;
             EditorGUI.indentLevel = 0;
             // draw object's label:
-            EditorGUIUtility.labelWidth = 80;
+            EditorGUIUtility.labelWidth = 85f;
             Rect contentPos = EditorGUI.PrefixLabel(position, label);
             // calculate rectangles for properties:
             float contentWidth = contentPos.width * 0.25f;

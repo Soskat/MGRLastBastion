@@ -13,7 +13,7 @@ public class FuzzyPropertiesTestInspector : Editor
         EditorGUILayout.PropertyField(serializedObject.FindProperty("rule"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("color"));
         EditorList.Show(serializedObject.FindProperty("rules"), EditorListOption.All);
-        EditorList.Show(serializedObject.FindProperty("fuzzyValues"), EditorListOption.NoElementLabels | EditorListOption.Buttons);
+        EditorList.Show(serializedObject.FindProperty("fuzzyValues"), EditorListOption.All);
         serializedObject.ApplyModifiedProperties(); // commit any changes
     }
 
