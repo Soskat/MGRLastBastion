@@ -1,4 +1,5 @@
 ﻿using FuzzyLogicEngine.FuzzyValues;
+using FuzzyLogicEngine.Variables;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,29 +10,29 @@ namespace FuzzyLogicEngine.Rules
     public class Rule
     {
         [SerializeField]
-        private FuzzyValue condition1;
+        private FuzzyValueType condition1;
         [SerializeField]
         private RuleOperator ruleOper;
         [SerializeField]
-        private FuzzyValue condition2;
+        private FuzzyValueType condition2;
         [SerializeField]
-        private FuzzyValue conclusion;
+        private FuzzyValueType conclusion;
 
 
 
-        public FuzzyValue Condition1 { get { return condition1; } }
+        public FuzzyValueType Condition1 { get { return condition1; } }
         public RuleOperator RuleOper { get { return ruleOper; } }
-        public FuzzyValue Condition2 { get { return condition2; } }
-        public FuzzyValue Conclusion { get { return conclusion; } }
+        public FuzzyValueType Condition2 { get { return condition2; } }
+        public FuzzyValueType Conclusion { get { return conclusion; } }
 
 
         // constructors:
         public Rule () { }
 
-        public Rule(FuzzyValue condition1, FuzzyValue result) : this(condition1, RuleOperator.NONE, null, result)
+        public Rule(FuzzyValueType condition1, FuzzyValueType result) : this(condition1, RuleOperator.NONE, FuzzyValueType.Default, result)
         { }
 
-        public Rule(FuzzyValue condition1, RuleOperator ruleOper, FuzzyValue condition2, FuzzyValue result)
+        public Rule(FuzzyValueType condition1, RuleOperator ruleOper, FuzzyValueType condition2, FuzzyValueType result)
         {
             this.condition1 = condition1;
             this.ruleOper = ruleOper;
@@ -42,14 +43,14 @@ namespace FuzzyLogicEngine.Rules
         // methods:
         public FuzzyValue Conclude(List<FuzzyValue> inputValues)
         {
-            FuzzyValue cond1 = inputValues.Find(f => (f.LinguisticVariable == condition1.LinguisticVariable && f.LinguisticValue == condition1.LinguisticValue));
+            FuzzyValue cond1 = inputValues.Find(f => (f.LinguisticVariable == condition1.Type && f.LinguisticValue == condition1.Value));
             if (cond1 == null) return null;
 
             float result = cond1.MembershipValue;
 
-            if (condition2 != null && ruleOper != RuleOperator.NONE)
+            if (condition2.Type != VariableName.None && ruleOper != RuleOperator.NONE)
             {
-                FuzzyValue cond2 = inputValues.Find(f => (f.LinguisticVariable == condition2.LinguisticVariable && f.LinguisticValue == condition2.LinguisticValue));
+                FuzzyValue cond2 = inputValues.Find(f => (f.LinguisticVariable == condition2.Type && f.LinguisticValue == condition2.Value));
                 if (cond2 == null) return null;
 
                 float condValue2 = cond2.MembershipValue;
@@ -64,7 +65,7 @@ namespace FuzzyLogicEngine.Rules
                 }
             }
 
-            return new FuzzyValue(conclusion.LinguisticVariable, conclusion.LinguisticValue, result);
+            return new FuzzyValue(conclusion.Type, conclusion.Value, result);
         }
     }
 }

@@ -3,6 +3,7 @@ using FuzzyLogicEngine.Rules;
 using FuzzyLogicEngine.Variables;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class FuzzyEngine : MonoBehaviour {
@@ -11,10 +12,10 @@ public class FuzzyEngine : MonoBehaviour {
     //private List<LinguisticVariable> inputVariables;
     //[SerializeField]
     //private List<LinguisticVariable> outputVariables;
-    //[SerializeField]
-    //private RuleSet ruleSet;
 
 
+    [SerializeField]
+    private List<Rule> rules;
 
 
     // Use this for initialization
@@ -31,38 +32,71 @@ public class FuzzyEngine : MonoBehaviour {
 
 
 
-    public static RuleSet CreateRuleSet()
+    public static List<Rule> CreateRuleSet()
     {
-        RuleSet rules = new RuleSet();
+        List<Rule> rules = new List<Rule>();
 
         // gsr:
-        var gsr_low = new FuzzyValue(VariableName.GSR, VariableValue.Low);
-        var gsr_mid_low = new FuzzyValue(VariableName.GSR, VariableValue.Mid_Low);
-        var gsr_mid_high = new FuzzyValue(VariableName.GSR, VariableValue.Mid_High);
-        var gsr_high = new FuzzyValue(VariableName.GSR, VariableValue.High);
+        var gsr_low = new FuzzyValueType(VariableName.GSR, VariableValue.Low);
+        var gsr_mid_low = new FuzzyValueType(VariableName.GSR, VariableValue.Mid_Low);
+        var gsr_mid_high = new FuzzyValueType(VariableName.GSR, VariableValue.Mid_High);
+        var gsr_high = new FuzzyValueType(VariableName.GSR, VariableValue.High);
         // hr:
-        var hr_low = new FuzzyValue(VariableName.HR, VariableValue.Low);
-        var hr_medium = new FuzzyValue(VariableName.HR, VariableValue.Medium);
-        var hr_high = new FuzzyValue(VariableName.HR, VariableValue.High);
+        var hr_low = new FuzzyValueType(VariableName.HR, VariableValue.Low);
+        var hr_medium = new FuzzyValueType(VariableName.HR, VariableValue.Medium);
+        var hr_high = new FuzzyValueType(VariableName.HR, VariableValue.High);
         // arousal:
-        var arousal_low = new FuzzyValue(VariableName.Arousal, VariableValue.Low);
-        var arousal_mid_low = new FuzzyValue(VariableName.Arousal, VariableValue.Mid_Low);
-        var arousal_mid_high = new FuzzyValue(VariableName.Arousal, VariableValue.Mid_High);
-        var arousal_high = new FuzzyValue(VariableName.Arousal, VariableValue.High);
+        var arousal_low = new FuzzyValueType(VariableName.Arousal, VariableValue.Low);
+        var arousal_mid_low = new FuzzyValueType(VariableName.Arousal, VariableValue.Mid_Low);
+        var arousal_mid_high = new FuzzyValueType(VariableName.Arousal, VariableValue.Mid_High);
+        var arousal_high = new FuzzyValueType(VariableName.Arousal, VariableValue.High);
 
         // add rules:
-        rules.AddRule(new Rule(gsr_high, arousal_high));
-        rules.AddRule(new Rule(gsr_mid_high, arousal_mid_high));
-        rules.AddRule(new Rule(gsr_mid_low, arousal_mid_low));
-        rules.AddRule(new Rule(gsr_low, arousal_low));
-        rules.AddRule(new Rule(hr_low, arousal_low));
-        rules.AddRule(new Rule(hr_high, arousal_high));
-        rules.AddRule(new Rule(gsr_low, RuleOperator.AND, hr_high, arousal_mid_low));
-        rules.AddRule(new Rule(gsr_high, RuleOperator.AND, hr_low, arousal_mid_high));
-        rules.AddRule(new Rule(gsr_high, RuleOperator.AND, hr_medium, arousal_high));
-        rules.AddRule(new Rule(gsr_mid_high, RuleOperator.AND, hr_medium, arousal_mid_high));
-        rules.AddRule(new Rule(gsr_mid_low, RuleOperator.AND, hr_medium, arousal_mid_low));
+        rules.Add(new Rule(gsr_high, arousal_high));
+        rules.Add(new Rule(gsr_mid_high, arousal_mid_high));
+        rules.Add(new Rule(gsr_mid_low, arousal_mid_low));
+        rules.Add(new Rule(gsr_low, arousal_low));
+        rules.Add(new Rule(hr_low, arousal_low));
+        rules.Add(new Rule(hr_high, arousal_high));
+        rules.Add(new Rule(gsr_low, RuleOperator.AND, hr_high, arousal_mid_low));
+        rules.Add(new Rule(gsr_high, RuleOperator.AND, hr_low, arousal_mid_high));
+        rules.Add(new Rule(gsr_high, RuleOperator.AND, hr_medium, arousal_high));
+        rules.Add(new Rule(gsr_mid_high, RuleOperator.AND, hr_medium, arousal_mid_high));
+        rules.Add(new Rule(gsr_mid_low, RuleOperator.AND, hr_medium, arousal_mid_low));
 
         return rules;
     }
+
+
+
+    // infer the output fuzzy values:
+    public List<FuzzyValue> Infer(IEnumerable<Rule> rules, List<FuzzyValue> inputValues)
+    {
+        Dictionary<VariableValue, FuzzyValue> outputValues = new Dictionary<VariableValue, FuzzyValue>();
+
+        // check each rule:
+        foreach (Rule rule in rules)
+        {
+            FuzzyValue result = rule.Conclude(inputValues);
+            if (result == null) continue;
+
+            // there's no such conclusion in output set yet:
+            if (!outputValues.ContainsKey(result.LinguisticValue))
+            {
+                outputValues.Add(result.LinguisticValue, result);
+            }
+            else
+            {
+                // get the max membershipValue:
+                if (outputValues[result.LinguisticValue].MembershipValue < result.MembershipValue)
+                {
+                    outputValues[result.LinguisticValue].MembershipValue = result.MembershipValue;
+                }
+            }
+        }
+
+        return outputValues.Values.ToList();
+    }
+
+
 }
