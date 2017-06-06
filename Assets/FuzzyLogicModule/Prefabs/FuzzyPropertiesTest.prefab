@@ -53,55 +53,54 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rule:
     condition1:
-      linguisticVariable: 2
-      linguisticValue: 0
-      membershipValue: 0
+      Type: 1
+      Value: 3
     ruleOper: 0
     condition2:
-      linguisticVariable: 0
-      linguisticValue: 0
-      membershipValue: 0
+      Type: 2
+      Value: 4
     conclusion:
-      linguisticVariable: 0
-      linguisticValue: 0
-      membershipValue: 0
+      Type: 3
+      Value: 4
   rules:
   - condition1:
-      linguisticVariable: 0
-      linguisticValue: 2
-      membershipValue: 0
+      Type: 1
+      Value: 3
     ruleOper: 0
     condition2:
-      linguisticVariable: 0
-      linguisticValue: 0
-      membershipValue: 0
+      Type: 2
+      Value: 4
     conclusion:
-      linguisticVariable: 0
-      linguisticValue: 0
-      membershipValue: 0
+      Type: 3
+      Value: 4
   - condition1:
-      linguisticVariable: 1
-      linguisticValue: 0
-      membershipValue: 0
-    ruleOper: 1
+      Type: 0
+      Value: 0
+    ruleOper: 0
     condition2:
-      linguisticVariable: 0
-      linguisticValue: 0
-      membershipValue: 0
+      Type: 0
+      Value: 0
     conclusion:
-      linguisticVariable: 0
-      linguisticValue: 0
-      membershipValue: 0
+      Type: 0
+      Value: 0
   - condition1:
-      linguisticVariable: 2
-      linguisticValue: 0
-      membershipValue: 0
-    ruleOper: 1
+      Type: 0
+      Value: 0
+    ruleOper: 0
     condition2:
-      linguisticVariable: 0
-      linguisticValue: 0
-      membershipValue: 0
+      Type: 0
+      Value: 0
     conclusion:
-      linguisticVariable: 0
-      linguisticValue: 0
-      membershipValue: 0
+      Type: 0
+      Value: 0
+  fuzzyValues:
+  - linguisticVariable: 0
+    linguisticValue: 3
+    membershipValue: 0
+  - linguisticVariable: 2
+    linguisticValue: 2
+    membershipValue: 0
+  - linguisticVariable: 3
+    linguisticValue: 2
+    membershipValue: 0
+  color: {r: 0.11764705, g: 0.11764705, b: 0.11764705, a: 1}

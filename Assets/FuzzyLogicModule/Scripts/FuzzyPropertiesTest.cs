@@ -15,6 +15,10 @@ public class FuzzyPropertiesTest : MonoBehaviour {
 
     public Rule[] rules;
 
+    public FuzzyValue[] fuzzyValues;
+
+    public Color color;
+
     // Use this for initialization
     void Start () {
 		

@@ -11,7 +11,7 @@ namespace FuzzyLogicEngine.FuzzyValues
         private VariableName linguisticVariable;
         [SerializeField]
         private VariableValue linguisticValue;
-        [SerializeField]
+        [SerializeField][Range(0f, 1f)]
         private float membershipValue;
         
         public VariableName LinguisticVariable { get { return linguisticVariable; } }

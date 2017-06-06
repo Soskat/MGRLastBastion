@@ -135,6 +135,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65f48af205d5874193b58f272f819fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rules:
+  - condition1:
+      Type: 0
+      Value: 0
+    ruleOper: 0
+    condition2:
+      Type: 0
+      Value: 0
+    conclusion:
+      Type: 0
+      Value: 0
+  - condition1:
+      Type: 0
+      Value: 0
+    ruleOper: 0
+    condition2:
+      Type: 0
+      Value: 0
+    conclusion:
+      Type: 0
+      Value: 0
+  - condition1:
+      Type: 0
+      Value: 0
+    ruleOper: 0
+    condition2:
+      Type: 0
+      Value: 0
+    conclusion:
+      Type: 0
+      Value: 0
 --- !u!4 &20612228
 Transform:
   m_ObjectHideFlags: 0
@@ -158,7 +189,12 @@ Prefab:
     - target: {fileID: 114006152405089894, guid: d4ba79761c489934992ba1bc13a4abf9,
         type: 2}
       propertyPath: rules.Array.size
-      value: 3
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114006152405089894, guid: d4ba79761c489934992ba1bc13a4abf9,
+        type: 2}
+      propertyPath: fuzzyValues.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4177891700613448, guid: d4ba79761c489934992ba1bc13a4abf9, type: 2}
       propertyPath: m_LocalPosition.x
@@ -194,57 +230,87 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 114006152405089894, guid: d4ba79761c489934992ba1bc13a4abf9,
         type: 2}
-      propertyPath: rules.Array.data[0].condition1.linguisticVariable
+      propertyPath: fuzzyValues.Array.data[0].membershipValue
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114006152405089894, guid: d4ba79761c489934992ba1bc13a4abf9,
         type: 2}
-      propertyPath: rules.Array.data[1].condition1.linguisticVariable
+      propertyPath: fuzzyValues.Array.data[1].membershipValue
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114006152405089894, guid: d4ba79761c489934992ba1bc13a4abf9,
         type: 2}
-      propertyPath: rules.Array.data[1].condition1.linguisticValue
+      propertyPath: rules.Array.data[0].condition1.Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114006152405089894, guid: d4ba79761c489934992ba1bc13a4abf9,
+        type: 2}
+      propertyPath: rules.Array.data[0].condition1.Value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114006152405089894, guid: d4ba79761c489934992ba1bc13a4abf9,
+        type: 2}
+      propertyPath: rules.Array.data[0].condition2.Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114006152405089894, guid: d4ba79761c489934992ba1bc13a4abf9,
+        type: 2}
+      propertyPath: rules.Array.data[0].condition2.Value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114006152405089894, guid: d4ba79761c489934992ba1bc13a4abf9,
+        type: 2}
+      propertyPath: rules.Array.data[0].conclusion.Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114006152405089894, guid: d4ba79761c489934992ba1bc13a4abf9,
+        type: 2}
+      propertyPath: rules.Array.data[0].conclusion.Value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114006152405089894, guid: d4ba79761c489934992ba1bc13a4abf9,
+        type: 2}
+      propertyPath: rules.Array.data[1].conclusion.Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114006152405089894, guid: d4ba79761c489934992ba1bc13a4abf9,
+        type: 2}
+      propertyPath: rules.Array.data[2].conclusion.Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114006152405089894, guid: d4ba79761c489934992ba1bc13a4abf9,
+        type: 2}
+      propertyPath: rules.Array.data[3].conclusion.Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114006152405089894, guid: d4ba79761c489934992ba1bc13a4abf9,
+        type: 2}
+      propertyPath: fuzzyValues.Array.data[0].linguisticVariable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114006152405089894, guid: d4ba79761c489934992ba1bc13a4abf9,
+        type: 2}
+      propertyPath: fuzzyValues.Array.data[0].linguisticValue
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114006152405089894, guid: d4ba79761c489934992ba1bc13a4abf9,
+        type: 2}
+      propertyPath: fuzzyValues.Array.data[1].linguisticVariable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114006152405089894, guid: d4ba79761c489934992ba1bc13a4abf9,
+        type: 2}
+      propertyPath: fuzzyValues.Array.data[2].linguisticVariable
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 114006152405089894, guid: d4ba79761c489934992ba1bc13a4abf9,
         type: 2}
-      propertyPath: rules.Array.data[1].ruleOper
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114006152405089894, guid: d4ba79761c489934992ba1bc13a4abf9,
-        type: 2}
-      propertyPath: rules.Array.data[2].condition1.linguisticVariable
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114006152405089894, guid: d4ba79761c489934992ba1bc13a4abf9,
-        type: 2}
-      propertyPath: rules.Array.data[3].condition1.linguisticVariable
+      propertyPath: fuzzyValues.Array.data[2].linguisticValue
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 114006152405089894, guid: d4ba79761c489934992ba1bc13a4abf9,
         type: 2}
-      propertyPath: rules.Array.data[3].ruleOper
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114006152405089894, guid: d4ba79761c489934992ba1bc13a4abf9,
-        type: 2}
-      propertyPath: rules.Array.data[2].condition1.linguisticValue
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114006152405089894, guid: d4ba79761c489934992ba1bc13a4abf9,
-        type: 2}
-      propertyPath: rules.Array.data[2].ruleOper
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114006152405089894, guid: d4ba79761c489934992ba1bc13a4abf9,
-        type: 2}
-      propertyPath: rules.Array.data[0].condition1.linguisticValue
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114006152405089894, guid: d4ba79761c489934992ba1bc13a4abf9,
-        type: 2}
-      propertyPath: rules.Array.data[0].ruleOper
+      propertyPath: fuzzyValues.Array.data[1].linguisticValue
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
