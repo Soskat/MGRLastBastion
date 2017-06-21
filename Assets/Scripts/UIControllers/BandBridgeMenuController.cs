@@ -65,6 +65,8 @@ public class BandBridgeMenuController : MonoBehaviour {
     void Start()
     {
         listController = listView.GetComponent<ListController>();
+        HostName = GameManager.instance.BBModule.RemoteHostName;
+        ServicePort = GameManager.instance.BBModule.RemoteServicePort.ToString();
     }
     #endregion
     

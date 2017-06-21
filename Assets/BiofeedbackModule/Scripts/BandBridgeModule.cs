@@ -154,7 +154,7 @@ public class BandBridgeModule : MonoBehaviour {
             UnpairBand();
         }
         // pair with new Band:
-        string newChoosenBand = GameManager.gameManager.GetChoosenBandName();
+        string newChoosenBand = GameManager.instance.GetChoosenBandName();
         if (newChoosenBand == null) return;
         PairedBand.Append(newChoosenBand);
         isBandPaired = true;
