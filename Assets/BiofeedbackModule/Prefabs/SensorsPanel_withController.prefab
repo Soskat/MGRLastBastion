@@ -596,11 +596,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f1d1df77d4e0504f87c21d38698ac9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pairedBandLabel: {fileID: 0}
-  hrReadingLabel: {fileID: 0}
-  averageHrLabel: {fileID: 0}
-  gsrReadingLabel: {fileID: 0}
-  averageGsrLabel: {fileID: 0}
+  pairedBandLabel: {fileID: 114772553142367470}
+  hrReadingLabel: {fileID: 114083537057176748}
+  averageHrLabel: {fileID: 114794793301217670}
+  gsrReadingLabel: {fileID: 114796075663967370}
+  averageGsrLabel: {fileID: 114567137068709594}
 --- !u!222 &222134766482002528
 CanvasRenderer:
   m_ObjectHideFlags: 1

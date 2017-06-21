@@ -1,44 +1,35 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.UI;
 
+
+/// <summary>
+/// Component that manages all game logic.
+/// </summary>
 public class GameManager : MonoBehaviour
 {
-
     #region Static fields
     /// <summary>
     /// <see cref="GameManager"/> public static object.
     /// </summary>
     public static GameManager gameManager;
     #endregion
-
-    #region Public fields
-    public GameObject menuPanel;
-    public GameObject listView;
-    public Text pairedBandMenuLabel;
-    public InputField hostNameInput;
-    public InputField servicePortInput;
-    public GameObject calibrationInfoLabel;
-    #endregion
+    
 
     #region Private fields
-    [SerializeField]
-    GameObject sensorPanel;
+    [SerializeField] private GameObject menuPanel;
+    [SerializeField] private GameObject sensorPanel;
+    [SerializeField] private GameObject calibrationInfoLabel;
     private SensorPanelController sensorPanelController;
-
-
+    private BandBridgeMenuController bbMenuController;
     private BandBridgeModule bbModule;
-    private ListController listController;
     private bool isMenuOn = false;
+    [SerializeField] private bool isReadyForNewBandData = false;
     #endregion
 
 
-    public bool isReadyForNewBandData = false;
-
-
-
-    #region Unity methods
+    #region MonoBehaviour methods
+    // Awake is called when the script instance is being loaded
     private void Awake()
     {
         // make sure that Singleton design pattern is preserved and GameManager object will always exist:
@@ -55,19 +46,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Use this for initialization
     void Start()
     {
         sensorPanelController = sensorPanel.GetComponent<SensorPanelController>();
         bbModule = gameObject.GetComponent<BandBridgeModule>();
-        listController = listView.GetComponent<ListController>();
 
         // update GUI:
         menuPanel.SetActive(false);
-        hostNameInput.text = bbModule.RemoteHostName;
-        servicePortInput.text = bbModule.RemoteServicePort.ToString();
+        bbMenuController.HostName = bbModule.RemoteHostName;
+        bbMenuController.ServicePort = bbModule.RemoteServicePort.ToString();
     }
 
-
+    // Update is called every frame, if the MonoBehaviour is enabled
     void Update()
     {
         // get current Band sensors readings:
@@ -103,8 +94,9 @@ public class GameManager : MonoBehaviour
         // update the list of connected Bands:
         if (bbModule.IsConnectedBandsListChanged)
         {
-            listController.ClearList();
-            listController.UpdateList(bbModule.ConnectedBands.ToArray());
+            bbMenuController.ListController.ClearList();
+            bbMenuController.ListController.UpdateList(bbModule.ConnectedBands.ToArray());
+
             bbModule.IsConnectedBandsListChanged = false;
             isReadyForNewBandData = true;
         }
@@ -113,7 +105,7 @@ public class GameManager : MonoBehaviour
         if (bbModule.IsPairedBandChanged)
         {
             sensorPanelController.UpdateBandLabel(bbModule.PairedBand.ToString());
-            pairedBandMenuLabel.text = bbModule.PairedBand.ToString();
+            bbMenuController.PairedBand = bbModule.PairedBand.ToString();
             bbModule.IsPairedBandChanged = false;
         }
 
@@ -143,6 +135,7 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+
     #region Public methods
     /// <summary>
     /// Turns BandBridge menu on and off.
@@ -162,7 +155,7 @@ public class GameManager : MonoBehaviour
     /// <returns>Currently selected Band name</returns>
     public string GetChoosenBandName()
     {
-        return listController.GetSelectedItem();
+        return bbMenuController.ListController.GetSelectedItem();
     }
     #endregion
 
@@ -173,7 +166,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void OnHostNameEndEdit()
     {
-        bbModule.RemoteHostName = hostNameInput.text;
+        bbModule.RemoteHostName = bbMenuController.HostName;
     }
 
     /// <summary>
@@ -183,7 +176,7 @@ public class GameManager : MonoBehaviour
     public void OnServicePortEndEdit()
     {
         int servicePort;
-        if (!Int32.TryParse(servicePortInput.text, out servicePort))
+        if (!Int32.TryParse(bbMenuController.ServicePort, out servicePort))
         {
             bbModule.RemoteServicePort = BandBridgeModule.DefaultServicePort;
         }
@@ -194,6 +187,7 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+
     #region Private methods
     /// <summary>
     /// Performs assertions to make sure everything is properly initialized.
@@ -201,12 +195,7 @@ public class GameManager : MonoBehaviour
     private void DoAssertions()
     {
         Assert.IsNotNull(menuPanel);
-        Assert.IsNotNull(listView);
-        Assert.IsNotNull(pairedBandMenuLabel);
-
         Assert.IsNotNull(sensorPanel);
-        Assert.IsNotNull(hostNameInput);
-        Assert.IsNotNull(servicePortInput);
         Assert.IsNotNull(calibrationInfoLabel);
     }
     #endregion

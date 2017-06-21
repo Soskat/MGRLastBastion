@@ -1,9 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
 
+
+/// <summary>
+/// Component that manages SensorPanel UI logic.
+/// </summary>
 public class SensorPanelController : MonoBehaviour {
 
     #region Private fields
@@ -20,7 +22,8 @@ public class SensorPanelController : MonoBehaviour {
     {
         DoAssertions();
     }
-    
+
+    // Use this for initialization
     private void Start()
     {
         ResetLabels();
