@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour
     {
         sensorPanelController = sensorPanel.GetComponent<SensorPanelController>();
         bbModule = gameObject.GetComponent<BandBridgeModule>();
+        bbMenuController = menuPanel.GetComponent<BandBridgeMenuController>();
 
         // update GUI:
         menuPanel.SetActive(false);
