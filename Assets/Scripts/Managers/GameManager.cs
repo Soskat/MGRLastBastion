@@ -109,6 +109,13 @@ public class GameManager : MonoBehaviour
     {
         return ListController.GetSelectedItem();
     }
+
+
+    public void StartNewGame()
+    {
+        Debug.Log("Starting new game...");
+    }
+
     #endregion
     
 

@@ -69,6 +69,14 @@ public class MainMenuManager : MonoBehaviour {
 
     #region Public methods
     /// <summary>
+    /// Starts new game.
+    /// </summary>
+    public void StartNewGame()
+    {
+        GameManager.instance.StartNewGame();
+    }
+
+    /// <summary>
     /// Turn on settings menu panel.
     /// </summary>
     public void TurnOnSettingsMenu()
@@ -82,6 +90,15 @@ public class MainMenuManager : MonoBehaviour {
     public void TurnOffSettingsMenu()
     {
         isSettingsMenuOn = false;
+    }
+
+    /// <summary>
+    /// Quits the application.
+    /// </summary>
+    public void QuitGame()
+    {
+        Debug.Log("Quitting the game...");
+        Application.Quit();
     }
     #endregion
 
