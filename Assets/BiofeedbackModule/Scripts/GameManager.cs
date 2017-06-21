@@ -3,30 +3,31 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour
+{
 
-    #region Public fields
-    public GameObject menuPanel;
-    public GameObject listView;
-    public Text pairedBandMenuLabel;
-    public Text pairedBandLabel;
-    public Text hrReadingLabel;
-    public Text gsrReadingLabel;
-
-    public Text averageHrLabel;
-    public Text averageGsrLabel;
-
-    public InputField hostNameInput;
-    public InputField servicePortInput;
-    public GameObject calibrationInfoLabel;
-
+    #region Static fields
     /// <summary>
     /// <see cref="GameManager"/> public static object.
     /// </summary>
     public static GameManager gameManager;
     #endregion
 
+    #region Public fields
+    public GameObject menuPanel;
+    public GameObject listView;
+    public Text pairedBandMenuLabel;
+    public InputField hostNameInput;
+    public InputField servicePortInput;
+    public GameObject calibrationInfoLabel;
+    #endregion
+
     #region Private fields
+    [SerializeField]
+    GameObject sensorPanel;
+    private SensorPanelController sensorPanelController;
+
+
     private BandBridgeModule bbModule;
     private ListController listController;
     private bool isMenuOn = false;
@@ -44,30 +45,26 @@ public class GameManager : MonoBehaviour {
         if (gameManager == null)
         {
             gameManager = this;
-            // make sure all objects exist:
-            DoAssertTests();
 
-            bbModule = gameObject.GetComponent<BandBridgeModule>();
-            listController = listView.GetComponent<ListController>();
+            // make sure all objects exist:
+            DoAssertions();
         }
         else if (gameManager != this)
         {
             Destroy(gameObject);
         }
     }
-    
+
     void Start()
     {
+        sensorPanelController = sensorPanel.GetComponent<SensorPanelController>();
+        bbModule = gameObject.GetComponent<BandBridgeModule>();
+        listController = listView.GetComponent<ListController>();
+
         // update GUI:
         menuPanel.SetActive(false);
         hostNameInput.text = bbModule.RemoteHostName;
         servicePortInput.text = bbModule.RemoteServicePort.ToString();
-        pairedBandLabel.text = "-";
-        hrReadingLabel.text = "-";
-        gsrReadingLabel.text = "-";
-
-        averageHrLabel.text = "-";
-        averageGsrLabel.text = "-";
     }
 
 
@@ -93,13 +90,11 @@ public class GameManager : MonoBehaviour {
         {
             if (bbModule.IsBandPaired)
             {
-                hrReadingLabel.text = bbModule.CurrentHrReading.ToString();
-                gsrReadingLabel.text = bbModule.CurrentGsrReading.ToString();
+                sensorPanelController.UpdateCurrentReadings(bbModule.CurrentHrReading, bbModule.CurrentGsrReading);
             }
             else
             {
-                hrReadingLabel.text = "-";
-                gsrReadingLabel.text = "-";
+                sensorPanelController.ResetLabels();
             }
             bbModule.IsSensorsReadingsChanged = false;
             isReadyForNewBandData = true;
@@ -117,11 +112,11 @@ public class GameManager : MonoBehaviour {
         // update PairedBand label:
         if (bbModule.IsPairedBandChanged)
         {
-            pairedBandLabel.text = bbModule.PairedBand.ToString();
+            sensorPanelController.UpdateBandLabel(bbModule.PairedBand.ToString());
             pairedBandMenuLabel.text = bbModule.PairedBand.ToString();
             bbModule.IsPairedBandChanged = false;
         }
-        
+
         // update calibration info label:
         if (bbModule.IsCalibrationOn)
         {
@@ -137,13 +132,11 @@ public class GameManager : MonoBehaviour {
         {
             if (bbModule.IsBandPaired)
             {
-                averageHrLabel.text = bbModule.AverageHrReading.ToString();
-                averageGsrLabel.text = bbModule.AverageGsrReading.ToString();
+                sensorPanelController.UpdateAverageReadings(bbModule.AverageHrReading, bbModule.AverageGsrReading);
             }
             else
             {
-                averageHrLabel.text = "-";
-                averageGsrLabel.text = "-";
+                sensorPanelController.ResetLabels();
             }
             bbModule.IsAverageReadingsChanged = false;
         }
@@ -162,7 +155,7 @@ public class GameManager : MonoBehaviour {
         else
             menuPanel.SetActive(false);
     }
-    
+
     /// <summary>
     /// Gets currently selected item on connected Bands list.
     /// </summary>
@@ -200,26 +193,21 @@ public class GameManager : MonoBehaviour {
         }
     }
     #endregion
-    
+
     #region Private methods
     /// <summary>
     /// Performs assertions to make sure everything is properly initialized.
     /// </summary>
-    private void DoAssertTests()
+    private void DoAssertions()
     {
         Assert.IsNotNull(menuPanel);
         Assert.IsNotNull(listView);
         Assert.IsNotNull(pairedBandMenuLabel);
-        Assert.IsNotNull(pairedBandLabel);
-        Assert.IsNotNull(hrReadingLabel);
-        Assert.IsNotNull(gsrReadingLabel);
 
-        Assert.IsNotNull(averageHrLabel);
-        Assert.IsNotNull(averageGsrLabel);
-
+        Assert.IsNotNull(sensorPanel);
         Assert.IsNotNull(hostNameInput);
         Assert.IsNotNull(servicePortInput);
         Assert.IsNotNull(calibrationInfoLabel);
-    }    
-    #endregion    
+    }
+    #endregion
 }
