@@ -14,7 +14,17 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public static GameManager gameManager;
     #endregion
-    
+
+
+
+    private GameType gameType;
+
+
+
+
+
+
+
 
     #region Private fields
     [SerializeField] private GameObject menuPanel;
