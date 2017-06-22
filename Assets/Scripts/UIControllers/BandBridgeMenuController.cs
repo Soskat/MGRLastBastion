@@ -16,36 +16,23 @@ public class BandBridgeMenuController : MonoBehaviour {
     private ListController listController;
     #endregion
 
-    #region Public properties
-    /// <summary>
-    /// Controller of UI list.
-    /// </summary>
-    public ListController ListController
-    {
-        get { return listController; }
-    }
 
-    /// <summary>
-    /// Paired Band label.
-    /// </summary>
+    #region Public properties
+    /// <summary>Controller of UI list.</summary>
+    public ListController ListController { get { return listController; } }
+    /// <summary>Paired Band label.</summary>
     public string PairedBand
     {
         get { return pairedBandMenuLabel.text; }
         set { pairedBandMenuLabel.text = value; }
     }
-
-    /// <summary>
-    /// Host name input field.
-    /// </summary>
+    /// <summary>Host name input field.</summary>
     public string HostName
     {
         get { return hostNameInput.text; }
         set { hostNameInput.text = value; }
     }
-
-    /// <summary>
-    /// Service port input field.
-    /// </summary>
+    /// <summary>Service port input field.</summary>
     public string ServicePort
     {
         get { return servicePortInput.text; }

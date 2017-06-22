@@ -8,6 +8,9 @@ using System.Threading;
 using UnityEngine;
 
 
+/// <summary>
+/// Class that manages connection with BandBridge server.
+/// </summary>
 public class BandBridgeModule : MonoBehaviour {
 
     #region Constants
@@ -118,10 +121,7 @@ public class BandBridgeModule : MonoBehaviour {
     // Sent to all game objects before the application is quit
     private void OnApplicationQuit()
     {
-        if (refresherWorker != null)
-        {
-            refresherWorker.CancelAsync();
-        }
+        if (refresherWorker != null) refresherWorker.CancelAsync();
     }
     #endregion
     
@@ -149,10 +149,7 @@ public class BandBridgeModule : MonoBehaviour {
     public void PairBand()
     {
         // first, unpair Band if needed:
-        if (PairedBand != null && PairedBand.ToString() != "")
-        {
-            UnpairBand();
-        }
+        if (PairedBand != null && PairedBand.ToString() != "") UnpairBand();
         // pair with new Band:
         string newChoosenBand = GameManager.instance.GetChoosenBandName();
         if (newChoosenBand == null) return;

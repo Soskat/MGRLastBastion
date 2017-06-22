@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
+
 
 /// <summary>
 /// Component that manages all game logic.
@@ -16,7 +15,8 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     #endregion
 
-
+    
+    #region Private fields
     [SerializeField] private int currentLevelID = -1;
     [SerializeField] private string[] gameLevels;
     [SerializeField] private int currentCalculationTypeID = 0;
@@ -25,23 +25,24 @@ public class GameManager : MonoBehaviour
     private DateTime currentTime;
     private int indexOfFirstLevel;
     private int indexOfSecondLevel;
-
-    public CalculationType CurrentCalculationType { get { return calculationTypes[currentCalculationTypeID]; } }
-    public int GetTime { get { return (currentTime - startTime).Milliseconds; } }
-    public GameType GameType { get; set; }
-    public bool AnalyticsEnabled = true;
-
-
-
-    #region Private fields
-    //private SensorPanelController sensorPanelController;
     #endregion
 
 
     #region Public fields & properties
+    /// <summary>Instance of <see cref="BandBridgeModule"/> class.</summary>
     public BandBridgeModule BBModule { get; set; }
+    /// <summary>Is ready for new MS Band device sensors data?</summary>
     public bool IsReadyForNewBandData { get; set; }
+    /// <summary>Instance of <see cref="ListController"/> class.</summary>
     public ListController ListController { get; set; }
+    /// <summary>Active method of calculating player's arousal.</summary>
+    public CalculationType CurrentCalculationType { get { return calculationTypes[currentCalculationTypeID]; } }
+    /// <summary>Current time stamp.</summary>
+    public int GetTime { get { return (currentTime - startTime).Milliseconds; } }
+    /// <summary>Current game mode.</summary>
+    public GameMode GameMode { get; set; }
+    /// <summary>Is analytics module enabled?</summary>
+    public bool AnalyticsEnabled = true;
     #endregion
 
 
@@ -55,26 +56,18 @@ public class GameManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
             BBModule = gameObject.GetComponent<BandBridgeModule>();
-            // make sure all objects exist:
-            //DoAssertions();
         }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-        }
+        else if (instance != this) Destroy(gameObject);
     }
 
     // Use this for initialization
     void Start()
     {
         IsReadyForNewBandData = false;
-
         gameLevels = new string[] { "Intro", null, "Summary", "Intro", null, "Summary", "Survey" };
         indexOfFirstLevel = 1;
         indexOfSecondLevel = 4;
         calculationTypes = new CalculationType[2];
-        //currentLevelID = -1;
-        //currentCalculationTypeID = 0;
 
         // initialize analytics system:
         DataManager.InitializeSystem();
@@ -83,43 +76,7 @@ public class GameManager : MonoBehaviour
     // Update is called every frame, if the MonoBehaviour is enabled
     void Update()
     {
-        //// get current Band sensors readings:
-        //if (BBModule.CanReceiveBandReadings && BBModule.IsBandPaired && IsReadyForNewBandData)
-        //{
-        //    BBModule.GetBandData();
-        //    IsReadyForNewBandData = false;
-        //}
 
-        //// Update GUI if needed: =============================================
-
-        //// update sensors readings values:
-        //if (BBModule.IsSensorsReadingsChanged)
-        //{
-        //    if (BBModule.IsBandPaired)
-        //    {
-        //        sensorPanelController.UpdateCurrentReadings(BBModule.CurrentHrReading, BBModule.CurrentGsrReading);
-        //    }
-        //    else
-        //    {
-        //        sensorPanelController.ResetLabels();
-        //    }
-        //    BBModule.IsSensorsReadingsChanged = false;
-        //    IsReadyForNewBandData = true;
-        //}
-
-        //// update average sensors readings values:
-        //if (BBModule.IsAverageReadingsChanged)
-        //{
-        //    if (BBModule.IsBandPaired)
-        //    {
-        //        sensorPanelController.UpdateAverageReadings(BBModule.AverageHrReading, BBModule.AverageGsrReading);
-        //    }
-        //    else
-        //    {
-        //        sensorPanelController.ResetLabels();
-        //    }
-        //    BBModule.IsAverageReadingsChanged = false;
-        //}
     }
     #endregion
 
@@ -176,10 +133,11 @@ public class GameManager : MonoBehaviour
                 calculationTypes[1] = CalculationType.Alternative;
                 break;
         }
+
         // setup new analysis data:
         if (AnalyticsEnabled)
         {
-            DataManager.BeginAnalysis(GameType);
+            DataManager.BeginAnalysis(GameMode);
             startTime = DateTime.Now;
         }
 
@@ -208,19 +166,13 @@ public class GameManager : MonoBehaviour
     public void LoadNextLevel()
     {
         currentLevelID++;
+        
         // set up current calculation type if needed:
         if (currentLevelID == 3) currentCalculationTypeID++;
-        
+                
         // load next scene (or main menu):
-        if (currentLevelID < gameLevels.Length)
-        {
-            SceneManager.LoadScene(gameLevels[currentLevelID]);
-            //Debug.Log(gameLevels[currentLevelID] + " scene has been loaded");
-        }
-        else
-        {
-            BackToMainMenu();
-        }
+        if (currentLevelID < gameLevels.Length) SceneManager.LoadScene(gameLevels[currentLevelID]);
+        else BackToMainMenu();
     }
 
     /// <summary>
@@ -232,15 +184,5 @@ public class GameManager : MonoBehaviour
         IsReadyForNewBandData = false;
         SceneManager.LoadScene("MainMenu");
     }
-    #endregion
-    
-
-    #region Private methods
-    ///// <summary>
-    ///// Performs assertions to make sure everything is properly initialized.
-    ///// </summary>
-    //private void DoAssertions()
-    //{
-    //}
     #endregion
 }

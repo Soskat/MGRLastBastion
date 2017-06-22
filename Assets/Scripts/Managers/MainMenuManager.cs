@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
 
+
+/// <summary>
+/// Component that manages Main Menu scene behaviour.
+/// </summary>
 public class MainMenuManager : MonoBehaviour {
 
     #region Private fields
@@ -12,15 +16,12 @@ public class MainMenuManager : MonoBehaviour {
     [SerializeField] private GameObject settingsPanel;
     [SerializeField] private GameObject bbMenuPanel;
     [SerializeField] private GameObject listViewport;
+    [SerializeField] private int selectedAnalyticsOption = 1;
+    private GameMode[] gameTypes = { GameMode.ModeA, GameMode.ModeB };
     private Dropdown gameTypeDropdown;
     private Dropdown analyticsDropdown;
     private BandBridgeMenuController bbMenuController;
     private ListController listController;
-    private bool isSettingsMenuOn = false;
-    private GameType[] gameTypes = { GameType.ModeA, GameType.ModeB };
-
-    
-    [SerializeField] private int selectedAnalyticsOption = 1;
     #endregion
     
 
@@ -28,7 +29,10 @@ public class MainMenuManager : MonoBehaviour {
     // Awake is called when the script instance is being loaded
     private void Awake()
     {
-        DoAssertions();
+        Assert.IsNotNull(gameType);
+        Assert.IsNotNull(settingsPanel);
+        Assert.IsNotNull(bbMenuPanel);
+        Assert.IsNotNull(listViewport);
     }
 
     // Use this for initialization
@@ -42,25 +46,18 @@ public class MainMenuManager : MonoBehaviour {
         List<string> gameOptions = new List<string>();
         foreach (var option in gameTypes) gameOptions.Add(option.ToString());
         gameTypeDropdown.AddOptions(gameOptions);
-        // add game type dropdown:
+        // add analytics dropdown:
         analyticsDropdown = analytics.GetComponent<Dropdown>();
         analyticsDropdown.AddOptions(new List<string>() { "enabled", "disabled" });
         analyticsDropdown.value = selectedAnalyticsOption;
+        // turn off settingsPanel visibility:
+        TurnOffSettingsMenu();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isSettingsMenuOn)
-        {
-            settingsPanel.SetActive(true);
-        }
-        else
-        {
-            settingsPanel.SetActive(false);
-        }
-
-        // update the list of connected Bands:
+        // update the list of connected Bands if needed:
         if (GameManager.instance.BBModule.IsConnectedBandsListChanged)
         {
             listController.ClearList();
@@ -69,7 +66,7 @@ public class MainMenuManager : MonoBehaviour {
             GameManager.instance.IsReadyForNewBandData = true;
         }
 
-        // update PairedBand label:
+        // update PairedBand label if needed:
         if (GameManager.instance.BBModule.IsPairedBandChanged)
         {
             //sensorPanelController.UpdateBandLabel(GameManager.instance.BBModule.PairedBand.ToString());
@@ -86,7 +83,7 @@ public class MainMenuManager : MonoBehaviour {
     /// </summary>
     public void StartNewGame()
     {
-        GameManager.instance.GameType = gameTypes[gameTypeDropdown.value];
+        GameManager.instance.GameMode = gameTypes[gameTypeDropdown.value];
         if (analyticsDropdown.value == 0) GameManager.instance.AnalyticsEnabled = true;
         else if (analyticsDropdown.value == 1) GameManager.instance.AnalyticsEnabled = false;
         GameManager.instance.StartNewGame();
@@ -97,7 +94,7 @@ public class MainMenuManager : MonoBehaviour {
     /// </summary>
     public void TurnOnSettingsMenu()
     {
-        isSettingsMenuOn = true;
+        settingsPanel.SetActive(true);
     }
 
     /// <summary>
@@ -105,7 +102,7 @@ public class MainMenuManager : MonoBehaviour {
     /// </summary>
     public void TurnOffSettingsMenu()
     {
-        isSettingsMenuOn = false;
+        settingsPanel.SetActive(false);
     }
 
     /// <summary>
@@ -135,28 +132,8 @@ public class MainMenuManager : MonoBehaviour {
     public void OnServicePortEndEdit()
     {
         int servicePort;
-        if (!Int32.TryParse(bbMenuController.ServicePort, out servicePort))
-        {
-            GameManager.instance.BBModule.RemoteServicePort = BandBridgeModule.DefaultServicePort;
-        }
-        else
-        {
-            GameManager.instance.BBModule.RemoteServicePort = servicePort;
-        }
-    }
-    #endregion
-
-
-    #region Private methods
-    /// <summary>
-    /// Performs assertions to make sure everything is properly initialized.
-    /// </summary>
-    private void DoAssertions()
-    {
-        Assert.IsNotNull(gameType);
-        Assert.IsNotNull(settingsPanel);
-        Assert.IsNotNull(bbMenuPanel);
-        Assert.IsNotNull(listViewport);
+        if (!Int32.TryParse(bbMenuController.ServicePort, out servicePort)) GameManager.instance.BBModule.RemoteServicePort = BandBridgeModule.DefaultServicePort;
+        else GameManager.instance.BBModule.RemoteServicePort = servicePort;
     }
     #endregion
 }

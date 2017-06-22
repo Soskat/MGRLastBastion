@@ -1,7 +1,7 @@
 ﻿/// <summary>
 /// Game type.
 /// </summary>
-public enum GameType : byte
+public enum GameMode : byte
 {
     ModeA = BiofeedbackMode.BiofeedbackOn,
     ModeB = BiofeedbackMode.BiofeedbackOff

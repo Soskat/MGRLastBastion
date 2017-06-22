@@ -1,5 +1,5 @@
 ﻿/// <summary>
-/// Calculation type.
+/// Calculation type for calculating arousal from HR and GSR data.
 /// </summary>
 public enum CalculationType
 {
