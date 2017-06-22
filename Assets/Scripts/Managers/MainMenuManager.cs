@@ -8,14 +8,19 @@ public class MainMenuManager : MonoBehaviour {
 
     #region Private fields
     [SerializeField] private GameObject gameType;
+    [SerializeField] private GameObject analytics;
     [SerializeField] private GameObject settingsPanel;
     [SerializeField] private GameObject bbMenuPanel;
     [SerializeField] private GameObject listViewport;
     private Dropdown gameTypeDropdown;
+    private Dropdown analyticsDropdown;
     private BandBridgeMenuController bbMenuController;
     private ListController listController;
     private bool isSettingsMenuOn = false;
     private GameType[] gameTypes = { GameType.ModeA, GameType.ModeB };
+
+    
+    [SerializeField] private int selectedAnalyticsOption = 1;
     #endregion
     
 
@@ -32,11 +37,15 @@ public class MainMenuManager : MonoBehaviour {
         bbMenuController = bbMenuPanel.GetComponent<BandBridgeMenuController>();
         listController = listViewport.GetComponent<ListController>();
         GameManager.instance.ListController = listController;
+        // add game type dropdown:
         gameTypeDropdown = gameType.GetComponent<Dropdown>();
-        // add dropdown options content:
         List<string> gameOptions = new List<string>();
         foreach (var option in gameTypes) gameOptions.Add(option.ToString());
         gameTypeDropdown.AddOptions(gameOptions);
+        // add game type dropdown:
+        analyticsDropdown = analytics.GetComponent<Dropdown>();
+        analyticsDropdown.AddOptions(new List<string>() { "enabled", "disabled" });
+        analyticsDropdown.value = selectedAnalyticsOption;
     }
 
     // Update is called once per frame
@@ -78,6 +87,8 @@ public class MainMenuManager : MonoBehaviour {
     public void StartNewGame()
     {
         GameManager.instance.GameType = gameTypes[gameTypeDropdown.value];
+        if (analyticsDropdown.value == 0) GameManager.instance.AnalyticsEnabled = true;
+        else if (analyticsDropdown.value == 1) GameManager.instance.AnalyticsEnabled = false;
         GameManager.instance.StartNewGame();
     }
 

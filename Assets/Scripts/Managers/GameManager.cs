@@ -17,9 +17,9 @@ public class GameManager : MonoBehaviour
     #endregion
 
 
-    [SerializeField] private int currentLevelID;
+    [SerializeField] private int currentLevelID = -1;
     [SerializeField] private string[] gameLevels;
-    [SerializeField] private int currentCalculationTypeID;
+    [SerializeField] private int currentCalculationTypeID = 0;
     [SerializeField] private CalculationType[] calculationTypes;
     private DateTime startTime;
     private DateTime currentTime;
@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     public CalculationType CurrentCalculationType { get { return calculationTypes[currentCalculationTypeID]; } }
     public int GetTime { get { return (currentTime - startTime).Milliseconds; } }
     public GameType GameType { get; set; }
-
+    public bool AnalyticsEnabled = true;
 
 
 
@@ -69,8 +69,8 @@ public class GameManager : MonoBehaviour
 
         gameLevels = new string[] { "Intro", null, "Summary", null, "Summary", "Survey" };
         calculationTypes = new CalculationType[2];
-        currentLevelID = 0;
-        currentCalculationTypeID = 0;
+        //currentLevelID = -1;
+        //currentCalculationTypeID = 0;
 
         // initialize analytics system:
         DataManager.InitializeSystem();
@@ -143,7 +143,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void StartNewGame()
     {
-        currentLevelID = 0;
+        currentLevelID = -1;
         currentCalculationTypeID = 0;
 
         // set levels in random order:
@@ -173,8 +173,11 @@ public class GameManager : MonoBehaviour
                 break;
         }
         // setup new analysis data:
-        DataManager.BeginAnalysis(GameType);
-        startTime = DateTime.Now;
+        if (AnalyticsEnabled)
+        {
+            DataManager.BeginAnalysis(GameType);
+            startTime = DateTime.Now;
+        }
 
         // load next scene:
         LoadNextLevel();
@@ -185,7 +188,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void LevelHasEnded()
     {
-        if(currentLevelID == 1 || currentLevelID == 3)
+        if (AnalyticsEnabled && (currentLevelID == 1 || currentLevelID == 3))
         {
             SetTime();
             DataManager.AddGameEvent(EventType.GameEnd, GetTime);
@@ -198,6 +201,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void LoadNextLevel()
     {
+        currentLevelID++;
         // set up current calculation type if needed:
         if (currentLevelID == 3) currentCalculationTypeID++;
         
@@ -206,7 +210,6 @@ public class GameManager : MonoBehaviour
         {
             SceneManager.LoadScene(gameLevels[currentLevelID]);
             //Debug.Log(gameLevels[currentLevelID] + " scene has been loaded");
-            currentLevelID++;
         }
         else
         {
@@ -219,7 +222,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void BackToMainMenu()
     {
-        DataManager.EndAnalysis();
+        if (AnalyticsEnabled) DataManager.EndAnalysis();
         SceneManager.LoadScene("MainMenu");
     }
     #endregion

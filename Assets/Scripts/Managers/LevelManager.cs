@@ -16,9 +16,12 @@ public class LevelManager : MonoBehaviour {
         backToMainMenuButton.onClick.AddListener(() => { GameManager.instance.BackToMainMenu(); });
 
         // save level info:
-        DataManager.AddLevelInfo(sceneName, GameManager.instance.CurrentCalculationType, GameManager.instance.BBModule.AverageHrReading, GameManager.instance.BBModule.AverageGsrReading);
-        GameManager.instance.SetTime();
-        DataManager.AddGameEvent(EventType.GameStart, GameManager.instance.GetTime);
+        if (GameManager.instance.AnalyticsEnabled)
+        {
+            DataManager.AddLevelInfo(sceneName, GameManager.instance.CurrentCalculationType, GameManager.instance.BBModule.AverageHrReading, GameManager.instance.BBModule.AverageGsrReading);
+            GameManager.instance.SetTime();
+            DataManager.AddGameEvent(EventType.GameStart, GameManager.instance.GetTime);
+        }
     }
 	
 	// Update is called once per frame

@@ -173,7 +173,7 @@ Prefab:
     - target: {fileID: 224575020785491228, guid: 78fcb6638fdaf5a49b3afa9ed057b90b,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 382.5
+      value: 393
       objectReference: {fileID: 0}
     - target: {fileID: 224575020785491228, guid: 78fcb6638fdaf5a49b3afa9ed057b90b,
         type: 2}
@@ -205,9 +205,9 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 114328481262585366, guid: 78fcb6638fdaf5a49b3afa9ed057b90b,
+    - target: {fileID: 114521599416557082, guid: 78fcb6638fdaf5a49b3afa9ed057b90b,
         type: 2}
-      propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 342360191}
     - target: {fileID: 114435887056568466, guid: 78fcb6638fdaf5a49b3afa9ed057b90b,
@@ -215,17 +215,47 @@ Prefab:
       propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 342360191}
-    - target: {fileID: 114521599416557082, guid: 78fcb6638fdaf5a49b3afa9ed057b90b,
+    - target: {fileID: 114328481262585366, guid: 78fcb6638fdaf5a49b3afa9ed057b90b,
         type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 342360191}
+    - target: {fileID: 224220975096423658, guid: 78fcb6638fdaf5a49b3afa9ed057b90b,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224220975096423658, guid: 78fcb6638fdaf5a49b3afa9ed057b90b,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224614695227157082, guid: 78fcb6638fdaf5a49b3afa9ed057b90b,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 224184443996765956, guid: 78fcb6638fdaf5a49b3afa9ed057b90b,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224184443996765956, guid: 78fcb6638fdaf5a49b3afa9ed057b90b,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224184443996765956, guid: 78fcb6638fdaf5a49b3afa9ed057b90b,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: -17
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 78fcb6638fdaf5a49b3afa9ed057b90b, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &4710206 stripped
 GameObject:
-  m_PrefabParentObject: {fileID: 1614332027998814, guid: 78fcb6638fdaf5a49b3afa9ed057b90b,
+  m_PrefabParentObject: {fileID: 1263374358242562, guid: 78fcb6638fdaf5a49b3afa9ed057b90b,
     type: 2}
   m_PrefabInternal: {fileID: 4710205}
 --- !u!1 &4710207 stripped
@@ -537,9 +567,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameType: {fileID: 4710206}
+  analytics: {fileID: 794793958}
   settingsPanel: {fileID: 4710207}
   bbMenuPanel: {fileID: 846575271}
   listViewport: {fileID: 431840676}
+  selectedAnalyticsOption: 1
 --- !u!4 &342360192
 Transform:
   m_ObjectHideFlags: 0
@@ -876,6 +908,11 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 619519104}
+--- !u!1 &794793958 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1614332027998814, guid: 78fcb6638fdaf5a49b3afa9ed057b90b,
+    type: 2}
+  m_PrefabInternal: {fileID: 4710205}
 --- !u!1 &846575271 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1810309870150150, guid: 78fcb6638fdaf5a49b3afa9ed057b90b,
@@ -1022,8 +1059,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3210d02ad6d1b5744ba32618fbba34a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentLevelID: 0
   gameLevels: []
-  ListController: {fileID: 0}
+  currentCalculationTypeID: 0
+  calculationTypes: 
+  AnalyticsEnabled: 1
 --- !u!114 &1068508618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1035,7 +1075,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 483b2638f5c963a4f99f919f9423c29b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  refreshingTime: 5000
   RemoteHostName: 
   RemoteServicePort: 0
 --- !u!1 &1121887478

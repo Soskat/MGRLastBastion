@@ -32,7 +32,7 @@ public class DataManager {
 
         // save info about player and game settings:
         AddTestInfo(InfoType.ID, playerID);
-        AddTestInfo(InfoType.GameType, gameType);
+        AddTestInfo(InfoType.GameType, (int)gameType);
     }
 
     // ends current analysis:
@@ -62,7 +62,7 @@ public class DataManager {
     /// <param name="averageGsr">Average GSR value</param>
     public static void AddLevelInfo(string levelName, CalculationType calculationType, int averageHr, int averageGsr)
     {
-        string data = "- " + levelName + " " + calculationType + " " + averageHr + " " + averageGsr;
+        string data = "- " + levelName + " " + (int)calculationType + " " + averageHr + " " + averageGsr;
         SaveToFile(data);
     }
 
@@ -77,11 +77,11 @@ public class DataManager {
         string data;
         if (value != null)
         {
-            data = eventType + " " + time + " " + value.ToString();
+            data = (int)eventType + " " + time + " " + value.ToString();
         }
         else
         {
-            data = eventType + " " + time;
+            data = (int)eventType + " " + time;
         }
         SaveToFile(data);
     }
@@ -106,7 +106,7 @@ public class DataManager {
     /// <param name="value">Data to save</param>
     private static void SaveToFile(string value)
     {
-        byte[] data = new UTF8Encoding(true).GetBytes(value);
+        byte[] data = new UTF8Encoding(true).GetBytes(value + "\n");
         file.Write(data, 0, data.Length);
     }
 
