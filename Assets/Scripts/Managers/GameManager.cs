@@ -17,14 +17,17 @@ public class GameManager : MonoBehaviour
     #endregion
 
 
-
-    private GameType gameType;
     [SerializeField] private int currentLevelID;
     [SerializeField] private string[] gameLevels;
     [SerializeField] private int currentCalculationTypeID;
     [SerializeField] private CalculationType[] calculationTypes;
-    
+    private DateTime startTime;
+    private DateTime currentTime;
+
     public CalculationType CurrentCalculationType { get { return calculationTypes[currentCalculationTypeID]; } }
+    public int GetTime { get { return (currentTime - startTime).Milliseconds; } }
+    public GameType GameType { get; set; }
+
 
 
 
@@ -68,6 +71,9 @@ public class GameManager : MonoBehaviour
         calculationTypes = new CalculationType[2];
         currentLevelID = 0;
         currentCalculationTypeID = 0;
+
+        // initialize analytics system:
+        DataManager.InitializeSystem();
     }
 
     // Update is called every frame, if the MonoBehaviour is enabled
@@ -124,7 +130,17 @@ public class GameManager : MonoBehaviour
         return ListController.GetSelectedItem();
     }
 
+    /// <summary>
+    /// Sets current in-game reference time.
+    /// </summary>
+    public void SetTime()
+    {
+        currentTime = DateTime.Now;
+    }
 
+    /// <summary>
+    /// Starts new game.
+    /// </summary>
     public void StartNewGame()
     {
         currentLevelID = 0;
@@ -157,17 +173,29 @@ public class GameManager : MonoBehaviour
                 break;
         }
         // setup new analysis data:
-        // ...
+        DataManager.BeginAnalysis(GameType);
+        startTime = DateTime.Now;
 
         // load next scene:
         LoadNextLevel();
     }
 
+    /// <summary>
+    /// Informs that level has ended.
+    /// </summary>
     public void LevelHasEnded()
     {
+        if(currentLevelID == 1 || currentLevelID == 3)
+        {
+            SetTime();
+            DataManager.AddGameEvent(EventType.GameEnd, GetTime);
+        }
         LoadNextLevel();
     }
 
+    /// <summary>
+    /// Loads next game level.
+    /// </summary>
     public void LoadNextLevel()
     {
         // set up current calculation type if needed:
@@ -182,12 +210,16 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene("MainMenu");
+            BackToMainMenu();
         }
     }
 
+    /// <summary>
+    /// Loads main menu scene.
+    /// </summary>
     public void BackToMainMenu()
     {
+        DataManager.EndAnalysis();
         SceneManager.LoadScene("MainMenu");
     }
     #endregion

@@ -15,6 +15,7 @@ public class MainMenuManager : MonoBehaviour {
     private BandBridgeMenuController bbMenuController;
     private ListController listController;
     private bool isSettingsMenuOn = false;
+    private GameType[] gameTypes = { GameType.ModeA, GameType.ModeB };
     #endregion
     
 
@@ -29,10 +30,13 @@ public class MainMenuManager : MonoBehaviour {
     void Start()
     {
         bbMenuController = bbMenuPanel.GetComponent<BandBridgeMenuController>();
-        gameTypeDropdown = gameType.GetComponent<Dropdown>();
-        gameTypeDropdown.AddOptions(new List<string>() { GameType.ModeA.ToString(), GameType.ModeB.ToString() });
         listController = listViewport.GetComponent<ListController>();
         GameManager.instance.ListController = listController;
+        gameTypeDropdown = gameType.GetComponent<Dropdown>();
+        // add dropdown options content:
+        List<string> gameOptions = new List<string>();
+        foreach (var option in gameTypes) gameOptions.Add(option.ToString());
+        gameTypeDropdown.AddOptions(gameOptions);
     }
 
     // Update is called once per frame
@@ -73,6 +77,7 @@ public class MainMenuManager : MonoBehaviour {
     /// </summary>
     public void StartNewGame()
     {
+        GameManager.instance.GameType = gameTypes[gameTypeDropdown.value];
         GameManager.instance.StartNewGame();
     }
 
