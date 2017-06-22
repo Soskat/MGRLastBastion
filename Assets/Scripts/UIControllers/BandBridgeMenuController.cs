@@ -58,7 +58,10 @@ public class BandBridgeMenuController : MonoBehaviour {
     // Awake is called when the script instance is being loaded
     private void Awake()
     {
-        DoAssertions();
+        Assert.IsNotNull(listView);
+        Assert.IsNotNull(pairedBandMenuLabel);
+        Assert.IsNotNull(hostNameInput);
+        Assert.IsNotNull(servicePortInput);
     }
 
     // Use this for initialization
@@ -67,20 +70,7 @@ public class BandBridgeMenuController : MonoBehaviour {
         listController = listView.GetComponent<ListController>();
         HostName = GameManager.instance.BBModule.RemoteHostName;
         ServicePort = GameManager.instance.BBModule.RemoteServicePort.ToString();
-    }
-    #endregion
-    
-
-    #region Private methods
-    /// <summary>
-    /// Performs assertion tests.
-    /// </summary>
-    private void DoAssertions()
-    {
-        Assert.IsNotNull(listView);
-        Assert.IsNotNull(pairedBandMenuLabel);
-        Assert.IsNotNull(hostNameInput);
-        Assert.IsNotNull(servicePortInput);
+        PairedBand = GameManager.instance.BBModule.PairedBand.ToString();
     }
     #endregion
 }

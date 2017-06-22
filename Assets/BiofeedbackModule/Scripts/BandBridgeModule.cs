@@ -78,6 +78,7 @@ public class BandBridgeModule : MonoBehaviour {
     {
         RemoteHostName = DefaultHostName;
         RemoteServicePort = DefaultServicePort;
+        PairedBand = new StringBuilder();
         MessageArrived += receivedMsg =>
         {
             DealWithReceivedMessage(receivedMsg);
@@ -89,7 +90,6 @@ public class BandBridgeModule : MonoBehaviour {
     // Use this for initialization
     private void Start()
     {
-        PairedBand = new StringBuilder();
         connectedBands = new List<string>();
 
         //// refresh connected Bands list periodically:

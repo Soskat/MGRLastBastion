@@ -228,7 +228,7 @@ Prefab:
     - target: {fileID: 224220975096423658, guid: 78fcb6638fdaf5a49b3afa9ed057b90b,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0.99999994
       objectReference: {fileID: 0}
     - target: {fileID: 224614695227157082, guid: 78fcb6638fdaf5a49b3afa9ed057b90b,
         type: 2}
@@ -249,6 +249,45 @@ Prefab:
         type: 2}
       propertyPath: m_SizeDelta.x
       value: -17
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178376044480816, guid: 78fcb6638fdaf5a49b3afa9ed057b90b, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114470602101351160, guid: 78fcb6638fdaf5a49b3afa9ed057b90b,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1068508618}
+    - target: {fileID: 114470602101351160, guid: 78fcb6638fdaf5a49b3afa9ed057b90b,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UnpairBand
+      objectReference: {fileID: 0}
+    - target: {fileID: 114446893849645234, guid: 78fcb6638fdaf5a49b3afa9ed057b90b,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1068508618}
+    - target: {fileID: 114446893849645234, guid: 78fcb6638fdaf5a49b3afa9ed057b90b,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PairBand
+      objectReference: {fileID: 0}
+    - target: {fileID: 114500047069939894, guid: 78fcb6638fdaf5a49b3afa9ed057b90b,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1068508618}
+    - target: {fileID: 114500047069939894, guid: 78fcb6638fdaf5a49b3afa9ed057b90b,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RefreshList
+      objectReference: {fileID: 0}
+    - target: {fileID: 224220975096423658, guid: 78fcb6638fdaf5a49b3afa9ed057b90b,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 78fcb6638fdaf5a49b3afa9ed057b90b, type: 2}
