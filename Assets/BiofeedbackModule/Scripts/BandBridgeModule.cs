@@ -23,7 +23,7 @@ public class BandBridgeModule : MonoBehaviour {
 
 
     #region Private fields
-    [SerializeField] private int refreshingTime = 5000;
+    //[SerializeField] private int refreshingTime = 5000;
     private bool isBandPaired = false;
     private bool isCalibrationOn = false;
     private bool canReceiveBandReadings = false;

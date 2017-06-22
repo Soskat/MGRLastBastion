@@ -1022,7 +1022,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3210d02ad6d1b5744ba32618fbba34a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsReadyForNewBandData: 0
+  gameLevels: []
   ListController: {fileID: 0}
 --- !u!114 &1068508618
 MonoBehaviour:

@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
-
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Component that manages all game logic.
@@ -18,8 +19,15 @@ public class GameManager : MonoBehaviour
 
 
     private GameType gameType;
-
+    [SerializeField] private int currentLevelID;
+    [SerializeField] private string[] gameLevels;
+    [SerializeField] private int currentCalculationTypeID;
+    [SerializeField] private CalculationType[] calculationTypes;
     
+    public CalculationType CurrentCalculationType { get { return calculationTypes[currentCalculationTypeID]; } }
+
+
+
     #region Private fields
     private SensorPanelController sensorPanelController;
     #endregion
@@ -27,8 +35,8 @@ public class GameManager : MonoBehaviour
 
     #region Public fields & properties
     public BandBridgeModule BBModule { get; set; }
-    public bool IsReadyForNewBandData = false;
-    public ListController ListController;
+    public bool IsReadyForNewBandData { get; set; }
+    public ListController ListController { get; set; }
     #endregion
 
 
@@ -54,6 +62,12 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         BBModule = gameObject.GetComponent<BandBridgeModule>();
+        IsReadyForNewBandData = false;
+
+        gameLevels = new string[] { "Intro", null, "Summary", null, "Summary", "Survey" };
+        calculationTypes = new CalculationType[2];
+        currentLevelID = 0;
+        currentCalculationTypeID = 0;
     }
 
     // Update is called every frame, if the MonoBehaviour is enabled
@@ -113,9 +127,69 @@ public class GameManager : MonoBehaviour
 
     public void StartNewGame()
     {
-        Debug.Log("Starting new game...");
+        currentLevelID = 0;
+        currentCalculationTypeID = 0;
+
+        // set levels in random order:
+        switch (UnityEngine.Random.Range(0, 2))
+        {
+            case 0:
+                gameLevels[1] = "LevelA";
+                gameLevels[3] = "LevelB";
+                break;
+
+            case 1:
+                gameLevels[1] = "LevelB";
+                gameLevels[3] = "LevelA";
+                break;
+        }
+        // set biofeedback calculation mode in random order:
+        switch (UnityEngine.Random.Range(0, 2))
+        {
+            case 0:
+                calculationTypes[0] = CalculationType.Alternative;
+                calculationTypes[1] = CalculationType.Conjunction;
+                break;
+
+            case 1:
+                calculationTypes[0] = CalculationType.Conjunction;
+                calculationTypes[1] = CalculationType.Alternative;
+                break;
+        }
+        // setup new analysis data:
+        // ...
+
+        // load next scene:
+        LoadNextLevel();
     }
 
+    public void LevelHasEnded()
+    {
+        LoadNextLevel();
+    }
+
+    public void LoadNextLevel()
+    {
+        // set up current calculation type if needed:
+        if (currentLevelID == 3) currentCalculationTypeID++;
+        
+        // load next scene (or main menu):
+        if (currentLevelID < gameLevels.Length)
+        {
+            SceneManager.LoadScene(gameLevels[currentLevelID]);
+            //Debug.Log(gameLevels[currentLevelID] + " scene has been loaded");
+            currentLevelID++;
+        }
+        else
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
+    }
+
+    public void BackToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
     #endregion
     
 
