@@ -8,6 +8,9 @@ using System.Threading;
 using UnityEngine;
 
 
+/// <summary>
+/// Class that manages connection with BandBridge server.
+/// </summary>
 public class BandBridgeModule : MonoBehaviour {
 
     #region Constants
@@ -23,7 +26,7 @@ public class BandBridgeModule : MonoBehaviour {
 
 
     #region Private fields
-    [SerializeField] private int refreshingTime = 5000;
+    //[SerializeField] private int refreshingTime = 5000;
     private bool isBandPaired = false;
     private bool isCalibrationOn = false;
     private bool canReceiveBandReadings = false;
@@ -78,6 +81,7 @@ public class BandBridgeModule : MonoBehaviour {
     {
         RemoteHostName = DefaultHostName;
         RemoteServicePort = DefaultServicePort;
+        PairedBand = new StringBuilder();
         MessageArrived += receivedMsg =>
         {
             DealWithReceivedMessage(receivedMsg);
@@ -89,7 +93,6 @@ public class BandBridgeModule : MonoBehaviour {
     // Use this for initialization
     private void Start()
     {
-        PairedBand = new StringBuilder();
         connectedBands = new List<string>();
 
         //// refresh connected Bands list periodically:
@@ -118,10 +121,7 @@ public class BandBridgeModule : MonoBehaviour {
     // Sent to all game objects before the application is quit
     private void OnApplicationQuit()
     {
-        if (refresherWorker != null)
-        {
-            refresherWorker.CancelAsync();
-        }
+        if (refresherWorker != null) refresherWorker.CancelAsync();
     }
     #endregion
     
@@ -149,12 +149,9 @@ public class BandBridgeModule : MonoBehaviour {
     public void PairBand()
     {
         // first, unpair Band if needed:
-        if (PairedBand != null && PairedBand.ToString() != "")
-        {
-            UnpairBand();
-        }
+        if (PairedBand != null && PairedBand.ToString() != "") UnpairBand();
         // pair with new Band:
-        string newChoosenBand = GameManager.gameManager.GetChoosenBandName();
+        string newChoosenBand = GameManager.instance.GetChoosenBandName();
         if (newChoosenBand == null) return;
         PairedBand.Append(newChoosenBand);
         isBandPaired = true;

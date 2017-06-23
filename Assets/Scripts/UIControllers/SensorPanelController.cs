@@ -18,9 +18,14 @@ public class SensorPanelController : MonoBehaviour {
 
 
     #region MonoBehaviour methods
+    // Awake is called when the script instance is being loaded
     private void Awake()
     {
-        DoAssertions();
+        Assert.IsNotNull(pairedBandLabel);
+        Assert.IsNotNull(hrReadingLabel);
+        Assert.IsNotNull(averageHrLabel);
+        Assert.IsNotNull(gsrReadingLabel);
+        Assert.IsNotNull(averageGsrLabel);
     }
 
     // Use this for initialization
@@ -73,21 +78,6 @@ public class SensorPanelController : MonoBehaviour {
     {
         hrReadingLabel.text = hr.ToString();
         gsrReadingLabel.text = gsr.ToString();
-    }
-    #endregion
-
-
-    #region Private methods
-    /// <summary>
-    /// Performs assertion tests.
-    /// </summary>
-    private void DoAssertions()
-    {
-        Assert.IsNotNull(pairedBandLabel);
-        Assert.IsNotNull(hrReadingLabel);
-        Assert.IsNotNull(averageHrLabel);
-        Assert.IsNotNull(gsrReadingLabel);
-        Assert.IsNotNull(averageGsrLabel);
     }
     #endregion
 }

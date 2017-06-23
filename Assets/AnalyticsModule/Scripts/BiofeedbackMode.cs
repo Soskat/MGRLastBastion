@@ -1,7 +1,7 @@
 ﻿/// <summary>
-/// Game type.
+/// Biofeedback mode.
 /// </summary>
-public enum GameType
+public enum BiofeedbackMode : byte
 {
     BiofeedbackOff,
     BiofeedbackOn

@@ -3,26 +3,28 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
 
+
+/// <summary>
+/// Component that manages list behaviour on GameObject.
+/// </summary>
 public class ListController : MonoBehaviour {
-
-    #region Public fields
-    public GameObject contentPanel;
-    public GameObject listItemPrefab;
-    #endregion
-
+    
     #region Private fields
+    [SerializeField] private GameObject contentPanel;
+    [SerializeField] private GameObject listItemPrefab;
     [SerializeField] private List<string> connectedBands;
     [SerializeField] private int selectedItem = 0;
     #endregion
 
     #region Unity methods
+    // Awake is called when the script instance is being loaded
     private void Awake()
     {
-        // check if everything is initialized:
         Assert.IsNotNull(listItemPrefab);
         Assert.IsNotNull(contentPanel);
     }
 
+    // Use this for initialization
     void Start()
     {
         connectedBands = new List<string>();
@@ -65,10 +67,7 @@ public class ListController : MonoBehaviour {
     {
         connectedBands.Clear();
         selectedItem = -1;
-        foreach (Transform child in contentPanel.transform)
-        {
-            Destroy(child.gameObject);
-        }
+        foreach (Transform child in contentPanel.transform) Destroy(child.gameObject);
     }
 
     /// <summary>
@@ -77,10 +76,8 @@ public class ListController : MonoBehaviour {
     /// <returns>List's selected item</returns>
     public string GetSelectedItem()
     {
-        if (selectedItem >= 0 && selectedItem < connectedBands.Count)
-            return connectedBands[selectedItem];
-        else
-            return null;
+        if (selectedItem >= 0 && selectedItem < connectedBands.Count) return connectedBands[selectedItem];
+        else return null;
     }
     #endregion
 

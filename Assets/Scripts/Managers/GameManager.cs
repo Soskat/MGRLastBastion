@@ -1,6 +1,6 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Assertions;
+using UnityEngine.SceneManagement;
 
 
 /// <summary>
@@ -12,29 +12,37 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// <see cref="GameManager"/> public static object.
     /// </summary>
-    public static GameManager gameManager;
+    public static GameManager instance;
+    #endregion
+
+    
+    #region Private fields
+    [SerializeField] private int currentLevelID = -1;
+    [SerializeField] private string[] gameLevels;
+    [SerializeField] private int currentCalculationTypeID = 0;
+    [SerializeField] private CalculationType[] calculationTypes;
+    private DateTime startTime;
+    private DateTime currentTime;
+    private int indexOfFirstLevel;
+    private int indexOfSecondLevel;
     #endregion
 
 
-
-    private GameType gameType;
-
-
-
-
-
-
-
-
-    #region Private fields
-    [SerializeField] private GameObject menuPanel;
-    [SerializeField] private GameObject sensorPanel;
-    [SerializeField] private GameObject calibrationInfoLabel;
-    private SensorPanelController sensorPanelController;
-    private BandBridgeMenuController bbMenuController;
-    private BandBridgeModule bbModule;
-    private bool isMenuOn = false;
-    [SerializeField] private bool isReadyForNewBandData = false;
+    #region Public fields & properties
+    /// <summary>Instance of <see cref="BandBridgeModule"/> class.</summary>
+    public BandBridgeModule BBModule { get; set; }
+    /// <summary>Is ready for new MS Band device sensors data?</summary>
+    public bool IsReadyForNewBandData { get; set; }
+    /// <summary>Instance of <see cref="ListController"/> class.</summary>
+    public ListController ListController { get; set; }
+    /// <summary>Active method of calculating player's arousal.</summary>
+    public CalculationType CurrentCalculationType { get { return calculationTypes[currentCalculationTypeID]; } }
+    /// <summary>Current time stamp.</summary>
+    public int GetTime { get { return (currentTime - startTime).Milliseconds; } }
+    /// <summary>Current game mode.</summary>
+    public GameMode GameMode { get; set; }
+    /// <summary>Is analytics module enabled?</summary>
+    public bool AnalyticsEnabled = true;
     #endregion
 
 
@@ -43,171 +51,138 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         // make sure that Singleton design pattern is preserved and GameManager object will always exist:
-        if (gameManager == null)
+        if (instance == null)
         {
-            gameManager = this;
-
-            // make sure all objects exist:
-            DoAssertions();
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+            BBModule = gameObject.GetComponent<BandBridgeModule>();
         }
-        else if (gameManager != this)
-        {
-            Destroy(gameObject);
-        }
+        else if (instance != this) Destroy(gameObject);
     }
 
     // Use this for initialization
     void Start()
     {
-        sensorPanelController = sensorPanel.GetComponent<SensorPanelController>();
-        bbModule = gameObject.GetComponent<BandBridgeModule>();
-        bbMenuController = menuPanel.GetComponent<BandBridgeMenuController>();
+        IsReadyForNewBandData = false;
+        gameLevels = new string[] { "Intro", null, "Summary", "Intro", null, "Summary", "Survey" };
+        indexOfFirstLevel = 1;
+        indexOfSecondLevel = 4;
+        calculationTypes = new CalculationType[2];
 
-        // update GUI:
-        menuPanel.SetActive(false);
-        bbMenuController.HostName = bbModule.RemoteHostName;
-        bbMenuController.ServicePort = bbModule.RemoteServicePort.ToString();
+        // initialize analytics system:
+        DataManager.InitializeSystem();
     }
 
     // Update is called every frame, if the MonoBehaviour is enabled
     void Update()
     {
-        // get current Band sensors readings:
-        if (bbModule.CanReceiveBandReadings && bbModule.IsBandPaired && isReadyForNewBandData)
-        {
-            bbModule.GetBandData();
-            isReadyForNewBandData = false;
-        }
 
-        // show biofeedback module menu if needed:
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            SwitchMenuState();
-        }
-
-        // Update GUI if needed: =============================================
-
-        // update sensors readings values:
-        if (bbModule.IsSensorsReadingsChanged)
-        {
-            if (bbModule.IsBandPaired)
-            {
-                sensorPanelController.UpdateCurrentReadings(bbModule.CurrentHrReading, bbModule.CurrentGsrReading);
-            }
-            else
-            {
-                sensorPanelController.ResetLabels();
-            }
-            bbModule.IsSensorsReadingsChanged = false;
-            isReadyForNewBandData = true;
-        }
-
-        // update the list of connected Bands:
-        if (bbModule.IsConnectedBandsListChanged)
-        {
-            bbMenuController.ListController.ClearList();
-            bbMenuController.ListController.UpdateList(bbModule.ConnectedBands.ToArray());
-
-            bbModule.IsConnectedBandsListChanged = false;
-            isReadyForNewBandData = true;
-        }
-
-        // update PairedBand label:
-        if (bbModule.IsPairedBandChanged)
-        {
-            sensorPanelController.UpdateBandLabel(bbModule.PairedBand.ToString());
-            bbMenuController.PairedBand = bbModule.PairedBand.ToString();
-            bbModule.IsPairedBandChanged = false;
-        }
-
-        // update calibration info label:
-        if (bbModule.IsCalibrationOn)
-        {
-            calibrationInfoLabel.SetActive(true);
-        }
-        else
-        {
-            calibrationInfoLabel.SetActive(false);
-        }
-
-        // update average sensors readings values:
-        if (bbModule.IsAverageReadingsChanged)
-        {
-            if (bbModule.IsBandPaired)
-            {
-                sensorPanelController.UpdateAverageReadings(bbModule.AverageHrReading, bbModule.AverageGsrReading);
-            }
-            else
-            {
-                sensorPanelController.ResetLabels();
-            }
-            bbModule.IsAverageReadingsChanged = false;
-        }
     }
     #endregion
 
 
     #region Public methods
     /// <summary>
-    /// Turns BandBridge menu on and off.
-    /// </summary>
-    public void SwitchMenuState()
-    {
-        isMenuOn = !isMenuOn;
-        if (isMenuOn)
-            menuPanel.SetActive(true);
-        else
-            menuPanel.SetActive(false);
-    }
-
-    /// <summary>
     /// Gets currently selected item on connected Bands list.
     /// </summary>
     /// <returns>Currently selected Band name</returns>
     public string GetChoosenBandName()
     {
-        return bbMenuController.ListController.GetSelectedItem();
-    }
-    #endregion
-
-
-    #region UI events
-    /// <summary>
-    /// HostNameInput's <see cref="InputField.onEndEdit"/> behaviour.
-    /// </summary>
-    public void OnHostNameEndEdit()
-    {
-        bbModule.RemoteHostName = bbMenuController.HostName;
+        return ListController.GetSelectedItem();
     }
 
     /// <summary>
-    /// ServicePortInput's <see cref="InputField.onEndEdit"/> behaviour.
+    /// Sets current in-game reference time.
     /// </summary>
-    /// <param name="newServicePort">New service port number</param>
-    public void OnServicePortEndEdit()
+    public void SetTime()
     {
-        int servicePort;
-        if (!Int32.TryParse(bbMenuController.ServicePort, out servicePort))
+        currentTime = DateTime.Now;
+    }
+
+    /// <summary>
+    /// Starts new game.
+    /// </summary>
+    public void StartNewGame()
+    {
+        currentLevelID = -1;
+        currentCalculationTypeID = 0;
+
+        // set levels in random order:
+        switch (UnityEngine.Random.Range(0, 2))
         {
-            bbModule.RemoteServicePort = BandBridgeModule.DefaultServicePort;
+            case 0:
+                gameLevels[indexOfFirstLevel] = "LevelA";
+                gameLevels[indexOfSecondLevel] = "LevelB";
+                break;
+
+            case 1:
+                gameLevels[indexOfFirstLevel] = "LevelB";
+                gameLevels[indexOfSecondLevel] = "LevelA";
+                break;
         }
-        else
+        // set biofeedback calculation mode in random order:
+        switch (UnityEngine.Random.Range(0, 2))
         {
-            bbModule.RemoteServicePort = servicePort;
+            case 0:
+                calculationTypes[0] = CalculationType.Alternative;
+                calculationTypes[1] = CalculationType.Conjunction;
+                break;
+
+            case 1:
+                calculationTypes[0] = CalculationType.Conjunction;
+                calculationTypes[1] = CalculationType.Alternative;
+                break;
         }
+
+        // setup new analysis data:
+        if (AnalyticsEnabled)
+        {
+            DataManager.BeginAnalysis(GameMode);
+            startTime = DateTime.Now;
+        }
+
+        IsReadyForNewBandData = true;
+
+        // load next scene:
+        LoadNextLevel();
     }
-    #endregion
 
-
-    #region Private methods
     /// <summary>
-    /// Performs assertions to make sure everything is properly initialized.
+    /// Informs that level has ended.
     /// </summary>
-    private void DoAssertions()
+    public void LevelHasEnded()
     {
-        Assert.IsNotNull(menuPanel);
-        Assert.IsNotNull(sensorPanel);
-        Assert.IsNotNull(calibrationInfoLabel);
+        if (AnalyticsEnabled && (currentLevelID == indexOfFirstLevel || currentLevelID == indexOfSecondLevel))
+        {
+            SetTime();
+            DataManager.AddGameEvent(EventType.GameEnd, GetTime);
+        }
+        LoadNextLevel();
+    }
+
+    /// <summary>
+    /// Loads next game level.
+    /// </summary>
+    public void LoadNextLevel()
+    {
+        currentLevelID++;
+        
+        // set up current calculation type if needed:
+        if (currentLevelID == 3) currentCalculationTypeID++;
+                
+        // load next scene (or main menu):
+        if (currentLevelID < gameLevels.Length) SceneManager.LoadScene(gameLevels[currentLevelID]);
+        else BackToMainMenu();
+    }
+
+    /// <summary>
+    /// Loads main menu scene.
+    /// </summary>
+    public void BackToMainMenu()
+    {
+        if (AnalyticsEnabled) DataManager.EndAnalysis();
+        IsReadyForNewBandData = false;
+        SceneManager.LoadScene("MainMenu");
     }
     #endregion
 }
