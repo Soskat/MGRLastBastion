@@ -36,6 +36,8 @@ namespace LastBastion.Game.Managers
         #region Public fields & properties
         /// <summary>Instance of <see cref="BandBridgeModule"/> class.</summary>
         public BandBridgeModule BBModule { get; set; }
+        /// <summary>Instance of <see cref="BiofeedbackSimulator"/> class.</summary>
+        public BiofeedbackSimulator BBSimulator { get; set; }
         /// <summary>Is ready for new MS Band device sensors data?</summary>
         public bool IsReadyForNewBandData { get; set; }
         /// <summary>Instance of <see cref="ListController"/> class.</summary>
@@ -61,6 +63,7 @@ namespace LastBastion.Game.Managers
                 instance = this;
                 DontDestroyOnLoad(gameObject);
                 BBModule = gameObject.GetComponent<BandBridgeModule>();
+                BBSimulator = gameObject.GetComponent<BiofeedbackSimulator>();
             }
             else if (instance != this) Destroy(gameObject);
         }

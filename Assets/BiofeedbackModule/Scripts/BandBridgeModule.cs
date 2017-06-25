@@ -30,6 +30,9 @@ namespace LastBastion.Biofeedback
 
 
         #region Private fields
+        [SerializeField] private bool isEnabled = true;
+        [SerializeField] private string remoteHostName;
+        [SerializeField] private int remoteServicePort;
         [SerializeField] private TripleTreshold hrLevel;
         [SerializeField] private TripleTreshold gsrLevel;
         //[SerializeField] private int refreshingTime = 5000;
@@ -50,10 +53,20 @@ namespace LastBastion.Biofeedback
 
 
         #region Public fields & properties
+        /// <summary>Is module enabled?</summary>
+        public bool IsEnabled { get { return isEnabled; } }
         /// <summary>Name of the remote host.</summary>
-        public string RemoteHostName;
+        public string RemoteHostName
+        {
+            get { return remoteHostName; }
+            set { remoteHostName = value; }
+        }
         /// <summary>Port number of the remote host.</summary>
-        public int RemoteServicePort;
+        public int RemoteServicePort
+        {
+            get { return remoteServicePort; }
+            set { remoteServicePort = value; }
+        }
         /// <summary>Name of the connected MS Band device.</summary>
         public StringBuilder PairedBand;
         /// <summary>Informs that new message has arrived.</summary>
@@ -82,8 +95,6 @@ namespace LastBastion.Biofeedback
         public int CurrentGsr { get { return currentGsr; } }
         /// <summary>List of connected MS Band devices.</summary>
         public List<string> ConnectedBands { get { return connectedBands; } }
-
-
         /// <summary>Informs that biofeedback data has changed.</summary>
         public Action<BiofeedbackData> BiofeedbackDataChanged;
         #endregion
@@ -93,8 +104,8 @@ namespace LastBastion.Biofeedback
         // Awake is called when the script instance is being loaded
         private void Awake()
         {
-            RemoteHostName = DefaultHostName;
-            RemoteServicePort = DefaultServicePort;
+            remoteHostName = DefaultHostName;
+            remoteServicePort = DefaultServicePort;
             PairedBand = new StringBuilder();
             MessageArrived += receivedMsg =>
             {

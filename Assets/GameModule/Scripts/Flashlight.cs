@@ -6,11 +6,14 @@ using UnityEngine.Assertions;
 
 namespace LastBastion.Game
 {
+    /// <summary>
+    /// Component that manages flashlight behaviour.
+    /// </summary>
     public class Flashlight : MonoBehaviour
     {
         #region Private fields
         [SerializeField] private bool lightOn = false;
-        [SerializeField] private GameObject light;
+        [SerializeField] private GameObject lightRay;
         #endregion
 
 
@@ -24,13 +27,13 @@ namespace LastBastion.Game
         // Awake is called when the script instance is being loaded
         private void Awake()
         {
-            Assert.IsNotNull(light);
+            Assert.IsNotNull(lightRay);
         }
 
         // Use this for initialization
         void Start()
         {
-            light.SetActive(false);
+            lightRay.SetActive(false);
         }
 
         // Update is called once per frame
@@ -47,8 +50,8 @@ namespace LastBastion.Game
         public void SwitchLight()
         {
             lightOn = (lightOn) ? false : true;
-            if (lightOn) light.SetActive(true);
-            else light.SetActive(false);
+            if (lightOn) lightRay.SetActive(true);
+            else lightRay.SetActive(false);
         }
         #endregion
     }
