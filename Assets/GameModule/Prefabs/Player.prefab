@@ -103,6 +103,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4271016329692786}
+  - component: {fileID: 114276798552163928}
   m_Layer: 0
   m_Name: Flashlight
   m_TagString: Untagged
@@ -122,6 +123,7 @@ GameObject:
   - component: {fileID: 114599843427104646}
   - component: {fileID: 54704326900735668}
   - component: {fileID: 82776416796828232}
+  - component: {fileID: 114245610154542102}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -478,6 +480,30 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &114245610154542102
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1887102829654164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abc91cc992da4b74cb6c490b278ed4e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114276798552163928
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1855547365467016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8163876f02c8a73449d304cbf3b1d619, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightOn: 0
+  light: {fileID: 1772480256386792}
 --- !u!114 &114599843427104646
 MonoBehaviour:
   m_ObjectHideFlags: 1
