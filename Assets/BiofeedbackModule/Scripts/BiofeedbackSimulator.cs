@@ -1,5 +1,4 @@
 ﻿using LastBastion.Game.Managers;
-using System;
 using UnityEngine;
 
 
@@ -14,6 +13,7 @@ namespace LastBastion.Biofeedback
         [SerializeField] private TripleTreshold hrLevel;
         [SerializeField] private TripleTreshold gsrLevel;
         #endregion
+
 
         #region Public fields & properties
         /// <summary>Average HR value.</summary>
@@ -32,8 +32,6 @@ namespace LastBastion.Biofeedback
         public float GsrModifier;
         /// <summary>Current GSR state based on GSR modifier.</summary>
         public DataState GsrState;
-        /// <summary>Informs that biofeedback data has changed.</summary>
-        public Action<BiofeedbackData> BiofeedbackDataChanged;
         #endregion
 
 
@@ -43,30 +41,28 @@ namespace LastBastion.Biofeedback
         {
             CurrentHr = AverageHr;
             CurrentGsr = AverageGsr;
+            GameManager.instance.BBModule.BiofeedbackDataChanged += data => UpdateBiofeedbackVariables(data);
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (!GameManager.instance.BBModule.IsEnabled) NotifyAboutUpdate();
+            if (!GameManager.instance.BBModule.IsEnabled) GameManager.instance.BBModule.UpdateBiofeedbackData(AverageHr, CurrentHr, AverageGsr, CurrentGsr);
         }
         #endregion
 
 
         #region Private methods
         /// <summary>
-        /// Notifies about changes in biofeedback data.
+        /// Updates simulator's variables.
         /// </summary>
-        private void NotifyAboutUpdate()
+        /// <param name="data">Packet of updated variables' values</param>
+        private void UpdateBiofeedbackVariables(BiofeedbackData data)
         {
-            // update HR data:
-            HrModifier = CurrentHr / AverageHr;
-            HrState = hrLevel.AssignState(HrModifier);
-            // update GSR data:
-            GsrModifier = CurrentGsr / AverageGsr;
-            GsrState = gsrLevel.AssignState(GsrModifier);
-            // inform that biofeedback data has changed:
-            BiofeedbackDataChanged(new BiofeedbackData(HrModifier, GsrModifier, HrState, GsrState));
+            HrModifier = data.HrModifier;
+            HrState = data.HrState;
+            GsrModifier = data.GsrModifier;
+            GsrState = data.GsrState;
         }
         #endregion
     }

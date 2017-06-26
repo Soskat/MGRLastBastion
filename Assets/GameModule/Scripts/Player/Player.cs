@@ -1,4 +1,5 @@
-﻿using LastBastion.Biofeedback;
+﻿using LastBastion.Analytics;
+using LastBastion.Biofeedback;
 using LastBastion.Game.Managers;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,10 +14,12 @@ namespace LastBastion.Game.Player
     public class Player : MonoBehaviour
     {
         #region Private fields
-        [SerializeField] private float hrModifier;
-        [SerializeField] private float gsrModifier;
-        [SerializeField] private DataState hrState;
-        [SerializeField] private DataState gsrState;
+        [SerializeField] private float hrModifier;  //--------------------------------- to remove later ?
+        [SerializeField] private DataState hrState; //--------------------------------- to remove later ?
+        [SerializeField] private float gsrModifier; //--------------------------------- to remove later ?
+        [SerializeField] private DataState gsrState;//--------------------------------- to remove later ?
+        [SerializeField] private float arousalModifier;
+        [SerializeField] private DataState arousalState;
         private Flashlight flashlight;
         private int averageHR;
         private int averageGSR;
@@ -28,15 +31,7 @@ namespace LastBastion.Game.Player
         void Start()
         {
             flashlight = GetComponentInChildren<Flashlight>();
-
-            if (GameManager.instance.BBModule.IsEnabled)
-            {
-                GameManager.instance.BBModule.BiofeedbackDataChanged += data => { UpdatePlayerState(data); };
-            }
-            else
-            {
-                GameManager.instance.BBSimulator.BiofeedbackDataChanged += data => { UpdatePlayerState(data); };
-            }
+            GameManager.instance.BBModule.BiofeedbackDataChanged += data => UpdatePlayerState(data);
         }
 
         // Update is called once per frame
@@ -57,11 +52,12 @@ namespace LastBastion.Game.Player
         /// <param name="data"></param>
         private void UpdatePlayerState(BiofeedbackData data)
         {
-            Debug.Log("Biofeedback update");
-            hrModifier = data.HrModifier;
-            hrState = data.HrState;
-            gsrModifier = data.GsrModifier;
-            gsrState = data.GsrState;
+            hrModifier = data.HrModifier;   //--------------------------------- to remove later ?
+            hrState = data.HrState;         //--------------------------------- to remove later ?
+            gsrModifier = data.GsrModifier; //--------------------------------- to remove later ?
+            gsrState = data.GsrState;       //--------------------------------- to remove later ?
+            arousalModifier = data.ArousalModifier;
+            arousalState = data.ArousalState;
         }
         #endregion
     }

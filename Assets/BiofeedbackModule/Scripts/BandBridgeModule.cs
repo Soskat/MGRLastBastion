@@ -1,5 +1,6 @@
 ﻿using Communication.Data;
 using Communication.Sockets;
+using LastBastion.Analytics;
 using LastBastion.Game.Managers;
 using System;
 using System.Collections.Generic;
@@ -16,15 +17,10 @@ namespace LastBastion.Biofeedback
     /// </summary>
     public class BandBridgeModule : MonoBehaviour
     {
-
         #region Constants
-        /// <summary>
-        /// Default remote host name.
-        /// </summary>
+        /// <summary>Default remote host name.</summary>
         public const string DefaultHostName = "DESKTOP-KPBRM2V";
-        /// <summary>
-        /// Default remote host service port.
-        /// </summary>
+        /// <summary>Default remote host service port.</summary>
         public const int DefaultServicePort = 2055;
         #endregion
 
@@ -303,6 +299,8 @@ namespace LastBastion.Biofeedback
                         currentHr = ((SensorData[])msg.Result)[0].Data;
                         currentGsr = ((SensorData[])msg.Result)[1].Data;
                         IsSensorsReadingsChanged = true;
+                        // calculate biofeedback modifiers and assign stated:
+                        UpdateBiofeedbackData(averageHr, currentHr, averageGsr, currentGsr);
                     }
                     break;
 
@@ -326,16 +324,36 @@ namespace LastBastion.Biofeedback
         /// <summary>
         /// Updates biofeedback data.
         /// </summary>
-        private void UpdateBiofeedbackData()
+        public void UpdateBiofeedbackData(int averageHr, int currentHr, int averageGsr, int currentGsr)
         {
             // update HR data:
-            hrModifier = currentHr / averageHr;
-            hrState = hrLevel.AssignState(hrModifier);
+            this.hrModifier = (float)currentHr / averageHr;
+            this.hrState = hrLevel.AssignState(hrModifier);
             // update GSR data:
-            gsrModifier = currentGsr / averageGsr;
-            gsrState = gsrLevel.AssignState(gsrModifier);
+            this.gsrModifier = (float)currentGsr / averageGsr;
+            this.gsrState = gsrLevel.AssignState(gsrModifier);
+            // update arousal data:
+            float arousalModifier = 0;
+            DataState arousalState = DataState.None;
+            if (GameManager.instance.CurrentCalculationType == CalculationType.Alternative)
+            {
+                if (hrState == DataState.High || gsrState == DataState.High) arousalState = DataState.High;
+                else if (hrState == DataState.Low || gsrState == DataState.Low) arousalState = DataState.Low;
+                else arousalState = DataState.Medium;
+
+                arousalModifier = Mathf.Min(hrModifier, gsrModifier);
+            }
+            else if (GameManager.instance.CurrentCalculationType == CalculationType.Conjunction)
+            {
+                if (hrState == DataState.High && gsrState == DataState.High) arousalState = DataState.High;
+                else if (hrState == DataState.Low && gsrState == DataState.Low) arousalState = DataState.Low;
+                else arousalState = DataState.Medium;
+
+                arousalModifier = Mathf.Max(hrModifier, gsrModifier);
+            }
             // inform that biofeedback data has changed:
-            BiofeedbackDataChanged(new BiofeedbackData(hrModifier, gsrModifier, hrState, gsrState));
+            Debug.Log("Biofeedback update");    //--------------------------------- to remove later
+            BiofeedbackDataChanged(new BiofeedbackData(hrModifier, hrState, gsrModifier, gsrState, arousalModifier, arousalState));
         }
         #endregion
 
