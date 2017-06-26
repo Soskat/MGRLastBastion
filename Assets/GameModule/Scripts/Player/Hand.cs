@@ -10,19 +10,19 @@ namespace LastBastion.Game
     public class Hand : MonoBehaviour
     {
         #region Private fields
-        [SerializeField] private Player.Player player;
+        [SerializeField] protected Player.Player player;
         #endregion
 
 
         #region MonoBehaviour methods
         // Use this for initialization
-        void Start()
+        protected void Start()
         {
             player = GetComponentInParent<Player.Player>();
         }
 
         // Update is called once per frame
-        void Update()
+        protected void Update()
         {
             // simulate hand shaking:
             if (player.ArousalState == DataState.High)
