@@ -78,7 +78,7 @@ MonoBehaviour:
   currentLevelID: 0
   gameLevels: []
   currentCalculationTypeID: 0
-  calculationTypes: 
+  calculationTypes: 01000000
   AnalyticsEnabled: 1
 --- !u!114 &114784912383324130
 MonoBehaviour:
@@ -100,7 +100,7 @@ MonoBehaviour:
     Medium: 1.2
     High: 2
   AverageHr: 72
-  CurrentHr: 0
+  CurrentHr: 50
   HrModifier: 0
   HrState: 0
   AverageGsr: 20

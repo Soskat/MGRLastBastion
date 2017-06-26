@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Assertions;
 
 
@@ -14,6 +12,8 @@ namespace LastBastion.Game
         #region Private fields
         [SerializeField] private bool lightOn = false;
         [SerializeField] private GameObject lightRay;
+        [SerializeField] private AudioClip switchSound;
+        private AudioSource audioSource;
         #endregion
 
 
@@ -28,12 +28,14 @@ namespace LastBastion.Game
         private void Awake()
         {
             Assert.IsNotNull(lightRay);
+            Assert.IsNotNull(switchSound);
         }
 
         // Use this for initialization
         void Start()
         {
             lightRay.SetActive(false);
+            audioSource = GetComponent<AudioSource>();
         }
 
         // Update is called once per frame
@@ -52,6 +54,8 @@ namespace LastBastion.Game
             lightOn = (lightOn) ? false : true;
             if (lightOn) lightRay.SetActive(true);
             else lightRay.SetActive(false);
+
+            if (audioSource != null) audioSource.PlayOneShot(switchSound);
         }
         #endregion
     }

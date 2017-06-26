@@ -352,36 +352,8 @@ namespace LastBastion.Biofeedback
                 arousalModifier = Mathf.Max(hrModifier, gsrModifier);
             }
             // inform that biofeedback data has changed:
-            Debug.Log("Biofeedback update");    //--------------------------------- to remove later
             BiofeedbackDataChanged(new BiofeedbackData(hrModifier, hrState, gsrModifier, gsrState, arousalModifier, arousalState));
-        }
-        #endregion
-
-
-        #region Debug & test methods
-        /// <summary>
-        /// Fakes the BandBridge app services behaviour.
-        /// </summary>
-        /// <param name="msg"></param>
-        /// <returns></returns>
-        private Message FakeBandBridgeService(Message msg)
-        {
-            Thread.Sleep(1000);
-            switch (msg.Code)
-            {
-                case MessageCode.SHOW_LIST_ASK:
-                    return new Message(MessageCode.SHOW_LIST_ANS, new string[] { "FakeBand 1", "FakeBand 2", "FakeBand 3" });
-
-                case MessageCode.GET_DATA_ASK:
-                    SensorData hrData = new SensorData(SensorCode.HR, 75);
-                    SensorData gsrData = new SensorData(SensorCode.HR, 11);
-                    return new Message(MessageCode.GET_DATA_ANS, new SensorData[] { hrData, gsrData });
-
-                default:
-                    return new Message(MessageCode.CTR_MSG, null);
-            }
         }
         #endregion
     }
 }
-

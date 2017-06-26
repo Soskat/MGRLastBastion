@@ -21,8 +21,17 @@ namespace LastBastion.Game.Player
         [SerializeField] private float arousalModifier;
         [SerializeField] private DataState arousalState;
         private Flashlight flashlight;
+        private AudioSource audioSource;
         private int averageHR;
         private int averageGSR;
+        #endregion
+
+
+        #region Public fields & properties
+        /// <summary>Current arousal modifier.</summary>
+        public float ArousalModifier { get { return arousalModifier; } }
+        /// <summary>Current arousal state based on <see cref="arousalModifier"/>.</summary>
+        public DataState ArousalState { get { return arousalState; } }
         #endregion
 
 
@@ -31,6 +40,7 @@ namespace LastBastion.Game.Player
         void Start()
         {
             flashlight = GetComponentInChildren<Flashlight>();
+            audioSource = GetComponent<AudioSource>();
             GameManager.instance.BBModule.BiofeedbackDataChanged += data => UpdatePlayerState(data);
         }
 
