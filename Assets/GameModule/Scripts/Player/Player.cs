@@ -5,7 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Assertions;
 
 namespace LastBastion.Game.Player
 {
@@ -15,49 +15,121 @@ namespace LastBastion.Game.Player
     public class Player : MonoBehaviour
     {
         #region Private fields
-        //[SerializeField] private float hrModifier;  //--------------------------------- to remove later ?
-        //[SerializeField] private DataState hrState; //--------------------------------- to remove later ?
-        //[SerializeField] private float gsrModifier; //--------------------------------- to remove later ?
-        //[SerializeField] private DataState gsrState;//--------------------------------- to remove later ?
-        [SerializeField] private float arousalModifier;
-        [SerializeField] private DataState arousalState;
+        [SerializeField] private float arousalCurrentModifier;
+        [SerializeField] private DataState arousalCurrentState;
+        [SerializeField] private float arousalOldModifier;
+        [SerializeField] private DataState arousalOldState;
         [SerializeField] private bool isFlashlightEquipped = true;
-        //private AudioSource audioSource;
-        private int averageHR;
-        private int averageGSR;
+        [SerializeField] private AudioClip heartSound;
+        [SerializeField] private AudioClip breathSound;
+        [SerializeField] private AudioSource biofeedbackAudio;
+        [SerializeField] private bool playHeartSound;
+        [SerializeField] private bool playBreathSound;
+        private bool heartSoundOn = false;
+        private bool breathSoundOn = false;
         #endregion
 
 
         #region Public fields & properties
         /// <summary>Current arousal modifier.</summary>
-        public float ArousalModifier { get { return arousalModifier; } }
+        public float ArousalCurrentModifier { get { return arousalCurrentModifier; } }
         /// <summary>Current arousal state based on <see cref="arousalModifier"/>.</summary>
-        public DataState ArousalState { get { return arousalState; } }
+        public DataState ArousalCurrentState { get { return arousalCurrentState; } }
+        /// <summary>Old arousal modifier.</summary>
+        public float ArousalOldtModifier { get { return arousalOldModifier; } }
+        /// <summary>Old arousal state based on <see cref="arousalModifier"/>.</summary>
+        public DataState ArousalOldState { get { return arousalOldState; } }
         #endregion
 
 
         #region Public actions
         /// <summary>Informs that player want to switch light in the flashlight</summary>
         public Action SwitchLight;
-        /// <summary>Informs that light in the flashlight should be shutted down</summary>
-        public Action ShutDownLight;
         #endregion
 
 
         #region MonoBehaviour methods
+        // Awake is called when the script instance is being loaded
+        private void Awake()
+        {
+            Assert.IsNotNull(heartSound);
+            Assert.IsNotNull(breathSound);
+            Assert.IsNotNull(biofeedbackAudio);
+        }
+
         // Use this for initialization
         void Start()
         {
-            //audioSource = GetComponent<AudioSource>();
-            GameManager.instance.BBModule.BiofeedbackDataChanged += data => UpdatePlayerState(data);
+            GameManager.instance.BBModule.BiofeedbackDataChanged += data => UpdatePlayerState(data);            
         }
 
         // Update is called once per frame
         void Update()
         {
+            // manage game input: -------------------------------------------------------------
+
             if (isFlashlightEquipped && Input.GetKeyDown(KeyCode.R))
             {
                 SwitchLight();
+            }
+
+
+            // activate mechanics based on biofeedback if module is enabled -------------------
+
+            if (GameManager.instance.BBModule.IsEnabled)
+            {
+                if (ArousalCurrentState == DataState.High)
+                {
+                    playBreathSound = true;
+                    playHeartSound = false;
+                }
+                else if (ArousalCurrentState == DataState.Medium && ArousalOldState == DataState.High)
+                {
+                    playBreathSound = false;
+                    if (arousalCurrentModifier > 1.0f) playHeartSound = true;
+                    else playHeartSound = false;
+                }
+                else
+                {
+                    playBreathSound = false;
+                    playHeartSound = false;
+                }
+            }
+            // randomise events:
+            else
+            {
+                // ...
+            }
+
+
+            // Update player mechanics: -------------------------------------------------------
+
+            if (playHeartSound)
+            {
+                if (!heartSoundOn)
+                {
+                    PlaySound(heartSound);
+                    heartSoundOn = true;
+                }
+            }
+            else if (heartSoundOn)
+            {
+                biofeedbackAudio.Stop();
+                heartSoundOn = false;
+            }
+            
+            if (playBreathSound)
+            {
+                if (!breathSoundOn)
+                {
+                    PlaySound(breathSound);
+                    breathSoundOn = true;
+                }
+            }
+            else if (breathSoundOn)
+            {
+                biofeedbackAudio.Stop();
+                breathSoundOn = false;
             }
         }
         #endregion
@@ -70,15 +142,18 @@ namespace LastBastion.Game.Player
         /// <param name="data"></param>
         private void UpdatePlayerState(BiofeedbackData data)
         {
-            //hrModifier = data.HrModifier;   //--------------------------------- to remove later ?
-            //hrState = data.HrState;         //--------------------------------- to remove later ?
-            //gsrModifier = data.GsrModifier; //--------------------------------- to remove later ?
-            //gsrState = data.GsrState;       //--------------------------------- to remove later ?
-            arousalModifier = data.ArousalModifier;
-            arousalState = data.ArousalState;
+            arousalOldModifier = arousalCurrentModifier;
+            arousalOldState = arousalCurrentState;
+            arousalCurrentModifier = data.ArousalModifier;
+            arousalCurrentState = data.ArousalState;
         }
-
         
+        private void PlaySound(AudioClip clip)
+        {
+            if (biofeedbackAudio.isPlaying) biofeedbackAudio.Stop();
+            biofeedbackAudio.clip = clip;
+            biofeedbackAudio.Play();
+        }
         #endregion
     }
 }

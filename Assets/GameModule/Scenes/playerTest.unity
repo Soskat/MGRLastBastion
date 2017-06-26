@@ -301,6 +301,31 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114245610154542102, guid: 1159c1007f4ae244397e583769c6f6af,
+        type: 2}
+      propertyPath: heartSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 10c3e9c885346444b9d22e068d125be9, type: 3}
+    - target: {fileID: 114245610154542102, guid: 1159c1007f4ae244397e583769c6f6af,
+        type: 2}
+      propertyPath: playHeartSound
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 82776416796828232, guid: 1159c1007f4ae244397e583769c6f6af,
+        type: 2}
+      propertyPath: m_Volume
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114245610154542102, guid: 1159c1007f4ae244397e583769c6f6af,
+        type: 2}
+      propertyPath: breathSound
+      value: 
+      objectReference: {fileID: 8300000, guid: aea8ea3c3238d79459ec8789a0556218, type: 3}
+    - target: {fileID: 114245610154542102, guid: 1159c1007f4ae244397e583769c6f6af,
+        type: 2}
+      propertyPath: playBreathSound
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1159c1007f4ae244397e583769c6f6af, type: 2}
   m_IsPrefabParent: 0

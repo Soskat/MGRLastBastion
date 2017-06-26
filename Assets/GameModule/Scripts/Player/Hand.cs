@@ -25,11 +25,11 @@ namespace LastBastion.Game
         protected void Update()
         {
             // simulate hand shaking:
-            if (player.ArousalState == DataState.High)
+            if (player.ArousalCurrentState == DataState.High)
             {
-                float x = Random.Range(0.0f, player.ArousalModifier);
-                float y = Random.Range(0.0f, player.ArousalModifier);
-                float z = Random.Range(0.0f, player.ArousalModifier);
+                float x = Random.Range(0.0f, player.ArousalCurrentModifier);
+                float y = Random.Range(0.0f, player.ArousalCurrentModifier);
+                float z = Random.Range(0.0f, player.ArousalCurrentModifier);
                 // update transform rotation:
                 transform.localRotation = Quaternion.Euler(x, y, z);
             }

@@ -79,7 +79,6 @@ namespace LastBastion.Game.Managers
         // Update is called every frame, if the MonoBehaviour is enabled
         void Update()
         {
-
         }
         #endregion
 

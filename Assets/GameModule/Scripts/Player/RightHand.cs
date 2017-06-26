@@ -55,7 +55,7 @@ namespace LastBastion.Game
                 doBlinkToDeath = false;
                 StartCoroutine(flashlight.BlinkToDeath());
             }
-            //if (flashlight.LightOn && player.ArousalState == DataState.Low && player.ArousalModifier < 0.5)
+            //if (flashlight.LightOn && player.ArousalCurrentState == DataState.Low && player.ArousalCurrentModifier < 0.5)
             //{
             //    StartCoroutine(flashlight.BlinkToDeath());
             //}
@@ -69,6 +69,7 @@ namespace LastBastion.Game
         /// </summary>
         public void SwitchLight()
         {
+            // change it later to use actual biofeedback data:
             if (flashlight.IsDead)
             {
                 animator.applyRootMotion = false;
