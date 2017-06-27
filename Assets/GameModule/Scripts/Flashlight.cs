@@ -13,7 +13,8 @@ namespace LastBastion.Game
         #region Private fields
         [SerializeField] private bool lightOn = false;
         [SerializeField] private GameObject lightRay;
-        [SerializeField] private AudioClip switchSound;
+        [SerializeField] private AudioClip switchOnSound;
+        [SerializeField] private AudioClip switchOffSound;
         [SerializeField] private AudioClip hitSound;
         private AudioSource audioSource;
         #endregion
@@ -34,7 +35,8 @@ namespace LastBastion.Game
         private void Awake()
         {
             Assert.IsNotNull(lightRay);
-            Assert.IsNotNull(switchSound);
+            Assert.IsNotNull(switchOnSound);
+            Assert.IsNotNull(switchOffSound);
             Assert.IsNotNull(hitSound);
         }
 
@@ -61,11 +63,17 @@ namespace LastBastion.Game
             if (!IsBusy)
             {
                 lightOn = (lightOn) ? false : true;
-                if (lightOn) lightRay.SetActive(true);
-                else lightRay.SetActive(false);
+                if (lightOn)
+                {
+                    lightRay.SetActive(true);
+                    if (audioSource != null) audioSource.PlayOneShot(switchOnSound);
+                }
+                else
+                {
+                    lightRay.SetActive(false);
+                    if (audioSource != null) audioSource.PlayOneShot(switchOffSound);
+                }
             }
-
-            if (audioSource != null) audioSource.PlayOneShot(switchSound);
         }
 
         /// <summary>
@@ -91,7 +99,7 @@ namespace LastBastion.Game
         /// </summary>
         public void PlaySwitchSound()
         {
-            if (audioSource != null) audioSource.PlayOneShot(switchSound);
+            if (audioSource != null) audioSource.PlayOneShot(switchOnSound);
         }
 
         /// <summary>
@@ -113,14 +121,14 @@ namespace LastBastion.Game
                 if (isFinallyLightOn)
                 {
                     lightRay.SetActive(false);
-                    yield return new WaitForSeconds(0.4f);
+                    yield return new WaitForSeconds(0.2f);
                     lightRay.SetActive(true);
                     lightOn = true;
                 }
                 else
                 {
                     lightRay.SetActive(true);
-                    yield return new WaitForSeconds(0.4f);
+                    yield return new WaitForSeconds(0.2f);
                     lightRay.SetActive(false);
                     lightOn = false;
                 }

@@ -486,7 +486,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 10c3e9c885346444b9d22e068d125be9, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0.3
   m_Pitch: 1
@@ -724,7 +724,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lightOn: 0
   lightRay: {fileID: 1772480256386792}
-  switchSound: {fileID: 8300000, guid: 65454535efeb46045894b01f79acbaeb, type: 3}
+  switchOnSound: {fileID: 8300000, guid: e46be936f6ca29745afdd2dc418b3a2c, type: 3}
+  switchOffSound: {fileID: 8300000, guid: 72c6ca511f3ec7b4ba22d9f137f23c33, type: 3}
   hitSound: {fileID: 8300000, guid: 94f01f3848dc3f44b8e1e6fe62d49685, type: 3}
   IsDead: 0
   IsBusy: 0
@@ -742,6 +743,8 @@ MonoBehaviour:
   player: {fileID: 0}
   doBlink: 0
   doBlinkToDeath: 0
+  timeSinceLastBlink: 0
+  timeSinceLastBlinkToDeath: 0
 --- !u!114 &114599843427104646
 MonoBehaviour:
   m_ObjectHideFlags: 1
