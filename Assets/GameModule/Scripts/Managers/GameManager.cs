@@ -14,9 +14,7 @@ namespace LastBastion.Game.Managers
     public class GameManager : MonoBehaviour
     {
         #region Static fields
-        /// <summary>
-        /// <see cref="GameManager"/> public static object.
-        /// </summary>
+        /// <summary><see cref="GameManager"/> public static object.</summary>
         public static GameManager instance;
         #endregion
 
@@ -72,7 +70,8 @@ namespace LastBastion.Game.Managers
             gameLevels = new string[] { "Intro", null, "Summary", "Intro", null, "Summary", "Survey" };
             indexOfFirstLevel = 1;
             indexOfSecondLevel = 4;
-            calculationTypes = new CalculationType[2];
+            calculationTypes = new CalculationType[2] { CalculationType.Alternative, CalculationType.Conjunction };
+            //calculationTypes = new CalculationType[2];
 
             // initialize analytics system:
             DataManager.InitializeSystem();
@@ -81,7 +80,6 @@ namespace LastBastion.Game.Managers
         // Update is called every frame, if the MonoBehaviour is enabled
         void Update()
         {
-
         }
         #endregion
 
