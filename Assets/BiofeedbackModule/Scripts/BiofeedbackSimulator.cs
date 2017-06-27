@@ -50,10 +50,10 @@ namespace LastBastion.Biofeedback
             if (!GameManager.instance.BBModule.IsEnabled) GameManager.instance.BBModule.UpdateBiofeedbackData(AverageHr, CurrentHr, AverageGsr, CurrentGsr);
 
             // just for test:
-            if (Input.GetKeyDown(KeyCode.KeypadPlus)) CurrentHr += 1;
-            if (Input.GetKeyDown(KeyCode.KeypadMinus)) CurrentHr -= 1;
-            if (Input.GetKeyDown(KeyCode.Keypad8)) CurrentGsr += 1;
-            if (Input.GetKeyDown(KeyCode.Keypad2)) CurrentGsr -= 1;
+            if (Input.GetKey(KeyCode.KeypadPlus)) CurrentHr += 1;
+            if (Input.GetKey(KeyCode.KeypadMinus)) CurrentHr -= 1;
+            if (Input.GetKey(KeyCode.Keypad8)) CurrentGsr += 1;
+            if (Input.GetKey(KeyCode.Keypad2)) CurrentGsr -= 1;
         }
         #endregion
 

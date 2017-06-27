@@ -594,11 +594,12 @@ PlayerSettings:
     daydream:
       daydreamIconForeground: {fileID: 0}
       daydreamIconBackground: {fileID: 0}
-  cloudServicesEnabled: {}
+  cloudServicesEnabled:
+    UNet: 1
   facebookSdkVersion: 7.9.1
   apiCompatibilityLevel: 2
-  cloudProjectId: 
-  projectName: 
-  organizationId: 
+  cloudProjectId: 42b8f19b-f7d0-4268-8296-85cdbf9fa071
+  projectName: LastBastion
+  organizationId: soskat-dev
   cloudEnabled: 0
   enableNewInputSystem: 0

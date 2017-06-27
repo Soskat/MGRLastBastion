@@ -70,7 +70,8 @@ namespace LastBastion.Game.Managers
             gameLevels = new string[] { "Intro", null, "Summary", "Intro", null, "Summary", "Survey" };
             indexOfFirstLevel = 1;
             indexOfSecondLevel = 4;
-            calculationTypes = new CalculationType[2];
+            calculationTypes = new CalculationType[2] { CalculationType.Alternative, CalculationType.Conjunction };
+            //calculationTypes = new CalculationType[2];
 
             // initialize analytics system:
             DataManager.InitializeSystem();

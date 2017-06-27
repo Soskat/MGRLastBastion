@@ -486,9 +486,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 10c3e9c885346444b9d22e068d125be9, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -701,10 +701,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abc91cc992da4b74cb6c490b278ed4e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arousalModifier: 0
-  arousalState: 0
+  arousalCurrentModifier: 0
+  arousalCurrentState: 0
+  arousalOldModifier: 0
+  arousalOldState: 0
   isFlashlightEquipped: 1
-  heartSound: {fileID: 8300000, guid: 41375f7f0aa92d741a0aee0dc42c7083, type: 3}
+  heartSound: {fileID: 8300000, guid: 10c3e9c885346444b9d22e068d125be9, type: 3}
+  breathSound: {fileID: 8300000, guid: aea8ea3c3238d79459ec8789a0556218, type: 3}
   biofeedbackAudio: {fileID: 82167149161251878}
   playHeartSound: 0
   playBreathSound: 0

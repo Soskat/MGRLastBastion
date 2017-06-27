@@ -113,16 +113,17 @@ namespace LastBastion.Game
                 if (isFinallyLightOn)
                 {
                     lightRay.SetActive(false);
-                    yield return new WaitForSeconds(0.2f);
+                    yield return new WaitForSeconds(0.4f);
                     lightRay.SetActive(true);
+                    lightOn = true;
                 }
                 else
                 {
                     lightRay.SetActive(true);
-                    yield return new WaitForSeconds(0.2f);
+                    yield return new WaitForSeconds(0.4f);
                     lightRay.SetActive(false);
+                    lightOn = false;
                 }
-                lightOn = false;
             }
             IsBusy = false;
             yield return null;
@@ -137,11 +138,11 @@ namespace LastBastion.Game
             IsBusy = true;
             {
                 lightRay.SetActive(false);
-                yield return new WaitForSeconds(0.2f);
+                yield return new WaitForSeconds(0.1f);
                 lightRay.SetActive(true);
                 yield return new WaitForSeconds(0.6f);
                 lightRay.SetActive(false);
-                yield return new WaitForSeconds(0.3f);
+                yield return new WaitForSeconds(0.1f);
                 lightRay.SetActive(true);
                 yield return new WaitForSeconds(0.5f);
                 lightRay.SetActive(false);

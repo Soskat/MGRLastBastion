@@ -333,7 +333,7 @@ namespace LastBastion.Biofeedback
             this.gsrModifier = (float)currentGsr / averageGsr;
             this.gsrState = gsrLevel.AssignState(gsrModifier);
             // update arousal data:
-            float arousalModifier = 0;
+            float arousalModifier = 0.0f;
             DataState arousalState = DataState.None;
             if (GameManager.instance.CurrentCalculationType == CalculationType.Alternative)
             {

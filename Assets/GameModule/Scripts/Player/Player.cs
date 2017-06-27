@@ -1,11 +1,9 @@
-﻿using LastBastion.Analytics;
-using LastBastion.Biofeedback;
+﻿using LastBastion.Biofeedback;
 using LastBastion.Game.Managers;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
+
 
 namespace LastBastion.Game.Player
 {
@@ -67,7 +65,6 @@ namespace LastBastion.Game.Player
         void Update()
         {
             // manage game input: -------------------------------------------------------------
-
             if (isFlashlightEquipped && Input.GetKeyDown(KeyCode.R))
             {
                 SwitchLight();
@@ -75,31 +72,36 @@ namespace LastBastion.Game.Player
 
 
             // activate mechanics based on biofeedback if module is enabled -------------------
-
-            if (GameManager.instance.BBModule.IsEnabled)
+            switch (ArousalCurrentState)
             {
-                if (ArousalCurrentState == DataState.High)
-                {
+                case DataState.High:
                     playBreathSound = true;
                     playHeartSound = false;
-                }
-                else if (ArousalCurrentState == DataState.Medium && ArousalOldState == DataState.High)
-                {
+                    break;
+
+                case DataState.Medium:
                     playBreathSound = false;
                     if (arousalCurrentModifier > 1.0f) playHeartSound = true;
                     else playHeartSound = false;
-                }
-                else
-                {
+                    break;
+
+                case DataState.Low:
                     playBreathSound = false;
                     playHeartSound = false;
-                }
+                    break;
+
+                default: break;
             }
-            // randomise events:
-            else
-            {
-                // ...
-            }
+
+            //if (GameManager.instance.BBModule.IsEnabled)
+            //{
+            //    // ...
+            //}
+            //// randomise events:
+            //else
+            //{
+            //    // ...
+            //}
 
 
             // Update player mechanics: -------------------------------------------------------
@@ -118,6 +120,7 @@ namespace LastBastion.Game.Player
                 heartSoundOn = false;
             }
             
+
             if (playBreathSound)
             {
                 if (!breathSoundOn)
@@ -142,12 +145,18 @@ namespace LastBastion.Game.Player
         /// <param name="data"></param>
         private void UpdatePlayerState(BiofeedbackData data)
         {
+            // save current arousal as old:
             arousalOldModifier = arousalCurrentModifier;
             arousalOldState = arousalCurrentState;
+            // update current arousal:
             arousalCurrentModifier = data.ArousalModifier;
             arousalCurrentState = data.ArousalState;
         }
         
+        /// <summary>
+        /// If biofeedback audio source is enabled, plays given clip.
+        /// </summary>
+        /// <param name="clip">Sound to play</param>
         private void PlaySound(AudioClip clip)
         {
             if (biofeedbackAudio.isPlaying) biofeedbackAudio.Stop();
