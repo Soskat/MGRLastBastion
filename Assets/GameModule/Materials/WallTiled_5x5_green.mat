@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: WallTiled_5x5_blue
+  m_Name: WallTiled_5x5_green
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: _NORMALMAP _PARALLAXMAP
   m_LightmapFlags: 4
@@ -71,5 +71,5 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.01667436, g: 0.3452786, b: 0.8000001, a: 1}
+    - _Color: {r: 0.6765899, g: 0.8088235, b: 0.49956748, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
