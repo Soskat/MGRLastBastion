@@ -10,7 +10,7 @@ namespace LastBastion.Game
     public class RightHand : Hand
     {
         #region Private fields
-        [SerializeField] private bool doBlink;
+        //[SerializeField] private bool doBlink;
         [SerializeField] private bool doBlinkToDeath;
         [SerializeField] private int timeSinceLastBlink = 0;
         [SerializeField] private int timeSinceLastBlinkToDeath = 0;
@@ -39,16 +39,17 @@ namespace LastBastion.Game
             flashlightReviveAnimState = Animator.StringToHash("FlashlightRevive");
             player.SwitchLight += SwitchLight;
 
-            if (!GameManager.instance.BBModule.IsEnabled)
-            {
-                StartCoroutine(BlinkFlashlight());
-                StartCoroutine(BlinkFlashlightToDeath());
-            }
-            else
-            {
-                timeSinceLastBlink = GetRandomShortTime() * 100;
-                timeSinceLastBlinkToDeath = GetRandomLongTime() * 100;
-            }
+            // to uncomment -------------------------------------------------------------------------------
+            //if (!GameManager.instance.BBModule.IsEnabled)
+            //{
+            //    StartCoroutine(BlinkFlashlight());
+            //    StartCoroutine(BlinkFlashlightToDeath());
+            //}
+            //else
+            //{
+            //    timeSinceLastBlink = GetRandomShortTime() * 100;
+            //    timeSinceLastBlinkToDeath = GetRandomLongTime() * 100;
+            //}
         }
 
         // Update is called once per frame
@@ -62,37 +63,37 @@ namespace LastBastion.Game
             //    //...
             //}
 
-            // auto test: -------------------------------
-            switch (player.ArousalCurrentState)
-            {
-                case DataState.High:
-                    break;
+            // move it above ---------------------------------------------------------------------
+            //switch (player.ArousalCurrentState)
+            //{
+            //    case DataState.High:
+            //        break;
 
-                case DataState.Medium:
-                    if (flashlight.LightOn && timeSinceLastBlink > 0) timeSinceLastBlink--;
+            //    case DataState.Medium:
+            //        if (flashlight.LightOn && timeSinceLastBlink > 0) timeSinceLastBlink--;
 
-                    if (player.ArousalCurrentModifier < 1.0)
-                    {
-                        if (flashlight.LightOn && !flashlight.IsBusy && timeSinceLastBlink == 0)
-                        {
-                            StartCoroutine(flashlight.Blink(true));
-                            timeSinceLastBlink = GetRandomShortTime() * 100;
-                        }
-                    }
-                    break;
+            //        if (player.ArousalCurrentModifier < 1.0)
+            //        {
+            //            if (flashlight.LightOn && !flashlight.IsBusy && timeSinceLastBlink == 0)
+            //            {
+            //                StartCoroutine(flashlight.Blink(true));
+            //                timeSinceLastBlink = GetRandomShortTime() * 100;
+            //            }
+            //        }
+            //        break;
 
-                case DataState.Low:
-                    if (flashlight.LightOn && timeSinceLastBlinkToDeath > 0) timeSinceLastBlinkToDeath--;
+            //    case DataState.Low:
+            //        if (flashlight.LightOn && timeSinceLastBlinkToDeath > 0) timeSinceLastBlinkToDeath--;
 
-                    if (flashlight.LightOn && !flashlight.IsBusy && timeSinceLastBlinkToDeath == 0)
-                    {
-                        StartCoroutine(flashlight.BlinkToDeath());
-                        timeSinceLastBlinkToDeath = GetRandomLongTime() * 100;
-                    }
-                    break;
+            //        if (flashlight.LightOn && !flashlight.IsBusy && timeSinceLastBlinkToDeath == 0)
+            //        {
+            //            StartCoroutine(flashlight.BlinkToDeath());
+            //            timeSinceLastBlinkToDeath = GetRandomLongTime() * 100;
+            //        }
+            //        break;
 
-                default: break;
-            }
+            //    default: break;
+            //}
 
 
             //// manual test: ---------------------------
@@ -190,7 +191,7 @@ namespace LastBastion.Game
         {
             int counter = GetRandomShortTime();
             yield return new WaitForSeconds(counter);
-            doBlink = true;
+            //doBlink = true;
             StartCoroutine(BlinkFlashlight());
         }
 
@@ -202,7 +203,7 @@ namespace LastBastion.Game
         {
             int counter = GetRandomLongTime();
             yield return new WaitForSeconds(counter);
-            doBlink = true;
+            //doBlink = true;
             StartCoroutine(BlinkFlashlightToDeath());
         }
 
