@@ -8,9 +8,9 @@ using UnityEngine.Assertions;
 namespace LastBastion.Game.Player
 {
     /// <summary>
-    /// Component that manages Player behaviour.
+    /// Component that manages Player biofeedback behaviour.
     /// </summary>
-    public class Player : MonoBehaviour
+    public class BiofeedbackController : MonoBehaviour
     {
         #region Private fields
         [SerializeField] private float arousalCurrentModifier;

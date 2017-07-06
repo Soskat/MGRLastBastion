@@ -4,16 +4,19 @@ using System.Collections;
 using UnityEngine;
 
 
-namespace LastBastion.Game
+namespace LastBastion.Game.Player
 {
+    /// <summary>
+    /// Component that represents Player's right hand.
+    /// </summary>
     [RequireComponent(typeof(Animator))]
     public class RightHand : Hand
     {
         #region Private fields
         //[SerializeField] private bool doBlink;
         [SerializeField] private bool doBlinkToDeath;
-        [SerializeField] private int timeSinceLastBlink = 0;
-        [SerializeField] private int timeSinceLastBlinkToDeath = 0;
+        //[SerializeField] private int timeSinceLastBlink = 0;
+        //[SerializeField] private int timeSinceLastBlinkToDeath = 0;
         private Flashlight flashlight;
         private Animator animator;
         private int flashlightHideAnimState;

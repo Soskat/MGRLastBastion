@@ -2,7 +2,7 @@
 using UnityEngine;
 
 
-namespace LastBastion.Game
+namespace LastBastion.Game.Player
 {
     /// <summary>
     /// Component that represents Player's hand.
@@ -10,7 +10,7 @@ namespace LastBastion.Game
     public class Hand : MonoBehaviour
     {
         #region Private fields
-        [SerializeField] protected Player.Player player;
+        [SerializeField] protected Player.BiofeedbackController player;
         #endregion
 
 
@@ -18,7 +18,7 @@ namespace LastBastion.Game
         // Use this for initialization
         protected void Start()
         {
-            player = GetComponentInParent<Player.Player>();
+            player = GetComponentInParent<Player.BiofeedbackController>();
         }
 
         // Update is called once per frame
