@@ -5,7 +5,7 @@ AnimationClip:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: CloseDoorSingleRight
+  m_Name: SingleLeftClose
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -18,25 +18,25 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 2
         time: 0
-        value: {x: 0, y: 0, z: 90}
+        value: {x: 0, y: 0, z: -270}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
       - serializedVersion: 2
         time: 1.05
-        value: {x: 0, y: 0, z: 1.7708282}
-        inSlope: {x: 0, y: 0, z: -0.5061684}
-        outSlope: {x: 0, y: 0, z: -0.5061684}
+        value: {x: 0, y: 0, z: -181.7}
+        inSlope: {x: 0, y: 0, z: 0.29626894}
+        outSlope: {x: 0, y: 0, z: 0.29626894}
         tangentMode: 0
       - serializedVersion: 2
         time: 1.35
-        value: {x: 0, y: 0, z: 1.6}
-        inSlope: {x: 0, y: 0, z: -1.4642419}
-        outSlope: {x: 0, y: 0, z: -1.4642419}
+        value: {x: 0, y: 0, z: -181.6}
+        inSlope: {x: 0, y: 0, z: 0.85706437}
+        outSlope: {x: 0, y: 0, z: 0.85706437}
         tangentMode: 0
       - serializedVersion: 2
         time: 1.5166667
-        value: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: -180}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -195,25 +195,25 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 2
         time: 0
-        value: 90
+        value: -270
         inSlope: 0
         outSlope: 0
         tangentMode: 136
       - serializedVersion: 2
         time: 1.05
-        value: 1.7708282
-        inSlope: -0.5061684
-        outSlope: -0.5061684
+        value: -181.7
+        inSlope: 0.29626894
+        outSlope: 0.29626894
         tangentMode: 136
       - serializedVersion: 2
         time: 1.35
-        value: 1.6
-        inSlope: -1.4642419
-        outSlope: -1.4642419
+        value: -181.6
+        inSlope: 0.85706437
+        outSlope: 0.85706437
         tangentMode: 136
       - serializedVersion: 2
         time: 1.5166667
-        value: 0
+        value: -180
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -334,7 +334,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Open
+    path: Open/Sphere
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -344,17 +344,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Open
-    classID: 4
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.x
-    path: Open
+    path: Open/Sphere
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -373,8 +363,18 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+    attribute: m_LocalEulerAngles.x
+    path: Open
+    classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Open/Sphere
+    path: Open
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -384,7 +384,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Open/Sphere
+    path: Open
     classID: 4
     script: {fileID: 0}
   m_HasGenericRootTransform: 0
