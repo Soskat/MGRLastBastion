@@ -85,7 +85,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &1522734530804832
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 23248057219316126}
   m_Layer: 9
   m_Name: ColliderCube
-  m_TagString: Untagged
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -164,7 +164,7 @@ GameObject:
   - component: {fileID: 114905337846952706}
   m_Layer: 0
   m_Name: DoorSingleRight
-  m_TagString: Door
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -210,6 +210,7 @@ Transform:
   - {fileID: 4697265720354984}
   - {fileID: 4707984061391006}
   - {fileID: 4926480227157900}
+  - {fileID: 4474687656403800}
   m_Father: {fileID: 4323917196831898}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -219,16 +220,15 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1829877516570504}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0.207, y: -6.260306e-17, z: 3.517}
-  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_LocalRotation: {x: -0.49991274, y: -0.50008726, z: -0.49991274, w: 0.50008726}
+  m_LocalPosition: {x: -3.13, y: -6.260306e-17, z: 4.46}
+  m_LocalScale: {x: 152.56804, y: 152.56802, z: 152.56802}
   m_Children:
   - {fileID: 4080741804792784}
   - {fileID: 4225431413134430}
-  - {fileID: 4474687656403800}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -89.98, y: -90, z: 0}
 --- !u!4 &4474687656403800
 Transform:
   m_ObjectHideFlags: 1
@@ -236,11 +236,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1522734530804832}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.00054000004, y: -0.002390002, z: 0.009129998}
-  m_LocalScale: {x: 0.0028749984, y: 0.004772144, z: 0.008130123}
+  m_LocalPosition: {x: -0.00016646192, y: -0.007518651, z: -0.0011867573}
+  m_LocalScale: {x: 0.0028749984, y: 0.0047721434, z: 0.008130122}
   m_Children: []
-  m_Father: {fileID: 4323917196831898}
-  m_RootOrder: 2
+  m_Father: {fileID: 4225431413134430}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4697265720354984
 Transform:
@@ -691,6 +691,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb0f4aea1406d974eb0c6c32cbce50fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorType: 0
   isLocked: 0
   isClosed: 1

@@ -13,11 +13,13 @@ namespace LastBastion.Game
     public class Door : MonoBehaviour
     {
         #region Provate fields
-        [SerializeField] private DoorType doorType;
         [SerializeField] private bool isLocked = false;
         [SerializeField] private bool isClosed = true;
         private bool isBusy = false;
         private Animator animator;
+        private int openDoorTrigger;
+        private int closeDoorTrigger;
+        private int tryDoorTrigger;
         #endregion
 
 
@@ -36,6 +38,9 @@ namespace LastBastion.Game
         void Start()
         {
             animator = GetComponent<Animator>();
+            openDoorTrigger = Animator.StringToHash("OpenTheDoor");
+            closeDoorTrigger = Animator.StringToHash("CloseTheDoor");
+            tryDoorTrigger = Animator.StringToHash("TryTheDoor");
         }
 
         // Update is called once per frame
@@ -46,7 +51,49 @@ namespace LastBastion.Game
         #endregion
 
 
+        #region Private methods
+        /// <summary>
+        /// Opens the door.
+        /// </summary>
+        private void OpenDoor()
+        {
+            animator.SetTrigger(openDoorTrigger);
+            isClosed = false;
+        }
+
+        /// <summary>
+        /// Closes the door.
+        /// </summary>
+        private void CloseDoor()
+        {
+            animator.SetTrigger(closeDoorTrigger);
+            isClosed = true;
+        }
+
+        /// <summary>
+        /// Tries the lock in the door.
+        /// </summary>
+        private void LockedDoor()
+        {
+            animator.SetTrigger(tryDoorTrigger);
+        }
+        #endregion
+
+
         #region Public methods
+        /// <summary>
+        /// Interacts with the door.
+        /// </summary>
+        public void Interact()
+        {
+            if (isLocked) LockedDoor();
+            else
+            {
+                if (isClosed) OpenDoor();
+                else CloseDoor();
+            }
+        }
+
         /// <summary>
         /// Sets isBusy flag to true.
         /// </summary>

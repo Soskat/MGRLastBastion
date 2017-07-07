@@ -13,7 +13,7 @@ namespace LastBastion.Game.Player
         #region Private fields
         [SerializeField] private LayerMask layerMask;
         [SerializeField] private int rayLength = 20;
-        private GameObject activeObject;
+        [SerializeField] private GameObject activeObject;
         #endregion
 
 
@@ -27,9 +27,12 @@ namespace LastBastion.Game.Player
         // Update is called once per frame
         void Update()
         {
-            if (activeObject != null && Input.GetKey(KeyCode.E))
+            if (activeObject != null && Input.GetKeyDown(KeyCode.E))
             {
-
+                if(activeObject.tag == "Door")
+                {
+                    activeObject.GetComponentInParent<Door>().Interact();
+                }
             }
         }
 
