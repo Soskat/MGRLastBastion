@@ -11,6 +11,9 @@ namespace LastBastion.Game.Managers
     /// <summary>
     /// Component that manages all game logic.
     /// </summary>
+    [RequireComponent(typeof(AssetManager))]
+    [RequireComponent(typeof(BiofeedbackSimulator))]
+    [RequireComponent(typeof(BandBridgeModule))]
     public class GameManager : MonoBehaviour
     {
         #region Static fields
@@ -34,6 +37,8 @@ namespace LastBastion.Game.Managers
         #region Public fields & properties
         /// <summary>Instance of <see cref="BandBridgeModule"/> class.</summary>
         public BandBridgeModule BBModule { get; set; }
+        /// <summary>Instance of <see cref="AssetManager"/> class.</summary>
+        public AssetManager Assets { get; set; }
         /// <summary>Is ready for new MS Band device sensors data?</summary>
         public bool IsReadyForNewBandData { get; set; }
         /// <summary>Instance of <see cref="ListController"/> class.</summary>
@@ -58,7 +63,8 @@ namespace LastBastion.Game.Managers
             {
                 instance = this;
                 DontDestroyOnLoad(gameObject);
-                BBModule = gameObject.GetComponent<BandBridgeModule>();
+                BBModule = GetComponent<BandBridgeModule>();
+                Assets = GetComponent<AssetManager>();
             }
             else if (instance != this) Destroy(gameObject);
         }

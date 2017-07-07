@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using LastBastion.Game.Managers;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -9,14 +10,20 @@ namespace LastBastion.Game
     /// <summary>
     /// Component that represents door behaviour.
     /// </summary>
+    [RequireComponent(typeof(AudioSource))]
     [RequireComponent(typeof(Animator))]
     public class Door : MonoBehaviour
     {
         #region Provate fields
-        [SerializeField] private bool isLocked = false;
+        [SerializeField] DoorType doorType;
         [SerializeField] private bool isClosed = true;
+        [SerializeField] private bool isLocked = false;
+        [SerializeField] AudioClip doorOpenSound;
+        [SerializeField] AudioClip doorCloseSound;
+        [SerializeField] AudioClip doorLockedSound;
         private bool isBusy = false;
         private Animator animator;
+        private AudioSource audioSource;
         private int openDoorTrigger;
         private int closeDoorTrigger;
         private int tryDoorTrigger;
@@ -34,10 +41,19 @@ namespace LastBastion.Game
 
 
         #region MonoBehaviour methods
+        // Awake is called when the script instance is being loaded
+        private void Awake()
+        {
+            Assert.IsNotNull(doorOpenSound);
+            Assert.IsNotNull(doorCloseSound);
+            Assert.IsNotNull(doorLockedSound);
+        }
+
         // Use this for initialization
         void Start()
         {
             animator = GetComponent<Animator>();
+            audioSource = GetComponent<AudioSource>();
             openDoorTrigger = Animator.StringToHash("OpenTheDoor");
             closeDoorTrigger = Animator.StringToHash("CloseTheDoor");
             tryDoorTrigger = Animator.StringToHash("TryTheDoor");
@@ -77,6 +93,15 @@ namespace LastBastion.Game
         {
             animator.SetTrigger(tryDoorTrigger);
         }
+
+        /// <summary>
+        /// Plays given sound.
+        /// </summary>
+        /// <param name="sound">Sound to play</param>
+        private void PlaySound(AudioClip sound)
+        {
+            if (audioSource != null) audioSource.PlayOneShot(sound);
+        }
         #endregion
 
 
@@ -108,6 +133,47 @@ namespace LastBastion.Game
         public void SetBusyOff()
         {
             isBusy = false;
+        }
+
+        /// <summary>
+        /// Plays sound of opening the door.
+        /// </summary>
+        public void PlayOpenSound()
+        {
+            PlaySound(doorOpenSound);
+        }
+
+        /// <summary>
+        /// Plays sound of closing the door.
+        /// </summary>
+        public void PlayCloseSound()
+        {
+            PlaySound(doorCloseSound);
+        }
+
+        /// <summary>
+        /// Plays sound of trying to open locked door.
+        /// </summary>
+        public void PlayLockedSound()
+        {
+            PlaySound(doorLockedSound);
+        }
+
+        /// <summary>
+        /// Plays squeak sound.
+        /// </summary>
+        public void PlaySqueakSound()
+        {
+            switch (doorType)
+            {
+                case DoorType.Wooden:
+                    PlaySound(GameManager.instance.Assets.GetWoodenSqueakSound());
+                    break;
+
+                case DoorType.Metal:
+                    PlaySound(GameManager.instance.Assets.GetMetalSqueakSound());
+                    break;
+            }
         }
         #endregion
     }
