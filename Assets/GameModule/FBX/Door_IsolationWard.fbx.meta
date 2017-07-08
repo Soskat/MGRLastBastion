@@ -1,16 +1,22 @@
 fileFormatVersion: 2
-guid: c286eada1dc92de45b05d137b88dba31
-timeCreated: 1439227157
-licenseType: Store
+guid: ad3f17f822e4fd9469d25c79653997f4
+timeCreated: 1499527345
+licenseType: Pro
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
     100000: //RootNode
+    100002: DoorHandle
     400000: //RootNode
+    400002: DoorHandle
     2300000: //RootNode
+    2300002: DoorHandle
     3300000: //RootNode
-    4300000: Doorway
+    3300002: DoorHandle
+    4300000: IsolationWardDoor
+    4300002: DoorHandle
     6400000: //RootNode
+    6400002: DoorHandle
   materials:
     importMaterials: 1
     materialName: 1
@@ -55,7 +61,7 @@ ModelImporter:
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
-    tangentImportMode: 4
+    tangentImportMode: 3
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
@@ -73,7 +79,7 @@ ModelImporter:
     rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
-    skeletonHasParents: 0
+    skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 0
   humanoidOversampling: 1
