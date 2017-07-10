@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 6c5e307aae00cb84c91a7ac5d7923123
-timeCreated: 1499170854
+guid: d112cefbc749c75488e2cec3eb80602f
+timeCreated: 1499683199
 licenseType: Pro
 ModelImporter:
   serializedVersion: 19
@@ -9,7 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: IsolationWard
+    4300000: IsolationWard.007
     6400000: //RootNode
   materials:
     importMaterials: 1
