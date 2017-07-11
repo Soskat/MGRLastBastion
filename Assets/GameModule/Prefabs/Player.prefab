@@ -143,6 +143,7 @@ GameObject:
   - component: {fileID: 54704326900735668}
   - component: {fileID: 82776416796828232}
   - component: {fileID: 114245610154542102}
+  - component: {fileID: 114945134263122558}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -183,8 +184,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1887102829654164}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.796, y: 1.08, z: 2.922}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 10.98, y: -0.201, z: 22.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4567411499193758}
@@ -192,7 +193,7 @@ Transform:
   - {fileID: 4260327619469422}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!4 &4260327619469422
 Transform:
   m_ObjectHideFlags: 1
@@ -665,7 +666,7 @@ Light:
   m_Type: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
-  m_Range: 20
+  m_Range: 30
   m_SpotAngle: 60
   m_CookieSize: 10
   m_Shadows:
@@ -741,10 +742,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  doBlink: 0
   doBlinkToDeath: 0
-  timeSinceLastBlink: 0
-  timeSinceLastBlinkToDeath: 0
 --- !u!114 &114599843427104646
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -762,7 +760,7 @@ MonoBehaviour:
   m_RunstepLenghten: 0.7
   m_JumpSpeed: 10
   m_StickToGroundForce: 10
-  m_GravityMultiplier: 2
+  m_GravityMultiplier: 5
   m_MouseLook:
     XSensitivity: 2
     YSensitivity: 2
@@ -847,6 +845,22 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8bc94ec6ed537e743b481638bdcd503d, type: 3}
   m_JumpSound: {fileID: 8300000, guid: 5897aeed9b676024fbb8c694b421a861, type: 3}
   m_LandSound: {fileID: 8300000, guid: 3b09d59f4499d45428baa7a21e954296, type: 3}
+--- !u!114 &114945134263122558
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1887102829654164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c2b11a973d7cc449afc774628a0465e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 512
+  rayLength: 20
+  activeObject: {fileID: 0}
 --- !u!124 &124689939592285402
 Behaviour:
   m_ObjectHideFlags: 1
