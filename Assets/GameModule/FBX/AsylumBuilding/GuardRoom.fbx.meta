@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 018c440fc5190a34db0f7a75c3cd693a
-timeCreated: 1499170853
+guid: d1c55edd5eded1d4e8a61ea5f0962876
+timeCreated: 1499701609
 licenseType: Pro
 ModelImporter:
   serializedVersion: 19
@@ -9,7 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: GuardRoom
+    4300000: A_GuardRoom_new
     6400000: //RootNode
   materials:
     importMaterials: 1

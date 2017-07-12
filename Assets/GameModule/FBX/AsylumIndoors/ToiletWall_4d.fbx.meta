@@ -1,0 +1,157 @@
+fileFormatVersion: 2
+guid: 4f5ad00649ebbd349bd56a0a57f06ed2
+timeCreated: 1499864025
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Cube.022
+    100002: Cube.026
+    100004: Cube.029
+    100006: Cube.030
+    100008: Cylinder.009
+    100010: Cylinder.010
+    100012: Cylinder.011
+    100014: Cylinder.012
+    100016: door_1.001
+    100018: door_2.001
+    100020: door_3.001
+    100022: door_4
+    100024: frontWall.001
+    100026: //RootNode
+    400000: Cube.022
+    400002: Cube.026
+    400004: Cube.029
+    400006: Cube.030
+    400008: Cylinder.009
+    400010: Cylinder.010
+    400012: Cylinder.011
+    400014: Cylinder.012
+    400016: door_1.001
+    400018: door_2.001
+    400020: door_3.001
+    400022: door_4
+    400024: frontWall.001
+    400026: //RootNode
+    2300000: Cube.022
+    2300002: Cube.026
+    2300004: Cube.029
+    2300006: Cube.030
+    2300008: Cylinder.009
+    2300010: Cylinder.010
+    2300012: Cylinder.011
+    2300014: Cylinder.012
+    2300016: door_1.001
+    2300018: door_2.001
+    2300020: door_3.001
+    2300022: door_4
+    2300024: frontWall.001
+    3300000: Cube.022
+    3300002: Cube.026
+    3300004: Cube.029
+    3300006: Cube.030
+    3300008: Cylinder.009
+    3300010: Cylinder.010
+    3300012: Cylinder.011
+    3300014: Cylinder.012
+    3300016: door_1.001
+    3300018: door_2.001
+    3300020: door_3.001
+    3300022: door_4
+    3300024: frontWall.001
+    4300000: door_4
+    4300002: Cylinder.012
+    4300004: Cube.029
+    4300006: door_3.001
+    4300008: Cube.030
+    4300010: Cylinder.011
+    4300012: door_2.001
+    4300014: Cube.026
+    4300016: Cylinder.010
+    4300018: frontWall.001
+    4300020: door_1.001
+    4300022: Cube.022
+    4300024: Cylinder.009
+    6400000: Cube.022
+    6400002: Cube.026
+    6400004: Cube.029
+    6400006: Cube.030
+    6400008: Cylinder.009
+    6400010: Cylinder.010
+    6400012: Cylinder.011
+    6400014: Cylinder.012
+    6400016: door_1.001
+    6400018: door_2.001
+    6400020: door_3.001
+    6400022: door_4
+    6400024: frontWall.001
+  materials:
+    importMaterials: 1
+    materialName: 1
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 1
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
