@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 1b178ab47f4d50949a02c04aac7ec9f7
-timeCreated: 1499236147
+guid: 46f03684966d2c44bae2cbe65bd22d3e
+timeCreated: 1499934184
 licenseType: Pro
 ModelImporter:
   serializedVersion: 19
@@ -9,7 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Hall
+    4300000: A_Hall_new
     6400000: //RootNode
   materials:
     importMaterials: 1
