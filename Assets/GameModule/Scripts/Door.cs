@@ -46,7 +46,7 @@ namespace LastBastion.Game
         {
             Assert.IsNotNull(doorOpenSound);
             Assert.IsNotNull(doorCloseSound);
-            Assert.IsNotNull(doorLockedSound);
+            //Assert.IsNotNull(doorLockedSound);
         }
 
         // Use this for initialization
@@ -156,7 +156,7 @@ namespace LastBastion.Game
         /// </summary>
         public void PlayLockedSound()
         {
-            PlaySound(doorLockedSound);
+            if(doorLockedSound != null) PlaySound(doorLockedSound);
         }
 
         /// <summary>
