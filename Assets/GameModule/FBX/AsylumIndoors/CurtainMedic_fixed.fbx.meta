@@ -63,9 +63,19 @@ ModelImporter:
     4300014: Cube.033
     4300016: Cylinder.013
     4300018: Cube.000
+    6400000: Cube.000
+    6400002: Cube.032
+    6400004: Cube.033
+    6400006: Cylinder.013
+    6400008: Cylinder.014
+    6400010: Cylinder.015
+    6400012: Cylinder.016
+    6400014: Cylinder.017
+    6400016: Cylinder.018
+    6400018: Cylinder.019
   materials:
     importMaterials: 1
-    materialName: 0
+    materialName: 1
     materialSearch: 1
   animations:
     legacyGenerateAnimations: 4
@@ -91,7 +101,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 0
+    addColliders: 1
     importBlendShapes: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
