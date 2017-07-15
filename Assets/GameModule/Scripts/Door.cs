@@ -12,7 +12,7 @@ namespace LastBastion.Game
     /// </summary>
     [RequireComponent(typeof(AudioSource))]
     [RequireComponent(typeof(Animator))]
-    public class Door : MonoBehaviour
+    public class Door : MonoBehaviour, IInteractiveObject
     {
         #region Provate fields
         [SerializeField] DoorType doorType;
@@ -34,9 +34,13 @@ namespace LastBastion.Game
         /// <summary>Is door busy?</summary>
         public bool IsBusy { get { return isBusy; } }
         /// <summary>Is door locked?</summary>
-        public bool IsLocked { get { return isLocked; } }
-        /// <summary>Is door locked?</summary>
         public bool IsClosed { get { return isClosed; } }
+        /// <summary>Is door locked?</summary>
+        public bool IsLocked
+        {
+            get { return isLocked; }
+            set { isLocked = value; }
+        }
         #endregion
 
 
@@ -107,7 +111,7 @@ namespace LastBastion.Game
 
         #region Public methods
         /// <summary>
-        /// Interacts with the door.
+        /// Implementation of <see cref="IInteractiveObject"/> interface method.
         /// </summary>
         public void Interact()
         {

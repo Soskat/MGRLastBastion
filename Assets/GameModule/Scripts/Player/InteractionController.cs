@@ -14,6 +14,8 @@ namespace LastBastion.Game.Player
         [SerializeField] private LayerMask layerMask;
         [SerializeField] private int rayLength = 20;
         [SerializeField] private GameObject activeObject;
+        //private Vector3 screenCenter = new Vector3(0.5f, 0.5f, 0.5f);
+        [SerializeField] private Transform crosshair;
         #endregion
 
 
@@ -21,7 +23,8 @@ namespace LastBastion.Game.Player
         // Use this for initialization
         void Start()
         {
-
+            crosshair = GameObject.FindGameObjectWithTag("Crosshair").transform;
+            
         }
 
         // Update is called once per frame
@@ -29,9 +32,9 @@ namespace LastBastion.Game.Player
         {
             if (activeObject != null && Input.GetKeyDown(KeyCode.E))
             {
-                if(activeObject.tag == "Door")
+                if(activeObject.tag == "Interactive")
                 {
-                    activeObject.GetComponentInParent<Door>().Interact();
+                    activeObject.GetComponentInParent<IInteractiveObject>().Interact();
                 }
             }
         }
@@ -40,6 +43,7 @@ namespace LastBastion.Game.Player
         private void FixedUpdate()
         {
             RaycastHit hit;
+            //Ray ray = new Ray(Camera.main.transform.position, crosshair.forward);
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             Debug.DrawRay(ray.origin, ray.direction * rayLength, Color.blue);
