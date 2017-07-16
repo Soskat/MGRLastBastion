@@ -1,5 +1,6 @@
 ﻿using LastBastion.Biofeedback;
 using LastBastion.Game.Managers;
+using LastBastion.Game.ObjectInteraction;
 using System.Collections;
 using UnityEngine;
 

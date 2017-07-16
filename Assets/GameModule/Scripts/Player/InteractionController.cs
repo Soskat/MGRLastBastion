@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using LastBastion.Game.ObjectInteraction;
 using UnityEngine;
 
 
@@ -43,7 +42,6 @@ namespace LastBastion.Game.Player
         private void FixedUpdate()
         {
             RaycastHit hit;
-            //Ray ray = new Ray(Camera.main.transform.position, crosshair.forward);
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             Debug.DrawRay(ray.origin, ray.direction * rayLength, Color.blue);

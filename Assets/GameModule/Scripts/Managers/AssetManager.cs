@@ -5,11 +5,27 @@ using UnityEngine;
 
 namespace LastBastion.Game.Managers
 {
+    /// <summary>
+    /// Component that manages common assets resources.
+    /// </summary>
     public class AssetManager : MonoBehaviour
     {
+        #region Private fields
+        [SerializeField] private Color highlightColor;
+        [SerializeField] private Color hintColor;
+        [SerializeField] private float hintRange;
+        [SerializeField] private List<AudioClip> metalDoorSqueak;
+        [SerializeField] private List<AudioClip> woodenDoorSqueak;
+        #endregion
+
+
         #region Public fields
-        public List<AudioClip> metalDoorSqueak;
-        public List<AudioClip> woodenDoorSqueak;
+        /// <summary>Highlight color.</summary>
+        public Color HighlightColor { get { return highlightColor; } }
+        /// <summary>Hint color.</summary>
+        public Color HintColor { get { return hintColor; } }
+        /// <summary>Hint range.</summary>
+        public float HintRange { get { return hintRange; } }
         #endregion
 
 
