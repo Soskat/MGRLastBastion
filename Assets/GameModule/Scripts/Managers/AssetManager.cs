@@ -13,7 +13,8 @@ namespace LastBastion.Game.Managers
         #region Private fields
         [SerializeField] private Color highlightColor;
         [SerializeField] private Color hintColor;
-        [SerializeField] private float hintRange;
+        [SerializeField] private float interactionRange = 2f;
+        [SerializeField] private float hintRange = 4f;
         [SerializeField] private List<AudioClip> metalDoorSqueak;
         [SerializeField] private List<AudioClip> woodenDoorSqueak;
         #endregion
@@ -24,6 +25,8 @@ namespace LastBastion.Game.Managers
         public Color HighlightColor { get { return highlightColor; } }
         /// <summary>Hint color.</summary>
         public Color HintColor { get { return hintColor; } }
+        /// <summary>Interaction range.</summary>
+        public float InteractionRange { get { return interactionRange; } }
         /// <summary>Hint range.</summary>
         public float HintRange { get { return hintRange; } }
         #endregion

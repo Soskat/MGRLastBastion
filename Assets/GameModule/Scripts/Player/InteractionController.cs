@@ -1,4 +1,5 @@
-﻿using LastBastion.Game.ObjectInteraction;
+﻿using LastBastion.Game.Managers;
+using LastBastion.Game.ObjectInteraction;
 using UnityEngine;
 
 
@@ -11,7 +12,6 @@ namespace LastBastion.Game.Player
     {
         #region Private fields
         [SerializeField] private LayerMask layerMask;
-        [SerializeField] private int rayLength = 20;
         [SerializeField] private GameObject activeObject;
         #endregion
 
@@ -41,9 +41,9 @@ namespace LastBastion.Game.Player
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            Debug.DrawRay(ray.origin, ray.direction * rayLength, Color.blue);
+            Debug.DrawRay(ray.origin, ray.direction * GameManager.instance.Assets.InteractionRange, Color.blue);
 
-            if (Physics.Raycast(ray, out hit, rayLength, layerMask, QueryTriggerInteraction.Ignore))
+            if (Physics.Raycast(ray, out hit, GameManager.instance.Assets.InteractionRange, layerMask, QueryTriggerInteraction.Ignore))
             {
                 activeObject = hit.collider.gameObject;
             }
