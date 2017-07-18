@@ -13,8 +13,6 @@ namespace LastBastion.Game.Player
         [SerializeField] private LayerMask layerMask;
         [SerializeField] private int rayLength = 20;
         [SerializeField] private GameObject activeObject;
-        //private Vector3 screenCenter = new Vector3(0.5f, 0.5f, 0.5f);
-        [SerializeField] private Transform crosshair;
         #endregion
 
 
@@ -22,8 +20,7 @@ namespace LastBastion.Game.Player
         // Use this for initialization
         void Start()
         {
-            crosshair = GameObject.FindGameObjectWithTag("Crosshair").transform;
-            
+
         }
 
         // Update is called once per frame

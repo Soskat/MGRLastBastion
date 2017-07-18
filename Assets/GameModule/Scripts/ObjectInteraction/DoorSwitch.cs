@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+using UnityEngine.Assertions;
 
 namespace LastBastion.Game.ObjectInteraction
 {
@@ -11,20 +11,29 @@ namespace LastBastion.Game.ObjectInteraction
     public class DoorSwitch : MonoBehaviour, IInteractiveObject
     {
         #region Private fields
-        [SerializeField]
-        private Door door;
+        [SerializeField] private Door door;
+        [SerializeField] private AudioClip pushButtonSound;
         private Animator animator;
-        private int pushButtonTrigger;
+        private AudioSource audioSource;
+        private int pushedButtonTrigger;
         private bool isBusy = false;
         #endregion
 
 
         #region MonoBehaviour methods
+        // Awake is called when the script instance is being loaded
+        private void Awake()
+        {
+            Assert.IsNotNull(door);
+            Assert.IsNotNull(pushButtonSound);
+        }
+
         // Use this for initialization
         void Start()
         {
             animator = GetComponent<Animator>();
-            pushButtonTrigger = Animator.StringToHash("PushButton");
+            pushedButtonTrigger = Animator.StringToHash("PushedButton");
+            audioSource = GetComponent<AudioSource>();
         }
 
         // Update is called once per frame
@@ -43,8 +52,7 @@ namespace LastBastion.Game.ObjectInteraction
         {
             if (!isBusy)
             {
-                animator.SetTrigger(pushButtonTrigger);
-                Debug.Log("Pushed the button!");
+                animator.SetTrigger(pushedButtonTrigger);
             }
         }
 
@@ -69,7 +77,16 @@ namespace LastBastion.Game.ObjectInteraction
         /// </summary>
         public void SwitchDoorState()
         {
-            door.IsLocked = door.IsLocked ? false : true;
+            if (door.IsLocked) door.IsLocked = false;
+            else door.IsLocked = true;
+        }
+
+        /// <summary>
+        /// Plays sound of pushing the button.
+        /// </summary>
+        public void PlayPushSound()
+        {
+            audioSource.PlayOneShot(pushButtonSound);
         }
         #endregion
     }

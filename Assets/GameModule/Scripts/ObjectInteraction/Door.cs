@@ -48,7 +48,6 @@ namespace LastBastion.Game.ObjectInteraction
         {
             Assert.IsNotNull(doorOpenSound);
             Assert.IsNotNull(doorCloseSound);
-            //Assert.IsNotNull(doorLockedSound);
         }
 
         // Use this for initialization
