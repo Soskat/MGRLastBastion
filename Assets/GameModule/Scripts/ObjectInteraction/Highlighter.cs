@@ -47,20 +47,24 @@ namespace LastBastion.Game.ObjectInteraction
                 }
             }
         }
+        #endregion
 
-        // Called when the mouse enters the GUIElement or Collider
-        private void OnMouseEnter()
+
+        #region Public methods
+        /// <summary>
+        /// Turns on the highlight of the object.
+        /// </summary>
+        public void TurnOnHighlight()
         {
-            if (isInRange)
-            {
-                isMouseOver = true;
-                GetComponent<Renderer>().material.SetColor("_OutlineColor", GameManager.instance.Assets.HighlightColor);
-                GetComponent<Renderer>().material.SetFloat("_Outline", outlineWidth);
-            }
+            isMouseOver = true;
+            GetComponent<Renderer>().material.SetColor("_OutlineColor", GameManager.instance.Assets.HighlightColor);
+            GetComponent<Renderer>().material.SetFloat("_Outline", outlineWidth);
         }
 
-        // Called when the mouse is not any longer over the GUIElement or Collider
-        private void OnMouseExit()
+        /// <summary>
+        /// Turns off the highlight of the object.
+        /// </summary>
+        public void TurnOffHighlight()
         {
             isMouseOver = false;
             ManageHintColor();
