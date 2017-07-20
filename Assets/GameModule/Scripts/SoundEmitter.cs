@@ -14,12 +14,13 @@ namespace LastBastion.Game
         [SerializeField] private bool isBackgroundSound = false;
         [SerializeField] private float minDistance = 3f;
         [SerializeField] private float maxDistance = 7f;
+        [SerializeField] private float interactionDistance = 5f;
+        [SerializeField] private float cooldownTime = 30f;
         [SerializeField] private List<AudioClip> sounds;
         private bool isBusy = false;
         private float distance;
         private float newDistance;
         private AudioSource audioSource;
-        private GameObject player;
         #endregion
 
 
@@ -27,7 +28,6 @@ namespace LastBastion.Game
         // Use this for initialization
         void Start()
         {
-            player = GameObject.FindGameObjectWithTag("Player");
             audioSource = GetComponent<AudioSource>();
             // set up some settings for audio source:
             audioSource.spatialBlend = 1.0f;
@@ -56,8 +56,8 @@ namespace LastBastion.Game
             if (!isBusy)
             {
                 // check if player is in range:
-                newDistance = (transform.position - player.transform.position).magnitude;
-                if (newDistance <= maxDistance)
+                newDistance = (transform.position - GameManager.instance.Player.transform.position).magnitude;
+                if (newDistance <= interactionDistance)
                 {
                     // distance has started to increase - prepare to playing a sound:
                     if (newDistance > distance)
@@ -67,12 +67,12 @@ namespace LastBastion.Game
                         if (GameManager.instance.BBModule.IsEnabled)
                         {
                             // the more player is anxious, the closer to him sound plays:
-                            delay = 2f * player.GetComponent<BiofeedbackController>().ArousalCurrentModifier;
+                            delay = 2f * GameManager.instance.Player.GetComponent<BiofeedbackController>().ArousalCurrentModifier;
                         }
                         // biofeedback module OFF:
                         else delay = Random.Range(1.0f, 3.0f);
-                        StartCoroutine(TriggerSound(delay));
                         isBusy = true;
+                        StartCoroutine(TriggerSound(delay));
                     }
                     else
                     {
@@ -85,6 +85,16 @@ namespace LastBastion.Game
                 }
             }
         }
+
+        void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject.tag == "Player")
+            {
+                PlaySound();
+                isBusy = true;
+                StartCoroutine(CooldownTimer(cooldownTime));
+            }
+        }
         #endregion
 
 
@@ -95,8 +105,8 @@ namespace LastBastion.Game
         /// <returns>Random audio clip</returns>
         private AudioClip GetRandomSound()
         {
-            if (sounds.Count > 0) return sounds[Random.Range(0, sounds.Count)];
-            else if (sounds.Count == 0) return sounds[0];
+            if (sounds.Count > 1) return sounds[Random.Range(0, sounds.Count)];
+            else if (sounds.Count == 1) return sounds[0];
             else return null;
         }
 
@@ -109,11 +119,34 @@ namespace LastBastion.Game
         {
             yield return new WaitForSeconds(delay);
             // play random sound:
-            audioSource.PlayOneShot(GetRandomSound());
+            PlaySound();
             // reset variables:
             distance = maxDistance;
+            StartCoroutine(CooldownTimer(cooldownTime));
+        }
+
+        /// <summary>
+        /// Simple cooldown timer.
+        /// </summary>
+        /// <param name="cooldown"></param>
+        /// <returns></returns>
+        private IEnumerator CooldownTimer(float cooldown)
+        {
+            yield return new WaitForSeconds(cooldown);
             isBusy = false;
             yield return null;
+        }
+        #endregion
+
+
+        #region Public methods
+        /// <summary>
+        /// Plays random sound.
+        /// </summary>
+        public void PlaySound()
+        {
+            AudioClip randomSound = GetRandomSound();
+            if (randomSound != null) audioSource.PlayOneShot(randomSound);
         }
         #endregion
     }
