@@ -31,6 +31,7 @@ namespace LastBastion.Game.Managers
         private DateTime currentTime;
         private int indexOfFirstLevel;
         private int indexOfSecondLevel;
+        private GameObject player;
         #endregion
 
 
@@ -51,6 +52,8 @@ namespace LastBastion.Game.Managers
         public GameMode GameMode { get; set; }
         /// <summary>Is analytics module enabled?</summary>
         public bool AnalyticsEnabled = true;
+        /// <summary>Reference to player game object.</summary>
+        public GameObject Player { get { return player; } }
         #endregion
 
 
@@ -78,6 +81,7 @@ namespace LastBastion.Game.Managers
             indexOfSecondLevel = 4;
             calculationTypes = new CalculationType[2] { CalculationType.Alternative, CalculationType.Conjunction };
             //calculationTypes = new CalculationType[2];
+            player = GameObject.FindGameObjectWithTag("Player");
 
             // initialize analytics system:
             DataManager.InitializeSystem();

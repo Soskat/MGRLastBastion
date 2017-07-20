@@ -10,7 +10,7 @@ namespace LastBastion.Game.Player
     public class Hand : MonoBehaviour
     {
         #region Private fields
-        [SerializeField] protected Player.BiofeedbackController player;
+        [SerializeField] protected BiofeedbackController player;
         #endregion
 
 
@@ -18,7 +18,7 @@ namespace LastBastion.Game.Player
         // Use this for initialization
         protected void Start()
         {
-            player = GetComponentInParent<Player.BiofeedbackController>();
+            player = GetComponentInParent<BiofeedbackController>();
         }
 
         // Update is called once per frame

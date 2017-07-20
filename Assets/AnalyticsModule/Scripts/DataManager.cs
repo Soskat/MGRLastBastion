@@ -10,7 +10,6 @@ namespace LastBastion.Analytics
     /// </summary>
     public class DataManager
     {
-
         #region Private static fields
         /// <summary>Directory path for files with analysis data.</summary>
         private static string dataDirectory;

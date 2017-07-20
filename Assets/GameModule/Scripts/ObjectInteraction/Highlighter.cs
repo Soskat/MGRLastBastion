@@ -11,7 +11,6 @@ namespace LastBastion.Game.ObjectInteraction
     {
         #region Private fields
         [SerializeField][Range(0.0f, 2.0f)] private float outlineWidth;
-        private GameObject player;
         private bool isMouseOver = false;
         private bool isInRange = false;
         #endregion
@@ -21,7 +20,6 @@ namespace LastBastion.Game.ObjectInteraction
         // Use this for initialization
         void Start()
         {
-            player = GameObject.FindGameObjectWithTag("Player");
         }
 
         // Update is called once per frame
@@ -29,7 +27,7 @@ namespace LastBastion.Game.ObjectInteraction
         {
             if (!isMouseOver)
             {
-                if ((transform.position - player.transform.position).magnitude <= GameManager.instance.Assets.HintRange)
+                if ((transform.position - GameManager.instance.Player.transform.position).magnitude <= GameManager.instance.Assets.HintRange)
                 {
                     if (!isInRange)
                     {
