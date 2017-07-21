@@ -9,6 +9,7 @@ namespace LastBastion.Game.Managers
     public class SoundManager : MonoBehaviour
     {
         #region Private fields
+        [SerializeField] private bool isEnabled = false;
         [SerializeField] private float startDelay = 10f;
         [SerializeField] private List<AudioClip> soundsHard;
         [SerializeField] private List<AudioClip> soundsLight;
@@ -19,10 +20,21 @@ namespace LastBastion.Game.Managers
         #endregion
 
 
+        #region Public fields & properties
+        /// <summary>Is this sound manager (area) enabled?</summary>
+        public bool IsEnabled
+        {
+            get { return isEnabled; }
+            set { isEnabled = value; }
+        }
+        #endregion
+
+
         #region MonoBehaviour methods
         // Use this for initialization
         void Start()
         {
+            if (isEnabled) GameManager.instance.ActiveSoundArea = this;
             playerBiofeedback = GameManager.instance.Player.GetComponent<BiofeedbackController>();
             StartCoroutine(CooldownTimer(startDelay * 1.5f));
         }
@@ -30,7 +42,7 @@ namespace LastBastion.Game.Managers
         // Update is called once per frame
         void Update()
         {
-            if (!isBusy)
+            if (isEnabled && !isBusy)
             {
                 if (GameManager.instance.BBModule.IsEnabled)
                 {
@@ -63,7 +75,7 @@ namespace LastBastion.Game.Managers
             }
 
             // test:
-            Debug.DrawLine(GameManager.instance.Player.transform.position, FindBestSoundSource().transform.position, Color.cyan);
+            if (isEnabled) Debug.DrawLine(GameManager.instance.Player.transform.position, FindBestSoundSource().transform.position, Color.cyan);
         }
         #endregion
 

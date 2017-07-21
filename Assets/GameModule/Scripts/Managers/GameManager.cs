@@ -27,6 +27,7 @@ namespace LastBastion.Game.Managers
         [SerializeField] private string[] gameLevels;
         [SerializeField] private int currentCalculationTypeID = 0;
         [SerializeField] private CalculationType[] calculationTypes;
+        [SerializeField] private SoundManager activeSoundArea;
         private DateTime startTime;
         private DateTime currentTime;
         private int indexOfFirstLevel;
@@ -54,6 +55,12 @@ namespace LastBastion.Game.Managers
         public bool AnalyticsEnabled = true;
         /// <summary>Reference to player game object.</summary>
         public GameObject Player { get { return player; } }
+        /// <summary>Reference to active sound area.</summary>
+        public SoundManager ActiveSoundArea
+        {
+            get { return activeSoundArea; }
+            set { activeSoundArea = value; }
+        }
         #endregion
 
 
@@ -68,6 +75,7 @@ namespace LastBastion.Game.Managers
                 DontDestroyOnLoad(gameObject);
                 BBModule = GetComponent<BandBridgeModule>();
                 Assets = GetComponent<AssetManager>();
+                player = GameObject.FindGameObjectWithTag("Player");
             }
             else if (instance != this) Destroy(gameObject);
         }
@@ -81,7 +89,6 @@ namespace LastBastion.Game.Managers
             indexOfSecondLevel = 4;
             calculationTypes = new CalculationType[2] { CalculationType.Alternative, CalculationType.Conjunction };
             //calculationTypes = new CalculationType[2];
-            player = GameObject.FindGameObjectWithTag("Player");
 
             // initialize analytics system:
             DataManager.InitializeSystem();
