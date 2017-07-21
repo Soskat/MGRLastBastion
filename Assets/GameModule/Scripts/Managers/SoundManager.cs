@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using LastBastion.Game.Player;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -7,8 +9,13 @@ namespace LastBastion.Game.Managers
     public class SoundManager : MonoBehaviour
     {
         #region Private fields
+        [SerializeField] private float startDelay = 10f;
         [SerializeField] private List<AudioClip> soundsHard;
         [SerializeField] private List<AudioClip> soundsLight;
+        private BiofeedbackController playerBiofeedback;
+        private GameObject choosenSoundSource;
+        private AudioClip choosenAudioClip;
+        private bool isBusy = false;
         #endregion
 
 
@@ -16,20 +23,44 @@ namespace LastBastion.Game.Managers
         // Use this for initialization
         void Start()
         {
-
+            playerBiofeedback = GameManager.instance.Player.GetComponent<BiofeedbackController>();
+            StartCoroutine(CooldownTimer(startDelay * 1.5f));
         }
 
         // Update is called once per frame
         void Update()
         {
-            //if (GameManager.instance.BBModule.IsEnabled)
-            //{
-            //    // check if Player is scared/anxious/nervous enough to play sound
-            //}
-            //else
-            //{
-            //    // play sounds at random time - but still choose the best awailable audio source
-            //}
+            if (!isBusy)
+            {
+                if (GameManager.instance.BBModule.IsEnabled)
+                {
+                    if (playerBiofeedback.ArousalCurrentState == Biofeedback.DataState.High)
+                    {
+                        // play light sound:
+                        choosenAudioClip = soundsLight[Random.Range(0, soundsLight.Count)];
+                    }
+                    else
+                    {
+                        // play hard sound:
+                        choosenAudioClip = soundsHard[Random.Range(0, soundsHard.Count)];
+                    }
+
+                    choosenSoundSource = FindBestSoundSource();
+                    choosenSoundSource.GetComponent<AudioSource>().PlayOneShot(choosenAudioClip);
+                    StartCoroutine(CooldownTimer(startDelay * playerBiofeedback.ArousalCurrentModifier));
+                }
+                else
+                {
+                    // play sounds at random time - but still choose the best awailable audio source
+                    int x = Random.Range(0, 2);
+                    if (x == 0) choosenAudioClip = soundsLight[Random.Range(0, soundsLight.Count)];
+                    else choosenAudioClip = soundsHard[Random.Range(0, soundsHard.Count)];
+
+                    choosenSoundSource = FindBestSoundSource();
+                    choosenSoundSource.GetComponent<AudioSource>().PlayOneShot(choosenAudioClip);
+                    StartCoroutine(CooldownTimer(startDelay));
+                }
+            }
 
             // test:
             Debug.DrawLine(GameManager.instance.Player.transform.position, FindBestSoundSource().transform.position, Color.cyan);
@@ -45,7 +76,7 @@ namespace LastBastion.Game.Managers
         private GameObject FindBestSoundSource()
         {
             // choose the best sound source:
-            // -> one which is behind the Player and is the closest to him:
+            // -> which is one behind the Player and the closest to him:
             GameObject soundSource = null, soundSourceSecond = null;
             float minDistance = 100f, minDistanceSecond = 100f;
             foreach(Transform child in transform)
@@ -74,6 +105,18 @@ namespace LastBastion.Game.Managers
             // choose the best sound source:
             if (soundSource != null) return soundSource;
             else return soundSourceSecond;
+        }
+
+        /// <summary>
+        /// Sets <see cref="isBusy"/> flag to true for specific time.
+        /// </summary>
+        /// <param name="cooldownTime">Time to wait</param>
+        /// <returns></returns>
+        private IEnumerator CooldownTimer(float cooldownTime)
+        {
+            isBusy = true;
+            yield return new WaitForSeconds(cooldownTime);
+            isBusy = false;
         }
         #endregion
     }
