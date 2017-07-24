@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace LastBastion.Game.Managers
 {
+    /// <summary>
+    /// Component that manages sound playing logic based on player's biofeedback.
+    /// </summary>
     public class SoundManager : MonoBehaviour
     {
         #region Private fields
@@ -56,10 +59,6 @@ namespace LastBastion.Game.Managers
                         // play hard sound:
                         choosenAudioClip = soundsHard[Random.Range(0, soundsHard.Count)];
                     }
-
-                    choosenSoundSource = FindBestSoundSource();
-                    choosenSoundSource.GetComponent<AudioSource>().PlayOneShot(choosenAudioClip);
-                    StartCoroutine(CooldownTimer(startDelay * playerBiofeedback.ArousalCurrentModifier));
                 }
                 else
                 {
@@ -67,11 +66,12 @@ namespace LastBastion.Game.Managers
                     int x = Random.Range(0, 2);
                     if (x == 0) choosenAudioClip = soundsLight[Random.Range(0, soundsLight.Count)];
                     else choosenAudioClip = soundsHard[Random.Range(0, soundsHard.Count)];
-
-                    choosenSoundSource = FindBestSoundSource();
-                    choosenSoundSource.GetComponent<AudioSource>().PlayOneShot(choosenAudioClip);
-                    StartCoroutine(CooldownTimer(startDelay));
                 }
+                
+                choosenSoundSource = FindBestSoundSource();
+                if (choosenSoundSource.GetComponent<SoundTrigger>() != null) choosenSoundSource.GetComponent<SoundTrigger>().PlaySound();
+                else choosenSoundSource.GetComponent<AudioSource>().PlayOneShot(choosenAudioClip);
+                StartCoroutine(CooldownTimer(startDelay));
             }
 
             // test:

@@ -4,6 +4,10 @@ using UnityEngine;
 
 namespace LastBastion.Game
 {
+    /// <summary>
+    /// Component that manages the IsActive status of assigned area.
+    /// </summary>
+    [RequireComponent(typeof(Rigidbody))]
     public class SoundAreaActivator : MonoBehaviour
     {
         #region Private fields
