@@ -1,16 +1,30 @@
 fileFormatVersion: 2
-guid: 24e44636de768404f9b8973ba6117e47
-timeCreated: 1499257509
+guid: 6be31d507119912498ba3785a3c80a2b
+timeCreated: 1499627476
 licenseType: Pro
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: Stairs
-    6400000: //RootNode
+    100000: Handrail
+    100002: Staircase
+    100004: //RootNode
+    100006: Steps
+    400000: Handrail
+    400002: Staircase
+    400004: //RootNode
+    400006: Steps
+    2300000: Handrail
+    2300002: Staircase
+    2300004: Steps
+    3300000: Handrail
+    3300002: Staircase
+    3300004: Steps
+    4300000: Staircase
+    4300002: Handrail
+    4300004: Steps
+    6400000: Handrail
+    6400002: Staircase
+    6400004: Steps
   materials:
     importMaterials: 1
     materialName: 1

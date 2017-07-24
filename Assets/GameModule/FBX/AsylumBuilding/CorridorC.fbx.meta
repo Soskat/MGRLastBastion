@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 0420d3649d6b47047808f4b32557d861
-timeCreated: 1499170853
+guid: 7d56cf71777d76946894e1c66b11188e
+timeCreated: 1499691045
 licenseType: Pro
 ModelImporter:
   serializedVersion: 19
@@ -9,7 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: CorridorC
+    4300000: A_Corridor_C_new
     6400000: //RootNode
   materials:
     importMaterials: 1

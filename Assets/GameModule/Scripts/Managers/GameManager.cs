@@ -11,6 +11,9 @@ namespace LastBastion.Game.Managers
     /// <summary>
     /// Component that manages all game logic.
     /// </summary>
+    [RequireComponent(typeof(AssetManager))]
+    [RequireComponent(typeof(BiofeedbackSimulator))]
+    [RequireComponent(typeof(BandBridgeModule))]
     public class GameManager : MonoBehaviour
     {
         #region Static fields
@@ -24,16 +27,20 @@ namespace LastBastion.Game.Managers
         [SerializeField] private string[] gameLevels;
         [SerializeField] private int currentCalculationTypeID = 0;
         [SerializeField] private CalculationType[] calculationTypes;
+        [SerializeField] private SoundManager activeSoundArea;
         private DateTime startTime;
         private DateTime currentTime;
         private int indexOfFirstLevel;
         private int indexOfSecondLevel;
+        private GameObject player;
         #endregion
 
 
         #region Public fields & properties
         /// <summary>Instance of <see cref="BandBridgeModule"/> class.</summary>
         public BandBridgeModule BBModule { get; set; }
+        /// <summary>Instance of <see cref="AssetManager"/> class.</summary>
+        public AssetManager Assets { get; set; }
         /// <summary>Is ready for new MS Band device sensors data?</summary>
         public bool IsReadyForNewBandData { get; set; }
         /// <summary>Instance of <see cref="ListController"/> class.</summary>
@@ -46,6 +53,14 @@ namespace LastBastion.Game.Managers
         public GameMode GameMode { get; set; }
         /// <summary>Is analytics module enabled?</summary>
         public bool AnalyticsEnabled = true;
+        /// <summary>Reference to player game object.</summary>
+        public GameObject Player { get { return player; } }
+        /// <summary>Reference to active sound area.</summary>
+        public SoundManager ActiveSoundArea
+        {
+            get { return activeSoundArea; }
+            set { activeSoundArea = value; }
+        }
         #endregion
 
 
@@ -58,7 +73,9 @@ namespace LastBastion.Game.Managers
             {
                 instance = this;
                 DontDestroyOnLoad(gameObject);
-                BBModule = gameObject.GetComponent<BandBridgeModule>();
+                BBModule = GetComponent<BandBridgeModule>();
+                Assets = GetComponent<AssetManager>();
+                player = GameObject.FindGameObjectWithTag("Player");
             }
             else if (instance != this) Destroy(gameObject);
         }

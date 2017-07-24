@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 4c68ded1a4ad0f0498a51f8056d78baa
-timeCreated: 1499170836
+guid: 2f6bf9d349f81604da5d91290415b049
+timeCreated: 1499862151
 licenseType: Pro
 ModelImporter:
   serializedVersion: 19
@@ -9,7 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Canteen
+    4300000: A_Canteen_new
     6400000: //RootNode
   materials:
     importMaterials: 1
