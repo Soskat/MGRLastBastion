@@ -5,26 +5,28 @@ using UnityEngine.Assertions;
 
 namespace LastBastion.Game
 {
+    /// <summary>
+    /// Component that represents light source behaviour.
+    /// </summary>
     [RequireComponent(typeof(AudioSource))]
     [RequireComponent(typeof(Animator))]
     public class LightSource : MonoBehaviour
     {
         #region Private fields
+        [SerializeField] private bool isOn = false;
+        [SerializeField] private bool isBroken = false;
+        [SerializeField] private bool isDead = false;
+        [SerializeField] private GameObject lightBulb;
         [SerializeField] private AudioClip staticBuzzSound;
         [SerializeField] private AudioClip explodeSound;
         [SerializeField] private AudioClip brokenIgnitorSound;
         private AudioSource audioSource;
         private Animator animator;
         private ParticleSystem sparksBurst;
-        private int turnOnAnim;
+        private Light lightSource;
         private int turnOffAnim;
         private int explodeAnim;
         private bool isBusy = false;
-        #endregion
-
-
-        #region Public fields & properties
-
         #endregion
 
 
@@ -32,6 +34,7 @@ namespace LastBastion.Game
         // Awake is called when the script instance is being loaded
         private void Awake()
         {
+            Assert.IsNotNull(lightBulb);
             Assert.IsNotNull(staticBuzzSound);
             Assert.IsNotNull(explodeSound);
             Assert.IsNotNull(brokenIgnitorSound);
@@ -44,10 +47,13 @@ namespace LastBastion.Game
             audioSource.clip = staticBuzzSound;
             audioSource.playOnAwake = false;
             animator = GetComponent<Animator>();
+            lightSource = GetComponentInChildren<Light>();
             sparksBurst = GetComponentInChildren<ParticleSystem>();
-            turnOnAnim = Animator.StringToHash("TurnOn");
             turnOffAnim = Animator.StringToHash("TurnOff");
             explodeAnim = Animator.StringToHash("Explode");
+            // turn the light on or off:
+            if (isOn) SetLightMode(true);
+            else SetLightMode(false);
         }
 
         // Update is called once per frame
@@ -67,10 +73,111 @@ namespace LastBastion.Game
         {
             audioSource.PlayOneShot(sound);
         }
+
+        /// <summary>
+        /// Sets light mode to turned-on or turned-off.
+        /// </summary>
+        /// <param name="turnOn">Is the light turned on?</param>
+        private void SetLightMode(bool turnOn)
+        {
+            if (turnOn)
+            {
+                lightBulb.GetComponent<Renderer>().material.SetColor("_EmissionColor", Color.white);
+                lightSource.intensity = 10f;
+            }
+            else
+            {
+                lightBulb.GetComponent<Renderer>().material.SetColor("_EmissionColor", Color.black);
+                lightSource.intensity = 0f;
+            }
+        }
+
+        /// <summary>
+        /// Simulates the process of turning on the light after few blinks.
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator LightsUp()
+        {
+            isBusy = true;
+            animator.applyRootMotion = true;
+            // simulate few light blinks:
+            int blinks = Random.Range(1, 4);
+            for(int i = 0; i < blinks; i++)
+            {
+                SetLightMode(true);
+                PlayBrokenIgnitorSound();
+                yield return new WaitForSeconds(Random.Range(0.3f, 0.5f));
+                SetLightMode(false);
+                yield return new WaitForSeconds(Random.Range(0.7f, 1f));
+            }
+            // finally turn the light on:
+            SetLightMode(true);
+            PlayBrokenIgnitorSound();
+            SetBuzzingOn();
+            animator.applyRootMotion = false;
+            isBusy = false;
+            // set the isOn flag to true:
+            isOn = true;
+        }
+
+        /// <summary>
+        /// Simulates light blinking.
+        /// </summary>
+        /// <param name="frequency">Blink frequency parameter</param>
+        /// <returns></returns>
+        private IEnumerator Blink(float frequency)
+        {
+            SetLightMode(false);
+            yield return new WaitForSeconds(Random.Range(0.3f, 0.5f) * frequency);
+            SetLightMode(true);
+            PlayBrokenIgnitorSound();
+            // start new blink:
+            StartCoroutine(Blink(Random.Range(5f, 20f)));
+        }
         #endregion
 
 
         #region Public methods
+        /// <summary>
+        /// Turns on the light.
+        /// </summary>
+        public void TurnOnTheLight()
+        {
+            if (!isDead && !isBusy && !isOn)
+            {
+                if (isBroken)
+                {
+                    isDead = true;
+                    animator.Play(explodeAnim);
+                }
+                else
+                {
+                    StartCoroutine(LightsUp());
+                }
+            }
+        }
+
+        /// <summary>
+        /// Turns off the light.
+        /// </summary>
+        public void TurnOffTheLight()
+        {
+            if (!isDead && !isBusy && isOn)
+            {
+                isOn = false;
+                StopAllCoroutines();
+                animator.Play(turnOffAnim);
+            }
+        }
+
+        /// <summary>
+        /// Simulates blinking of the light.
+        /// </summary>
+        public void StartBlinking()
+        {
+            StartCoroutine(Blink(Random.Range(5f, 20f)));
+        }
+
         /// <summary>
         /// Plays the sparks particle system.
         /// </summary>
