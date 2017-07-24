@@ -115,6 +115,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114599843427104646, guid: 1159c1007f4ae244397e583769c6f6af,
+        type: 2}
+      propertyPath: m_FootstepSounds.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4172536660163578, guid: 1159c1007f4ae244397e583769c6f6af, type: 2}
       propertyPath: m_LocalPosition.x
       value: 11.18
@@ -151,6 +156,26 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 182.13799
       objectReference: {fileID: 0}
+    - target: {fileID: 114599843427104646, guid: 1159c1007f4ae244397e583769c6f6af,
+        type: 2}
+      propertyPath: m_FootstepSounds.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 9a7e4c388d8550944bfc744dfb7b09da, type: 3}
+    - target: {fileID: 114599843427104646, guid: 1159c1007f4ae244397e583769c6f6af,
+        type: 2}
+      propertyPath: m_FootstepSounds.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: c55b7bd7f82a31a4fa49752176110a0c, type: 3}
+    - target: {fileID: 114599843427104646, guid: 1159c1007f4ae244397e583769c6f6af,
+        type: 2}
+      propertyPath: m_FootstepSounds.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 5a9383dda6cabc047b7a297602e93eb4, type: 3}
+    - target: {fileID: 114599843427104646, guid: 1159c1007f4ae244397e583769c6f6af,
+        type: 2}
+      propertyPath: m_FootstepSounds.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: e9714160ce34f2b4ab63ff8c27bd68e1, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1159c1007f4ae244397e583769c6f6af, type: 2}
   m_IsPrefabParent: 0
@@ -997,7 +1022,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8e454665bce46448a3355b5585eb47e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sound: {fileID: 8300000, guid: d9b2e389529d1184f874f7bd45f7d767, type: 3}
+  triggeredSound: {fileID: 0}
 --- !u!65 &614840442
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1140,7 +1165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8e454665bce46448a3355b5585eb47e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sound: {fileID: 8300000, guid: 5c4809def204ed54daddd9db380563c6, type: 3}
+  triggeredSound: {fileID: 0}
 --- !u!65 &1639016950
 BoxCollider:
   m_ObjectHideFlags: 0
