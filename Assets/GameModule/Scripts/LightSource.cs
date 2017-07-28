@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+
 namespace LastBastion.Game
 {
     /// <summary>
@@ -27,6 +28,12 @@ namespace LastBastion.Game
         private float hue;
         private float saturation;
         private float value;
+        #endregion
+
+
+        #region Public fields & properties
+        /// <summary>Is light broken?</summary>
+        public bool IsBroken { get { return isBroken; } }
         #endregion
 
 
@@ -202,7 +209,7 @@ namespace LastBastion.Game
         /// </summary>
         private void SetBuzzingOn()
         {
-            if (!audioSource.isPlaying) audioSource.Play();
+            audioSource.Play();
         }
 
         /// <summary>

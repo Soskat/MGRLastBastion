@@ -7,7 +7,7 @@ using UnityEngine;
 namespace LastBastion.Game.Managers
 {
     /// <summary>
-    /// Component that manages sound playing logic based on player's biofeedback.
+    /// Component that manages sounds playing logic based on player's biofeedback.
     /// </summary>
     public class SoundManager : MonoBehaviour
     {
