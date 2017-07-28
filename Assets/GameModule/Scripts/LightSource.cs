@@ -24,8 +24,13 @@ namespace LastBastion.Game
         private Animator animator;
         private ParticleSystem sparksBurst;
         private Light lightSource;
-        private int turnOffAnim;
-        private int explodeAnim;
+        //private int turnOffAnim;
+        //private int explodeAnim;
+
+        private int turnOffTrigger;
+        private int explodeTrigger;
+        private int isOnBool;
+
         private bool isBusy = false;
         #endregion
 
@@ -49,11 +54,18 @@ namespace LastBastion.Game
             animator = GetComponent<Animator>();
             lightSource = GetComponentInChildren<Light>();
             sparksBurst = GetComponentInChildren<ParticleSystem>();
-            turnOffAnim = Animator.StringToHash("TurnOff");
-            explodeAnim = Animator.StringToHash("Explode");
+            //turnOffAnim = Animator.StringToHash("TurnOff");
+            //explodeAnim = Animator.StringToHash("Explode");
+
+            turnOffTrigger = Animator.StringToHash("TurnOffTrigger");
+            explodeTrigger = Animator.StringToHash("ExplodeTrigger");
+            isOnBool = Animator.StringToHash("IsOn");
+
             // turn the light on or off:
-            if (isOn) SetLightMode(true);
-            else SetLightMode(false);
+            //if (isOn) SetLightMode(true);
+            //else SetLightMode(false);
+            if (isOn) animator.SetBool(isOnBool, true);
+            else animator.SetBool(isOnBool, false);
         }
 
         // Update is called once per frame
@@ -99,25 +111,32 @@ namespace LastBastion.Game
         private IEnumerator LightsUp()
         {
             isBusy = true;
-            animator.applyRootMotion = true;
+
+            animator.enabled = false;
+
             // simulate few light blinks:
             int blinks = Random.Range(1, 4);
             for(int i = 0; i < blinks; i++)
             {
                 SetLightMode(true);
+                lightBulb.GetComponent<Renderer>().material.SetColor("_EmissionColor", Color.white);
                 PlayBrokenIgnitorSound();
                 yield return new WaitForSeconds(Random.Range(0.3f, 0.5f));
                 SetLightMode(false);
+                lightBulb.GetComponent<Renderer>().material.SetColor("_EmissionColor", Color.black);
                 yield return new WaitForSeconds(Random.Range(0.7f, 1f));
             }
             // finally turn the light on:
             SetLightMode(true);
             PlayBrokenIgnitorSound();
             SetBuzzingOn();
-            animator.applyRootMotion = false;
+
+            animator.enabled = true;
+
             isBusy = false;
             // set the isOn flag to true:
             isOn = true;
+            animator.SetBool(isOnBool, true);
         }
 
         /// <summary>
@@ -148,7 +167,10 @@ namespace LastBastion.Game
                 if (isBroken)
                 {
                     isDead = true;
-                    animator.Play(explodeAnim);
+                    //animator.Play(explodeAnim);
+                    animator.applyRootMotion = false;
+                    animator.SetTrigger(explodeTrigger);
+                    animator.SetBool(isOnBool, false);
                 }
                 else
                 {
@@ -164,9 +186,12 @@ namespace LastBastion.Game
         {
             if (!isDead && !isBusy && isOn)
             {
-                isOn = false;
                 StopAllCoroutines();
-                animator.Play(turnOffAnim);
+                //animator.Play(turnOffAnim);
+                animator.applyRootMotion = false;
+                animator.SetTrigger(turnOffTrigger);
+                isOn = false;
+                animator.SetBool(isOnBool, false);
             }
         }
 
@@ -232,6 +257,14 @@ namespace LastBastion.Game
         public void SetBuzzingOff()
         {
             if (audioSource.isPlaying) audioSource.Stop();
+        }
+
+        /// <summary>
+        /// Resets Animator.applyRootMotion flag.
+        /// </summary>
+        public void ResetRootMotion()
+        {
+            animator.applyRootMotion = true;
         }
         #endregion
     }

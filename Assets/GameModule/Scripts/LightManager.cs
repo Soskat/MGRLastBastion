@@ -25,9 +25,8 @@ namespace LastBastion.Game
         void Update()
         {
             // tests: -------------------------------
-            if (turnOnLights)
+            if (Input.GetKeyDown(KeyCode.Z) || turnOnLights)
             {
-                Debug.Log("Turn ON lights");
                 turnOnLights = false;
                 // turn on all lights:
                 foreach(LightSource light in lights)
@@ -35,12 +34,11 @@ namespace LastBastion.Game
                     light.TurnOnTheLight();
                 }
                 // choose randomly which light will blink:
-                lights[Random.Range(0, lights.Count)].StartBlinking();
+                //lights[Random.Range(0, lights.Count)].StartBlinking();
             }
 
-            if (turnOffLights)
+            if (Input.GetKeyDown(KeyCode.X) || turnOffLights)
             {
-                Debug.Log("Turn OFF lights");
                 turnOffLights = false;
                 // turn off all lights:
                 foreach (LightSource light in lights)
