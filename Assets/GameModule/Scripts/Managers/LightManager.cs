@@ -10,6 +10,7 @@ namespace LastBastion.Game.Managers
     public class LightManager : MonoBehaviour
     {
         #region Private fields
+        [SerializeField] private float lightIntensity = 10f;
         [SerializeField] private List<LightSource> lights;
         private bool lightsOn = false;
         #endregion
@@ -20,16 +21,19 @@ namespace LastBastion.Game.Managers
         void Start()
         {
             lights.AddRange(GetComponentsInChildren<LightSource>());
+            foreach (LightSource light in lights)
+            {
+                light.MaxLightIntensity = lightIntensity;
+            }
         }
 
         // Update is called once per frame
         void Update()
         {
             // tests: -------------------------------
-            if (Input.GetKeyDown(KeyCode.Z))
-            {
-                SwitchLights();
-            }
+            if (Input.GetKeyDown(KeyCode.Z)) SwitchLights();
+
+            if (Input.GetKeyDown(KeyCode.X) && lightsOn) ExplodeLights();
         }
         #endregion
 
@@ -77,6 +81,17 @@ namespace LastBastion.Game.Managers
         {
             lightsOn = lightsOn ? false : true;
             SetLightsMode(lightsOn);
+        }
+
+        /// <summary>
+        /// Makes all child lights to explode.
+        /// </summary>
+        public void ExplodeLights()
+        {
+            foreach (LightSource light in lights)
+            {
+                light.ExplodeLight();
+            }
         }
         #endregion
     }

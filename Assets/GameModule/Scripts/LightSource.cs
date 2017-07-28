@@ -24,6 +24,7 @@ namespace LastBastion.Game
         private AudioSource audioSource;
         private ParticleSystem sparksBurst;
         private Light lightSource;
+        private float maxLightIntensity = 10f;
         private bool isBusy = false;
         private float hue;
         private float saturation;
@@ -34,6 +35,12 @@ namespace LastBastion.Game
         #region Public fields & properties
         /// <summary>Is light broken?</summary>
         public bool IsBroken { get { return isBroken; } }
+        /// <summary>Maximum value of light intensity.</summary>
+        public float MaxLightIntensity
+        {
+            get { return maxLightIntensity; }
+            set { maxLightIntensity = value; }
+        }
         #endregion
 
 
@@ -72,7 +79,7 @@ namespace LastBastion.Game
             if (turnOn)
             {
                 lightBulb.GetComponent<Renderer>().material.SetColor("_EmissionColor", Color.white);
-                lightSource.intensity = 10f;
+                lightSource.intensity = maxLightIntensity;
             }
             else
             {
@@ -149,10 +156,11 @@ namespace LastBastion.Game
         private IEnumerator Explode()
         {
             isBusy = true;
+            SetBuzzingOff();
             PlayBrokenIgnitorSound();
             // simulate lightbulb warm-up:
             SetLightMode(true);
-            lightSource.intensity = 20f;
+            lightSource.intensity = maxLightIntensity * 2;
             lightBulb.GetComponent<Renderer>().material.SetColor("_EmissionColor", explodeColor);
             yield return new WaitForSeconds(0.1f);
             // explode:
@@ -263,6 +271,19 @@ namespace LastBastion.Game
         public void StartBlinking()
         {
             StartCoroutine(Blink(Random.Range(1f, 12f)));
+        }
+
+        /// <summary>
+        /// Explodes the light.
+        /// </summary>
+        public void ExplodeLight()
+        {
+            if(!isDead && !isBusy && isOn)
+            {
+                isBroken = true;
+                isOn = false;
+                StartCoroutine(Explode());
+            }
         }
         #endregion
     }
