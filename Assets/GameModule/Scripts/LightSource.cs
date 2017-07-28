@@ -16,6 +16,7 @@ namespace LastBastion.Game
         [SerializeField] private bool isOn = false;
         [SerializeField] private bool isBroken = false;
         [SerializeField] private bool isDead = false;
+        [SerializeField] private float maxLightIntensity = 5f;
         [SerializeField] private GameObject lightBulb;
         [SerializeField] private Color explodeColor;
         [SerializeField] private AudioClip staticBuzzSound;
@@ -24,7 +25,6 @@ namespace LastBastion.Game
         private AudioSource audioSource;
         private ParticleSystem sparksBurst;
         private Light lightSource;
-        private float maxLightIntensity = 10f;
         private bool isBusy = false;
         private float hue;
         private float saturation;
@@ -35,12 +35,6 @@ namespace LastBastion.Game
         #region Public fields & properties
         /// <summary>Is light broken?</summary>
         public bool IsBroken { get { return isBroken; } }
-        /// <summary>Maximum value of light intensity.</summary>
-        public float MaxLightIntensity
-        {
-            get { return maxLightIntensity; }
-            set { maxLightIntensity = value; }
-        }
         #endregion
 
 

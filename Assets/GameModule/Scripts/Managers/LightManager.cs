@@ -10,7 +10,6 @@ namespace LastBastion.Game.Managers
     public class LightManager : MonoBehaviour
     {
         #region Private fields
-        [SerializeField] private float lightIntensity = 10f;
         [SerializeField] private List<LightSource> lights;
         private bool lightsOn = false;
         #endregion
@@ -21,10 +20,6 @@ namespace LastBastion.Game.Managers
         void Start()
         {
             lights.AddRange(GetComponentsInChildren<LightSource>());
-            foreach (LightSource light in lights)
-            {
-                light.MaxLightIntensity = lightIntensity;
-            }
         }
 
         // Update is called once per frame
