@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -34,7 +33,7 @@ namespace LastBastion.Game
                     light.TurnOnTheLight();
                 }
                 // choose randomly which light will blink:
-                //lights[Random.Range(0, lights.Count)].StartBlinking();
+                lights[Random.Range(0, lights.Count)].StartBlinking();
             }
 
             if (Input.GetKeyDown(KeyCode.X) || turnOffLights)

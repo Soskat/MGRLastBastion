@@ -9,7 +9,6 @@ namespace LastBastion.Game
     /// Component that represents light source behaviour.
     /// </summary>
     [RequireComponent(typeof(AudioSource))]
-    [RequireComponent(typeof(Animator))]
     public class LightSource : MonoBehaviour
     {
         #region Private fields
@@ -17,21 +16,17 @@ namespace LastBastion.Game
         [SerializeField] private bool isBroken = false;
         [SerializeField] private bool isDead = false;
         [SerializeField] private GameObject lightBulb;
+        [SerializeField] private Color explodeColor;
         [SerializeField] private AudioClip staticBuzzSound;
         [SerializeField] private AudioClip explodeSound;
         [SerializeField] private AudioClip brokenIgnitorSound;
         private AudioSource audioSource;
-        private Animator animator;
         private ParticleSystem sparksBurst;
         private Light lightSource;
-        //private int turnOffAnim;
-        //private int explodeAnim;
-
-        private int turnOffTrigger;
-        private int explodeTrigger;
-        private int isOnBool;
-
         private bool isBusy = false;
+        private float hue;
+        private float saturation;
+        private float value;
         #endregion
 
 
@@ -51,41 +46,16 @@ namespace LastBastion.Game
             audioSource = GetComponent<AudioSource>();
             audioSource.clip = staticBuzzSound;
             audioSource.playOnAwake = false;
-            animator = GetComponent<Animator>();
             lightSource = GetComponentInChildren<Light>();
             sparksBurst = GetComponentInChildren<ParticleSystem>();
-            //turnOffAnim = Animator.StringToHash("TurnOff");
-            //explodeAnim = Animator.StringToHash("Explode");
-
-            turnOffTrigger = Animator.StringToHash("TurnOffTrigger");
-            explodeTrigger = Animator.StringToHash("ExplodeTrigger");
-            isOnBool = Animator.StringToHash("IsOn");
 
             // turn the light on or off:
-            //if (isOn) SetLightMode(true);
-            //else SetLightMode(false);
-            if (isOn) animator.SetBool(isOnBool, true);
-            else animator.SetBool(isOnBool, false);
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
+            SetLightMode(isOn);
         }
         #endregion
 
 
         #region Private methods
-        /// <summary>
-        /// Plays specific sound.
-        /// </summary>
-        /// <param name="sound">Sound to play</param>
-        private void PlaySound(AudioClip sound)
-        {
-            audioSource.PlayOneShot(sound);
-        }
-
         /// <summary>
         /// Sets light mode to turned-on or turned-off.
         /// </summary>
@@ -108,35 +78,24 @@ namespace LastBastion.Game
         /// Simulates the process of turning on the light after few blinks.
         /// </summary>
         /// <returns></returns>
-        private IEnumerator LightsUp()
+        private IEnumerator LightTurnOn()
         {
             isBusy = true;
-
-            animator.enabled = false;
-
             // simulate few light blinks:
             int blinks = Random.Range(1, 4);
             for(int i = 0; i < blinks; i++)
             {
                 SetLightMode(true);
-                lightBulb.GetComponent<Renderer>().material.SetColor("_EmissionColor", Color.white);
                 PlayBrokenIgnitorSound();
-                yield return new WaitForSeconds(Random.Range(0.3f, 0.5f));
+                yield return new WaitForSeconds(Random.Range(0.1f, 0.2f));
                 SetLightMode(false);
-                lightBulb.GetComponent<Renderer>().material.SetColor("_EmissionColor", Color.black);
-                yield return new WaitForSeconds(Random.Range(0.7f, 1f));
+                yield return new WaitForSeconds(Random.Range(0.2f, 0.4f));
             }
             // finally turn the light on:
             SetLightMode(true);
             PlayBrokenIgnitorSound();
             SetBuzzingOn();
-
-            animator.enabled = true;
-
             isBusy = false;
-            // set the isOn flag to true:
-            isOn = true;
-            animator.SetBool(isOnBool, true);
         }
 
         /// <summary>
@@ -147,11 +106,111 @@ namespace LastBastion.Game
         private IEnumerator Blink(float frequency)
         {
             SetLightMode(false);
-            yield return new WaitForSeconds(Random.Range(0.3f, 0.5f) * frequency);
+            yield return new WaitForSeconds(Random.Range(0.1f, 0.3f));
             SetLightMode(true);
             PlayBrokenIgnitorSound();
+            yield return new WaitForSeconds(Random.Range(0.3f, 1f) * frequency);
             // start new blink:
             StartCoroutine(Blink(Random.Range(5f, 20f)));
+        }
+        
+        /// <summary>
+        /// Simulates the process of turning off the light.
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator LightTurnOff()
+        {
+            isBusy = true;
+            SetBuzzingOff();
+            lightSource.intensity = 0f;
+            isBusy = false;
+            // slowly extinguish lightbulb emission:
+            float step = 0.02f;
+            Color.RGBToHSV(lightBulb.GetComponent<Renderer>().material.GetColor("_EmissionColor"), out hue, out saturation, out value);
+            while (value > 0.0f)
+            {
+                value -= step;
+                lightBulb.GetComponent<Renderer>().material.SetColor("_EmissionColor", Color.HSVToRGB(hue, saturation, value));
+                yield return null;
+            }
+        }
+
+        /// <summary>
+        /// Simulates the process of exploding of the broken lightbulb.
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator Explode()
+        {
+            isBusy = true;
+            PlayBrokenIgnitorSound();
+            // simulate lightbulb warm-up:
+            SetLightMode(true);
+            lightSource.intensity = 20f;
+            lightBulb.GetComponent<Renderer>().material.SetColor("_EmissionColor", explodeColor);
+            yield return new WaitForSeconds(0.1f);
+            // explode:
+            lightSource.intensity = 0f;
+            SparksBurst();
+            PlayExplodeSound();
+            // extinguish lightbulb emission:
+            float step = 0.02f;
+            Color.RGBToHSV(lightBulb.GetComponent<Renderer>().material.GetColor("_EmissionColor"), out hue, out saturation, out value);
+            while (value > 0.0f)
+            {
+                value -= step;
+                lightBulb.GetComponent<Renderer>().material.SetColor("_EmissionColor", Color.HSVToRGB(hue, saturation, value));
+                yield return null;
+            }
+            isBusy = false;
+        }
+
+        /// <summary>
+        /// Plays the sparks particle system.
+        /// </summary>
+        private void SparksBurst()
+        {
+            sparksBurst.Play();
+        }
+
+        /// <summary>
+        /// Plays specific sound.
+        /// </summary>
+        /// <param name="sound">Sound to play</param>
+        private void PlaySound(AudioClip sound)
+        {
+            audioSource.PlayOneShot(sound);
+        }
+
+        /// <summary>
+        /// Plays the sound of broken ignitor.
+        /// </summary>
+        private void PlayBrokenIgnitorSound()
+        {
+            PlaySound(brokenIgnitorSound);
+        }
+
+        /// <summary>
+        /// Plays the sound of exploding light bulbs.
+        /// </summary>
+        private void PlayExplodeSound()
+        {
+            PlaySound(explodeSound);
+        }
+
+        /// <summary>
+        /// Plays the static buzz sound.
+        /// </summary>
+        private void SetBuzzingOn()
+        {
+            if (!audioSource.isPlaying) audioSource.Play();
+        }
+
+        /// <summary>
+        /// Stops playing the static buzz sound.
+        /// </summary>
+        private void SetBuzzingOff()
+        {
+            if (audioSource.isPlaying) audioSource.Stop();
         }
         #endregion
 
@@ -164,17 +223,16 @@ namespace LastBastion.Game
         {
             if (!isDead && !isBusy && !isOn)
             {
+                StopAllCoroutines();
                 if (isBroken)
                 {
+                    StartCoroutine(Explode());
                     isDead = true;
-                    //animator.Play(explodeAnim);
-                    animator.applyRootMotion = false;
-                    animator.SetTrigger(explodeTrigger);
-                    animator.SetBool(isOnBool, false);
                 }
                 else
                 {
-                    StartCoroutine(LightsUp());
+                    StartCoroutine(LightTurnOn());
+                    isOn = true;
                 }
             }
         }
@@ -187,11 +245,8 @@ namespace LastBastion.Game
             if (!isDead && !isBusy && isOn)
             {
                 StopAllCoroutines();
-                //animator.Play(turnOffAnim);
-                animator.applyRootMotion = false;
-                animator.SetTrigger(turnOffTrigger);
+                StartCoroutine(LightTurnOff());
                 isOn = false;
-                animator.SetBool(isOnBool, false);
             }
         }
 
@@ -200,71 +255,7 @@ namespace LastBastion.Game
         /// </summary>
         public void StartBlinking()
         {
-            StartCoroutine(Blink(Random.Range(5f, 20f)));
-        }
-
-        /// <summary>
-        /// Plays the sparks particle system.
-        /// </summary>
-        public void SparksBurst()
-        {
-            sparksBurst.Play();
-        }
-
-        /// <summary>
-        /// Plays the sound of broken ignitor.
-        /// </summary>
-        public void PlayBrokenIgnitorSound()
-        {
-            PlaySound(brokenIgnitorSound);
-        }
-
-        /// <summary>
-        /// Plays the sound of exploding light bulbs.
-        /// </summary>
-        public void PlayExplodeSound()
-        {
-            PlaySound(explodeSound);
-        }
-
-        /// <summary>
-        /// Sets isBusy on.
-        /// </summary>
-        public void SetBusyOn()
-        {
-            isBusy = true;
-        }
-
-        /// <summary>
-        /// Sets isBusy off.
-        /// </summary>
-        public void SetBusyOff()
-        {
-            isBusy = false;
-        }
-
-        /// <summary>
-        /// Plays the static buzz sound.
-        /// </summary>
-        public void SetBuzzingOn()
-        {
-            if (!audioSource.isPlaying) audioSource.Play();
-        }
-
-        /// <summary>
-        /// Stops playing the static buzz sound.
-        /// </summary>
-        public void SetBuzzingOff()
-        {
-            if (audioSource.isPlaying) audioSource.Stop();
-        }
-
-        /// <summary>
-        /// Resets Animator.applyRootMotion flag.
-        /// </summary>
-        public void ResetRootMotion()
-        {
-            animator.applyRootMotion = true;
+            StartCoroutine(Blink(Random.Range(1f, 12f)));
         }
         #endregion
     }
