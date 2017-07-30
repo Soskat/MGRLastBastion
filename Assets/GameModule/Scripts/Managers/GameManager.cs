@@ -1,5 +1,6 @@
 ﻿using LastBastion.Analytics;
 using LastBastion.Biofeedback;
+using LastBastion.Game.Player;
 using LastBastion.Game.UIControllers;
 using System;
 using UnityEngine;
@@ -27,12 +28,12 @@ namespace LastBastion.Game.Managers
         [SerializeField] private string[] gameLevels;
         [SerializeField] private int currentCalculationTypeID = 0;
         [SerializeField] private CalculationType[] calculationTypes;
-        [SerializeField] private SoundManager activeSoundArea;
         private DateTime startTime;
         private DateTime currentTime;
         private int indexOfFirstLevel;
         private int indexOfSecondLevel;
         private GameObject player;
+        private BiofeedbackController playerBiofeedback;
         #endregion
 
 
@@ -55,12 +56,8 @@ namespace LastBastion.Game.Managers
         public bool AnalyticsEnabled = true;
         /// <summary>Reference to player game object.</summary>
         public GameObject Player { get { return player; } }
-        /// <summary>Reference to active sound area.</summary>
-        public SoundManager ActiveSoundArea
-        {
-            get { return activeSoundArea; }
-            set { activeSoundArea = value; }
-        }
+        /// <summary>Reference to player's BiofeedbackController component.</summary>
+        public BiofeedbackController PlayerBiofeedback { get { return playerBiofeedback; } }
         #endregion
 
 
@@ -76,6 +73,7 @@ namespace LastBastion.Game.Managers
                 BBModule = GetComponent<BandBridgeModule>();
                 Assets = GetComponent<AssetManager>();
                 player = GameObject.FindGameObjectWithTag("Player");
+                playerBiofeedback = player.GetComponent<BiofeedbackController>();
             }
             else if (instance != this) Destroy(gameObject);
         }

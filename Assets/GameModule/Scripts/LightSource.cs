@@ -107,19 +107,28 @@ namespace LastBastion.Game
         }
 
         /// <summary>
-        /// Simulates light blinking.
+        /// Simulates light constant blinking.
         /// </summary>
         /// <param name="frequency">Blink frequency parameter</param>
         /// <returns></returns>
         private IEnumerator Blink(float frequency)
         {
+            StartCoroutine(OneBlink());
+            yield return new WaitForSeconds(Random.Range(0.3f, 1f) * frequency);
+            // start new blink:
+            StartCoroutine(Blink(Random.Range(5f, 20f)));
+        }
+
+        /// <summary>
+        /// Simulates light blink.
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator OneBlink()
+        {
             SetLightMode(false);
             yield return new WaitForSeconds(Random.Range(0.1f, 0.3f));
             SetLightMode(true);
             PlayBrokenIgnitorSound();
-            yield return new WaitForSeconds(Random.Range(0.3f, 1f) * frequency);
-            // start new blink:
-            StartCoroutine(Blink(Random.Range(5f, 20f)));
         }
         
         /// <summary>
@@ -265,6 +274,14 @@ namespace LastBastion.Game
         public void StartBlinking()
         {
             StartCoroutine(Blink(Random.Range(1f, 12f)));
+        }
+
+        /// <summary>
+        /// Performs single blink of the light.
+        /// </summary>
+        public void DoBlink()
+        {
+            if (isOn) StartCoroutine(OneBlink());
         }
 
         /// <summary>

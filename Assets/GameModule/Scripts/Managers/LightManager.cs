@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -12,10 +14,12 @@ namespace LastBastion.Game.Managers
     {
         #region Private fields
         [SerializeField] private bool isActive = false;
+        [SerializeField] private float baseDelay = 10f;
         [SerializeField] private List<LightSource> lights;
         private bool lightsOn = false;
+        private bool isBusy = false;
         #endregion
-        
+
 
         #region MonoBehaviour methods
         // Use this for initialization
@@ -27,13 +31,68 @@ namespace LastBastion.Game.Managers
         // Update is called once per frame
         void Update()
         {
-            // biofeedback logic:
-            if (isActive)
+            if (isActive && !isBusy)
             {
-                // tests: -------------------------------
-                if (Input.GetKeyDown(KeyCode.Z)) SwitchLights();
+                //// tests: -------------------------------
+                //if (Input.GetKeyDown(KeyCode.Z)) SwitchLights();
+                //if (Input.GetKeyDown(KeyCode.C) && lightsOn) ExplodeAllLights();
 
-                if (Input.GetKeyDown(KeyCode.X) && lightsOn) ExplodeLights();
+                isBusy = true;
+
+                // biofeedback logic:
+                //if (GameManager.instance.BBModule.IsEnabled)
+                {
+                    switch (GameManager.instance.PlayerBiofeedback.ArousalCurrentState)
+                    {
+                        case Biofeedback.DataState.High:
+                            int choice = Random.Range(0, 2);
+                            if (choice == 0) SwitchLights();
+                            else BlinkAllLights();
+                            Debug.Log("High");
+                            break;
+
+                        case Biofeedback.DataState.Medium:
+                            ExplodeRandomLight();
+                            Debug.Log("Medium");
+                            break;
+
+                        case Biofeedback.DataState.Low:
+                            ExplodeAllLights();
+                            Debug.Log("Low");
+                            break;
+
+                        default:
+                            break;
+                    }
+                    // wait for next move:
+                    StartCoroutine(CooldownTimer(GameManager.instance.PlayerBiofeedback.ArousalCurrentModifier * baseDelay));
+                    Debug.Log(">> Wait for " + GameManager.instance.PlayerBiofeedback.ArousalCurrentModifier * baseDelay + " seconds");
+                }
+                //// randomly choose light event:
+                //else
+                //{
+                //    int randomEvent = Random.Range(0, 4);
+                //    switch (randomEvent)
+                //    {
+                //        case 0:
+                //            SwitchLights();
+                //            break;
+
+                //        case 1:
+                //            BlinkAllLights();
+                //            break;
+
+                //        case 2:
+                //            ExplodeRandomLight();
+                //            break;
+
+                //        case 3:
+                //            ExplodeAllLights();
+                //            break;
+                //    }
+                //    // wait for next move:
+                //    StartCoroutine(CooldownTimer(randomEvent + baseDelay));
+                //}
             }
         }
 
@@ -83,6 +142,18 @@ namespace LastBastion.Game.Managers
                 }
             }
         }
+
+        /// <summary>
+        /// Sets <see cref="isBusy"/> flag to true for specific time.
+        /// </summary>
+        /// <param name="cooldownTime">Time to wait</param>
+        /// <returns></returns>
+        private IEnumerator CooldownTimer(float cooldownTime)
+        {
+            //isBusy = true;
+            yield return new WaitForSeconds(cooldownTime);
+            isBusy = false;
+        }
         #endregion
 
 
@@ -99,12 +170,29 @@ namespace LastBastion.Game.Managers
         /// <summary>
         /// Makes all child lights to explode.
         /// </summary>
-        public void ExplodeLights()
+        public void ExplodeAllLights()
         {
             foreach (LightSource light in lights)
             {
                 light.ExplodeLight();
             }
+        }
+
+        /// <summary>
+        /// Makes one random child light to explode.
+        /// </summary>
+        public void ExplodeRandomLight()
+        {
+            List<LightSource> temp = lights.Where(x => x.IsBroken == false).ToList();
+            if (temp.Count > 0) lights[Random.Range(0, temp.Count)].ExplodeLight();
+        }
+
+        /// <summary>
+        /// Makes all child lights to blink.
+        /// </summary>
+        public void BlinkAllLights()
+        {
+            foreach (LightSource light in lights) light.DoBlink();
         }
         #endregion
     }

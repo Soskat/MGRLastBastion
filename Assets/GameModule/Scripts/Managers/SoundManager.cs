@@ -17,7 +17,6 @@ namespace LastBastion.Game.Managers
         [SerializeField] private float startDelay = 10f;
         [SerializeField] private List<AudioClip> soundsHard;
         [SerializeField] private List<AudioClip> soundsLight;
-        private BiofeedbackController playerBiofeedback;
         private GameObject choosenSoundSource;
         private AudioClip choosenAudioClip;
         private bool isBusy = false;
@@ -25,6 +24,7 @@ namespace LastBastion.Game.Managers
 
 
         #region Public fields & properties
+        // - DEPRECATED -------------------------------------------------------------------------
         /// <summary>Is this sound manager (area) active?</summary>
         public bool IsActive
         {
@@ -38,8 +38,6 @@ namespace LastBastion.Game.Managers
         // Use this for initialization
         void Start()
         {
-            if (isActive) GameManager.instance.ActiveSoundArea = this;
-            playerBiofeedback = GameManager.instance.Player.GetComponent<BiofeedbackController>();
             StartCoroutine(CooldownTimer(startDelay * 1.5f));
         }
 
@@ -50,7 +48,7 @@ namespace LastBastion.Game.Managers
             {
                 if (GameManager.instance.BBModule.IsEnabled)
                 {
-                    if (playerBiofeedback.ArousalCurrentState == Biofeedback.DataState.High)
+                    if (GameManager.instance.PlayerBiofeedback.ArousalCurrentState == Biofeedback.DataState.High)
                     {
                         // play light sound:
                         choosenAudioClip = soundsLight[Random.Range(0, soundsLight.Count)];
