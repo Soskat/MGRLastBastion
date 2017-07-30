@@ -9,10 +9,11 @@ namespace LastBastion.Game.Managers
     /// <summary>
     /// Component that manages sounds playing logic based on player's biofeedback.
     /// </summary>
+    [RequireComponent(typeof(BoxCollider))]
     public class SoundManager : MonoBehaviour
     {
         #region Private fields
-        [SerializeField] private bool isEnabled = false;
+        [SerializeField] private bool isActive = false;
         [SerializeField] private float startDelay = 10f;
         [SerializeField] private List<AudioClip> soundsHard;
         [SerializeField] private List<AudioClip> soundsLight;
@@ -24,11 +25,11 @@ namespace LastBastion.Game.Managers
 
 
         #region Public fields & properties
-        /// <summary>Is this sound manager (area) enabled?</summary>
-        public bool IsEnabled
+        /// <summary>Is this sound manager (area) active?</summary>
+        public bool IsActive
         {
-            get { return isEnabled; }
-            set { isEnabled = value; }
+            get { return isActive; }
+            set { isActive = value; }
         }
         #endregion
 
@@ -37,7 +38,7 @@ namespace LastBastion.Game.Managers
         // Use this for initialization
         void Start()
         {
-            if (isEnabled) GameManager.instance.ActiveSoundArea = this;
+            if (isActive) GameManager.instance.ActiveSoundArea = this;
             playerBiofeedback = GameManager.instance.Player.GetComponent<BiofeedbackController>();
             StartCoroutine(CooldownTimer(startDelay * 1.5f));
         }
@@ -45,7 +46,7 @@ namespace LastBastion.Game.Managers
         // Update is called once per frame
         void Update()
         {
-            if (isEnabled && !isBusy)
+            if (isActive && !isBusy)
             {
                 if (GameManager.instance.BBModule.IsEnabled)
                 {
@@ -75,7 +76,19 @@ namespace LastBastion.Game.Managers
             }
 
             // test:
-            if (isEnabled) Debug.DrawLine(GameManager.instance.Player.transform.position, FindBestSoundSource().transform.position, Color.cyan);
+            if (isActive) Debug.DrawLine(GameManager.instance.Player.transform.position, FindBestSoundSource().transform.position, Color.cyan);
+        }
+
+        // OnTriggerEnter is called when the Collider other enters the trigger
+        private void OnTriggerEnter(Collider other)
+        {
+            isActive = true;
+        }
+
+        // OnTriggerExit is called when the Collider other has stopped touching the trigger
+        private void OnTriggerExit(Collider other)
+        {
+            isActive = false;
         }
         #endregion
 

@@ -20,9 +20,9 @@ namespace LastBastion.Game
         private void OnCollisionExit(Collision collision)
         {
             if (GameManager.instance.ActiveSoundArea != null)
-                GameManager.instance.ActiveSoundArea.IsEnabled = false;
+                GameManager.instance.ActiveSoundArea.IsActive = false;
 
-            watchedArea.IsEnabled = true;
+            watchedArea.IsActive = true;
             GameManager.instance.ActiveSoundArea = watchedArea;
         }
         #endregion

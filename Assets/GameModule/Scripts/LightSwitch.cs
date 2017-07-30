@@ -11,6 +11,7 @@ namespace LastBastion.Game
     public class LightSwitch : MonoBehaviour, IInteractiveObject
     {
         #region Private fields
+        [SerializeField] private bool isEnabled = true;
         [SerializeField] private LightManager lightManager;
         [SerializeField] private AudioClip switchSound;
         private Animator animator;
@@ -71,7 +72,7 @@ namespace LastBastion.Game
         /// </summary>
         public void SwitchLightState()
         {
-            lightManager.SwitchLights();
+            if (isEnabled) lightManager.SwitchLights();
         }
 
         /// <summary>
