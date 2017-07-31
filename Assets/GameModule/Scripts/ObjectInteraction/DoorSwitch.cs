@@ -35,12 +35,6 @@ namespace LastBastion.Game.ObjectInteraction
             pushedButtonTrigger = Animator.StringToHash("PushedButton");
             audioSource = GetComponent<AudioSource>();
         }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
         #endregion
 
 
