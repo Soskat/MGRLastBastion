@@ -73,7 +73,7 @@ namespace LastBastion.Game.Managers
                 StartCoroutine(CooldownTimer(startDelay));
             }
 
-            // test:
+            // debug: ------------------------------------------------------------------------------------------------------------------------
             if (isActive) Debug.DrawLine(GameManager.instance.Player.transform.position, FindBestSoundSource().transform.position, Color.cyan);
         }
 

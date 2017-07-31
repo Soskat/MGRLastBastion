@@ -14,10 +14,13 @@ namespace LastBastion.Game.Managers
     {
         #region Private fields
         [SerializeField] private bool isActive = false;
+        [SerializeField] private bool lightsOn = false;
+        [SerializeField] private bool lightsBroken = false;
+        [SerializeField] private bool isBusy = false;
+        [SerializeField] private bool isInRange = false;
+        [SerializeField] private float range = 20f;
         [SerializeField] private float baseDelay = 10f;
         [SerializeField] private List<LightSource> lights;
-        private bool lightsOn = false;
-        private bool isBusy = false;
         #endregion
 
 
@@ -31,7 +34,16 @@ namespace LastBastion.Game.Managers
         // Update is called once per frame
         void Update()
         {
-            if (isActive && !isBusy)
+            if (isInRange)
+            {
+                if ((transform.position - GameManager.instance.Player.transform.position).magnitude > range)
+                {
+                    isInRange = false;
+                    if (lightsOn) SwitchLights();
+                }
+            }
+
+            if (isActive && !lightsBroken && !isBusy)
             {
                 //// tests: -------------------------------
                 //if (Input.GetKeyDown(KeyCode.Z)) SwitchLights();
@@ -40,72 +52,99 @@ namespace LastBastion.Game.Managers
                 isBusy = true;
 
                 // biofeedback logic:
-                //if (GameManager.instance.BBModule.IsEnabled)
+                if (GameManager.instance.BBModule.IsEnabled)
                 {
                     switch (GameManager.instance.PlayerBiofeedback.ArousalCurrentState)
                     {
                         case Biofeedback.DataState.High:
-                            int choice = Random.Range(0, 2);
-                            if (choice == 0) SwitchLights();
-                            else BlinkAllLights();
-                            Debug.Log("High");
+                            int choice = Random.Range(0, 3);
+                            switch (choice)
+                            {
+                                case 0:
+                                    SwitchLights();
+                                    break;
+
+                                case 1:
+                                    BlinkRandomLight();
+                                    break;
+
+                                case 2:
+                                    BlinkAllLights();
+                                    break;
+                            }
                             break;
 
                         case Biofeedback.DataState.Medium:
                             ExplodeRandomLight();
-                            Debug.Log("Medium");
                             break;
 
                         case Biofeedback.DataState.Low:
                             ExplodeAllLights();
-                            Debug.Log("Low");
                             break;
 
                         default:
                             break;
                     }
                     // wait for next move:
-                    StartCoroutine(CooldownTimer(GameManager.instance.PlayerBiofeedback.ArousalCurrentModifier * baseDelay));
-                    Debug.Log(">> Wait for " + GameManager.instance.PlayerBiofeedback.ArousalCurrentModifier * baseDelay + " seconds");
+                    float timeModifier = (GameManager.instance.PlayerBiofeedback.ArousalCurrentModifier > 0f) ? GameManager.instance.PlayerBiofeedback.ArousalCurrentModifier : 0.01f;
+                    StartCoroutine(CooldownTimer(timeModifier * baseDelay));
                 }
-                //// randomly choose light event:
-                //else
-                //{
-                //    int randomEvent = Random.Range(0, 4);
-                //    switch (randomEvent)
-                //    {
-                //        case 0:
-                //            SwitchLights();
-                //            break;
+                // randomly choose light event:
+                else
+                {
+                    int randomEvent = Random.Range(0, 5);
+                    if (!lightsOn) SwitchLights();
+                    else
+                    {
+                        switch (randomEvent)
+                        {
+                            case 0:
+                                SwitchLights();
+                                break;
 
-                //        case 1:
-                //            BlinkAllLights();
-                //            break;
+                            case 1:
+                                BlinkAllLights();
+                                break;
 
-                //        case 2:
-                //            ExplodeRandomLight();
-                //            break;
+                            case 2:
+                                BlinkAllLights();
+                                break;
 
-                //        case 3:
-                //            ExplodeAllLights();
-                //            break;
-                //    }
-                //    // wait for next move:
-                //    StartCoroutine(CooldownTimer(randomEvent + baseDelay));
-                //}
+                            case 3:
+                                ExplodeRandomLight();
+                                break;
+
+                            case 4:
+                                ExplodeAllLights();
+                                break;
+                        }
+                    }
+                    // wait for next move:
+                    StartCoroutine(CooldownTimer(randomEvent + baseDelay));
+                }
             }
+
+
+            // debug: -----------------------------------------------------------------------------------------------------
+            if (isActive) Debug.DrawLine(GameManager.instance.Player.transform.position, transform.position, Color.magenta);
         }
 
         // OnTriggerEnter is called when the Collider other enters the trigger
         private void OnTriggerEnter(Collider other)
         {
-            isActive = true;
+            // activate light area only when there's at least one non-broken light:
+            if (other.gameObject.tag == "Player" && !lightsBroken)
+            {
+                isActive = true;
+                isInRange = true;
+                StartCoroutine(CooldownTimer(Random.Range(5f, 7f)));
+            }
         }
 
         // OnTriggerExit is called when the Collider other has stopped touching the trigger
         private void OnTriggerExit(Collider other)
         {
-            isActive = false;
+            if (other.gameObject.tag == "Player") isActive = false;
         }
         #endregion
 
@@ -120,26 +159,12 @@ namespace LastBastion.Game.Managers
             // turn on the lights:
             if (lightMode)
             {
-                foreach (LightSource light in lights)
-                {
-                    light.TurnOnTheLight();
-                }
-                // choose randomly which light will blink:
-                int index = Random.Range(0, lights.Count);
-                while (true)
-                {
-                    if (!lights[index].IsBroken) break;
-                    else index = Random.Range(0, lights.Count);
-                }
-                lights[index].StartBlinking();
+                foreach (LightSource light in lights) light.TurnOnTheLight();
             }
             // turn off the lights:
             else
             {
-                foreach (LightSource light in lights)
-                {
-                    light.TurnOffTheLight();
-                }
+                foreach (LightSource light in lights) light.TurnOffTheLight();
             }
         }
 
@@ -150,7 +175,7 @@ namespace LastBastion.Game.Managers
         /// <returns></returns>
         private IEnumerator CooldownTimer(float cooldownTime)
         {
-            //isBusy = true;
+            isBusy = true;
             yield return new WaitForSeconds(cooldownTime);
             isBusy = false;
         }
@@ -172,9 +197,10 @@ namespace LastBastion.Game.Managers
         /// </summary>
         public void ExplodeAllLights()
         {
-            foreach (LightSource light in lights)
+            if (!lightsBroken)
             {
-                light.ExplodeLight();
+                foreach (LightSource light in lights) light.ExplodeLight();
+                lightsBroken = true;
             }
         }
 
@@ -185,6 +211,7 @@ namespace LastBastion.Game.Managers
         {
             List<LightSource> temp = lights.Where(x => x.IsBroken == false).ToList();
             if (temp.Count > 0) lights[Random.Range(0, temp.Count)].ExplodeLight();
+            else lightsBroken = true;   // all lights are already broken
         }
 
         /// <summary>
@@ -193,6 +220,18 @@ namespace LastBastion.Game.Managers
         public void BlinkAllLights()
         {
             foreach (LightSource light in lights) light.DoBlink();
+        }
+
+        /// <summary>
+        /// Makes one random child light to blink.
+        /// </summary>
+        public void BlinkRandomLight()
+        {
+            if (lightsBroken) return;
+            List<LightSource> temp = lights.Where(x => x.IsBroken == false).ToList();
+            // choose randomly which light will blink:
+            int index = Random.Range(0, temp.Count);
+            temp[index].DoBlink();
         }
         #endregion
     }

@@ -107,30 +107,23 @@ namespace LastBastion.Game
         }
 
         /// <summary>
-        /// Simulates light constant blinking.
+        /// Simulates the process of exploding of the broken lightbulb.
         /// </summary>
-        /// <param name="frequency">Blink frequency parameter</param>
         /// <returns></returns>
-        private IEnumerator Blink(float frequency)
+        private IEnumerator LightTurnOnBroken()
         {
-            StartCoroutine(OneBlink());
-            yield return new WaitForSeconds(Random.Range(0.3f, 1f) * frequency);
-            // start new blink:
-            StartCoroutine(Blink(Random.Range(5f, 20f)));
+            isBusy = true;
+            SetBuzzingOff();
+            PlayBrokenIgnitorSound();
+            // simulate lightbulb warm-up:
+            SetLightMode(true);
+            lightSource.intensity = maxLightIntensity * 2;
+            lightBulb.GetComponent<Renderer>().material.SetColor("_EmissionColor", explodeColor);
+            yield return new WaitForSeconds(0.1f);
+            // explode:
+            StartCoroutine(ExplodeLightbulb());
         }
 
-        /// <summary>
-        /// Simulates light blink.
-        /// </summary>
-        /// <returns></returns>
-        private IEnumerator OneBlink()
-        {
-            SetLightMode(false);
-            yield return new WaitForSeconds(Random.Range(0.1f, 0.3f));
-            SetLightMode(true);
-            PlayBrokenIgnitorSound();
-        }
-        
         /// <summary>
         /// Simulates the process of turning off the light.
         /// </summary>
@@ -151,22 +144,29 @@ namespace LastBastion.Game
                 yield return null;
             }
         }
-
+        
         /// <summary>
-        /// Simulates the process of exploding of the broken lightbulb.
+        /// Simulates light blink.
         /// </summary>
         /// <returns></returns>
-        private IEnumerator Explode()
+        private IEnumerator Blink()
+        {
+            isBusy = true;
+            SetLightMode(false);
+            yield return new WaitForSeconds(Random.Range(0.1f, 0.3f));
+            SetLightMode(true);
+            PlayBrokenIgnitorSound();
+            isBusy = false;
+        }
+
+        /// <summary>
+        /// Simulates the process of the lightbulb explosion.
+        /// </summary>
+        private IEnumerator ExplodeLightbulb()
         {
             isBusy = true;
             SetBuzzingOff();
-            PlayBrokenIgnitorSound();
-            // simulate lightbulb warm-up:
-            SetLightMode(true);
-            lightSource.intensity = maxLightIntensity * 2;
-            lightBulb.GetComponent<Renderer>().material.SetColor("_EmissionColor", explodeColor);
-            yield return new WaitForSeconds(0.1f);
-            // explode:
+            // explode lightbulb:
             lightSource.intensity = 0f;
             SparksBurst();
             PlayExplodeSound();
@@ -241,10 +241,9 @@ namespace LastBastion.Game
         {
             if (!isDead && !isBusy && !isOn)
             {
-                StopAllCoroutines();
                 if (isBroken)
                 {
-                    StartCoroutine(Explode());
+                    StartCoroutine(LightTurnOnBroken());
                     isDead = true;
                 }
                 else
@@ -262,18 +261,9 @@ namespace LastBastion.Game
         {
             if (!isDead && !isBusy && isOn)
             {
-                StopAllCoroutines();
                 StartCoroutine(LightTurnOff());
                 isOn = false;
             }
-        }
-
-        /// <summary>
-        /// Simulates blinking of the light.
-        /// </summary>
-        public void StartBlinking()
-        {
-            StartCoroutine(Blink(Random.Range(1f, 12f)));
         }
 
         /// <summary>
@@ -281,7 +271,7 @@ namespace LastBastion.Game
         /// </summary>
         public void DoBlink()
         {
-            if (isOn) StartCoroutine(OneBlink());
+            if (isOn) StartCoroutine(Blink());
         }
 
         /// <summary>
@@ -293,7 +283,7 @@ namespace LastBastion.Game
             {
                 isBroken = true;
                 isOn = false;
-                StartCoroutine(Explode());
+                StartCoroutine(ExplodeLightbulb());
             }
         }
         #endregion
