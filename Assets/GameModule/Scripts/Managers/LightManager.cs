@@ -207,6 +207,7 @@ namespace LastBastion.Game.Managers
             {
                 foreach (LightSource light in lights) light.ExplodeLight();
                 lightsBroken = true;
+                lightsOn = false;
             }
         }
 
@@ -217,7 +218,12 @@ namespace LastBastion.Game.Managers
         {
             List<LightSource> temp = lights.Where(x => x.IsBroken == false).ToList();
             if (temp.Count > 0) lights[Random.Range(0, temp.Count)].ExplodeLight();
-            else lightsBroken = true;   // all lights are already broken
+            else
+            {
+                // all lights are already broken
+                lightsBroken = true;
+                lightsOn = false;
+            }
         }
 
         /// <summary>
