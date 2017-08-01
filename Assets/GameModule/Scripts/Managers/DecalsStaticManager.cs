@@ -30,8 +30,7 @@ namespace LastBastion.Game.Managers
         // Awake is called when the script instance is being loaded
         private void Awake()
         {
-            if (decalsLight == null) Assert.IsNotNull(decalsHard);
-            if (decalsHard == null) Assert.IsNotNull(decalsLight);
+            Assert.IsNotNull(decalsLight);
         }
 
         // Use this for initialization
@@ -54,21 +53,42 @@ namespace LastBastion.Game.Managers
             // activate decals set based on player's biofeedback:
             switch (GameManager.instance.PlayerBiofeedback.ArousalCurrentState)
             {
+                // if player's arousal is high, activate extra decals set:
                 case Biofeedback.DataState.High:
-                    if (decalsLight != null) decalsLight.SetActive(true);
-                    else if (decalsHard != null) decalsHard.SetActive(true);
+                    decalsLight.SetActive(true);
+                    if (decalsHard != null) decalsHard.SetActive(true);
                     wasActivated = true;
                     break;
 
+                // activate decals set:
                 case Biofeedback.DataState.Medium:
                 case Biofeedback.DataState.Low:
-                    if (decalsHard != null) decalsHard.SetActive(true);
-                    else if (decalsLight != null) decalsLight.SetActive(true);
+                    decalsLight.SetActive(true);
                     wasActivated = true;
                     break;
 
                 default: break;
             }
+
+            //// OLD VERSION
+            //// activate decals set based on player's biofeedback:
+            //switch (GameManager.instance.PlayerBiofeedback.ArousalCurrentState)
+            //{
+            //    case Biofeedback.DataState.High:
+            //        if (decalsLight != null) decalsLight.SetActive(true);
+            //        else if (decalsHard != null) decalsHard.SetActive(true);
+            //        wasActivated = true;
+            //        break;
+
+            //    case Biofeedback.DataState.Medium:
+            //    case Biofeedback.DataState.Low:
+            //        if (decalsHard != null) decalsHard.SetActive(true);
+            //        else if (decalsLight != null) decalsLight.SetActive(true);
+            //        wasActivated = true;
+            //        break;
+
+            //    default: break;
+            //}
         }
         #endregion
     }
