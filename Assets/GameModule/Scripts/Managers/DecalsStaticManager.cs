@@ -49,20 +49,21 @@ namespace LastBastion.Game.Managers
         /// </summary>
         public void ActivateDecals()
         {
-            if (WasActivated) return;
+            if (WasActivated || GameManager.instance.ActiveRoom.GetComponentInChildren<LightManager>().LightsOn) return;
+
             // activate decals set based on player's biofeedback:
             switch (GameManager.instance.PlayerBiofeedback.ArousalCurrentState)
             {
                 case Biofeedback.DataState.High:
-                    if (decalsHard != null) decalsHard.SetActive(true);
-                    else if (decalsLight != null) decalsLight.SetActive(true);
+                    if (decalsLight != null) decalsLight.SetActive(true);
+                    else if (decalsHard != null) decalsHard.SetActive(true);
                     wasActivated = true;
                     break;
 
                 case Biofeedback.DataState.Medium:
                 case Biofeedback.DataState.Low:
-                    if (decalsLight != null) decalsLight.SetActive(true);
-                    else if (decalsHard != null) decalsHard.SetActive(true);
+                    if (decalsHard != null) decalsHard.SetActive(true);
+                    else if (decalsLight != null) decalsLight.SetActive(true);
                     wasActivated = true;
                     break;
 

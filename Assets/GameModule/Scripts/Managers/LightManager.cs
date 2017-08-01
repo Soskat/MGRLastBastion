@@ -24,6 +24,12 @@ namespace LastBastion.Game.Managers
         #endregion
 
 
+        #region Public fields & properties
+        /// <summary>Are the lights turned on?</summary>
+        public bool LightsOn { get { return lightsOn; } }
+        #endregion
+
+
         #region MonoBehaviour methods
         // Use this for initialization
         void Start()
