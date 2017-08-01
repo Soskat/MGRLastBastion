@@ -46,11 +46,6 @@ namespace LastBastion.Game.ObjectInteraction
             lightRay.SetActive(false);
             audioSource = GetComponent<AudioSource>();
         }
-
-        // Update is called once per frame
-        void Update()
-        {
-        }
         #endregion
 
 
@@ -156,6 +151,8 @@ namespace LastBastion.Game.ObjectInteraction
                 lightRay.SetActive(false);
                 lightOn = false;
                 IsDead = true;
+
+
             }
             IsBusy = false;
             yield return null;

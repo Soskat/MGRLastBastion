@@ -58,6 +58,8 @@ namespace LastBastion.Game.Managers
         public GameObject Player { get { return player; } }
         /// <summary>Reference to player's BiofeedbackController component.</summary>
         public BiofeedbackController PlayerBiofeedback { get { return playerBiofeedback; } }
+        /// <summary>The Room where player currently is.</summary>
+        public GameObject ActiveRoom;
         #endregion
 
 
