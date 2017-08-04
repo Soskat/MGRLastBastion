@@ -80,7 +80,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Open/DoorHandle
+    path: Open/DoorHandle_metal
   m_PositionCurves: []
   m_ScaleCurves: []
   m_FloatCurves: []
@@ -279,7 +279,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: Open/DoorHandle
+    path: Open/DoorHandle_metal
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -313,7 +313,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: Open/DoorHandle
+    path: Open/DoorHandle_metal
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -347,7 +347,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: Open/DoorHandle
+    path: Open/DoorHandle_metal
     classID: 4
     script: {fileID: 0}
   m_EulerEditorCurves:
@@ -358,7 +358,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Open/DoorHandle
+    path: Open/DoorHandle_metal
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -368,7 +368,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Open/DoorHandle
+    path: Open/DoorHandle_metal
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -378,7 +378,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Open/DoorHandle
+    path: Open/DoorHandle_metal
     classID: 4
     script: {fileID: 0}
   - curve:
