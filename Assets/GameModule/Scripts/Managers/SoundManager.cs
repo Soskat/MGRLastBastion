@@ -1,5 +1,4 @@
-﻿using LastBastion.Game.Player;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,18 +20,7 @@ namespace LastBastion.Game.Managers
         private AudioClip choosenAudioClip;
         private bool isBusy = false;
         #endregion
-
-
-        #region Public fields & properties
-        // - DEPRECATED -------------------------------------------------------------------------
-        /// <summary>Is this sound manager (area) active?</summary>
-        public bool IsActive
-        {
-            get { return isActive; }
-            set { isActive = value; }
-        }
-        #endregion
-
+        
 
         #region MonoBehaviour methods
         // Use this for initialization

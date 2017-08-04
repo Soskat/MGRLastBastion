@@ -69,26 +69,6 @@ namespace LastBastion.Game.Managers
 
                 default: break;
             }
-
-            //// OLD VERSION
-            //// activate decals set based on player's biofeedback:
-            //switch (GameManager.instance.PlayerBiofeedback.ArousalCurrentState)
-            //{
-            //    case Biofeedback.DataState.High:
-            //        if (decalsLight != null) decalsLight.SetActive(true);
-            //        else if (decalsHard != null) decalsHard.SetActive(true);
-            //        wasActivated = true;
-            //        break;
-
-            //    case Biofeedback.DataState.Medium:
-            //    case Biofeedback.DataState.Low:
-            //        if (decalsHard != null) decalsHard.SetActive(true);
-            //        else if (decalsLight != null) decalsLight.SetActive(true);
-            //        wasActivated = true;
-            //        break;
-
-            //    default: break;
-            //}
         }
         #endregion
     }

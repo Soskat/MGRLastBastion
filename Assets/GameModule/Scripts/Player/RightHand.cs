@@ -99,8 +99,8 @@ namespace LastBastion.Game.Player
 
 
             // manual test: ---------------------------
-            if (Input.GetKeyDown(KeyCode.G) && !flashlight.IsBusy) StartCoroutine(flashlight.Blink(true));
-            if (Input.GetKeyDown(KeyCode.H) && !flashlight.IsBusy)StartCoroutine(flashlight.BlinkToDeath());
+            if (Input.GetKeyDown(KeyCode.B) && !flashlight.IsBusy) StartCoroutine(flashlight.Blink(true));
+            if (Input.GetKeyDown(KeyCode.N) && !flashlight.IsBusy) StartCoroutine(flashlight.BlinkToDeath());
         }
         #endregion
 
