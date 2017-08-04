@@ -45,12 +45,15 @@ namespace LastBastion.Game.Player
 
             if (Physics.Raycast(ray, out hit, GameManager.instance.Assets.InteractionRange, layerMask, QueryTriggerInteraction.Ignore))
             {
+                // turn off highlight in former activeObject:
+                if (activeObject != null) activeObject.GetComponent<Highlighter>().TurnOffHighlight();
+                // manage highlight in new activeObject:
                 activeObject = hit.collider.gameObject;
-                if (activeObject.GetComponent<Highlighter>() != null) activeObject.GetComponent<Highlighter>().TurnOnHighlight();
+                activeObject.GetComponent<Highlighter>().TurnOnHighlight();
             }
             else if (activeObject != null)
             {
-                if (activeObject.GetComponent<Highlighter>() != null) activeObject.GetComponent<Highlighter>().TurnOffHighlight();
+                activeObject.GetComponent<Highlighter>().TurnOffHighlight();
                 activeObject = null;
             }
         }
