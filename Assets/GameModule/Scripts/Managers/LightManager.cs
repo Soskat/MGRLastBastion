@@ -17,8 +17,6 @@ namespace LastBastion.Game.Managers
         [SerializeField] private bool lightsOn = false;
         [SerializeField] private bool lightsBroken = false;
         [SerializeField] private bool isBusy = false;
-        [SerializeField] private bool isInRange = false;
-        [SerializeField] private float range = 20f;
         [SerializeField] private float baseDelay = 10f;
         [SerializeField] private List<LightSource> lights;
         #endregion
@@ -40,15 +38,6 @@ namespace LastBastion.Game.Managers
         // Update is called once per frame
         void Update()
         {
-            if (isInRange)
-            {
-                if ((transform.position - GameManager.instance.Player.transform.position).magnitude > range)
-                {
-                    isInRange = false;
-                    if (lightsOn) SwitchLights();
-                }
-            }
-
             if (isActive && !lightsBroken && !isBusy)
             {
                 // tests: -------------------------------
@@ -142,7 +131,6 @@ namespace LastBastion.Game.Managers
             if (other.gameObject.tag == "Player" && !lightsBroken)
             {
                 isActive = true;
-                isInRange = true;
                 StartCoroutine(CooldownTimer(Random.Range(5f, 7f)));
             }
         }
