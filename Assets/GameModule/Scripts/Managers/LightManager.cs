@@ -17,7 +17,7 @@ namespace LastBastion.Game.Managers
         [SerializeField] private bool lightsOn = false;
         [SerializeField] private bool lightsBroken = false;
         [SerializeField] private bool isBusy = false;
-        [SerializeField] private float baseDelay = 10f;
+        //[SerializeField] private float baseDelay = 10f;
         [SerializeField] private List<LightSource> lights;
         #endregion
 

@@ -59,7 +59,9 @@ namespace LastBastion.Game.Managers
         /// <summary>Reference to player's BiofeedbackController component.</summary>
         public BiofeedbackController PlayerBiofeedback { get { return playerBiofeedback; } }
         /// <summary>The Room where player currently is.</summary>
-        public GameObject ActiveRoom;
+        public GameObject ActiveRoom { get; set; }
+        /// <summary>The active level manager.</summary>
+        public LevelManager LevelManager { get; set; }
         #endregion
 
 
