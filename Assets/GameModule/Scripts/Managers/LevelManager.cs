@@ -14,10 +14,16 @@ namespace LastBastion.Game.Managers
         #region Private fields
         [SerializeField] private string sceneName;
         [SerializeField] private int collectedRunes = 0;
-        [SerializeField] private int runesCount = 0;
+        [SerializeField] private int maxRunesAmount = 0;
 
         // test:
         [SerializeField] private Text runesText;
+        #endregion
+
+
+        #region Public fields & properties
+        /// <summary>Fixed max amount of the runes that player can find in this level.</summary>
+        public int MaxRunesAmount { get { return maxRunesAmount; } }
         #endregion
 
 
@@ -28,7 +34,7 @@ namespace LastBastion.Game.Managers
             GameManager.instance.LevelManager = this;
 
             // test - update GUI:
-            runesText.text = runesCount.ToString();
+            runesText.text = maxRunesAmount.ToString();
         }
 
         // Update is called once per frame
@@ -46,9 +52,9 @@ namespace LastBastion.Game.Managers
         public void FoundRune()
         {
             // update runes count:
-            runesCount++;
+            maxRunesAmount++;
             // test - update GUI:
-            runesText.text = runesCount.ToString();
+            runesText.text = maxRunesAmount.ToString();
         }
         #endregion
     }

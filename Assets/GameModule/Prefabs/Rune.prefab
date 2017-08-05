@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 114005985515689162}
   m_Layer: 9
   m_Name: Rune
-  m_TagString: Interactive
+  m_TagString: Focusable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -38,8 +38,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1964584926896024}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 21.81, y: -0.69, z: 53.83}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 13.28, y: -0.69, z: 58.441765}
+  m_LocalScale: {x: 1, y: 0.020778999, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0

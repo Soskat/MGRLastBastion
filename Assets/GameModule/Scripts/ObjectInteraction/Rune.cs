@@ -4,10 +4,14 @@ using UnityEngine;
 
 namespace LastBastion.Game.ObjectInteraction
 {
-    public class Rune : MonoBehaviour, IInteractiveObject
+    /// <summary>
+    /// Component that represents collectable rune object.
+    /// </summary>
+    [RequireComponent(typeof(Highlighter))]
+    public class Rune : FocusableObject
     {
         #region Public methods
-        public void Interact()
+        public override void PutDown()
         {
             // informa that new rune was found:
             GameManager.instance.LevelManager.FoundRune();
