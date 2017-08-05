@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using LastBastion.Game.Managers;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -45,11 +46,6 @@ namespace LastBastion.Game.ObjectInteraction
         {
             lightRay.SetActive(false);
             audioSource = GetComponent<AudioSource>();
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
         }
         #endregion
 
@@ -121,6 +117,10 @@ namespace LastBastion.Game.ObjectInteraction
                 if (isFinallyLightOn)
                 {
                     lightRay.SetActive(false);
+
+                    // activate static decals:
+                    if (GameManager.instance.ActiveRoom != null) GameManager.instance.ActiveRoom.GetComponentInChildren<DecalsStaticManager>().ActivateDecals();
+
                     yield return new WaitForSeconds(0.2f);
                     lightRay.SetActive(true);
                     lightOn = true;
@@ -156,6 +156,9 @@ namespace LastBastion.Game.ObjectInteraction
                 lightRay.SetActive(false);
                 lightOn = false;
                 IsDead = true;
+
+                // activate static decals:
+                if (GameManager.instance.ActiveRoom != null) GameManager.instance.ActiveRoom.GetComponentInChildren<DecalsStaticManager>().ActivateDecals();
             }
             IsBusy = false;
             yield return null;

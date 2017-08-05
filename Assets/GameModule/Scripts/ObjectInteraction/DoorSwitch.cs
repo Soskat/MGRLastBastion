@@ -13,6 +13,7 @@ namespace LastBastion.Game.ObjectInteraction
         #region Private fields
         [SerializeField] private Door door;
         [SerializeField] private AudioClip pushButtonSound;
+        [SerializeField] private AudioClip buzzerSound;
         private Animator animator;
         private AudioSource audioSource;
         private int pushedButtonTrigger;
@@ -26,6 +27,7 @@ namespace LastBastion.Game.ObjectInteraction
         {
             Assert.IsNotNull(door);
             Assert.IsNotNull(pushButtonSound);
+            Assert.IsNotNull(buzzerSound);
         }
 
         // Use this for initialization
@@ -72,7 +74,11 @@ namespace LastBastion.Game.ObjectInteraction
         public void SwitchDoorState()
         {
             if (door.IsLocked) door.IsLocked = false;
-            else door.IsLocked = true;
+            else
+            {
+                if (!door.IsClosed) PlayBuzzerSound();
+                else door.IsLocked = true;
+            }
         }
 
         /// <summary>
@@ -81,6 +87,14 @@ namespace LastBastion.Game.ObjectInteraction
         public void PlayPushSound()
         {
             audioSource.PlayOneShot(pushButtonSound);
+        }
+
+        /// <summary>
+        /// Plays sound of opened door buzzer alarm.
+        /// </summary>
+        public void PlayBuzzerSound()
+        {
+            audioSource.PlayOneShot(buzzerSound);
         }
         #endregion
     }

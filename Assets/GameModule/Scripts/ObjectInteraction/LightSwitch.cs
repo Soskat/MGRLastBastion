@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 
-namespace LastBastion.Game
+namespace LastBastion.Game.ObjectInteraction
 {
     [RequireComponent(typeof(AudioSource))]
     [RequireComponent(typeof(Animator))]
@@ -13,7 +13,8 @@ namespace LastBastion.Game
         #region Private fields
         [SerializeField] private bool isEnabled = true;
         [SerializeField] private LightManager lightManager;
-        [SerializeField] private AudioClip switchSound;
+        [SerializeField] private AudioClip turnOnSound;
+        [SerializeField] private AudioClip turnOffSound;
         private Animator animator;
         private AudioSource audioSource;
         private int switchButtonTrigger;
@@ -26,7 +27,8 @@ namespace LastBastion.Game
         private void Awake()
         {
             Assert.IsNotNull(lightManager);
-            Assert.IsNotNull(switchSound);
+            Assert.IsNotNull(turnOnSound);
+            Assert.IsNotNull(turnOffSound);
         }
 
         // Use this for initialization
@@ -76,11 +78,19 @@ namespace LastBastion.Game
         }
 
         /// <summary>
-        /// Plays sound of pushing the button.
+        /// Plays sound of turning on the light.
         /// </summary>
-        public void PlayPushSound()
+        public void PlayTurnOnSound()
         {
-            audioSource.PlayOneShot(switchSound);
+            audioSource.PlayOneShot(turnOnSound);
+        }
+
+        /// <summary>
+        /// Plays sound of turning off the light.
+        /// </summary>
+        public void PlayTurnOffSound()
+        {
+            audioSource.PlayOneShot(turnOffSound);
         }
         #endregion
     }

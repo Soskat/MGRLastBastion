@@ -14,8 +14,6 @@ namespace LastBastion.Game.Player
     public class RightHand : Hand
     {
         #region Private fields
-        //[SerializeField] private bool doBlink;
-        [SerializeField] private bool doBlinkToDeath;
         //[SerializeField] private int timeSinceLastBlink = 0;
         //[SerializeField] private int timeSinceLastBlinkToDeath = 0;
         private Flashlight flashlight;
@@ -60,7 +58,7 @@ namespace LastBastion.Game.Player
         new void Update()
         {
             base.Update();
-            
+
             //// update game mechanics based on current player's arousal:
             //if (GameManager.instance.BBModule.IsEnabled)
             //{
@@ -100,17 +98,9 @@ namespace LastBastion.Game.Player
             //}
 
 
-            //// manual test: ---------------------------
-            //if (doBlink && !flashlight.IsBusy)
-            //{
-            //    doBlink = false;
-            //    StartCoroutine(flashlight.Blink(true));
-            //}
-            //if (doBlinkToDeath && !flashlight.IsBusy)
-            //{
-            //    doBlinkToDeath = false;
-            //    StartCoroutine(flashlight.BlinkToDeath());
-            //}
+            // manual test: ---------------------------
+            if (Input.GetKeyDown(KeyCode.B) && !flashlight.IsBusy) StartCoroutine(flashlight.Blink(true));
+            if (Input.GetKeyDown(KeyCode.N) && !flashlight.IsBusy) StartCoroutine(flashlight.BlinkToDeath());
         }
         #endregion
 
