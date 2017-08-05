@@ -1,9 +1,12 @@
-﻿/// <summary>
-/// Info type for analysis data.
-/// </summary>
-public enum InfoType
+﻿namespace LastBastion.Analytics
 {
-    ID,
-    GameType,
-    LevelInfo,
+    /// <summary>
+    /// Info type for analysis data.
+    /// </summary>
+    public enum InfoType
+    {
+        ID,
+        GameType,
+        LevelInfo,
+    }
 }

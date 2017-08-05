@@ -1,0 +1,195 @@
+fileFormatVersion: 2
+guid: 5db03212300fe5d44a2315f93b0b11b5
+timeCreated: 1500029555
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Cube
+    100002: Cylinder.055
+    100004: Handle.001
+    100006: hook
+    100008: hook.001
+    100010: hook.002
+    100012: hook.003
+    100014: hook.004
+    100016: hook.005
+    100018: hook.006
+    100020: hook.007
+    100022: hook.008
+    100024: hook.009
+    100026: hook.010
+    100028: hook.011
+    100030: hook.012
+    100032: hook.013
+    100034: hook.014
+    100036: Hooks
+    100038: //RootNode
+    100040: Open.003
+    400000: Cube
+    400002: Cylinder.055
+    400004: Handle.001
+    400006: hook
+    400008: hook.001
+    400010: hook.002
+    400012: hook.003
+    400014: hook.004
+    400016: hook.005
+    400018: hook.006
+    400020: hook.007
+    400022: hook.008
+    400024: hook.009
+    400026: hook.010
+    400028: hook.011
+    400030: hook.012
+    400032: hook.013
+    400034: hook.014
+    400036: Hooks
+    400038: //RootNode
+    400040: Open.003
+    2300000: Cube
+    2300002: Cylinder.055
+    2300004: Handle.001
+    2300006: hook
+    2300008: hook.001
+    2300010: hook.002
+    2300012: hook.003
+    2300014: hook.004
+    2300016: hook.005
+    2300018: hook.006
+    2300020: hook.007
+    2300022: hook.008
+    2300024: hook.009
+    2300026: hook.010
+    2300028: hook.011
+    2300030: hook.012
+    2300032: hook.013
+    2300034: hook.014
+    2300036: //RootNode
+    3300000: Cube
+    3300002: Cylinder.055
+    3300004: Handle.001
+    3300006: hook
+    3300008: hook.001
+    3300010: hook.002
+    3300012: hook.003
+    3300014: hook.004
+    3300016: hook.005
+    3300018: hook.006
+    3300020: hook.007
+    3300022: hook.008
+    3300024: hook.009
+    3300026: hook.010
+    3300028: hook.011
+    3300030: hook.012
+    3300032: hook.013
+    3300034: hook.014
+    3300036: //RootNode
+    4300000: KeyCabinet.001
+    4300002: hook
+    4300004: hook.001
+    4300006: hook.002
+    4300008: hook.014
+    4300010: hook.013
+    4300012: hook.012
+    4300014: hook.011
+    4300016: hook.010
+    4300018: hook.009
+    4300020: hook.008
+    4300022: hook.007
+    4300024: hook.006
+    4300026: hook.005
+    4300028: hook.004
+    4300030: hook.003
+    4300032: Cylinder.055
+    4300034: Cube
+    4300036: Handle.001
+    6400000: Cube
+    6400002: Cylinder.055
+    6400004: Handle.001
+    6400006: hook
+    6400008: hook.001
+    6400010: hook.002
+    6400012: hook.003
+    6400014: hook.004
+    6400016: hook.005
+    6400018: hook.006
+    6400020: hook.007
+    6400022: hook.008
+    6400024: hook.009
+    6400026: hook.010
+    6400028: hook.011
+    6400030: hook.012
+    6400032: hook.013
+    6400034: hook.014
+    6400036: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 1
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 1
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

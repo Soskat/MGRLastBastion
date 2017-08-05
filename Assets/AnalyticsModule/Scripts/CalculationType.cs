@@ -1,9 +1,12 @@
-﻿/// <summary>
-/// Calculation type for calculating arousal from HR and GSR data.
-/// </summary>
-public enum CalculationType
+﻿namespace LastBastion.Analytics
 {
-    None,
-    Alternative,
-    Conjunction
+    /// <summary>
+    /// Calculation type for calculating arousal from HR and GSR data.
+    /// </summary>
+    public enum CalculationType
+    {
+        None,
+        Alternative,
+        Conjunction
+    }
 }

@@ -1,0 +1,14 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: KeyCabinetAOC
+  m_Controller: {fileID: 9100000, guid: b419abca06b7f3d419e11cb9d90119ed, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 645e4a2c2d90bc84689f635a6e343b40, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 049e20bb947a34a46b26b70ecd2e8fb2, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 48d332bb8c6fef14ea9a215af1f2071c, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 59f299047c971b34995f21a71c0f530a, type: 2}

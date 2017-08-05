@@ -1,8 +1,11 @@
-﻿/// <summary>
-/// Biofeedback mode.
-/// </summary>
-public enum BiofeedbackMode : byte
+﻿namespace LastBastion.Analytics
 {
-    BiofeedbackOff,
-    BiofeedbackOn
+    /// <summary>
+    /// Biofeedback mode.
+    /// </summary>
+    public enum BiofeedbackMode : byte
+    {
+        BiofeedbackOff,
+        BiofeedbackOn
+    }
 }
