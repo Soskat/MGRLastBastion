@@ -14,7 +14,7 @@ namespace LastBastion.Game.Managers
     {
         #region Private fields
         [SerializeField] private string sceneName;
-        [SerializeField] private int collectedRunes = 0;
+        //[SerializeField] private int collectedRunes = 0;
         [SerializeField] private int maxRunesAmount = 0;
         [SerializeField] private PlotGoal currentGoal;
 
@@ -37,11 +37,11 @@ namespace LastBastion.Game.Managers
         void Start()
         {
             GameManager.instance.LevelManager = this;
-            currentGoal = GetComponent<PlotManager>().Init();
+            //currentGoal = GetComponent<PlotManager>().Init();
 
             // test - update GUI:
             runesText.text = maxRunesAmount.ToString();
-            goalText.text = currentGoal.Goal.GoalContent;
+            //goalText.text = currentGoal.Goal.GoalContent;
         }
 
         // Update is called once per frame
@@ -74,7 +74,7 @@ namespace LastBastion.Game.Managers
             {
                 currentGoal = newGoal;
                 // test - update GUI:
-                goalText.text = currentGoal.Goal.GoalContent;
+                //goalText.text = currentGoal.Goal.GoalContent;
             }
         }
         #endregion

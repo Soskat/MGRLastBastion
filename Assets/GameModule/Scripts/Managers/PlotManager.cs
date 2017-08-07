@@ -11,7 +11,6 @@ namespace LastBastion.Game.Managers
     {
         #region Private fields
         [SerializeField] private List<PlotGoal> plotGoals;
-        [SerializeField] private string plotGoalsPath;
         #endregion
 
 
@@ -19,7 +18,6 @@ namespace LastBastion.Game.Managers
         // Use this for initialization
         void Start()
         {
-            plotGoalsPath = Application.dataPath + "/GameModule/MainPlot/plot_goals.txt";
         }
 
         // Update is called once per frame
@@ -31,21 +29,14 @@ namespace LastBastion.Game.Managers
 
 
         #region Public methods
-        public PlotGoal Init()
-        {
-            FileStream goalsSource = File.Open(plotGoalsPath, FileMode.OpenOrCreate);
+        //public Goal Init()
+        //{
+        //    goalsData = LoadGoalsDataFromFile(plotGoalsPath);
+        //    if (goalsData == null)
+        //    {
 
-            return new PlotGoal();
-        }
-        #endregion
-
-
-        #region Private test methods
-        private void CreateTestData()
-        {
-            List<PlotGoal> goals = new List<PlotGoal>();
-            goals.Add(new PlotGoal());
-        }
+        //    }
+        //}
         #endregion
     }
 }

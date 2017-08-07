@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 namespace LastBastion.Game.Plot
 {
+    /// <summary>
+    /// Class that represents a plot goal.
+    /// </summary>
     [Serializable]
     public class Goal
     {
@@ -17,23 +17,11 @@ namespace LastBastion.Game.Plot
         #endregion
 
 
-        //#region Public fields & properties
-        ///// <summary>The weight of the goal.</summary>
-        //public int GoalWeight { get { return goalWeight; } }
-        ///// <summary>The content of the goal.</summary>
-        //public string GoalContent { get { return goalContent; } }
-        //#endregion
-
-
         #region Constructors
         /// <summary>
         /// Creates an instance of <see cref="Goal"/> class.
         /// </summary>
-        public Goal()
-        {
-            GoalWeight = -1;
-            GoalContent = "<empty>";
-        }
+        public Goal() : this(-1, "<empty>") { }
 
         /// <summary>
         /// Creates an instance of <see cref="Goal"/> class.
@@ -46,19 +34,5 @@ namespace LastBastion.Game.Plot
             GoalContent = content;
         }
         #endregion
-
-
-        //#region Public methods
-        ///// <summary>
-        ///// Updates the goal properties.
-        ///// </summary>
-        ///// <param name="weight">Weight of the goal</param>
-        ///// <param name="content">Content of the goal</param>
-        //public void UpdateGoal(int weight, string content)
-        //{
-        //    goalWeight = weight;
-        //    goalContent = content;
-        //}
-        //#endregion
     }
 }
