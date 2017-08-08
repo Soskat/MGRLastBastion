@@ -91,7 +91,8 @@ namespace LastBastion.Game.Managers
             runesText.text = maxRunesAmount.ToString();
 
             StopAllCoroutines();
-            StartCoroutine(ShowPlotInfoPanel("Rune found", "You have collected " + maxRunesAmount + " runes"));
+            if (maxRunesAmount > 1) StartCoroutine(ShowPlotInfoPanel("Rune found", "You have collected " + maxRunesAmount + " runes"));
+            else StartCoroutine(ShowPlotInfoPanel("Rune found", "You have collected " + maxRunesAmount + " rune"));
         }
 
         /// <summary>
