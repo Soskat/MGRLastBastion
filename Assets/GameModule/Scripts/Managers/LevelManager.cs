@@ -45,8 +45,8 @@ namespace LastBastion.Game.Managers
         void Start()
         {
             GameManager.instance.LevelManager = this;
+            GameManager.instance.SetupPlayerSettings();
             goalUpdatePanel.SetActive(false);
-            // update PlotManager system:
             currentGoal = GetComponent<PlotManager>().Init();
         }
 

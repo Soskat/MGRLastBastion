@@ -74,31 +74,31 @@ namespace LastBastion.Game.Managers
 
         #region Private methods
         /// <summary>
-        /// Saves plot goals data to a file with specified file path.
-        /// </summary>
-        /// <param name="goals">Goals data to save</param>
-        /// <param name="goalsFilePath">Path of the file</param>
-        private void SaveGoalsDataToFile(Goals goals, string goalsFilePath)
-        {
-            string dataAsJson = JsonUtility.ToJson(goals, true);
-            File.WriteAllText(goalsFilePath, dataAsJson);
-            //Debug.Log("Saved plot goals data to a file...");
-        }
-
-        /// <summary>
         /// Loads plot goals data from a file with specific file path.
         /// </summary>
-        /// <param name="goalsFilePath">Path of the file</param>
+        /// <param name="filePath">Path of the file</param>
         /// <returns>Plot goals data</returns>
-        private Goals LoadGoalsDataFromFile(string goalsFilePath)
+        private Goals LoadGoalsDataFromFile(string filePath)
         {
-            if (File.Exists(goalsFilePath))
+            if (File.Exists(filePath))
             {
                 //Debug.Log("Loading plot goals data from a file...");
-                string dataAsText = File.ReadAllText(goalsFilePath);
+                string dataAsText = File.ReadAllText(filePath);
                 return JsonUtility.FromJson<Goals>(dataAsText);
             }
             else return null;
+        }
+
+        /// <summary>
+        /// Saves plot goals data to a file with specified file path.
+        /// </summary>
+        /// <param name="goals">Goals data to save</param>
+        /// <param name="filePath">Path of the file</param>
+        private void SaveGoalsDataToFile(Goals goals, string filePath)
+        {
+            string dataAsJson = JsonUtility.ToJson(goals, true);
+            File.WriteAllText(filePath, dataAsJson);
+            //Debug.Log("Saved plot goals data to a file...");
         }
 
         /// <summary>

@@ -79,8 +79,6 @@ namespace LastBastion.Game.Managers
                 DontDestroyOnLoad(gameObject);
                 BBModule = GetComponent<BandBridgeModule>();
                 Assets = GetComponent<AssetManager>();
-                player = GameObject.FindGameObjectWithTag("Player");
-                playerBiofeedback = player.GetComponent<BiofeedbackController>();
                 ignoreLightLayer = LayerMask.NameToLayer("IgnoreLight");
             }
             else if (instance != this) Destroy(gameObject);
@@ -104,6 +102,10 @@ namespace LastBastion.Game.Managers
         void Update()
         {
         }
+        #endregion
+
+
+        #region Private methods
         #endregion
 
 
@@ -209,6 +211,15 @@ namespace LastBastion.Game.Managers
             if (AnalyticsEnabled) DataManager.EndAnalysis();
             IsReadyForNewBandData = false;
             SceneManager.LoadScene("MainMenu");
+        }
+
+        /// <summary>
+        /// Sets up players settings for currents level.
+        /// </summary>
+        public void SetupPlayerSettings()
+        {
+            player = GameObject.FindGameObjectWithTag("Player");
+            playerBiofeedback = player.GetComponent<BiofeedbackController>();
         }
         #endregion
     }
