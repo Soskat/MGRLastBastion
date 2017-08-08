@@ -23,6 +23,7 @@ namespace LastBastion.Game.Managers
         [SerializeField] private string introFilePath;
         [SerializeField] private IntroText introText;
         private bool menuOn;
+        private bool introHasEnded;
         #endregion
 
 
@@ -65,6 +66,8 @@ namespace LastBastion.Game.Managers
                 SaveGoalsDataToFile(introText, introFilePath);
             }
             // play intro:
+            introHasEnded = false;
+            introTextUI.GetComponent<CanvasGroup>().alpha = 0.0f;
             StartCoroutine(PlayIntroduction());
         }
 
@@ -77,7 +80,7 @@ namespace LastBastion.Game.Managers
                 menuPanel.SetActive(menuOn);
             }
 
-            if (!GameManager.instance.BBModule.IsCalibrationOn)
+            if (!GameManager.instance.BBModule.IsCalibrationOn && introHasEnded)
             {
                 calibrationLabel.SetActive(false);
                 endSceneButton.gameObject.SetActive(true);
@@ -96,7 +99,7 @@ namespace LastBastion.Game.Managers
         {
             if (File.Exists(filePath))
             {
-                Debug.Log("Loading intro text data from a file...");
+                //Debug.Log("Loading intro text data from a file...");
                 string dataAsText = File.ReadAllText(filePath);
                 return JsonUtility.FromJson<IntroText>(dataAsText);
             }
@@ -112,7 +115,7 @@ namespace LastBastion.Game.Managers
         {
             string dataAsJson = JsonUtility.ToJson(intro, true);
             File.WriteAllText(filePath, dataAsJson);
-            Debug.Log("Saved intro text data to a file...");
+            //Debug.Log("Saved intro text data to a file...");
         }
 
         /// <summary>
@@ -122,18 +125,32 @@ namespace LastBastion.Game.Managers
         private List<IntroLine> CreateTestData()
         {
             List<IntroLine> lines = new List<IntroLine>();
-            lines.Add(new IntroLine(1.0f, "Dear friend,\\nI hope this letter finds you in good health. I know you're not one for pleasantries, so let me cut straight to the chase."));
-            lines.Add(new IntroLine(1.0f, "During my last investigation I had to look into one of the many cults of Boston's underbelly. We were chasing a murderer that left his victims with eyes burnt out, their hands tied as if a mockery of praying."));
-            lines.Add(new IntroLine(1.0f, "The book you will find in the package was found in his base of operations. I glanced into it briefly. Judging by the sketches, it might be his Codex or some way of planning his murders. I tried googling the script used in the book and concluded it's written entirely in ancient Sumerian."));
-            lines.Add(new IntroLine(1.0f, "Since you are the only person that I know of that could try and decipher this tome, I turn to you. If you find any information that can help us apprehend the killer, please contact me immediately."));
-            lines.Add(new IntroLine(1.0f, "I will owe you yet another favor and the city of Boston - eternal grattitude.\\n\\nBest regards,\\nJohn Murphy"));
-            lines.Add(new IntroLine(1.0f, "PS As an incentive I'm sending you a bottle of your favorite vintage. If anyone asks - you didn't get it from me"));
-            lines.Add(new IntroLine(2.0f, "Poor Jill..."));
-            lines.Add(new IntroLine(1.0f, "I have felt it earlier that this book is somehow cursed."));
-            lines.Add(new IntroLine(1.0f, "Because of it they locked you up in this miserable asylum."));
-            lines.Add(new IntroLine(1.0f, "And now, all of the sudden, you have disappered and they have just closed this place for good..."));
-            lines.Add(new IntroLine(1.0f, "Something isn't right, I can feel it deep in my bones."));
-            lines.Add(new IntroLine(1.0f, "And I will find out what it is."));
+            lines.Add(new IntroLine(3.0f, 2.0f, "Dear friend,"));
+            lines.Add(new IntroLine(1.0f, 3.0f, "I hope this letter finds you in good health."));
+            lines.Add(new IntroLine(1.0f, 5.0f, "I know you're not one for pleasantries, so let me cut straight to the chase."));
+            // -----------------------------------------------------------------------------------------------------------------------------------
+            lines.Add(new IntroLine(1.5f, 5.0f, "During my last investigation I had to look into one of the many cults of Boston's underbelly."));
+            lines.Add(new IntroLine(1.0f, 7.0f, "We were chasing a murderer that left his victims with eyes burnt out, their hands tied as if a mockery of praying."));
+            // -----------------------------------------------------------------------------------------------------------------------------------
+            lines.Add(new IntroLine(1.5f, 5.0f, "The book you will find in the package was found in his base of operations."));
+            lines.Add(new IntroLine(1.0f, 6.0f, "I glanced into it briefly. Judging by the sketches, it might be his Codex or some way of planning his murders."));
+            lines.Add(new IntroLine(1.0f, 6.0f, "I tried googling the script used in the book and concluded it's written entirely in ancient Sumerian."));
+            // -----------------------------------------------------------------------------------------------------------------------------------
+            lines.Add(new IntroLine(1.5f, 6.0f, "Since you are the only person that I know of that could try and decipher this tome, I turn to you."));
+            lines.Add(new IntroLine(1.0f, 6.0f, "If you find any information that can help us apprehend the killer, please contact me immediately."));
+            // -----------------------------------------------------------------------------------------------------------------------------------
+            lines.Add(new IntroLine(1.5f, 5.0f, "I will owe you yet another favor and the city of Boston - eternal grattitude."));
+            lines.Add(new IntroLine(1.0f, 3.0f, "Best regards, John Murphy"));
+            // -----------------------------------------------------------------------------------------------------------------------------------
+            lines.Add(new IntroLine(1.5f, 3.0f, "PS As an incentive I'm sending you a bottle of your favorite vintage."));
+            lines.Add(new IntroLine(1.0f, 3.0f, "If anyone asks - you didn't get it from me"));
+            // -----------------------------------------------------------------------------------------------------------------------------------
+            lines.Add(new IntroLine(3.0f, 2.0f, "Poor Jill..."));
+            lines.Add(new IntroLine(1.5f, 4.0f, "I have felt it earlier that this book is somehow cursed."));
+            lines.Add(new IntroLine(1.5f, 4.0f, "Because of it they locked you up in this miserable asylum."));
+            lines.Add(new IntroLine(1.5f, 4.0f, "And now, all of the sudden, you have disappered and they have just closed this place for good..."));
+            lines.Add(new IntroLine(1.5f, 4.0f, "Something isn't right, I can feel it deep in my bones."));
+            lines.Add(new IntroLine(3.0f, 6.0f, "And I will find out what it is."));
             return lines;
         }
 
@@ -143,13 +160,14 @@ namespace LastBastion.Game.Managers
             float elapsedTime;
             foreach (IntroLine line in introText.Content)
             {
+                yield return new WaitForSeconds(line.Cooldown);
                 // slowly show text:
                 introTextUI.text = line.Text;
                 elapsedTime = 0f;
                 while (introTextUI.GetComponent<CanvasGroup>().alpha < 1)
                 {
                     elapsedTime += Time.deltaTime;
-                    introTextUI.GetComponent<CanvasGroup>().alpha = Mathf.Clamp01(0.0f + (elapsedTime / 1.5f));
+                    introTextUI.GetComponent<CanvasGroup>().alpha = Mathf.Clamp01(0.0f + (elapsedTime / 1.3f));
                     yield return null;
                 }
                 // wait for few seconds:
@@ -159,7 +177,7 @@ namespace LastBastion.Game.Managers
                 while (introTextUI.GetComponent<CanvasGroup>().alpha > 0)
                 {
                     elapsedTime += Time.deltaTime;
-                    introTextUI.GetComponent<CanvasGroup>().alpha = Mathf.Clamp01(1.0f - (elapsedTime / 2.0f));
+                    introTextUI.GetComponent<CanvasGroup>().alpha = Mathf.Clamp01(1.0f - (elapsedTime / 2.5f));
                     yield return null;
                 }
             }
