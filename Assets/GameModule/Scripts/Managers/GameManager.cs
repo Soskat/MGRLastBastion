@@ -34,6 +34,7 @@ namespace LastBastion.Game.Managers
         private int indexOfSecondLevel;
         private GameObject player;
         private BiofeedbackController playerBiofeedback;
+        private int ignoreLightLayer;
         #endregion
 
 
@@ -62,6 +63,8 @@ namespace LastBastion.Game.Managers
         public GameObject ActiveRoom { get; set; }
         /// <summary>The active level manager.</summary>
         public LevelManager LevelManager { get; set; }
+        /// <summary>IgnoreLight layer number.</summary>
+        public int IgnoreLightLayer { get { return ignoreLightLayer; } }
         #endregion
 
 
@@ -78,6 +81,7 @@ namespace LastBastion.Game.Managers
                 Assets = GetComponent<AssetManager>();
                 player = GameObject.FindGameObjectWithTag("Player");
                 playerBiofeedback = player.GetComponent<BiofeedbackController>();
+                ignoreLightLayer = LayerMask.NameToLayer("IgnoreLight");
             }
             else if (instance != this) Destroy(gameObject);
         }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using LastBastion.Game.Managers;
+using UnityEngine;
 
 
 namespace LastBastion.Game.ObjectInteraction
@@ -10,8 +11,9 @@ namespace LastBastion.Game.ObjectInteraction
     {
         #region Private fields
         private Transform originalParent;
-        private Vector3 originPosition;
-        private Quaternion originRotation;
+        private Vector3 originalPosition;
+        private Quaternion originalRotation;
+        private int originalLayer;
         #endregion
 
         
@@ -19,9 +21,10 @@ namespace LastBastion.Game.ObjectInteraction
         // Use this for initialization
         void Start()
         {
-            originPosition = transform.position;
-            originRotation = transform.rotation;
+            originalPosition = transform.position;
+            originalRotation = transform.rotation;
             originalParent = transform.parent;
+            originalLayer = gameObject.layer;
         }
         #endregion
 
@@ -32,9 +35,11 @@ namespace LastBastion.Game.ObjectInteraction
         /// </summary>
         public virtual void PickUp(Transform newTransform)
         {
+            // transform object to newTransform and change layer:
             transform.parent = newTransform.parent;
             transform.position = newTransform.position;
             transform.rotation = newTransform.rotation;
+            gameObject.layer = GameManager.instance.IgnoreLightLayer;
         }
 
         /// <summary>
@@ -42,9 +47,11 @@ namespace LastBastion.Game.ObjectInteraction
         /// </summary>
         public virtual void PutDown()
         {
+            // back to original settings:
             transform.parent = originalParent;
-            transform.position = originPosition;
-            transform.rotation = originRotation;
+            transform.position = originalPosition;
+            transform.rotation = originalRotation;
+            gameObject.layer = originalLayer;
         }
         #endregion
     }
