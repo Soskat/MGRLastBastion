@@ -8,27 +8,27 @@ namespace LastBastion.Game.Plot
     /// Class that represents a plot goals set.
     /// </summary>
     [Serializable]
-    public class GoalsSet
+    public class Goals
     {
         #region Public fields
-        /// <summary>The list of goals.</summary>
-        public List<Goal> Goals;
+        /// <summary>The set of goals.</summary>
+        public List<Goal> Set;
         #endregion
 
 
         #region Constructors
         /// <summary>
-        /// Creates an instance of <see cref="GoalsSet"/> class.
+        /// Creates an instance of <see cref="Goals"/> class.
         /// </summary>
-        public GoalsSet() : this(new List<Goal>()) { }
+        public Goals() : this(new List<Goal>()) { }
 
         /// <summary>
-        /// Creates an instance of <see cref="GoalsSet"/> class.
+        /// Creates an instance of <see cref="Goals"/> class.
         /// </summary>
         /// <param name="goals">List of the goals to create a set</param>
-        public GoalsSet(List<Goal> goals)
+        public Goals(List<Goal> goals)
         {
-            Goals = goals;
+            Set = goals;
         }
         #endregion
     }

@@ -21,10 +21,6 @@ namespace LastBastion.Game.Managers
         [SerializeField] private GameObject goalUpdatePanel;
         [SerializeField] private Text goalUpdateHeadlineText;
         [SerializeField] private Text goalUpdateContentText;
-
-        // test:
-        [SerializeField] private Text runesText;
-        [SerializeField] private Text goalText;
         private int goalCount;
         #endregion
 
@@ -51,19 +47,13 @@ namespace LastBastion.Game.Managers
         {
             GameManager.instance.LevelManager = this;
             goalUpdatePanel.SetActive(false);
-            //currentGoal = GetComponent<PlotManager>().Init();
-
-            // test - update GUI:
-            runesText.text = maxRunesAmount.ToString();
-            //goalText.text = currentGoal.Goal.GoalContent;
-
             goalCount = 0;
-            //StartCoroutine(ShowUpdatedGoal("Goal update", "goal #" + goalCount));
         }
 
         // Update is called once per frame
         void Update()
         {
+            // Test --------------------------------------------------
             if (Input.GetKeyDown(KeyCode.G))
             {
                 goalCount++;
@@ -75,6 +65,10 @@ namespace LastBastion.Game.Managers
                 StopAllCoroutines();
                 StartCoroutine(ShowPlotInfoPanel("Goal", "goal #" + goalCount));
             }
+
+
+            // biofeedback readings update
+            // ...
         }
         #endregion
 
@@ -87,9 +81,7 @@ namespace LastBastion.Game.Managers
         {
             // update runes count:
             maxRunesAmount++;
-            // test - update GUI:
-            runesText.text = maxRunesAmount.ToString();
-
+            // show update info:
             StopAllCoroutines();
             if (maxRunesAmount > 1) StartCoroutine(ShowPlotInfoPanel("Rune found", "You have collected " + maxRunesAmount + " runes"));
             else StartCoroutine(ShowPlotInfoPanel("Rune found", "You have collected " + maxRunesAmount + " rune"));
@@ -101,11 +93,10 @@ namespace LastBastion.Game.Managers
         /// <param name="newGoal">The new goal</param>
         public void UpdatePlotGoal(PlotGoal newGoal)
         {
-            if (newGoal.Goal.GoalWeight > currentGoal.Goal.GoalWeight)
+            if (newGoal.Goal.Weight > currentGoal.Goal.Weight)
             {
                 currentGoal = newGoal;
-                // test - update GUI:
-                //goalText.text = currentGoal.Goal.GoalContent;
+                // show update info:
                 StopAllCoroutines();
                 StartCoroutine(ShowPlotInfoPanel("Goal update", "goal #" + goalCount));
             }
