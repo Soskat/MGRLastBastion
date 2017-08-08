@@ -7,6 +7,7 @@ namespace LastBastion.Game.ObjectInteraction
     /// <summary>
     /// Component that represents pickable, focusable objects.
     /// </summary>
+    [RequireComponent(typeof(Highlighter))]
     public class FocusableObject : MonoBehaviour
     {
         #region Private fields

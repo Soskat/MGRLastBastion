@@ -17,11 +17,10 @@ namespace LastBastion.Game.Managers
         [SerializeField] private string sceneName;
         //[SerializeField] private int collectedRunes = 0;
         [SerializeField] private int maxRunesAmount = 0;
-        [SerializeField] private PlotGoal currentGoal;
+        [SerializeField] private Goal currentGoal;
         [SerializeField] private GameObject goalUpdatePanel;
         [SerializeField] private Text goalUpdateHeadlineText;
         [SerializeField] private Text goalUpdateContentText;
-        private int goalCount;
         #endregion
 
 
@@ -29,7 +28,7 @@ namespace LastBastion.Game.Managers
         /// <summary>Fixed max amount of the runes that player can find in this level.</summary>
         public int MaxRunesAmount { get { return maxRunesAmount; } }
         /// <summary>Current plot goal.</summary>
-        public PlotGoal CurrentGoal { get { return currentGoal; } }
+        public Goal CurrentGoal { get { return currentGoal; } }
         #endregion
 
 
@@ -47,23 +46,16 @@ namespace LastBastion.Game.Managers
         {
             GameManager.instance.LevelManager = this;
             goalUpdatePanel.SetActive(false);
-            goalCount = 0;
+            // update PlotManager system:
+            currentGoal = GetComponent<PlotManager>().Init();
         }
 
         // Update is called once per frame
         void Update()
         {
-            // Test --------------------------------------------------
-            if (Input.GetKeyDown(KeyCode.G))
-            {
-                goalCount++;
-                StopAllCoroutines();
-                StartCoroutine(ShowPlotInfoPanel("Goal update", "goal #" + goalCount));
-            }
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                StopAllCoroutines();
-                StartCoroutine(ShowPlotInfoPanel("Goal", "goal #" + goalCount));
+                ShowCurrentGoal();
             }
 
 
@@ -91,14 +83,14 @@ namespace LastBastion.Game.Managers
         /// Updates current plot goal.
         /// </summary>
         /// <param name="newGoal">The new goal</param>
-        public void UpdatePlotGoal(PlotGoal newGoal)
+        public void UpdatePlotGoal(Goal newGoal)
         {
-            if (newGoal.Goal.Weight > currentGoal.Goal.Weight)
+            if (newGoal.Weight > currentGoal.Weight)
             {
                 currentGoal = newGoal;
                 // show update info:
                 StopAllCoroutines();
-                StartCoroutine(ShowPlotInfoPanel("Goal update", "goal #" + goalCount));
+                StartCoroutine(ShowPlotInfoPanel("Goal update", currentGoal.Content));
             }
         }
 
@@ -108,7 +100,7 @@ namespace LastBastion.Game.Managers
         public void ShowCurrentGoal()
         {
             StopAllCoroutines();
-            StartCoroutine(ShowPlotInfoPanel("Goal", "goal #" + goalCount));
+            StartCoroutine(ShowPlotInfoPanel("Goal", currentGoal.Content));
         }
 
         /// <summary>

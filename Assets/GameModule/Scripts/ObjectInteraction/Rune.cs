@@ -11,9 +11,12 @@ namespace LastBastion.Game.ObjectInteraction
     public class Rune : FocusableObject
     {
         #region Public methods
+        /// <summary>
+        /// Picks object up.
+        /// </summary>
         public override void PutDown()
         {
-            // informa that new rune was found:
+            // inform that new rune was found:
             GameManager.instance.LevelManager.FoundRune();
             // destroy this game object:
             Destroy(gameObject);

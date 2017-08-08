@@ -33,6 +33,8 @@ namespace LastBastion.Game.Managers
         public float InteractionRange { get { return interactionRange; } }
         /// <summary>Hint range.</summary>
         public float HintRange { get { return hintRange; } }
+        /// <summary>List of plot goals.</summary>
+        public List<Goal> Goals { get { return goals.Set; } }
         #endregion
 
 
@@ -80,7 +82,7 @@ namespace LastBastion.Game.Managers
         {
             string dataAsJson = JsonUtility.ToJson(goals, true);
             File.WriteAllText(goalsFilePath, dataAsJson);
-            Debug.Log("Saved plot goals data to a file...");
+            //Debug.Log("Saved plot goals data to a file...");
         }
 
         /// <summary>
@@ -92,7 +94,7 @@ namespace LastBastion.Game.Managers
         {
             if (File.Exists(goalsFilePath))
             {
-                Debug.Log("Loading plot goals data from a file...");
+                //Debug.Log("Loading plot goals data from a file...");
                 string dataAsText = File.ReadAllText(goalsFilePath);
                 return JsonUtility.FromJson<Goals>(dataAsText);
             }
