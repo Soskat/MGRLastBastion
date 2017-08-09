@@ -19,8 +19,10 @@ namespace LastBastion.Game.Managers
         [SerializeField] private float hintRange = 4f;
         [SerializeField] private List<AudioClip> metalDoorSqueak;
         [SerializeField] private List<AudioClip> woodenDoorSqueak;
+        [SerializeField] private List<AudioClip> footstepsGravel;
         [SerializeField] private string plotGoalsPath;
         [SerializeField] private Goals goals;
+        private int footstepGravelIndex;
         #endregion
 
 
@@ -45,8 +47,11 @@ namespace LastBastion.Game.Managers
             // load sounds:
             metalDoorSqueak = new List<AudioClip>();
             woodenDoorSqueak = new List<AudioClip>();
+            footstepsGravel = new List<AudioClip>();
             metalDoorSqueak.AddRange(Resources.LoadAll<AudioClip>("Audio/metalSqueak"));
             woodenDoorSqueak.AddRange(Resources.LoadAll<AudioClip>("Audio/woodenSqueak"));
+            footstepsGravel.AddRange(Resources.LoadAll<AudioClip>("Audio/gravel"));
+            footstepGravelIndex = 0;
             // load plot goals data:
             plotGoalsPath = Application.dataPath + "/GameModule/MainPlot/plot_goals.json";
             goals = LoadGoalsDataFromFile(plotGoalsPath);
@@ -141,6 +146,16 @@ namespace LastBastion.Game.Managers
                 return woodenDoorSqueak[index];
             }
             else return null;
+        }
+
+        /// <summary>
+        /// Returns next footstep on gravel sound.
+        /// </summary>
+        /// <returns>Footstep on gravel sound</returns>
+        public AudioClip GetFootstepOnGravelSound()
+        {
+            if (footstepGravelIndex >= footstepsGravel.Count) footstepGravelIndex = 0;
+            return footstepsGravel[footstepGravelIndex++];
         }
         #endregion
     }

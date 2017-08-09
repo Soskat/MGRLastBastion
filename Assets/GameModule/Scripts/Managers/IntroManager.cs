@@ -11,6 +11,7 @@ namespace LastBastion.Game.Managers
     /// <summary>
     /// Component that manages Intro scene behaviour.
     /// </summary>
+    [RequireComponent(typeof(AudioSource))]
     public class IntroManager : MonoBehaviour
     {
         #region Private fields
@@ -21,7 +22,8 @@ namespace LastBastion.Game.Managers
         [SerializeField] private GameObject calibrationLabel;
         [SerializeField] private Text introTextUI;
         [SerializeField] private string introFilePath;
-        [SerializeField] private IntroText introText;
+        private IntroText introText;
+        private AudioSource audioSource;
         private bool menuOn;
         private bool introHasEnded;
         #endregion
@@ -66,9 +68,13 @@ namespace LastBastion.Game.Managers
                 SaveGoalsDataToFile(introText, introFilePath);
             }
             // play intro:
+            //Debug.Log("Intro duration in sec: " + CalculateTextDuration(introText));    // ----------- test
             introHasEnded = false;
+            float showOffTime = 1.3f, fadeTime = 2.5f;
             introTextUI.GetComponent<CanvasGroup>().alpha = 0.0f;
-            StartCoroutine(PlayIntroduction());
+            StartCoroutine(PlayIntroduction(showOffTime, fadeTime));
+            audioSource = GetComponent<AudioSource>();
+            StartCoroutine(PlayBackgroundSounds(CalculateTextDuration(introText) + introText.Content.Count * (showOffTime + fadeTime), 1.0f));
         }
 
         // Update is called once per frame
@@ -154,8 +160,13 @@ namespace LastBastion.Game.Managers
             return lines;
         }
 
-
-        private IEnumerator PlayIntroduction()
+        /// <summary>
+        /// Slowly displays introduction text in parts.
+        /// </summary>
+        /// <param name="showOffTime">Time of showing off the text line</param>
+        /// <param name="fadeTime">Time of fading the text line</param>
+        /// <returns></returns>
+        private IEnumerator PlayIntroduction(float showOffTime, float fadeTime)
         {
             float elapsedTime;
             foreach (IntroLine line in introText.Content)
@@ -167,7 +178,7 @@ namespace LastBastion.Game.Managers
                 while (introTextUI.GetComponent<CanvasGroup>().alpha < 1)
                 {
                     elapsedTime += Time.deltaTime;
-                    introTextUI.GetComponent<CanvasGroup>().alpha = Mathf.Clamp01(0.0f + (elapsedTime / 1.3f));
+                    introTextUI.GetComponent<CanvasGroup>().alpha = Mathf.Clamp01(0.0f + (elapsedTime / showOffTime));
                     yield return null;
                 }
                 // wait for few seconds:
@@ -177,11 +188,48 @@ namespace LastBastion.Game.Managers
                 while (introTextUI.GetComponent<CanvasGroup>().alpha > 0)
                 {
                     elapsedTime += Time.deltaTime;
-                    introTextUI.GetComponent<CanvasGroup>().alpha = Mathf.Clamp01(1.0f - (elapsedTime / 2.5f));
+                    introTextUI.GetComponent<CanvasGroup>().alpha = Mathf.Clamp01(1.0f - (elapsedTime / fadeTime));
                     yield return null;
                 }
             }
             yield return null;
+        }
+
+        /// <summary>
+        /// Simulates footsteps on gravel sounds in the background.
+        /// </summary>
+        /// <param name="textDuration">Duration of introduction text</param>
+        /// <param name="delay">Delay at the beginning</param>
+        /// <returns></returns>
+        private IEnumerator PlayBackgroundSounds(float textDuration, float delay)
+        {
+            int stepCount = (int)(textDuration - delay) - 2;
+            //Debug.Log("Setp count: " + stepCount);  // -------------------- test
+            yield return new WaitForSeconds(delay);
+            for(int i = 0; i < stepCount; i++)
+            {
+                audioSource.PlayOneShot(GameManager.instance.Assets.GetFootstepOnGravelSound());
+                yield return new WaitForSeconds(1.0f);
+            }
+            audioSource.PlayOneShot(GameManager.instance.Assets.GetFootstepOnGravelSound());
+            yield return new WaitForSeconds(0.6f);
+            audioSource.PlayOneShot(GameManager.instance.Assets.GetFootstepOnGravelSound());
+            yield return null;
+        }
+
+        /// <summary>
+        /// Calculates duration time of display of the introduction text.
+        /// </summary>
+        /// <param name="introText">Introduction text data</param>
+        /// <returns>Introduction text duration</returns>
+        private float CalculateTextDuration(IntroText introText)
+        {
+            float duration = 0f;
+            foreach(IntroLine line in introText.Content)
+            {
+                duration += line.Cooldown + line.Duration;
+            }
+            return duration;
         }
         #endregion
     }

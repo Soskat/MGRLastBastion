@@ -3,7 +3,7 @@
         {
             "Cooldown": 3.0,
             "Duration": 2.0,
-            "Text": "Dear friend,"
+            "Text": "\"Dear friend,"
         },
         {
             "Cooldown": 1.0,
@@ -22,7 +22,7 @@
         },
         {
             "Cooldown": 1.0,
-            "Duration": 7.0,
+            "Duration": 8.0,
             "Text": "We were chasing a murderer that left his victims with eyes burnt out, their hands tied as if a mockery of praying."
         },
         {
@@ -32,7 +32,7 @@
         },
         {
             "Cooldown": 1.0,
-            "Duration": 6.0,
+            "Duration": 7.0,
             "Text": "I glanced into it briefly. Judging by the sketches, it might be his Codex or some way of planning his murders."
         },
         {
@@ -68,7 +68,7 @@
         {
             "Cooldown": 1.0,
             "Duration": 3.0,
-            "Text": "If anyone asks - you didn't get it from me"
+            "Text": "If anyone asks - you didn't get it from me\""
         },
         {
             "Cooldown": 3.0,
