@@ -19,6 +19,7 @@ namespace LastBastion.Game.Managers
         [SerializeField] private GameObject menuPanel;
         [SerializeField] private Button resumeButton;
         [SerializeField] private Button backToMainMenuButton;
+        [SerializeField] private Button skipIntroButton;
         [SerializeField] private GameObject calibrationLabel;
         [SerializeField] private Text introTextUI;
         [SerializeField] private string introFilePath;
@@ -38,6 +39,7 @@ namespace LastBastion.Game.Managers
             Assert.IsNotNull(menuPanel);
             Assert.IsNotNull(resumeButton);
             Assert.IsNotNull(backToMainMenuButton);
+            Assert.IsNotNull(skipIntroButton);
             Assert.IsNotNull(calibrationLabel);
             Assert.IsNotNull(introTextUI);
             Assert.IsNotNull(metalGateOpeningSound);
@@ -49,6 +51,8 @@ namespace LastBastion.Game.Managers
             // set up in-game menu:
             resumeButton.onClick.AddListener(() => { menuOn = false; menuPanel.SetActive(menuOn); });
             backToMainMenuButton.onClick.AddListener(() => { StopAllCoroutines();  GameManager.instance.BackToMainMenu(); });
+            skipIntroButton.onClick.AddListener(() => { GameManager.instance.LevelHasEnded(); });
+            skipIntroButton.gameObject.SetActive(GameManager.instance.DebugMode);
             menuOn = false;
             menuPanel.SetActive(menuOn);
             // set up end-scene button:
@@ -174,6 +178,7 @@ namespace LastBastion.Game.Managers
             foreach (IntroLine line in introText.Content)
             {
                 yield return new WaitForSeconds(line.Cooldown);
+                yield return _sync();
                 // slowly show text:
                 introTextUI.text = line.Text;
                 elapsedTime = 0f;
@@ -181,20 +186,20 @@ namespace LastBastion.Game.Managers
                 {
                     elapsedTime += Time.deltaTime;
                     introTextUI.GetComponent<CanvasGroup>().alpha = Mathf.Clamp01(0.0f + (elapsedTime / showOffTime));
-                    yield return null;
+                    yield return _sync();
                 }
                 // wait for few seconds:
                 yield return new WaitForSeconds(line.Duration);
+                yield return _sync();
                 // slowly fade out text:
                 elapsedTime = 0f;
                 while (introTextUI.GetComponent<CanvasGroup>().alpha > 0)
                 {
                     elapsedTime += Time.deltaTime;
                     introTextUI.GetComponent<CanvasGroup>().alpha = Mathf.Clamp01(1.0f - (elapsedTime / fadeTime));
-                    yield return null;
+                    yield return _sync();
                 }
             }
-            yield return null;
         }
 
         /// <summary>
@@ -212,18 +217,21 @@ namespace LastBastion.Game.Managers
             {
                 audioSource.PlayOneShot(GameManager.instance.Assets.GetFootstepOnGravelSound());
                 yield return new WaitForSeconds(1.0f);
+                yield return _sync();
             }
             audioSource.PlayOneShot(GameManager.instance.Assets.GetFootstepOnGravelSound());
             yield return new WaitForSeconds(0.8f);
+            yield return _sync();
             audioSource.PlayOneShot(GameManager.instance.Assets.GetFootstepOnGravelSound());
             yield return new WaitForSeconds(0.7f);
+            yield return _sync();
             audioSource.PlayOneShot(GameManager.instance.Assets.GetFootstepOnGravelSound());
             // play sound of opening the asylum metal gate:
             yield return new WaitForSeconds(1.5f);
+            yield return _sync();
             audioSource.PlayOneShot(metalGateOpeningSound);
             yield return new WaitForSeconds(2.0f);
             introHasEnded = true;
-            yield return null;
         }
 
         /// <summary>
@@ -240,6 +248,22 @@ namespace LastBastion.Game.Managers
             }
             return duration;
         }
+
+        // based on: https://forum.unity3d.com/threads/how-to-pause-any-coroutine-according-to-your-global-pause-state.68303/ by n0mad
+        private Coroutine _sync()
+        {
+            return StartCoroutine(PauseRoutine());
+        }
+
+        private IEnumerator PauseRoutine()
+        {
+            while (menuOn)
+            {
+                yield return new WaitForFixedUpdate();
+            }
+            yield return new WaitForEndOfFrame();
+        }
+
         #endregion
     }
 }

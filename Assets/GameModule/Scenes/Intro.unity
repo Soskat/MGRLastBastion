@@ -511,6 +511,7 @@ MonoBehaviour:
   menuPanel: {fileID: 6261863}
   resumeButton: {fileID: 1165652416}
   backToMainMenuButton: {fileID: 1864748206}
+  skipIntroButton: {fileID: 1755180929}
   calibrationLabel: {fileID: 900078730}
   introTextUI: {fileID: 1358870260}
   introFilePath: 
@@ -677,7 +678,7 @@ Prefab:
     - target: {fileID: 224583379543071382, guid: c36bbbfc7745c114681f1135a6443bda,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 400
+      value: 420
       objectReference: {fileID: 0}
     - target: {fileID: 224583379543071382, guid: c36bbbfc7745c114681f1135a6443bda,
         type: 2}
@@ -721,6 +722,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c36bbbfc7745c114681f1135a6443bda, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1755180929 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114324392885584018, guid: c36bbbfc7745c114681f1135a6443bda,
+    type: 2}
+  m_PrefabInternal: {fileID: 1755180928}
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1 &1846181906
 GameObject:
   m_ObjectHideFlags: 0
@@ -790,7 +797,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 1755180928}
 --- !u!114 &1864748206 stripped
 MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114324392885584018, guid: c36bbbfc7745c114681f1135a6443bda,
+  m_PrefabParentObject: {fileID: 114704109174300034, guid: c36bbbfc7745c114681f1135a6443bda,
     type: 2}
   m_PrefabInternal: {fileID: 1755180928}
   m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
@@ -832,6 +839,11 @@ Prefab:
     - target: {fileID: 4633584045813756, guid: 47271ac3843b94a47a5c74fab94e7a7f, type: 2}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114689790144993052, guid: 47271ac3843b94a47a5c74fab94e7a7f,
+        type: 2}
+      propertyPath: debugMode
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 47271ac3843b94a47a5c74fab94e7a7f, type: 2}

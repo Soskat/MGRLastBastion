@@ -24,6 +24,7 @@ namespace LastBastion.Game.Managers
 
 
         #region Private fields
+        [SerializeField] private bool debugMode = false;
         [SerializeField] private int currentLevelID = -1;
         [SerializeField] private string[] gameLevels;
         [SerializeField] private int currentCalculationTypeID = 0;
@@ -39,6 +40,8 @@ namespace LastBastion.Game.Managers
 
 
         #region Public fields & properties
+        /// <summary>Is debug mode on?</summary>
+        public bool DebugMode { get { return debugMode; } }
         /// <summary>Instance of <see cref="BandBridgeModule"/> class.</summary>
         public BandBridgeModule BBModule { get; set; }
         /// <summary>Instance of <see cref="AssetManager"/> class.</summary>
