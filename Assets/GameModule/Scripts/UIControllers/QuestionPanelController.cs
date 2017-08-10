@@ -14,9 +14,10 @@ namespace LastBastion.Game.UIControllers
     public class QuestionPanelController : MonoBehaviour
     {
         #region Private fields
+        [SerializeField] private QuestionPanelType questionPanelType;
         [SerializeField] private Text questionContent;
-        [SerializeField] private RectTransform dropdownPosition;
-        private GameObject dropdownMenu;
+        [SerializeField] private GameObject answerHolderObject;
+        private GameObject answerHolder;
         private Question question;
         #endregion
 
@@ -32,19 +33,6 @@ namespace LastBastion.Game.UIControllers
         private void Awake()
         {
             Assert.IsNotNull(questionContent);
-            Assert.IsNotNull(dropdownPosition);
-        }
-
-        // Use this for initialization
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
         }
         #endregion
 
@@ -55,22 +43,38 @@ namespace LastBastion.Game.UIControllers
         /// </summary>
         /// <param name="_question">The question</param>
         /// <param name="dropdown">Dropdown menu prefab</param>
-        public void UpdatePanel(Question _question, GameObject dropdown)
+        public void UpdatePanel(Question _question, GameObject dropdown = null)
         {
             question = _question;
             questionContent.text = question.Content;
-            dropdownMenu = Instantiate(dropdown, transform);
-            dropdownMenu.GetComponent<RectTransform>().localPosition = dropdownPosition.localPosition;
-            dropdownMenu.GetComponent<RectTransform>().sizeDelta = dropdownPosition.sizeDelta;
+            if(questionPanelType == QuestionPanelType.Closed && dropdown != null && answerHolderObject != null)
+            {
+                answerHolder = Instantiate(dropdown, transform);
+                answerHolder.GetComponent<RectTransform>().localPosition = answerHolderObject.GetComponent<RectTransform>().localPosition;
+                answerHolder.GetComponent<RectTransform>().sizeDelta = answerHolderObject.GetComponent<RectTransform>().sizeDelta;
+            }
+            else if (questionPanelType == QuestionPanelType.Closed)
+            {
+                answerHolder = GetComponentInChildren<InputField>().gameObject;
+            }
         }
 
         /// <summary>
-        /// Saves number of selected option from dropdown menu.
+        /// Saves the answer.
         /// </summary>
         public void SaveAnswer()
         {
-            // value - 1 because first option is always empty:
-            question.Answer = (dropdownMenu.GetComponent<Dropdown>().value - 1).ToString();
+            switch (questionPanelType)
+            {
+                case QuestionPanelType.Closed:
+                    // value - 1 because first option is always empty:
+                    question.Answer = (answerHolder.GetComponent<Dropdown>().value - 1).ToString();
+                    break;
+
+                case QuestionPanelType.Open:
+                    question.Answer = answerHolder.GetComponent<InputField>().text;
+                    break;
+            }
         }
         #endregion
     }

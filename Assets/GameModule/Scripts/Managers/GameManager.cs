@@ -1,6 +1,7 @@
 ﻿using LastBastion.Analytics;
 using LastBastion.Biofeedback;
 using LastBastion.Game.Player;
+using LastBastion.Game.SurveySystem;
 using LastBastion.Game.UIControllers;
 using System;
 using UnityEngine;
@@ -68,6 +69,8 @@ namespace LastBastion.Game.Managers
         public LevelManager LevelManager { get; set; }
         /// <summary>IgnoreLight layer number.</summary>
         public int IgnoreLightLayer { get { return ignoreLightLayer; } }
+        /// <summary>The survey questionnaire.</summary>
+        public Survey Survey { get; set; }
         #endregion
 
 

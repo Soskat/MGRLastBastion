@@ -12,7 +12,6 @@ namespace LastBastion.Game.Managers
     /// </summary>
     public class SurveyManager : MonoBehaviour
     {
-
         #region Private fields
         [SerializeField] private Button endSceneButton;
         [SerializeField] private Button backToMainMenuButton;
@@ -21,19 +20,10 @@ namespace LastBastion.Game.Managers
         #endregion
 
 
-        #region Public fields & properties
-        /// <summary>The survey questionnaire.</summary>
-        public Survey Survey { get { return survey; } }
-        #endregion
-
-
         #region MonoBehaviour methods
-        // Use this for initialization
-        void Start()
+        // Awake is called when the script instance is being loaded
+        private void Awake()
         {
-            endSceneButton.onClick.AddListener(() => { GameManager.instance.LevelHasEnded(); });
-            backToMainMenuButton.onClick.AddListener(() => { GameManager.instance.BackToMainMenu(); });
-
             filePath = Application.dataPath + "/Resources/TextData/survey.json";
             survey = LoadSurveyQuestionnaireFromFile(filePath);
             if (survey == null)
@@ -41,6 +31,14 @@ namespace LastBastion.Game.Managers
                 survey = CreateTestData();
                 SaveSurveyToFile(survey, filePath);
             }
+            GameManager.instance.Survey = survey;
+        }
+
+        // Use this for initialization
+        void Start()
+        {
+            endSceneButton.onClick.AddListener(() => { GameManager.instance.LevelHasEnded(); });
+            backToMainMenuButton.onClick.AddListener(() => { GameManager.instance.BackToMainMenu(); });
         }
 
         // Update is called once per frame
