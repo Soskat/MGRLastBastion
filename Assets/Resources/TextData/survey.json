@@ -1,0 +1,36 @@
+{
+    "Metrics": [
+        {
+            "Content": "Question #0",
+            "AnswerType": 1,
+            "Answer": ""
+        },
+        {
+            "Content": "Question #1",
+            "AnswerType": 1,
+            "Answer": ""
+        },
+        {
+            "Content": "Question #2",
+            "AnswerType": 1,
+            "Answer": ""
+        }
+    ],
+    "GameEvaluation": [
+        {
+            "Content": "Question #0",
+            "AnswerType": 4,
+            "Answer": ""
+        },
+        {
+            "Content": "Question #1",
+            "AnswerType": 4,
+            "Answer": ""
+        },
+        {
+            "Content": "Question #2",
+            "AnswerType": 4,
+            "Answer": ""
+        }
+    ]
+}

@@ -53,7 +53,7 @@ namespace LastBastion.Game.Managers
             footstepsGravel.AddRange(Resources.LoadAll<AudioClip>("Audio/gravel"));
             footstepGravelIndex = 0;
             // load plot goals data:
-            plotGoalsPath = Application.dataPath + "/GameModule/MainPlot/plot_goals.json";
+            plotGoalsPath = Application.dataPath + "/Resources/TextData/plot_goals.json";
             goals = LoadGoalsDataFromFile(plotGoalsPath);
             if (goals == null)
             {

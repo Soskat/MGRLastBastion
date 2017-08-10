@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
 
+
 namespace LastBastion.Game.Managers
 {
     /// <summary>
@@ -65,7 +66,7 @@ namespace LastBastion.Game.Managers
 
 
             // load intro text:
-            introFilePath = Application.dataPath + "/GameModule/MainPlot/intro.json";
+            introFilePath = Application.dataPath + "/Resources/TextData/intro.json";
             introText = LoadIntroTextFromFile(introFilePath);
             if (introText == null)
             {
@@ -131,7 +132,7 @@ namespace LastBastion.Game.Managers
         }
 
         /// <summary>
-        /// Creates list of intro lines.
+        /// Creates test list of intro lines.
         /// </summary>
         /// <returns>List of intro lines</returns>
         private List<IntroLine> CreateTestData()
