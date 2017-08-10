@@ -380,6 +380,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bf00f3c1aefd8e3469ee6aa2ef474ca9, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1165652416 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114364257680837246, guid: c36bbbfc7745c114681f1135a6443bda,
+    type: 2}
+  m_PrefabInternal: {fileID: 1755180928}
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1 &1203410043
 GameObject:
   m_ObjectHideFlags: 0
@@ -503,8 +509,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   endSceneButton: {fileID: 1578124331}
   menuPanel: {fileID: 6261863}
-  resumeButton: {fileID: 0}
-  backToMainMenuButton: {fileID: 0}
+  resumeButton: {fileID: 1165652416}
+  backToMainMenuButton: {fileID: 1864748206}
   calibrationLabel: {fileID: 900078730}
   introTextUI: {fileID: 1358870260}
   introFilePath: 
@@ -782,6 +788,12 @@ RectTransform:
   m_PrefabParentObject: {fileID: 224583379543071382, guid: c36bbbfc7745c114681f1135a6443bda,
     type: 2}
   m_PrefabInternal: {fileID: 1755180928}
+--- !u!114 &1864748206 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114324392885584018, guid: c36bbbfc7745c114681f1135a6443bda,
+    type: 2}
+  m_PrefabInternal: {fileID: 1755180928}
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1001 &1923128476
 Prefab:
   m_ObjectHideFlags: 0
