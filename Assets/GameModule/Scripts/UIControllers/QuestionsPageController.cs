@@ -46,6 +46,7 @@ namespace LastBastion.Game.UIControllers
             {
                 questionPanel = Instantiate(Resources.Load("UIElements/QuestionPanel") as GameObject, transform);
                 questionPanel.GetComponent<QuestionPanelController>().UpdatePanel(question, interactionPanel);
+                interactionPanel.transform.SetParent(questionPanel.transform);
                 questionPanel.GetComponent<RectTransform>().position.Set(0, yPositions[yPositionIndex], 0);
             }
             // question panel hasn't got a dropdown menu -> open question:
@@ -56,8 +57,6 @@ namespace LastBastion.Game.UIControllers
                 questionPanel.GetComponent<RectTransform>().position.Set(0, yPositions[yPositionIndex] = 40, 0);
             }
             questions.Add(questionPanel.GetComponent<QuestionPanelController>());
-
-            Debug.Log("-- added a question");
         }
         #endregion
 

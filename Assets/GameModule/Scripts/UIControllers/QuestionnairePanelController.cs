@@ -42,17 +42,17 @@ namespace LastBastion.Game.UIControllers
         private void CreateQuestionnaire()
         {
             Survey survey = GameManager.instance.Survey;
-            Debug.Log("THE " + survey);  // -----------
             int questionsCreated = 0;
             while(questionsCreated < survey.Questions.Count)
             {
                 // create new questions page and add it to transform children:
                 GameObject page = Instantiate(Resources.Load("UIElements/QuestionsPage") as GameObject);
                 page.transform.parent = transform;
+                //page.GetComponent<RectTransform>().position = Vector2.zero;
+                //page.GetComponent<RectTransform>().sizeDelta = Vector2.zero;
                 pages.Add(page.GetComponent<QuestionsPageController>());
                 // create questions in the new page:
                 questionsCreated = page.GetComponent<QuestionsPageController>().CreateQuestionsPage(questionsCreated);
-                Debug.Log("Page has been created");
             }
         }
         #endregion

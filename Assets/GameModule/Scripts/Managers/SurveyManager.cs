@@ -16,7 +16,7 @@ namespace LastBastion.Game.Managers
         [SerializeField] private Button endSceneButton;
         [SerializeField] private Button backToMainMenuButton;
         [SerializeField] private string filePath;
-        private Survey survey;
+        public Survey survey;       // ---------- make it private after tests
         #endregion
 
 

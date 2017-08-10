@@ -252,6 +252,8 @@ MonoBehaviour:
   endSceneButton: {fileID: 1349064719}
   backToMainMenuButton: {fileID: 1855071622}
   filePath: 
+  survey:
+    Questions: []
 --- !u!4 &440474616
 Transform:
   m_ObjectHideFlags: 0
@@ -382,37 +384,37 @@ Prefab:
     - target: {fileID: 224570277069320350, guid: 6d4dccfe8a988204a8e1bb727fd86dd0,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -5.000003
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 224570277069320350, guid: 6d4dccfe8a988204a8e1bb727fd86dd0,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: -200
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 224570277069320350, guid: 6d4dccfe8a988204a8e1bb727fd86dd0,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: -99.94522
+      value: 350.05478
       objectReference: {fileID: 0}
     - target: {fileID: 224570277069320350, guid: 6d4dccfe8a988204a8e1bb727fd86dd0,
         type: 2}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 224570277069320350, guid: 6d4dccfe8a988204a8e1bb727fd86dd0,
         type: 2}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 224570277069320350, guid: 6d4dccfe8a988204a8e1bb727fd86dd0,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 224570277069320350, guid: 6d4dccfe8a988204a8e1bb727fd86dd0,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 224570277069320350, guid: 6d4dccfe8a988204a8e1bb727fd86dd0,
         type: 2}
