@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using LastBastion.Game.SurveySystem;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -16,6 +17,13 @@ namespace LastBastion.Game.UIControllers
         [SerializeField] private Text questionContent;
         [SerializeField] private RectTransform dropdownPosition;
         private GameObject dropdownMenu;
+        private Question question;
+        #endregion
+
+
+        #region Public fields & properties
+        /// <summary>The question assigned to the question panel.</summary>
+        public Question Question { get { return question; } }
         #endregion
 
 
@@ -43,26 +51,26 @@ namespace LastBastion.Game.UIControllers
 
         #region Public methods
         /// <summary>
-        /// Updates content and dropdown menu of the question panel.
+        /// Updates contents the question panel.
         /// </summary>
-        /// <param name="content">Content of the question</param>
-        /// <param name="dropdown">Dropdown menu</param>
-        public void UpdatePanel(string content, GameObject dropdown)
+        /// <param name="_question">The question</param>
+        /// <param name="dropdown">Dropdown menu prefab</param>
+        public void UpdatePanel(Question _question, GameObject dropdown)
         {
-            questionContent.text = content;
+            question = _question;
+            questionContent.text = question.Content;
             dropdownMenu = Instantiate(dropdown, transform);
             dropdownMenu.GetComponent<RectTransform>().localPosition = dropdownPosition.localPosition;
             dropdownMenu.GetComponent<RectTransform>().sizeDelta = dropdownPosition.sizeDelta;
         }
 
         /// <summary>
-        /// Returns number of selected option from dropdown menu.
+        /// Saves number of selected option from dropdown menu.
         /// </summary>
-        /// <returns>Selected option number</returns>
-        public int SaveAnswer()
+        public void SaveAnswer()
         {
             // value - 1 because first option is always empty:
-            return dropdownMenu.GetComponent<Dropdown>().value - 1;
+            question.Answer = (dropdownMenu.GetComponent<Dropdown>().value - 1).ToString();
         }
         #endregion
     }

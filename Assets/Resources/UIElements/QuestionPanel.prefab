@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 224821280021044210}
   - component: {fileID: 114399599675665096}
   m_Layer: 5
-  m_Name: QuestionPanel
+  m_Name: QuestionsPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -87,6 +87,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8cdd450103b8f04e81c100458d8e353, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  questionContent: {fileID: 114625405867080456}
+  dropdownPosition: {fileID: 224073511762855918}
 --- !u!114 &114625405867080456
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -11,10 +11,8 @@ namespace LastBastion.Game.SurveySystem
     public class Survey
     {
         #region Public fields
-        /// <summary>Questions about the player.</summary>
-        public List<Question> Metrics;
-        /// <summary>Questions about the game.</summary>
-        public List<Question> GameEvaluation;
+        /// <summary>List of questions.</summary>
+        public List<Question> Questions;
         #endregion
 
 
@@ -22,10 +20,15 @@ namespace LastBastion.Game.SurveySystem
         /// <summary>
         /// Creates an instance of class <see cref="Survey"/>.
         /// </summary>
-        public Survey()
+        public Survey() : this(new List<Question>()) { }
+
+        /// <summary>
+        /// Creates an instance of class <see cref="Survey"/>.
+        /// </summary>
+        /// <param name="questions">The list of questions</param>
+        public Survey(List<Question> questions)
         {
-            Metrics = new List<Question>();
-            GameEvaluation = new List<Question>();
+            Questions = questions;
         }
         #endregion
     }
