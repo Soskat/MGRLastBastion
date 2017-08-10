@@ -17,7 +17,7 @@ namespace LastBastion.Game.Managers
         [SerializeField] private Button endSceneButton;
         [SerializeField] private Button backToMainMenuButton;
         [SerializeField] private string filePath;
-        private Survey survey;
+        public Survey survey;
         #endregion
 
 
@@ -80,11 +80,13 @@ namespace LastBastion.Game.Managers
         private Survey CreateTestData()
         {
             Survey survey = new Survey();
-            for (int i = 0; i < 3; i++)
-            {
-                survey.Metrics.Add(new Question("Question #" + i, QuestionType.Age));
-                survey.GameEvaluation.Add(new Question("Question #" + i, QuestionType.Scale));
-            }
+            survey.Metrics.Add(new Question(1, "Question #1 (metrics) - QuestionType.Sex", QuestionType.Sex));
+            survey.Metrics.Add(new Question(2, "Question #2 (metrics) - QuestionType.Age", QuestionType.Age));
+            survey.Metrics.Add(new Question(3, "Question #3 (metrics) - QuestionType.PlayRoutine", QuestionType.PlayRoutine));
+            survey.GameEvaluation.Add(new Question(4, "Question #4 (game evaluation) - QuestionType.TrueFalse", QuestionType.TrueFalse));
+            survey.GameEvaluation.Add(new Question(5, "Question #5 (game evaluation) - QuestionType.Scale", QuestionType.Scale));
+            survey.GameEvaluation.Add(new Question(6, "Question #6 (game evaluation) - QuestionType.AorB", QuestionType.AorB));
+            survey.GameEvaluation.Add(new Question(7, "Question #7 (game evaluation) - QuestionType.Open", QuestionType.Open));
             return survey;
         }
         #endregion

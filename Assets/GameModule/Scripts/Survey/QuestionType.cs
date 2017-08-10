@@ -7,7 +7,7 @@ namespace LastBastion.Game.SurveySystem
     /// Represents question type.
     /// </summary>
     [Serializable]
-    public enum QuestionType
+    public enum QuestionType : short
     {
         Sex,            // Male | Female
         Age,            // 18 < | 18 - 25 | > 25
