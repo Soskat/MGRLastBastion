@@ -22,6 +22,7 @@ namespace LastBastion.Game.Managers
         [SerializeField] private GameObject calibrationLabel;
         [SerializeField] private Text introTextUI;
         [SerializeField] private string introFilePath;
+        [SerializeField] private AudioClip metalGateOpeningSound;
         private IntroText introText;
         private AudioSource audioSource;
         private bool menuOn;
@@ -39,6 +40,7 @@ namespace LastBastion.Game.Managers
             Assert.IsNotNull(backToMainMenuButton);
             Assert.IsNotNull(calibrationLabel);
             Assert.IsNotNull(introTextUI);
+            Assert.IsNotNull(metalGateOpeningSound);
         }
 
         // Use this for initialization
@@ -206,14 +208,21 @@ namespace LastBastion.Game.Managers
             int stepCount = (int)(textDuration - delay) - 2;
             //Debug.Log("Setp count: " + stepCount);  // -------------------- test
             yield return new WaitForSeconds(delay);
-            for(int i = 0; i < stepCount; i++)
+            for (int i = 0; i < stepCount; i++)
             {
                 audioSource.PlayOneShot(GameManager.instance.Assets.GetFootstepOnGravelSound());
                 yield return new WaitForSeconds(1.0f);
             }
             audioSource.PlayOneShot(GameManager.instance.Assets.GetFootstepOnGravelSound());
-            yield return new WaitForSeconds(0.6f);
+            yield return new WaitForSeconds(0.8f);
             audioSource.PlayOneShot(GameManager.instance.Assets.GetFootstepOnGravelSound());
+            yield return new WaitForSeconds(0.7f);
+            audioSource.PlayOneShot(GameManager.instance.Assets.GetFootstepOnGravelSound());
+            // play sound of opening the asylum metal gate:
+            yield return new WaitForSeconds(1.5f);
+            audioSource.PlayOneShot(metalGateOpeningSound);
+            yield return new WaitForSeconds(2.0f);
+            introHasEnded = true;
             yield return null;
         }
 
