@@ -14,7 +14,6 @@ namespace LastBastion.Game.UIControllers
     public class QuestionPanelController : MonoBehaviour
     {
         #region Private fields
-        [SerializeField] private QuestionPanelType questionPanelType;
         [SerializeField] private Text questionContent;
         [SerializeField] private GameObject answerHolderObject;
         private GameObject answerHolder;
@@ -42,20 +41,46 @@ namespace LastBastion.Game.UIControllers
         /// Updates contents the question panel.
         /// </summary>
         /// <param name="_question">The question</param>
-        /// <param name="dropdown">Dropdown menu prefab</param>
-        public void UpdatePanel(Question _question, GameObject dropdown = null)
+        public void UpdatePanel(Question _question)
         {
             question = _question;
             questionContent.text = question.Content;
-            if(questionPanelType == QuestionPanelType.Closed && dropdown != null && answerHolderObject != null)
-            {
-                answerHolder = Instantiate(dropdown, transform);
-                answerHolder.GetComponent<RectTransform>().localPosition = answerHolderObject.GetComponent<RectTransform>().localPosition;
-                answerHolder.GetComponent<RectTransform>().sizeDelta = answerHolderObject.GetComponent<RectTransform>().sizeDelta;
-            }
-            else if (questionPanelType == QuestionPanelType.Closed)
+            // open question:
+            if (question.AnswerType == QuestionType.Open)
             {
                 answerHolder = GetComponentInChildren<InputField>().gameObject;
+            }
+            // closed question:
+            else if(answerHolderObject != null)
+            {
+                switch (question.AnswerType)
+                {
+                    case QuestionType.Age:
+                        answerHolder = Instantiate(Resources.Load("UIElements/Dropdown_Age") as GameObject, answerHolderObject.GetComponent<RectTransform>().transform);
+                        break;
+
+                    case QuestionType.AorB:
+                        answerHolder = Instantiate(Resources.Load("UIElements/Dropdown_AorB") as GameObject, answerHolderObject.GetComponent<RectTransform>().transform);
+                        break;
+
+                    case QuestionType.PlayRoutine:
+                        answerHolder = Instantiate(Resources.Load("UIElements/Dropdown_PlayRoutine") as GameObject, answerHolderObject.GetComponent<RectTransform>().transform);
+                        break;
+
+                    case QuestionType.Scale:
+                        answerHolder = Instantiate(Resources.Load("UIElements/Dropdown_Scale") as GameObject, answerHolderObject.GetComponent<RectTransform>().transform);
+                        break;
+
+                    case QuestionType.Sex:
+                        answerHolder = Instantiate(Resources.Load("UIElements/Dropdown_Sex") as GameObject, answerHolderObject.GetComponent<RectTransform>().transform);
+                        break;
+
+                    case QuestionType.TrueFalse:
+                        answerHolder = Instantiate(Resources.Load("UIElements/Dropdown_TrueFalse") as GameObject, answerHolderObject.GetComponent<RectTransform>().transform);
+                        break;
+
+                    default: break;
+                }
             }
         }
 
@@ -64,17 +89,9 @@ namespace LastBastion.Game.UIControllers
         /// </summary>
         public void SaveAnswer()
         {
-            switch (questionPanelType)
-            {
-                case QuestionPanelType.Closed:
-                    // value - 1 because first option is always empty:
-                    question.Answer = (answerHolder.GetComponent<Dropdown>().value - 1).ToString();
-                    break;
-
-                case QuestionPanelType.Open:
-                    question.Answer = answerHolder.GetComponent<InputField>().text;
-                    break;
-            }
+            if (question.AnswerType == QuestionType.Open) question.Answer = answerHolder.GetComponent<InputField>().text;
+            // value - 1 because first option is always empty:
+            else question.Answer = (answerHolder.GetComponent<Dropdown>().value - 1).ToString();
         }
         #endregion
     }

@@ -48,8 +48,6 @@ namespace LastBastion.Game.UIControllers
             int questionsCreated = 0;
             while(questionsCreated < survey.Questions.Count)
             {
-                Debug.Log("QUESTIONS PAGE ==============================");
-
                 // create new questions page and add it to transform children:
                 GameObject page = Instantiate(Resources.Load("UIElements/QuestionsPage") as GameObject);
                 page.GetComponent<RectTransform>().SetParent(GetComponent<RectTransform>().transform);

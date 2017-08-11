@@ -38,23 +38,27 @@ namespace LastBastion.Game.UIControllers
 
 
         #region Private methods
-        private void AddQuestionPanel(Question question, GameObject interactionPanel, int yPositionIndex)
+        /// <summary>
+        /// Adds new question panel to questions page.
+        /// </summary>
+        /// <param name="question">Question data</param>
+        /// <param name="yPositionIndex">Index of element in QuestionsPageController.yPositions list</param>
+        private void AddQuestionPanel(Question question, int yPositionIndex)
         {
             GameObject questionPanel;
-            // question panel has got a dropdown menu -> closed question:
-            if (interactionPanel != null)
-            {
-                questionPanel = Instantiate(Resources.Load("UIElements/QuestionPanel") as GameObject, GetComponent<RectTransform>().transform);
-                questionPanel.GetComponent<QuestionPanelController>().UpdatePanel(question, interactionPanel);
-                interactionPanel.transform.SetParent(questionPanel.GetComponent<RectTransform>().transform);
-                questionPanel.GetComponent<RectTransform>().localPosition = new Vector2(0, questionPanel.GetComponent<RectTransform>().localPosition.y + yPositions[yPositionIndex]);
-            }
             // question panel hasn't got a dropdown menu -> open question:
-            else
+            if (question.AnswerType == QuestionType.Open)
             {
                 questionPanel = Instantiate(Resources.Load("UIElements/QuestionPanel_Open") as GameObject, GetComponent<RectTransform>().transform);
                 questionPanel.GetComponent<QuestionPanelController>().UpdatePanel(question);
                 questionPanel.GetComponent<RectTransform>().localPosition.Set(0, yPositions[yPositionIndex] = 40, 0);
+            }
+            // question panel has got a dropdown menu -> closed question:
+            else
+            {
+                questionPanel = Instantiate(Resources.Load("UIElements/QuestionPanel") as GameObject, GetComponent<RectTransform>().transform);
+                questionPanel.GetComponent<QuestionPanelController>().UpdatePanel(question);
+                questionPanel.GetComponent<RectTransform>().localPosition = new Vector2(0, questionPanel.GetComponent<RectTransform>().localPosition.y + yPositions[yPositionIndex]);
             }
             questions.Add(questionPanel.GetComponent<QuestionPanelController>());
         }
@@ -62,60 +66,29 @@ namespace LastBastion.Game.UIControllers
 
 
         #region Public methods
+        /// <summary>
+        /// Creates questions page filled with specific range of survey questions.
+        /// </summary>
+        /// <param name="currentQuestion">Index of element of survey questions list to start with</param>
+        /// <returns>Current index of element of survey questions list</returns>
         public int CreateQuestionsPage(int currentQuestion)
         {
             while (questionSpaceUnits > 0 && currentQuestion < GameManager.instance.Survey.Questions.Count)
             {
                 // choose dropdown menu based on AnswerType:
-                GameObject interactionPanel = null;
-                int yPositionIndex = 0;
-                switch (GameManager.instance.Survey.Questions[currentQuestion].AnswerType)
+                int yPositionIndex = yPositions.Count - questionSpaceUnits;
+                int questionSpaceCost = 0;
+                if (GameManager.instance.Survey.Questions[currentQuestion].AnswerType == QuestionType.Open) questionSpaceCost = 3;
+                else questionSpaceCost = 1;
+
+                // if there's enough questionSpaceUnit for next question, continue:
+                if (questionSpaceUnits >= questionSpaceCost)
                 {
-                    case QuestionType.Age:
-                        interactionPanel = Instantiate(Resources.Load("UIElements/Dropdown_Age") as GameObject);
-                        yPositionIndex = yPositions.Count - questionSpaceUnits;
-                        questionSpaceUnits -= 1;
-                        break;
-
-                    case QuestionType.AorB:
-                        interactionPanel = Instantiate(Resources.Load("UIElements/Dropdown_AorB") as GameObject);
-                        yPositionIndex = yPositions.Count - questionSpaceUnits;
-                        questionSpaceUnits -= 1;
-                        break;
-
-                    case QuestionType.Open:
-                        // that question panel hasn't got dropdown menu, so there no need in assigning interactionPanel object
-                        yPositionIndex = yPositions.Count - questionSpaceUnits;
-                        questionSpaceUnits -= 3;
-                        break;
-
-                    case QuestionType.PlayRoutine:
-                        interactionPanel = Instantiate(Resources.Load("UIElements/Dropdown_PlayRoutine") as GameObject);
-                        yPositionIndex = yPositions.Count - questionSpaceUnits;
-                        questionSpaceUnits -= 1;
-                        break;
-
-                    case QuestionType.Scale:
-                        interactionPanel = Instantiate(Resources.Load("UIElements/Dropdown_Scale") as GameObject);
-                        yPositionIndex = yPositions.Count - questionSpaceUnits;
-                        questionSpaceUnits -= 1;
-                        break;
-
-                    case QuestionType.Sex:
-                        interactionPanel = Instantiate(Resources.Load("UIElements/Dropdown_Sex") as GameObject);
-                        yPositionIndex = yPositions.Count - questionSpaceUnits;
-                        questionSpaceUnits -= 1;
-                        break;
-
-                    case QuestionType.TrueFalse:
-                        interactionPanel = Instantiate(Resources.Load("UIElements/Dropdown_TrueFalse") as GameObject);
-                        yPositionIndex = yPositions.Count - questionSpaceUnits;
-                        questionSpaceUnits -= 1;
-                        break;
+                    // create question panel:
+                    AddQuestionPanel(GameManager.instance.Survey.Questions[currentQuestion], yPositionIndex);
+                    currentQuestion++;
                 }
-                // create question panel:
-                AddQuestionPanel(GameManager.instance.Survey.Questions[currentQuestion], interactionPanel, yPositionIndex);
-                currentQuestion++;
+                questionSpaceUnits -= questionSpaceCost;
             }
             return currentQuestion;
         }

@@ -87,7 +87,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8cdd450103b8f04e81c100458d8e353, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  questionPanelType: 0
   questionContent: {fileID: 114625405867080456}
   answerHolderObject: {fileID: 1684611389694636}
 --- !u!114 &114625405867080456
@@ -217,7 +216,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -30}
-  m_SizeDelta: {x: 580, y: 40}
+  m_SizeDelta: {x: 600, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224962989319538542
 RectTransform:
@@ -234,6 +233,6 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 197.6, y: 0}
-  m_SizeDelta: {x: 375, y: 30}
+  m_AnchoredPosition: {x: 207.5, y: 0}
+  m_SizeDelta: {x: 395, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
