@@ -91,9 +91,7 @@ namespace LastBastion.Game.UIControllers
             currentPageIndex = (--currentPageIndex < 0) ? 0 : currentPageIndex;
             pages[currentPageIndex].gameObject.SetActive(true);
         }
-
-
-
+        
         /// <summary>
         /// Changes if player answered to all of the survey questions.
         /// </summary>
@@ -105,6 +103,24 @@ namespace LastBastion.Game.UIControllers
 
             if (givenAnswers == GameManager.instance.SurveyManager.Survey.Questions.Count) GameManager.instance.SurveyManager.SetActiveEndSceneButton(true);
             else GameManager.instance.SurveyManager.SetActiveEndSceneButton(false);
+        }
+
+        /// <summary>
+        /// Gets all answered questions assigned to survey questionnaire.
+        /// </summary>
+        /// <returns>List of questions</returns>
+        public List<Question> GetSurveyAnswers()
+        {
+            List<Question> questions = new List<Question>();
+            foreach(QuestionsPageController qpc in pages)
+            {
+                foreach(QuestionPanelController qpcr in qpc.Questions)
+                {
+                    qpcr.SaveAnswer();
+                    questions.Add(qpcr.Question);
+                }
+            }
+            return questions;
         }
         #endregion
     }

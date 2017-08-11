@@ -94,9 +94,10 @@ namespace LastBastion.Game.Managers
         void Start()
         {
             IsReadyForNewBandData = false;
-            gameLevels = new string[] { "Intro", null, "Summary", "Intro", null, "Summary", "Survey" };
+            gameLevels = new string[] { "Intro", null, "Summary", null, "Summary", "Survey" };
+            //gameLevels = new string[] { "Intro", null, "Summary", "Intro", null, "Summary", "Survey" };
             indexOfFirstLevel = 1;
-            indexOfSecondLevel = 4;
+            indexOfSecondLevel = 3;
             calculationTypes = new CalculationType[2] { CalculationType.Alternative, CalculationType.Conjunction };
             //calculationTypes = new CalculationType[2];
 
@@ -202,7 +203,7 @@ namespace LastBastion.Game.Managers
             currentLevelID++;
 
             // set up current calculation type if needed:
-            if (currentLevelID == 3) currentCalculationTypeID++;
+            if (currentLevelID == 2) currentCalculationTypeID++;
 
             // load next scene (or main menu):
             if (currentLevelID < gameLevels.Length) SceneManager.LoadScene(gameLevels[currentLevelID]);

@@ -3,7 +3,9 @@ using UnityEngine.UI;
 using LastBastion.Game.SurveySystem;
 using System.IO;
 using System.Collections.Generic;
-
+using LastBastion.Analytics;
+using LastBastion.Game.UIControllers;
+using UnityEngine.Assertions;
 
 namespace LastBastion.Game.Managers
 {
@@ -15,6 +17,7 @@ namespace LastBastion.Game.Managers
         #region Private fields
         [SerializeField] private Button endSceneButton;
         [SerializeField] private Button backToMainMenuButton;
+        [SerializeField] private QuestionnairePanelController questionnairePC;
         [SerializeField] private string filePath;
         public Survey Survey;       // ---------- make it private after tests
         #endregion
@@ -24,6 +27,8 @@ namespace LastBastion.Game.Managers
         // Awake is called when the script instance is being loaded
         private void Awake()
         {
+            Assert.IsNotNull(questionnairePC);
+
             filePath = Application.dataPath + "/Resources/TextData/survey.json";
             Survey = LoadSurveyQuestionnaireFromFile(filePath);
             if (Survey == null)
@@ -37,9 +42,20 @@ namespace LastBastion.Game.Managers
         // Use this for initialization
         void Start()
         {
-            endSceneButton.onClick.AddListener(() => { GameManager.instance.LevelHasEnded(); });
+            endSceneButton.onClick.AddListener(() =>
+            {
+                if (GameManager.instance.AnalyticsEnabled) DataManager.AddSurveyAnswers(questionnairePC.GetSurveyAnswers());
+                GameManager.instance.LevelHasEnded();
+            });
             endSceneButton.gameObject.SetActive(false);
-            if (GameManager.instance.DebugMode) backToMainMenuButton.onClick.AddListener(() => { GameManager.instance.BackToMainMenu(); });
+            if (GameManager.instance.DebugMode)
+            {
+                backToMainMenuButton.onClick.AddListener(() =>
+                {
+                    if (GameManager.instance.AnalyticsEnabled) DataManager.AddSurveyAnswers(questionnairePC.GetSurveyAnswers());
+                    GameManager.instance.BackToMainMenu();
+                });
+            }
             else backToMainMenuButton.gameObject.SetActive(false);
         }
         #endregion

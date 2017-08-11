@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LastBastion.Game.SurveySystem;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using UnityEngine;
@@ -100,6 +102,21 @@ namespace LastBastion.Analytics
                 data = (int)eventType + " " + time;
             }
             SaveToFile(data);
+        }
+
+        /// <summary>
+        /// Saves survey answers.
+        /// </summary>
+        /// <param name="survey">List of questions</param>
+        public static void AddSurveyAnswers(List<Question> questions)
+        {
+            // save section headline:
+            SaveToFile("- survey_answers");
+            // save survey answers:
+            foreach(Question question in questions)
+            {
+                SaveToFile(question.ID + " " + (int)question.AnswerType + " " + question.Answer);
+            }
         }
         #endregion
 

@@ -228,7 +228,7 @@ Prefab:
     - target: {fileID: 224220975096423658, guid: 78fcb6638fdaf5a49b3afa9ed057b90b,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0.99999994
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224614695227157082, guid: 78fcb6638fdaf5a49b3afa9ed057b90b,
         type: 2}
@@ -435,6 +435,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114689790144993052, guid: 47271ac3843b94a47a5c74fab94e7a7f,
+        type: 2}
+      propertyPath: AnalyticsEnabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114689790144993052, guid: 47271ac3843b94a47a5c74fab94e7a7f,
+        type: 2}
+      propertyPath: debugMode
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 47271ac3843b94a47a5c74fab94e7a7f, type: 2}
   m_IsPrefabParent: 0
@@ -470,7 +480,6 @@ MonoBehaviour:
   settingsPanel: {fileID: 4710207}
   bbMenuPanel: {fileID: 846575271}
   listViewport: {fileID: 431840676}
-  selectedAnalyticsOption: 1
 --- !u!4 &342360192
 Transform:
   m_ObjectHideFlags: 0

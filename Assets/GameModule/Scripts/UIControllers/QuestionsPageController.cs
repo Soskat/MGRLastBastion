@@ -26,6 +26,8 @@ namespace LastBastion.Game.UIControllers
         public GameObject NextButton { get { return nextButton.gameObject; } }
         /// <summary>Back page button.</summary>
         public GameObject BackButton { get { return backButton.gameObject; } }
+        /// <summary>Questions assigned to this page.</summary>
+        public List<QuestionPanelController> Questions { get { return questions; } }
         #endregion
 
 
