@@ -1,7 +1,6 @@
 ﻿using LastBastion.Analytics;
 using LastBastion.Biofeedback;
 using LastBastion.Game.Player;
-using LastBastion.Game.SurveySystem;
 using LastBastion.Game.UIControllers;
 using System;
 using UnityEngine;
@@ -104,15 +103,6 @@ namespace LastBastion.Game.Managers
             // initialize analytics system:
             DataManager.InitializeSystem();
         }
-
-        // Update is called every frame, if the MonoBehaviour is enabled
-        void Update()
-        {
-        }
-        #endregion
-
-
-        #region Private methods
         #endregion
 
 
