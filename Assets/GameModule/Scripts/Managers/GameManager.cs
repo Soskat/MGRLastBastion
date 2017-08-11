@@ -39,6 +39,18 @@ namespace LastBastion.Game.Managers
         #endregion
 
 
+        // TEST ---------------------------------------------------------
+        /// <summary>Time of the game.</summary>
+        public TimeSpan GameTime = new TimeSpan(0, 23, 34);
+        /// <summary>Collected runes.</summary>
+        public int CollectedRunes = 10;
+        /// <summary>Opened doors count.</summary>
+        public int OpenedDoors = 5;
+        /// <summary>Uses of the lightswitches count.</summary>
+        public int LightSwitchUses = 15;
+        // TEST ---------------------------------------------------------
+
+
         #region Public fields & properties
         /// <summary>Is debug mode on?</summary>
         public bool DebugMode { get { return debugMode; } }

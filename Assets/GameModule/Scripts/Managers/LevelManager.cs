@@ -1,6 +1,8 @@
 ﻿using LastBastion.Game.Plot;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
@@ -15,20 +17,33 @@ namespace LastBastion.Game.Managers
     {
         #region Private fields
         [SerializeField] private string sceneName;
-        //[SerializeField] private int collectedRunes = 0;
-        [SerializeField] private int maxRunesAmount = 0;
+        [SerializeField] private int runesLimit = 0;
         [SerializeField] private Goal currentGoal;
         [SerializeField] private GameObject goalUpdatePanel;
         [SerializeField] private Text goalUpdateHeadlineText;
         [SerializeField] private Text goalUpdateContentText;
+        // achievements counters:
+        [SerializeField] private TimeSpan gameTime;
+        [SerializeField] private int collectedRunes = 0;
+        [SerializeField] private int openedDoors = 0;
+        [SerializeField] private int lightSwitchUses = 0;
+        private Stopwatch stopwatch;
         #endregion
 
 
         #region Public fields & properties
         /// <summary>Fixed max amount of the runes that player can find in this level.</summary>
-        public int MaxRunesAmount { get { return maxRunesAmount; } }
+        public int RunesLimit { get { return runesLimit; } }
         /// <summary>Current plot goal.</summary>
         public Goal CurrentGoal { get { return currentGoal; } }
+        /// <summary>Time of the game.</summary>
+        public TimeSpan GameTime { get { return gameTime; } }
+        /// <summary>Collected runes.</summary>
+        public int CollectedRunes { get { return collectedRunes; } }
+        /// <summary>Opened doors count.</summary>
+        public int OpenedDoors { get { return openedDoors; } }
+        /// <summary>Uses of the lightswitches count.</summary>
+        public int LightSwitchUses { get { return lightSwitchUses; } }
         #endregion
 
 
@@ -48,6 +63,13 @@ namespace LastBastion.Game.Managers
             GameManager.instance.SetupPlayerSettings();
             goalUpdatePanel.SetActive(false);
             currentGoal = GetComponent<PlotManager>().Init();
+            // reset achievements:
+            collectedRunes = 0;
+            openedDoors = 0;
+            lightSwitchUses = 0;
+            // start stopwatch:
+            stopwatch = new Stopwatch();
+            stopwatch.Start();
         }
 
         // Update is called once per frame
@@ -72,11 +94,27 @@ namespace LastBastion.Game.Managers
         public void FoundRune()
         {
             // update runes count:
-            maxRunesAmount++;
+            collectedRunes++;
             // show update info:
             StopAllCoroutines();
-            if (maxRunesAmount > 1) StartCoroutine(ShowPlotInfoPanel("Rune found", "You have collected " + maxRunesAmount + " runes"));
-            else StartCoroutine(ShowPlotInfoPanel("Rune found", "You have collected " + maxRunesAmount + " rune"));
+            if (collectedRunes > 1) StartCoroutine(ShowPlotInfoPanel("Rune found", "You have collected " + collectedRunes + " runes"));
+            else StartCoroutine(ShowPlotInfoPanel("Rune found", "You have collected " + collectedRunes + " rune"));
+        }
+
+        /// <summary>
+        /// Opened a door.
+        /// </summary>
+        public void OpenedDoor()
+        {
+            openedDoors++;
+        }
+
+        /// <summary>
+        /// Used a light switch.
+        /// </summary>
+        public void UsedLightSwitch()
+        {
+            lightSwitchUses++;
         }
 
         /// <summary>
@@ -128,5 +166,14 @@ namespace LastBastion.Game.Managers
             yield return null;
         }
         #endregion
+
+
+        // test -----------------
+        public void EndLevel()
+        {
+            stopwatch.Stop();
+            gameTime = stopwatch.Elapsed;
+            GameManager.instance.LevelHasEnded();
+        }
     }
 }

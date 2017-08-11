@@ -34,14 +34,30 @@ namespace LastBastion.Game.Managers
         // Use this for initialization
         void Start()
         {
+            // update buttons behaviour:
             endSceneButton.onClick.AddListener(() => { GameManager.instance.LevelHasEnded(); });
             backToMainMenuButton.onClick.AddListener(() => { GameManager.instance.BackToMainMenu(); });
+
+            // update achievements data:
+            UpdateAchievementsPanels();
         }
 
         // Update is called once per frame
         void Update()
         {
 
+        }
+        #endregion
+
+
+        #region Public methods
+        private void UpdateAchievementsPanels()
+        {
+            // TEST:
+            timeAchievement.UpdateAchievementData("time achik >>", GameManager.instance.GameTime.ToString());
+            runesAchievement.UpdateAchievementData("runes achik >>", GameManager.instance.CollectedRunes.ToString());
+            doorsAchievement.UpdateAchievementData("doors achik >>", GameManager.instance.OpenedDoors.ToString());
+            lightSwitchAchievement.UpdateAchievementData("light switch achik >>", GameManager.instance.LightSwitchUses.ToString());
         }
         #endregion
     }
