@@ -21,6 +21,14 @@ namespace LastBastion.Game.UIControllers
         #endregion
 
 
+        #region Public fields & properties
+        /// <summary>Next page button.</summary>
+        public GameObject NextButton { get { return nextButton.gameObject; } }
+        /// <summary>Back page button.</summary>
+        public GameObject BackButton { get { return backButton.gameObject; } }
+        #endregion
+
+
         #region MonoBehaviour methods
         // Use this for initialization
         void Start()

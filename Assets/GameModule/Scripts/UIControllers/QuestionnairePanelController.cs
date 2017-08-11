@@ -1,5 +1,6 @@
 ﻿using LastBastion.Game.Managers;
 using LastBastion.Game.SurveySystem;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,10 +25,13 @@ namespace LastBastion.Game.UIControllers
         {
             // create questionnaire:
             CreateQuestionnaire();
-            // update gui:
+            // update pages visibility:
             currentPageIndex = 0;
             pages[0].gameObject.SetActive(true);
             for(int i = 1; i < pages.Count; i++) pages[i].gameObject.SetActive(false);
+            // turn off the first BackButton and the last NextButton:
+            pages[0].BackButton.SetActive(false);
+            pages[pages.Count - 1].NextButton.SetActive(false);
         }
 
         // Update is called once per frame
@@ -68,8 +72,8 @@ namespace LastBastion.Game.UIControllers
         public void NextPage()
         {
             pages[currentPageIndex].gameObject.SetActive(false);
-            currentPageIndex = (++currentPageIndex >= pages.Count) ? 0 : currentPageIndex;
-            pages[currentPageIndex].gameObject.SetActive(false);
+            currentPageIndex = (++currentPageIndex >= pages.Count) ? pages.Count - 1 : currentPageIndex;
+            pages[currentPageIndex].gameObject.SetActive(true);
         }
 
         /// <summary>
@@ -78,8 +82,8 @@ namespace LastBastion.Game.UIControllers
         public void PreviousPage()
         {
             pages[currentPageIndex].gameObject.SetActive(false);
-            currentPageIndex = (--currentPageIndex < 0) ? (pages.Count - 1) : currentPageIndex;
-            pages[currentPageIndex].gameObject.SetActive(false);
+            currentPageIndex = (--currentPageIndex < 0) ? 0 : currentPageIndex;
+            pages[currentPageIndex].gameObject.SetActive(true);
         }
         #endregion
     }
