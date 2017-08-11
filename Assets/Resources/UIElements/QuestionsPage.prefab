@@ -342,13 +342,13 @@ MonoBehaviour:
   nextButton: {fileID: 114479913207476740}
   backButton: {fileID: 114479071602777200}
   yPositions:
-  - -30
-  - -70
-  - -110
-  - -150
-  - -190
-  - -230
-  - -270
+  - 0
+  - -40
+  - -80
+  - -120
+  - -160
+  - -200
+  - -240
   questions: []
 --- !u!222 &222012563897384148
 CanvasRenderer:

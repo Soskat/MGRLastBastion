@@ -44,17 +44,17 @@ namespace LastBastion.Game.UIControllers
             // question panel has got a dropdown menu -> closed question:
             if (interactionPanel != null)
             {
-                questionPanel = Instantiate(Resources.Load("UIElements/QuestionPanel") as GameObject, transform);
+                questionPanel = Instantiate(Resources.Load("UIElements/QuestionPanel") as GameObject, GetComponent<RectTransform>().transform);
                 questionPanel.GetComponent<QuestionPanelController>().UpdatePanel(question, interactionPanel);
-                interactionPanel.transform.SetParent(questionPanel.transform);
-                questionPanel.GetComponent<RectTransform>().position.Set(0, yPositions[yPositionIndex], 0);
+                interactionPanel.transform.SetParent(questionPanel.GetComponent<RectTransform>().transform);
+                questionPanel.GetComponent<RectTransform>().localPosition = new Vector2(0, questionPanel.GetComponent<RectTransform>().localPosition.y + yPositions[yPositionIndex]);
             }
             // question panel hasn't got a dropdown menu -> open question:
             else
             {
-                questionPanel = Instantiate(Resources.Load("UIElements/QuestionPanel_Open") as GameObject, transform);
+                questionPanel = Instantiate(Resources.Load("UIElements/QuestionPanel_Open") as GameObject, GetComponent<RectTransform>().transform);
                 questionPanel.GetComponent<QuestionPanelController>().UpdatePanel(question);
-                questionPanel.GetComponent<RectTransform>().position.Set(0, yPositions[yPositionIndex] = 40, 0);
+                questionPanel.GetComponent<RectTransform>().localPosition.Set(0, yPositions[yPositionIndex] = 40, 0);
             }
             questions.Add(questionPanel.GetComponent<QuestionPanelController>());
         }

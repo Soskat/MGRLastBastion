@@ -1,5 +1,5 @@
 {
-    "Metrics": [
+    "Questions": [
         {
             "ID": 0,
             "Content": "Płeć",
@@ -29,9 +29,7 @@
             "Content": "Czy lubisz horrory (gry/filmy)?",
             "AnswerType": 3,
             "Answer": ""
-        }
-    ],
-    "GameEvaluation": [
+        },
         {
             "ID": 5,
             "Content": "Jak dużą czerpałeś(aś) przyjemność z rozgrywki?",
