@@ -81,19 +81,19 @@ namespace LastBastion.Game.UIControllers
         /// <returns>Current index of element of survey questions list</returns>
         public int CreateQuestionsPage(int currentQuestion)
         {
-            while (questionSpaceUnits > 0 && currentQuestion < GameManager.instance.Survey.Questions.Count)
+            while (questionSpaceUnits > 0 && currentQuestion < GameManager.instance.SurveyManager.Survey.Questions.Count)
             {
                 // choose dropdown menu based on AnswerType:
                 int yPositionIndex = yPositions.Count - questionSpaceUnits;
                 int questionSpaceCost = 0;
-                if (GameManager.instance.Survey.Questions[currentQuestion].AnswerType == QuestionType.Open) questionSpaceCost = 3;
+                if (GameManager.instance.SurveyManager.Survey.Questions[currentQuestion].AnswerType == QuestionType.Open) questionSpaceCost = 3;
                 else questionSpaceCost = 1;
 
                 // if there's enough questionSpaceUnit for next question, continue:
                 if (questionSpaceUnits >= questionSpaceCost)
                 {
                     // create question panel:
-                    AddQuestionPanel(GameManager.instance.Survey.Questions[currentQuestion], yPositionIndex);
+                    AddQuestionPanel(GameManager.instance.SurveyManager.Survey.Questions[currentQuestion], yPositionIndex);
                     currentQuestion++;
                 }
                 questionSpaceUnits -= questionSpaceCost;

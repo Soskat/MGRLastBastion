@@ -16,7 +16,7 @@ namespace LastBastion.Game.Managers
         [SerializeField] private Button endSceneButton;
         [SerializeField] private Button backToMainMenuButton;
         [SerializeField] private string filePath;
-        public Survey survey;       // ---------- make it private after tests
+        public Survey Survey;       // ---------- make it private after tests
         #endregion
 
 
@@ -25,26 +25,22 @@ namespace LastBastion.Game.Managers
         private void Awake()
         {
             filePath = Application.dataPath + "/Resources/TextData/survey.json";
-            survey = LoadSurveyQuestionnaireFromFile(filePath);
-            if (survey == null)
+            Survey = LoadSurveyQuestionnaireFromFile(filePath);
+            if (Survey == null)
             {
-                survey = CreateTestData();
-                SaveSurveyToFile(survey, filePath);
+                Survey = CreateTestData();
+                SaveSurveyToFile(Survey, filePath);
             }
-            GameManager.instance.Survey = survey;
+            GameManager.instance.SurveyManager = this;
         }
 
         // Use this for initialization
         void Start()
         {
             endSceneButton.onClick.AddListener(() => { GameManager.instance.LevelHasEnded(); });
-            backToMainMenuButton.onClick.AddListener(() => { GameManager.instance.BackToMainMenu(); });
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
+            endSceneButton.gameObject.SetActive(false);
+            if (GameManager.instance.DebugMode) backToMainMenuButton.onClick.AddListener(() => { GameManager.instance.BackToMainMenu(); });
+            else backToMainMenuButton.gameObject.SetActive(false);
         }
         #endregion
 
@@ -92,6 +88,18 @@ namespace LastBastion.Game.Managers
             survey.Questions.Add(new Question(6, "Question #6 (game evaluation) - QuestionType.AorB", QuestionType.AorB));
             survey.Questions.Add(new Question(7, "Question #7 (game evaluation) - QuestionType.Open", QuestionType.Open));
             return survey;
+        }
+        #endregion
+
+
+        #region Public methods
+        /// <summary>
+        /// Manages visibility of EndSceneButton game object.
+        /// </summary>
+        /// <param name="isActive">Is object visible (active)?</param>
+        public void SetActiveEndSceneButton(bool isActive)
+        {
+            endSceneButton.gameObject.SetActive(isActive);
         }
         #endregion
     }

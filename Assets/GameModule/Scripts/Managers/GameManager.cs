@@ -69,8 +69,8 @@ namespace LastBastion.Game.Managers
         public LevelManager LevelManager { get; set; }
         /// <summary>IgnoreLight layer number.</summary>
         public int IgnoreLightLayer { get { return ignoreLightLayer; } }
-        /// <summary>The survey questionnaire.</summary>
-        public Survey Survey { get; set; }
+        /// <summary>Reference to SurveyManager component.</summary>
+        public SurveyManager SurveyManager { get; set; }
         #endregion
 
 

@@ -49,6 +49,7 @@ namespace LastBastion.Game.UIControllers
             if (question.AnswerType == QuestionType.Open)
             {
                 answerHolder = GetComponentInChildren<InputField>().gameObject;
+                GetComponentInParent<QuestionnairePanelController>().ChangeAnswer(1);   // mark that open question already has been done (empty answer)
             }
             // closed question:
             else if(answerHolderObject != null)
@@ -81,6 +82,7 @@ namespace LastBastion.Game.UIControllers
 
                     default: break;
                 }
+                answerHolder.GetComponent<Dropdown>().onValueChanged.AddListener(GetComponentInParent<QuestionnairePanelController>().ChangeAnswer);
             }
         }
 

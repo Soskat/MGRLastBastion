@@ -15,7 +15,14 @@ namespace LastBastion.Game.UIControllers
     {
         #region Private fields
         [SerializeField] private List<QuestionsPageController> pages;
+        [SerializeField] private int givenAnswers = 0;
         private int currentPageIndex;
+        #endregion
+
+
+        #region Public fields & properties
+        /// <summary>Given answers count.</summary>
+        public int GivenAnswers { get { return givenAnswers; } }
         #endregion
 
 
@@ -48,9 +55,8 @@ namespace LastBastion.Game.UIControllers
         /// </summary>
         private void CreateQuestionnaire()
         {
-            Survey survey = GameManager.instance.Survey;
             int questionsCreated = 0;
-            while(questionsCreated < survey.Questions.Count)
+            while(questionsCreated < GameManager.instance.SurveyManager.Survey.Questions.Count)
             {
                 // create new questions page and add it to transform children:
                 GameObject page = Instantiate(Resources.Load("UIElements/QuestionsPage") as GameObject);
@@ -84,6 +90,21 @@ namespace LastBastion.Game.UIControllers
             pages[currentPageIndex].gameObject.SetActive(false);
             currentPageIndex = (--currentPageIndex < 0) ? 0 : currentPageIndex;
             pages[currentPageIndex].gameObject.SetActive(true);
+        }
+
+
+
+        /// <summary>
+        /// Changes if player answered to all of the survey questions.
+        /// </summary>
+        /// <param name="selectedIndex">Index of selected answer in dropdown menu</param>
+        public void ChangeAnswer(int selectedIndex)
+        {
+            if (selectedIndex > 0) givenAnswers++;
+            else givenAnswers--;
+
+            if (givenAnswers == GameManager.instance.SurveyManager.Survey.Questions.Count) GameManager.instance.SurveyManager.SetActiveEndSceneButton(true);
+            else GameManager.instance.SurveyManager.SetActiveEndSceneButton(false);
         }
         #endregion
     }

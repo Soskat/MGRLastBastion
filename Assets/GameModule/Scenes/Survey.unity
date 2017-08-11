@@ -209,6 +209,10 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1684611389694636, guid: 13b0f7cfb07acc646a589a977b6a3b09, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 13b0f7cfb07acc646a589a977b6a3b09, type: 2}
   m_IsPrefabParent: 0
@@ -1269,3 +1273,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pages: []
+  givenAnswers: 0
