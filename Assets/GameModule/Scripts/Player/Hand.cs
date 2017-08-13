@@ -1,4 +1,5 @@
 ﻿using LastBastion.Biofeedback;
+using LastBastion.Game.Managers;
 using UnityEngine;
 
 
@@ -11,6 +12,7 @@ namespace LastBastion.Game.Player
     {
         #region Private fields
         [SerializeField] protected BiofeedbackController player;
+        private DataState lastState;
         #endregion
 
 
@@ -19,6 +21,7 @@ namespace LastBastion.Game.Player
         protected void Start()
         {
             player = GetComponentInParent<BiofeedbackController>();
+            lastState = DataState.None;
         }
 
         // Update is called once per frame
@@ -32,6 +35,16 @@ namespace LastBastion.Game.Player
                 float z = Random.Range(0.0f, player.ArousalCurrentModifier);
                 // update transform rotation:
                 transform.localRotation = Quaternion.Euler(x, y, z);
+
+                if (lastState != DataState.High)
+                {
+                    lastState = DataState.High;
+                    // save info about event:
+                    if (GameManager.instance.AnalyticsEnabled)
+                    {
+                        LevelManager.instance.AddGameEvent(Analytics.EventType.Shaking);
+                    }
+                }
             }
         }
         #endregion

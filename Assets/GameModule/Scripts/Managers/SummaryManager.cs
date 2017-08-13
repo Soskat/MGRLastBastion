@@ -44,7 +44,7 @@ namespace LastBastion.Game.Managers
             // update buttons behaviour:
             if (GameManager.instance.DebugMode)
             {
-                endSceneButton.onClick.AddListener(() => { GameManager.instance.LevelHasEnded(); });
+                endSceneButton.onClick.AddListener((UnityEngine.Events.UnityAction)(() => { GameManager.instance.LoadNextLevel(); }));
                 endSceneButton.gameObject.SetActive(true);
                 backToMainMenuButton.onClick.AddListener(() => { GameManager.instance.BackToMainMenu(); });
                 backToMainMenuButton.gameObject.SetActive(true);
@@ -100,7 +100,7 @@ namespace LastBastion.Game.Managers
             nextLevelText.text = "( Loading next scene )";
             timerText.gameObject.SetActive(false);
             // inform that level has ended:
-            GameManager.instance.LevelHasEnded();
+            GameManager.instance.LoadNextLevel();
         }
         #endregion
     }

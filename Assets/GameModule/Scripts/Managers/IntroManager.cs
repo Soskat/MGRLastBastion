@@ -50,7 +50,7 @@ namespace LastBastion.Game.Managers
             // set up in-game menu:
             resumeButton.onClick.AddListener(() => { menuOn = false; menuPanel.SetActive(menuOn); });
             backToMainMenuButton.onClick.AddListener(() => { StopAllCoroutines();  GameManager.instance.BackToMainMenu(); });
-            skipIntroButton.onClick.AddListener(() => { GameManager.instance.LevelHasEnded(); });
+            skipIntroButton.onClick.AddListener((UnityEngine.Events.UnityAction)(() => { GameManager.instance.LoadNextLevel(); }));
             skipIntroButton.gameObject.SetActive(GameManager.instance.DebugMode);
             menuOn = false;
             menuPanel.SetActive(menuOn);            
@@ -88,7 +88,7 @@ namespace LastBastion.Game.Managers
             {
                 introTextUI.GetComponent<CanvasGroup>().alpha = 1f;
                 introTextUI.text = "( Loading game level )";
-                GameManager.instance.LevelHasEnded();
+                GameManager.instance.LoadNextLevel();
             }
 
             if (!GameManager.instance.BBModule.IsCalibrationOn)

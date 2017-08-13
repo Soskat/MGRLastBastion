@@ -30,7 +30,7 @@ namespace LastBastion.Game.Managers
         // Use this for initialization
         void Start()
         {
-            endSceneButton.onClick.AddListener(() => { GameManager.instance.LevelHasEnded(); });
+            endSceneButton.onClick.AddListener((UnityEngine.Events.UnityAction)(() => { GameManager.instance.LoadNextLevel(); }));
             endSceneButton.enabled = false;
             backToMainMenuButton.onClick.AddListener(() => { GameManager.instance.BackToMainMenu(); });
 

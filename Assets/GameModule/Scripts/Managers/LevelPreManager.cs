@@ -12,7 +12,6 @@ namespace LastBastion.Game.Managers
     /// </summary>
     public class LevelPreManager : MonoBehaviour
     {
-
         #region Private fields
         [SerializeField] private string sceneName;
         [SerializeField] private Button endSceneButton;
@@ -34,7 +33,7 @@ namespace LastBastion.Game.Managers
         // Use this for initialization
         void Start()
         {
-            endSceneButton.onClick.AddListener(() => { GameManager.instance.LevelHasEnded(); });
+            endSceneButton.onClick.AddListener((UnityEngine.Events.UnityAction)(() => { GameManager.instance.LoadNextLevel(); }));
             backToMainMenuButton.onClick.AddListener(() => { GameManager.instance.BackToMainMenu(); });
             sensorPanelController = sensorsPanel.GetComponent<SensorPanelController>();
 
@@ -45,8 +44,8 @@ namespace LastBastion.Game.Managers
             if (GameManager.instance.AnalyticsEnabled)
             {
                 DataManager.AddLevelInfo(sceneName, GameManager.instance.CurrentCalculationType, GameManager.instance.BBModule.AverageHr, GameManager.instance.BBModule.AverageGsr);
-                GameManager.instance.SetTime();
-                DataManager.AddGameEvent(Analytics.EventType.GameStart, GameManager.instance.GetTime);
+                //GameManager.instance.SetTime();
+                //DataManager.AddGameEvent(Analytics.EventType.GameStart, GameManager.instance.GetTime);
             }
         }
 
@@ -73,9 +72,9 @@ namespace LastBastion.Game.Managers
                     // save new sensors readings values:
                     if (GameManager.instance.AnalyticsEnabled)
                     {
-                        GameManager.instance.SetTime();
-                        DataManager.AddGameEvent(Analytics.EventType.HrData, GameManager.instance.GetTime, GameManager.instance.BBModule.CurrentHr);
-                        DataManager.AddGameEvent(Analytics.EventType.GsrData, GameManager.instance.GetTime, GameManager.instance.BBModule.CurrentGsr);
+                        //GameManager.instance.SetTime();
+                        //DataManager.AddGameEvent(Analytics.EventType.HrData, GameManager.instance.GetTime, GameManager.instance.BBModule.CurrentHr);
+                        //DataManager.AddGameEvent(Analytics.EventType.GsrData, GameManager.instance.GetTime, GameManager.instance.BBModule.CurrentGsr);
                         // arousal ...
                     }
                 }

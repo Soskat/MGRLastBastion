@@ -69,6 +69,12 @@ namespace LastBastion.Game.Managers
 
                 default: break;
             }
+
+            // save info about event:
+            if (GameManager.instance.AnalyticsEnabled)
+            {
+                LevelManager.instance.AddGameEvent(Analytics.EventType.Decals);
+            }
         }
         #endregion
     }

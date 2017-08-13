@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using LastBastion.Game.Managers;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -52,6 +53,20 @@ namespace LastBastion.Game.ObjectInteraction
         // Update is called once per frame
         void Update()
         {
+            // biofeedback ON:
+            if (GameManager.instance.BBModule.IsEnabled)
+            {
+                // ...
+            }
+            // biofeedback OFF:
+            else
+            {
+                // ...
+            }
+
+
+
+
             // for testing purposes:
             if (Input.GetKeyDown(KeyCode.X))
             {

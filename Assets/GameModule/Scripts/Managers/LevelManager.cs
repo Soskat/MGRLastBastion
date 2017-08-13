@@ -1,5 +1,7 @@
-﻿using LastBastion.Game.Player;
+﻿using LastBastion.Analytics;
+using LastBastion.Game.Player;
 using LastBastion.Game.Plot;
+using System;
 using System.Collections;
 using System.Diagnostics;
 using UnityEngine;
@@ -32,6 +34,7 @@ namespace LastBastion.Game.Managers
         [SerializeField] private int openedDoors = 0;
         [SerializeField] private int lightSwitchUses = 0;
         private Stopwatch stopwatch;
+        private TimeSpan currentTime;
         private GameObject player;
         private BiofeedbackController playerBiofeedback;
         #endregion
@@ -79,6 +82,13 @@ namespace LastBastion.Game.Managers
             // start stopwatch:
             stopwatch = new Stopwatch();
             stopwatch.Start();
+            
+            // save level info:
+            if (GameManager.instance.AnalyticsEnabled)
+            {
+                DataManager.AddLevelInfo(sceneName, GameManager.instance.CurrentCalculationType, GameManager.instance.BBModule.AverageHr, GameManager.instance.BBModule.AverageGsr);
+                DataManager.AddGameEvent(Analytics.EventType.GameStart, stopwatch.Elapsed);
+            }
         }
 
         // Update is called once per frame
@@ -95,8 +105,26 @@ namespace LastBastion.Game.Managers
                 EndLevel();
             }
 
-            // biofeedback readings update
-            // ...
+            // manage biofeedback: ===============================================
+            // get current Band sensors readings:
+            if (GameManager.instance.BBModule.IsBandPaired && GameManager.instance.BBModule.CanReceiveBandReadings && GameManager.instance.IsReadyForNewBandData)
+            {
+                GameManager.instance.BBModule.GetBandData();
+                GameManager.instance.IsReadyForNewBandData = false;
+            }
+            // update sensors readings values:
+            if (GameManager.instance.BBModule.IsSensorsReadingsChanged)
+            {
+                // save new sensors readings values:
+                if (GameManager.instance.AnalyticsEnabled)
+                {
+                    DataManager.AddGameEvent(Analytics.EventType.HrData, stopwatch.Elapsed, GameManager.instance.BBModule.CurrentHr);
+                    DataManager.AddGameEvent(Analytics.EventType.GsrData, stopwatch.Elapsed, GameManager.instance.BBModule.CurrentGsr);
+                    // arousal ...
+                }
+                GameManager.instance.BBModule.IsSensorsReadingsChanged = false;
+                GameManager.instance.IsReadyForNewBandData = true;
+            }
         }
         #endregion
 
@@ -185,14 +213,31 @@ namespace LastBastion.Game.Managers
         /// </summary>
         public void EndLevel()
         {
-            // save achievements progress:
             stopwatch.Stop();
+            if (GameManager.instance.AnalyticsEnabled)
+            {
+                DataManager.AddGameEvent(Analytics.EventType.GameEnd, stopwatch.Elapsed);
+            }
+            // save achievements progress:
             GameManager.instance.GameTime = stopwatch.Elapsed;
             GameManager.instance.CollectedRunes = collectedRunes;
             GameManager.instance.OpenedDoors = openedDoors;
             GameManager.instance.LightSwitchUses = lightSwitchUses;
             // inform game manager that level has ended:
-            GameManager.instance.LevelHasEnded();
+            GameManager.instance.LoadNextLevel();
+        }
+
+        /// <summary>
+        /// Saves game event with current HR and GSR readings.
+        /// </summary>
+        /// <param name="eventType">Type of the event</param>
+        /// <param name="value">Additional event object value</param>
+        public void AddGameEvent(Analytics.EventType eventType, object value = null)
+        {
+            currentTime = stopwatch.Elapsed;
+            DataManager.AddGameEvent(eventType, currentTime, value);
+            DataManager.AddGameEvent(Analytics.EventType.HrData, currentTime, GameManager.instance.BBModule.CurrentHr);
+            DataManager.AddGameEvent(Analytics.EventType.GsrData, currentTime, GameManager.instance.BBModule.CurrentGsr);
         }
         #endregion
     }

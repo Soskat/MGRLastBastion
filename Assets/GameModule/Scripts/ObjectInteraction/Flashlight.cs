@@ -112,6 +112,12 @@ namespace LastBastion.Game.ObjectInteraction
         /// <returns></returns>
         public IEnumerator Blink(bool isFinallyLightOn)
         {
+            // save info about event:
+            if (GameManager.instance.AnalyticsEnabled)
+            {
+                LevelManager.instance.AddGameEvent(Analytics.EventType.Flashlight);
+            }
+
             IsBusy = true;
             {
                 if (isFinallyLightOn)
@@ -143,6 +149,12 @@ namespace LastBastion.Game.ObjectInteraction
         /// <returns></returns>
         public IEnumerator BlinkToDeath()
         {
+            // save info about event:
+            if (GameManager.instance.AnalyticsEnabled)
+            {
+                LevelManager.instance.AddGameEvent(Analytics.EventType.Flashlight);
+            }
+
             IsBusy = true;
             {
                 lightRay.SetActive(false);

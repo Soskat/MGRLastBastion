@@ -34,6 +34,7 @@ namespace LastBastion.Game.Managers
         {
             if (isActive && !isBusy)
             {
+                // biofeedback ON:
                 if (GameManager.instance.BBModule.IsEnabled)
                 {
                     if (LevelManager.instance.PlayerBiofeedback.ArousalCurrentState == Biofeedback.DataState.High)
@@ -47,6 +48,7 @@ namespace LastBastion.Game.Managers
                         choosenAudioClip = soundsHard[Random.Range(0, soundsHard.Count)];
                     }
                 }
+                // biofeedback OFF:
                 else
                 {
                     // play sounds at random time - but still choose the best awailable audio source
@@ -59,6 +61,12 @@ namespace LastBastion.Game.Managers
                 if (choosenSoundSource.GetComponent<SoundTrigger>() != null) choosenSoundSource.GetComponent<SoundTrigger>().PlaySound();
                 else choosenSoundSource.GetComponent<AudioSource>().PlayOneShot(choosenAudioClip);
                 StartCoroutine(CooldownTimer(startDelay));
+                
+                // save info about event:
+                if (GameManager.instance.AnalyticsEnabled)
+                {
+                    LevelManager.instance.AddGameEvent(Analytics.EventType.Sound);
+                }
             }
 
             // debug: ------------------------------------------------------------------------------------------------------------------------

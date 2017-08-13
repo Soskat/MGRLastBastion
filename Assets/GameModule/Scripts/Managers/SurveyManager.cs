@@ -42,11 +42,11 @@ namespace LastBastion.Game.Managers
         // Use this for initialization
         void Start()
         {
-            endSceneButton.onClick.AddListener(() =>
+            endSceneButton.onClick.AddListener((UnityEngine.Events.UnityAction)(() =>
             {
                 if (GameManager.instance.AnalyticsEnabled) DataManager.AddSurveyAnswers(questionnairePC.GetSurveyAnswers());
-                GameManager.instance.LevelHasEnded();
-            });
+                GameManager.instance.LoadNextLevel();
+            }));
             endSceneButton.gameObject.SetActive(false);
             if (GameManager.instance.DebugMode)
             {

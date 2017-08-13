@@ -105,6 +105,33 @@ namespace LastBastion.Analytics
             SaveToFile(data);
         }
 
+
+
+
+        /// <summary>
+        /// Saves game event.
+        /// </summary>
+        /// <param name="eventType">Type of the event</param>
+        /// <param name="time">Time of the event</param>
+        /// <param name="value">Additional event object value</param>
+        public static void AddGameEvent(EventType eventType, TimeSpan time, object value = null)
+        {
+            string data;
+            if (value != null)
+            {
+                data = (int)eventType + " " + String.Format("{0:00}:{1:00}", time.Minutes, time.Seconds) + " " + value.ToString();
+            }
+            else
+            {
+                data = (int)eventType + " " + String.Format("{0:00}:{1:00}", time.Minutes, time.Seconds);
+            }
+            SaveToFile(data);
+        }
+
+
+
+
+
         /// <summary>
         /// Saves survey answers.
         /// </summary>
