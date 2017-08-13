@@ -1,7 +1,6 @@
-﻿using LastBastion.Game.Plot;
-using System;
+﻿using LastBastion.Game.Player;
+using LastBastion.Game.Plot;
 using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -15,6 +14,12 @@ namespace LastBastion.Game.Managers
     /// </summary>
     public class LevelManager : MonoBehaviour
     {
+        #region Static fields
+        /// <summary><see cref="LevelManager"/> public static object.</summary>
+        public static LevelManager instance;
+        #endregion
+
+
         #region Private fields
         [SerializeField] private string sceneName;
         [SerializeField] private int runesLimit = 0;
@@ -23,27 +28,24 @@ namespace LastBastion.Game.Managers
         [SerializeField] private Text goalUpdateHeadlineText;
         [SerializeField] private Text goalUpdateContentText;
         // achievements counters:
-        [SerializeField] private TimeSpan gameTime;
         [SerializeField] private int collectedRunes = 0;
         [SerializeField] private int openedDoors = 0;
         [SerializeField] private int lightSwitchUses = 0;
         private Stopwatch stopwatch;
+        private GameObject player;
+        private BiofeedbackController playerBiofeedback;
         #endregion
 
-
+        
         #region Public fields & properties
         /// <summary>Fixed max amount of the runes that player can find in this level.</summary>
         public int RunesLimit { get { return runesLimit; } }
         /// <summary>Current plot goal.</summary>
         public Goal CurrentGoal { get { return currentGoal; } }
-        /// <summary>Time of the game.</summary>
-        public TimeSpan GameTime { get { return gameTime; } }
-        /// <summary>Collected runes.</summary>
-        public int CollectedRunes { get { return collectedRunes; } }
-        /// <summary>Opened doors count.</summary>
-        public int OpenedDoors { get { return openedDoors; } }
-        /// <summary>Uses of the lightswitches count.</summary>
-        public int LightSwitchUses { get { return lightSwitchUses; } }
+        /// <summary>Reference to player game object.</summary>
+        public GameObject Player { get { return player; } }
+        /// <summary>Reference to player's BiofeedbackController component.</summary>
+        public BiofeedbackController PlayerBiofeedback { get { return playerBiofeedback; } }
         #endregion
 
 
@@ -51,16 +53,23 @@ namespace LastBastion.Game.Managers
         // Awake is called when the script instance is being loaded
         private void Awake()
         {
-            Assert.IsNotNull(goalUpdatePanel);
-            Assert.IsNotNull(goalUpdateHeadlineText);
-            Assert.IsNotNull(goalUpdateContentText);
+            // make sure that Singleton design pattern is preserved and GameManager object will always exist:
+            if (instance == null)
+            {
+                instance = this;
+                player = GameObject.FindGameObjectWithTag("Player");
+                playerBiofeedback = player.GetComponent<BiofeedbackController>();
+                // make some assertions:
+                Assert.IsNotNull(goalUpdatePanel);
+                Assert.IsNotNull(goalUpdateHeadlineText);
+                Assert.IsNotNull(goalUpdateContentText);
+            }
+            else if (instance != this) Destroy(gameObject);
         }
 
         // Use this for initialization
         void Start()
         {
-            GameManager.instance.LevelManager = this;
-            GameManager.instance.SetupPlayerSettings();
             goalUpdatePanel.SetActive(false);
             currentGoal = GetComponent<PlotManager>().Init();
             // reset achievements:
@@ -80,6 +89,11 @@ namespace LastBastion.Game.Managers
                 ShowCurrentGoal();
             }
 
+            // For test purposes:
+            if (Input.GetKeyDown(KeyCode.Keypad1))
+            {
+                EndLevel();
+            }
 
             // biofeedback readings update
             // ...
@@ -165,15 +179,21 @@ namespace LastBastion.Game.Managers
             goalUpdatePanel.SetActive(false);
             yield return null;
         }
-        #endregion
 
-
-        // test -----------------
+        /// <summary>
+        /// Last tasks before switching to next level.
+        /// </summary>
         public void EndLevel()
         {
+            // save achievements progress:
             stopwatch.Stop();
-            gameTime = stopwatch.Elapsed;
+            GameManager.instance.GameTime = stopwatch.Elapsed;
+            GameManager.instance.CollectedRunes = collectedRunes;
+            GameManager.instance.OpenedDoors = openedDoors;
+            GameManager.instance.LightSwitchUses = lightSwitchUses;
+            // inform game manager that level has ended:
             GameManager.instance.LevelHasEnded();
         }
+        #endregion
     }
 }

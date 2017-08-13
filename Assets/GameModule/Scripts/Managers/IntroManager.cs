@@ -16,7 +16,6 @@ namespace LastBastion.Game.Managers
     public class IntroManager : MonoBehaviour
     {
         #region Private fields
-        [SerializeField] private Button endSceneButton;
         [SerializeField] private GameObject menuPanel;
         [SerializeField] private Button resumeButton;
         [SerializeField] private Button backToMainMenuButton;
@@ -36,7 +35,6 @@ namespace LastBastion.Game.Managers
         // Awake is called when the script instance is being loaded
         private void Awake()
         {
-            Assert.IsNotNull(endSceneButton);
             Assert.IsNotNull(menuPanel);
             Assert.IsNotNull(resumeButton);
             Assert.IsNotNull(backToMainMenuButton);
@@ -55,16 +53,10 @@ namespace LastBastion.Game.Managers
             skipIntroButton.onClick.AddListener(() => { GameManager.instance.LevelHasEnded(); });
             skipIntroButton.gameObject.SetActive(GameManager.instance.DebugMode);
             menuOn = false;
-            menuPanel.SetActive(menuOn);
-            // set up end-scene button:
-            endSceneButton.onClick.AddListener(() => { GameManager.instance.LevelHasEnded(); });
-            endSceneButton.gameObject.SetActive(false);
-            
+            menuPanel.SetActive(menuOn);            
             // start calibration data:
             if (GameManager.instance.BBModule.IsBandPaired) GameManager.instance.BBModule.CalibrateBandData();
             calibrationLabel.SetActive(true);
-
-
             // load intro text:
             introFilePath = Application.dataPath + "/Resources/TextData/intro.json";
             introText = LoadIntroTextFromFile(introFilePath);
@@ -75,7 +67,6 @@ namespace LastBastion.Game.Managers
                 SaveGoalsDataToFile(introText, introFilePath);
             }
             // play intro:
-            //Debug.Log("Intro duration in sec: " + CalculateTextDuration(introText));    // ----------- test
             introHasEnded = false;
             float showOffTime = 1.3f, fadeTime = 2.5f;
             introTextUI.GetComponent<CanvasGroup>().alpha = 0.0f;
@@ -93,10 +84,16 @@ namespace LastBastion.Game.Managers
                 menuPanel.SetActive(menuOn);
             }
 
-            if (!GameManager.instance.BBModule.IsCalibrationOn && introHasEnded)
+            if (introHasEnded && !GameManager.instance.BBModule.IsCalibrationOn)
+            {
+                introTextUI.GetComponent<CanvasGroup>().alpha = 1f;
+                introTextUI.text = "( Loading game level )";
+                GameManager.instance.LevelHasEnded();
+            }
+
+            if (!GameManager.instance.BBModule.IsCalibrationOn)
             {
                 calibrationLabel.SetActive(false);
-                endSceneButton.gameObject.SetActive(true);
             }
         }
         #endregion
@@ -212,7 +209,6 @@ namespace LastBastion.Game.Managers
         private IEnumerator PlayBackgroundSounds(float textDuration, float delay)
         {
             int stepCount = (int)(textDuration - delay) - 2;
-            //Debug.Log("Setp count: " + stepCount);  // -------------------- test
             yield return new WaitForSeconds(delay);
             for (int i = 0; i < stepCount; i++)
             {
@@ -250,7 +246,7 @@ namespace LastBastion.Game.Managers
             return duration;
         }
 
-        // based on: https://forum.unity3d.com/threads/how-to-pause-any-coroutine-according-to-your-global-pause-state.68303/ by n0mad
+        #region Pause routine based on: https://forum.unity3d.com/threads/how-to-pause-any-coroutine-according-to-your-global-pause-state.68303/ by n0mad
         private Coroutine _sync()
         {
             return StartCoroutine(PauseRoutine());
@@ -264,6 +260,7 @@ namespace LastBastion.Game.Managers
             }
             yield return new WaitForEndOfFrame();
         }
+        #endregion
 
         #endregion
     }

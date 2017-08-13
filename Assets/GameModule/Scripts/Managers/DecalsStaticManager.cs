@@ -51,7 +51,7 @@ namespace LastBastion.Game.Managers
             if (WasActivated || GameManager.instance.ActiveRoom.GetComponentInChildren<LightManager>().LightsOn) return;
 
             // activate decals set based on player's biofeedback:
-            switch (GameManager.instance.PlayerBiofeedback.ArousalCurrentState)
+            switch (LevelManager.instance.PlayerBiofeedback.ArousalCurrentState)
             {
                 // if player's arousal is high, activate extra decals set:
                 case Biofeedback.DataState.High:

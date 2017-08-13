@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -129,7 +129,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &900078731
 RectTransform:
   m_ObjectHideFlags: 0
@@ -376,6 +376,10 @@ Prefab:
     - target: {fileID: 1001539509352146, guid: bf00f3c1aefd8e3469ee6aa2ef474ca9, type: 2}
       propertyPath: m_Name
       value: EndSceneButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 1001539509352146, guid: bf00f3c1aefd8e3469ee6aa2ef474ca9, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bf00f3c1aefd8e3469ee6aa2ef474ca9, type: 2}

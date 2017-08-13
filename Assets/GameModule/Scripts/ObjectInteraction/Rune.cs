@@ -17,7 +17,7 @@ namespace LastBastion.Game.ObjectInteraction
         public override void PutDown()
         {
             // inform that new rune was found:
-            GameManager.instance.LevelManager.FoundRune();
+            LevelManager.instance.FoundRune();
             // destroy this game object:
             Destroy(gameObject);
         }

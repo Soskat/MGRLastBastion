@@ -33,21 +33,21 @@ namespace LastBastion.Game.Managers
         private DateTime currentTime;
         private int indexOfFirstLevel;
         private int indexOfSecondLevel;
-        private GameObject player;
-        private BiofeedbackController playerBiofeedback;
+        //private GameObject player;
+        //private BiofeedbackController playerBiofeedback;
         private int ignoreLightLayer;
         #endregion
 
 
         // TEST ---------------------------------------------------------
         /// <summary>Time of the game.</summary>
-        public TimeSpan GameTime = new TimeSpan(0, 23, 34);
+        public TimeSpan GameTime { get; set; }
         /// <summary>Collected runes.</summary>
-        public int CollectedRunes = 10;
+        public int CollectedRunes { get; set; }
         /// <summary>Opened doors count.</summary>
-        public int OpenedDoors = 5;
+        public int OpenedDoors { get; set; }
         /// <summary>Uses of the lightswitches count.</summary>
-        public int LightSwitchUses = 15;
+        public int LightSwitchUses { get; set; }
         // TEST ---------------------------------------------------------
 
 
@@ -70,14 +70,18 @@ namespace LastBastion.Game.Managers
         public GameMode GameMode { get; set; }
         /// <summary>Is analytics module enabled?</summary>
         public bool AnalyticsEnabled = true;
-        /// <summary>Reference to player game object.</summary>
-        public GameObject Player { get { return player; } }
-        /// <summary>Reference to player's BiofeedbackController component.</summary>
-        public BiofeedbackController PlayerBiofeedback { get { return playerBiofeedback; } }
+
+        ///// <summary>Reference to player game object.</summary>
+        //public GameObject Player { get { return player; } }
+        ///// <summary>Reference to player's BiofeedbackController component.</summary>
+        //public BiofeedbackController PlayerBiofeedback { get { return playerBiofeedback; } }
+
         /// <summary>The Room where player currently is.</summary>
         public GameObject ActiveRoom { get; set; }
-        /// <summary>The active level manager.</summary>
-        public LevelManager LevelManager { get; set; }
+
+        ///// <summary>The active level manager.</summary>
+        //public LevelManager LevelManager { get; set; }
+
         /// <summary>IgnoreLight layer number.</summary>
         public int IgnoreLightLayer { get { return ignoreLightLayer; } }
         /// <summary>Reference to SurveyManager component.</summary>
@@ -222,14 +226,14 @@ namespace LastBastion.Game.Managers
             SceneManager.LoadScene("MainMenu");
         }
 
-        /// <summary>
-        /// Sets up players settings for currents level.
-        /// </summary>
-        public void SetupPlayerSettings()
-        {
-            player = GameObject.FindGameObjectWithTag("Player");
-            playerBiofeedback = player.GetComponent<BiofeedbackController>();
-        }
+        ///// <summary>
+        ///// Sets up players settings for currents level.
+        ///// </summary>
+        //public void SetupPlayerSettings()
+        //{
+        //    player = GameObject.FindGameObjectWithTag("Player");
+        //    playerBiofeedback = player.GetComponent<BiofeedbackController>();
+        //}
         #endregion
     }
 }

@@ -19,7 +19,7 @@ namespace LastBastion.Game.ObjectInteraction
         {
             base.PickUp(newTransform);
             // inform that new clue was found:
-            GameManager.instance.LevelManager.UpdatePlotGoal(GetComponent<PlotGoal>().Goal);
+            LevelManager.instance.UpdatePlotGoal(GetComponent<PlotGoal>().Goal);
         }
         #endregion
     }

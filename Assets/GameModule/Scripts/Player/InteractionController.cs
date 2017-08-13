@@ -3,6 +3,7 @@ using LastBastion.Game.ObjectInteraction;
 using UnityEngine;
 using UnityStandardAssets.Characters.FirstPerson;
 
+
 namespace LastBastion.Game.Player
 {
     /// <summary>
@@ -48,7 +49,7 @@ namespace LastBastion.Game.Player
                     {
                         // pick up the object to take a look at it:
                         isFocused = true;
-                        GameManager.instance.Player.GetComponent<FirstPersonController>().IsFocused = true;
+                        LevelManager.instance.Player.GetComponent<FirstPersonController>().IsFocused = true;
                         activeObject.GetComponentInParent<FocusableObject>().PickUp(focusPoint);
                     }
                 }
@@ -56,7 +57,7 @@ namespace LastBastion.Game.Player
                 {
                     // put down the object:
                     isFocused = false;
-                    GameManager.instance.Player.GetComponent<FirstPersonController>().IsFocused = false;
+                    LevelManager.instance.Player.GetComponent<FirstPersonController>().IsFocused = false;
                     activeObject.GetComponentInParent<FocusableObject>().PutDown();
                 }
 

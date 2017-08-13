@@ -121,7 +121,7 @@ namespace LastBastion.Game.Managers
 
 
             // debug: -----------------------------------------------------------------------------------------------------
-            if (isActive) Debug.DrawLine(GameManager.instance.Player.transform.position, transform.position, Color.magenta);
+            if (isActive) Debug.DrawLine(LevelManager.instance.Player.transform.position, transform.position, Color.magenta);
         }
 
         // OnTriggerEnter is called when the Collider other enters the trigger

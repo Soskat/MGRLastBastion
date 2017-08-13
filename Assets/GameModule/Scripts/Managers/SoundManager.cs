@@ -36,7 +36,7 @@ namespace LastBastion.Game.Managers
             {
                 if (GameManager.instance.BBModule.IsEnabled)
                 {
-                    if (GameManager.instance.PlayerBiofeedback.ArousalCurrentState == Biofeedback.DataState.High)
+                    if (LevelManager.instance.PlayerBiofeedback.ArousalCurrentState == Biofeedback.DataState.High)
                     {
                         // play light sound:
                         choosenAudioClip = soundsLight[Random.Range(0, soundsLight.Count)];
@@ -62,7 +62,7 @@ namespace LastBastion.Game.Managers
             }
 
             // debug: ------------------------------------------------------------------------------------------------------------------------
-            if (isActive) Debug.DrawLine(GameManager.instance.Player.transform.position, FindBestSoundSource().transform.position, Color.cyan);
+            if (isActive) Debug.DrawLine(LevelManager.instance.Player.transform.position, FindBestSoundSource().transform.position, Color.cyan);
         }
 
         // OnTriggerEnter is called when the Collider other enters the trigger
@@ -92,9 +92,9 @@ namespace LastBastion.Game.Managers
             float minDistance = 100f, minDistanceSecond = 100f;
             foreach(Transform child in transform)
             {
-                Vector3 playerToSoundSource = child.transform.position - GameManager.instance.Player.transform.position;
+                Vector3 playerToSoundSource = child.transform.position - LevelManager.instance.Player.transform.position;
                 // sound source is behind player:
-                if (Vector3.Dot(playerToSoundSource, GameManager.instance.Player.transform.forward) <= 0)
+                if (Vector3.Dot(playerToSoundSource, LevelManager.instance.Player.transform.forward) <= 0)
                 {
                     if (playerToSoundSource.magnitude < minDistance)
                     {

@@ -1,4 +1,5 @@
 ﻿using LastBastion.Game.UIControllers;
+using System;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
@@ -40,6 +41,10 @@ namespace LastBastion.Game.Managers
 
             // update achievements data:
             UpdateAchievementsPanels();
+
+            // unlock cursor state after game level:
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
 
         // Update is called once per frame
@@ -54,7 +59,11 @@ namespace LastBastion.Game.Managers
         private void UpdateAchievementsPanels()
         {
             // TEST:
-            timeAchievement.UpdateAchievementData("time achik >>", GameManager.instance.GameTime.ToString());
+            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}",
+                                               GameManager.instance.GameTime.Hours,
+                                               GameManager.instance.GameTime.Minutes,
+                                               GameManager.instance.GameTime.Seconds);
+            timeAchievement.UpdateAchievementData("time achik >>", elapsedTime);
             runesAchievement.UpdateAchievementData("runes achik >>", GameManager.instance.CollectedRunes.ToString());
             doorsAchievement.UpdateAchievementData("doors achik >>", GameManager.instance.OpenedDoors.ToString());
             lightSwitchAchievement.UpdateAchievementData("light switch achik >>", GameManager.instance.LightSwitchUses.ToString());

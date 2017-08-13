@@ -18,8 +18,8 @@ EditorBuildSettings:
     path: Assets/GameModule/Scenes/Survey.unity
     guid: 47da6ccf851dcb84b93db01053c337e5
   - enabled: 1
-    path: Assets/GameModule/Scenes/LevelB.unity
-    guid: c91a4c92a8d3a3142965db718acb6ea7
-  - enabled: 1
     path: Assets/GameModule/Scenes/LevelA.unity
-    guid: dc3487a9a8b132f42964cce23558048c
+    guid: d497c2c309a98f247866da471e83760f
+  - enabled: 1
+    path: Assets/GameModule/Scenes/LevelB.unity
+    guid: a436554626e78d6458f674d4df6b77d7

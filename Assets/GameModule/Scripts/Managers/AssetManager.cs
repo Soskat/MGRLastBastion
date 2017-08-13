@@ -62,18 +62,6 @@ namespace LastBastion.Game.Managers
                 SaveGoalsDataToFile(goals, plotGoalsPath);
             }
         }
-
-        // Use this for initialization
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
         #endregion
 
 
