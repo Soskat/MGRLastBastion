@@ -59,17 +59,13 @@ namespace LastBastion.Game.Player
         void Start()
         {
             GameManager.instance.BBModule.BiofeedbackDataChanged += () => UpdatePlayerState();            
-            //GameManager.instance.BBModule.BiofeedbackDataChanged += data => UpdatePlayerState(data);
         }
 
         // Update is called once per frame
         void Update()
         {
             // manage game input: -------------------------------------------------------------
-            if (isFlashlightEquipped && Input.GetKeyDown(KeyCode.R))
-            {
-                SwitchLight();
-            }
+            if (isFlashlightEquipped && Input.GetKeyDown(KeyCode.R)) SwitchLight();
             
             if (GameManager.instance.BBModule.IsEnabled)
             {
@@ -142,7 +138,6 @@ namespace LastBastion.Game.Player
         /// </summary>
         /// <param name="data"></param>
         private void UpdatePlayerState()
-        //private void UpdatePlayerState(BiofeedbackData data)
         {
             // save current arousal as old:
             arousalOldModifier = arousalCurrentModifier;
@@ -150,8 +145,6 @@ namespace LastBastion.Game.Player
             // update current arousal:
             arousalCurrentModifier = GameManager.instance.BBModule.ArousalModifier;
             arousalCurrentState = GameManager.instance.BBModule.ArousalState;
-            //arousalCurrentModifier = data.ArousalModifier;
-            //arousalCurrentState = data.ArousalState;
         }
         
         /// <summary>
@@ -165,10 +158,7 @@ namespace LastBastion.Game.Player
             biofeedbackAudio.Play();
 
             // save info about event:
-            if (GameManager.instance.AnalyticsEnabled)
-            {
-                LevelManager.instance.AddGameEvent(Analytics.EventType.Heartbeat);
-            }
+            if (GameManager.instance.AnalyticsEnabled) LevelManager.instance.AddGameEvent(Analytics.EventType.Heartbeat);
         }
         #endregion
     }

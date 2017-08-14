@@ -40,9 +40,12 @@ namespace LastBastion.Game.Managers
         {
             if (isActive && !lightsBroken && !isBusy)
             {
-                // tests: -------------------------------
-                if (Input.GetKeyDown(KeyCode.L)) { Debug.Log(gameObject + ": Switch lights"); SwitchLights(); }
-                if (Input.GetKeyDown(KeyCode.K) && lightsOn) { Debug.Log(gameObject + ": Explode lights"); ExplodeAllLights(); }
+                // debug mode:
+                if (GameManager.instance.DebugMode)
+                {
+                    if (Input.GetKeyDown(KeyCode.L)) SwitchLights();
+                    if (Input.GetKeyDown(KeyCode.K) && lightsOn) ExplodeAllLights();
+                }
 
                 isBusy = true;
 
@@ -119,15 +122,15 @@ namespace LastBastion.Game.Managers
                 }
 
                 // save info about event:
-                if (GameManager.instance.AnalyticsEnabled)
-                {
-                    LevelManager.instance.AddGameEvent(Analytics.EventType.Light);
-                }
+                if (GameManager.instance.AnalyticsEnabled) LevelManager.instance.AddGameEvent(Analytics.EventType.Light);
             }
 
 
-            // debug: -----------------------------------------------------------------------------------------------------
-            if (isActive) Debug.DrawLine(LevelManager.instance.Player.transform.position, transform.position, Color.magenta);
+            // debug mode:
+            if (GameManager.instance.DebugMode && isActive)
+            {
+                Debug.DrawLine(LevelManager.instance.Player.transform.position, transform.position, Color.magenta);
+            }
         }
 
         // OnTriggerEnter is called when the Collider other enters the trigger

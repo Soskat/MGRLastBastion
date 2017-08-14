@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
-using System.Threading;
 using UnityEngine;
 
 
@@ -35,22 +34,20 @@ namespace LastBastion.Biofeedback
         private bool isBandPaired = false;
         private bool isCalibrationOn = false;
         private bool canReceiveBandReadings = false;
-        private int averageHr = 0;
-        private int averageGsr = 0;
-        private int currentHr = 0;
-        private int currentGsr = 0;
-        private float hrModifier = 0;
-        private float gsrModifier = 0;
+        private int averageHr = 1;
+        private int averageGsr = 1;
+        private int currentHr = 1;
+        private int currentGsr = 1;
+        [SerializeField] private float hrModifier = 1.0f;
         private DataState hrState;
+        [SerializeField] private float gsrModifier = 1.0f;
         private DataState gsrState;
+        [SerializeField] private float arousalModifier = 1.0f;
+        private DataState arousalState;
         private List<string> connectedBands;
         private BackgroundWorker refresherWorker;
         #endregion
-
-
-        private float arousalModifier = 0;
-        private DataState arousalState;
-
+        
 
         #region Public fields & properties
         /// <summary>Is module enabled?</summary>
@@ -93,14 +90,6 @@ namespace LastBastion.Biofeedback
         public int CurrentHr { get { return currentHr; } }
         /// <summary>Current GSR value.</summary>
         public int CurrentGsr { get { return currentGsr; } }
-        /// <summary>List of connected MS Band devices.</summary>
-        public List<string> ConnectedBands { get { return connectedBands; } }
-
-        ///// <summary>Informs that biofeedback data has changed.</summary>
-        //public Action<BiofeedbackData> BiofeedbackDataChanged;
-        #endregion
-
-
         /// <summary>Current arousal modifier.</summary>
         public float ArousalModifier { get { return arousalModifier; } }
         /// <summary>Current arousal state.</summary>
@@ -113,9 +102,12 @@ namespace LastBastion.Biofeedback
         public float GsrModifier { get { return gsrModifier; } }
         /// <summary>Current GSR state.</summary>
         public DataState GsrState { get { return gsrState; } }
-
+        /// <summary>List of connected MS Band devices.</summary>
+        public List<string> ConnectedBands { get { return connectedBands; } }
         /// <summary>Informs that biofeedback data has changed.</summary>
         public Action BiofeedbackDataChanged;
+        #endregion
+
 
         #region MonoBehaviour methods
         // Awake is called when the script instance is being loaded
@@ -373,7 +365,6 @@ namespace LastBastion.Biofeedback
             }
             // inform that biofeedback data has changed:
             BiofeedbackDataChanged();
-            //BiofeedbackDataChanged(new BiofeedbackData(hrModifier, hrState, gsrModifier, gsrState, arousalModifier, arousalState));
         }
         #endregion
     }

@@ -71,10 +71,7 @@ namespace LastBastion.Game.Managers
             }
 
             // save info about event:
-            if (GameManager.instance.AnalyticsEnabled)
-            {
-                LevelManager.instance.AddGameEvent(Analytics.EventType.Decals);
-            }
+            if (GameManager.instance.AnalyticsEnabled) LevelManager.instance.AddGameEvent(Analytics.EventType.Decals);
         }
         #endregion
     }

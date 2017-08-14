@@ -5,17 +5,17 @@
     /// </summary>
     public enum EventType
     {
-        GameStart,//
-        GameEnd,    //
-        HrData, //
-        GsrData,    //
+        GameStart,
+        GameEnd,
+        HrData,
+        GsrData,
         ArousalData,
-        Sound,  //
-        Light,  //
-        Decals, //
+        Sound,
+        Light,
+        Decals,
         TV,
-        Flashlight, //
-        Heartbeat, //
-        Shaking //
+        Flashlight,
+        Heartbeat,
+        Shaking
     }
 }

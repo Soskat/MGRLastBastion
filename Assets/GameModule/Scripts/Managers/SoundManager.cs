@@ -60,17 +60,18 @@ namespace LastBastion.Game.Managers
                 choosenSoundSource = FindBestSoundSource();
                 if (choosenSoundSource.GetComponent<SoundTrigger>() != null) choosenSoundSource.GetComponent<SoundTrigger>().PlaySound();
                 else choosenSoundSource.GetComponent<AudioSource>().PlayOneShot(choosenAudioClip);
-                StartCoroutine(CooldownTimer(startDelay));
+                // cooldown time is proportional to arousal modifier:
+                StartCoroutine(CooldownTimer(startDelay * GameManager.instance.BBModule.ArousalModifier));
                 
                 // save info about event:
-                if (GameManager.instance.AnalyticsEnabled)
-                {
-                    LevelManager.instance.AddGameEvent(Analytics.EventType.Sound);
-                }
+                if (GameManager.instance.AnalyticsEnabled) LevelManager.instance.AddGameEvent(Analytics.EventType.Sound);
             }
 
-            // debug: ------------------------------------------------------------------------------------------------------------------------
-            if (isActive) Debug.DrawLine(LevelManager.instance.Player.transform.position, FindBestSoundSource().transform.position, Color.cyan);
+            // debug mode:
+            if (GameManager.instance.DebugMode && isActive)
+            {
+                Debug.DrawLine(LevelManager.instance.Player.transform.position, FindBestSoundSource().transform.position, Color.cyan);
+            }
         }
 
         // OnTriggerEnter is called when the Collider other enters the trigger

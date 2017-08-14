@@ -10,6 +10,7 @@ namespace LastBastion.Biofeedback
     public class BiofeedbackSimulator : MonoBehaviour
     {
         #region Private fields
+        [SerializeField] private bool isEnabled;
         [SerializeField] private TripleTreshold hrLevel;
         [SerializeField] private TripleTreshold gsrLevel;
         #endregion
@@ -42,13 +43,13 @@ namespace LastBastion.Biofeedback
             CurrentHr = AverageHr;
             CurrentGsr = AverageGsr;
             GameManager.instance.BBModule.BiofeedbackDataChanged += () => UpdateBiofeedbackVariables();
-            //GameManager.instance.BBModule.BiofeedbackDataChanged += data => UpdateBiofeedbackVariables(data);
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (!GameManager.instance.BBModule.IsEnabled) GameManager.instance.BBModule.UpdateBiofeedbackData(AverageHr, CurrentHr, AverageGsr, CurrentGsr);
+            if (isEnabled) GameManager.instance.BBModule.UpdateBiofeedbackData(AverageHr, CurrentHr, AverageGsr, CurrentGsr);
+            //if (!GameManager.instance.BBModule.IsEnabled) GameManager.instance.BBModule.UpdateBiofeedbackData(AverageHr, CurrentHr, AverageGsr, CurrentGsr);
 
             // just for test:
             if (Input.GetKey(KeyCode.KeypadPlus)) CurrentHr += 1;
@@ -63,18 +64,12 @@ namespace LastBastion.Biofeedback
         /// <summary>
         /// Updates simulator's variables.
         /// </summary>
-        /// <param name="data">Packet of updated variables' values</param>
         private void UpdateBiofeedbackVariables()
-        //private void UpdateBiofeedbackVariables(BiofeedbackData data)
         {
             HrModifier = GameManager.instance.BBModule.HrModifier;
             HrState = GameManager.instance.BBModule.HrState;
             GsrModifier = GameManager.instance.BBModule.GsrModifier;
             GsrState = GameManager.instance.BBModule.GsrState;
-            //HrModifier = data.HrModifier;
-            //HrState = data.HrState;
-            //GsrModifier = data.GsrModifier;
-            //GsrState = data.GsrState;
         }
         #endregion
     }

@@ -94,8 +94,11 @@ namespace LastBastion.Game.Player
             }
 
             // manual test: ---------------------------
-            if (Input.GetKeyDown(KeyCode.B) && !flashlight.IsBusy) StartCoroutine(flashlight.Blink(true));
-            if (Input.GetKeyDown(KeyCode.N) && !flashlight.IsBusy) StartCoroutine(flashlight.BlinkToDeath());
+            if (GameManager.instance.DebugMode)
+            {
+                if (Input.GetKeyDown(KeyCode.B) && !flashlight.IsBusy) StartCoroutine(flashlight.Blink(true));
+                if (Input.GetKeyDown(KeyCode.N) && !flashlight.IsBusy) StartCoroutine(flashlight.BlinkToDeath());
+            }
         }
         #endregion
 

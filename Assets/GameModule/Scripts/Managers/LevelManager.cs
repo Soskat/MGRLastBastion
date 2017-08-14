@@ -94,15 +94,13 @@ namespace LastBastion.Game.Managers
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                ShowCurrentGoal();
-            }
+            // read input:
+            if (Input.GetKeyDown(KeyCode.Q)) ShowCurrentGoal();
 
-            // For test purposes:
-            if (Input.GetKeyDown(KeyCode.Keypad1))
+            // debug mode:
+            if (GameManager.instance.DebugMode)
             {
-                EndLevel();
+                if (Input.GetKeyDown(KeyCode.Keypad1)) EndLevel();
             }
 
             // manage biofeedback: ===============================================
@@ -116,10 +114,8 @@ namespace LastBastion.Game.Managers
             if (GameManager.instance.BBModule.IsSensorsReadingsChanged)
             {
                 // save new sensors readings values:
-                if (GameManager.instance.AnalyticsEnabled)
-                {
-                    AddBiofeedbackEvents();
-                }
+                if (GameManager.instance.AnalyticsEnabled) AddBiofeedbackEvents();
+                // reset flags:
                 GameManager.instance.BBModule.IsSensorsReadingsChanged = false;
                 GameManager.instance.IsReadyForNewBandData = true;
             }

@@ -32,10 +32,7 @@ namespace LastBastion.Analytics
         public static void InitializeSystem()
         {
             dataDirectory = Application.streamingAssetsPath + "/TestsData/";
-            if (!Directory.Exists(dataDirectory))
-            {
-                Directory.CreateDirectory(dataDirectory);
-            }
+            if (!Directory.Exists(dataDirectory)) Directory.CreateDirectory(dataDirectory);
         }
 
         /// <summary>
@@ -94,19 +91,10 @@ namespace LastBastion.Analytics
         public static void AddGameEvent(EventType eventType, int time, object value = null)
         {
             string data;
-            if (value != null)
-            {
-                data = (int)eventType + " " + time + " " + value.ToString();
-            }
-            else
-            {
-                data = (int)eventType + " " + time;
-            }
+            if (value != null) data = (int)eventType + " " + time + " " + value.ToString();
+            else data = (int)eventType + " " + time;
             SaveToFile(data);
         }
-
-
-
 
         /// <summary>
         /// Saves game event.
@@ -117,20 +105,10 @@ namespace LastBastion.Analytics
         public static void AddGameEvent(EventType eventType, TimeSpan time, object value = null)
         {
             string data;
-            if (value != null)
-            {
-                data = (int)eventType + " " + String.Format("{0:00}:{1:00}", time.Minutes, time.Seconds) + " " + value.ToString();
-            }
-            else
-            {
-                data = (int)eventType + " " + String.Format("{0:00}:{1:00}", time.Minutes, time.Seconds);
-            }
+            if (value != null) data = (int)eventType + " " + String.Format("{0:00}:{1:00}", time.Minutes, time.Seconds) + " " + value.ToString();
+            else data = (int)eventType + " " + String.Format("{0:00}:{1:00}", time.Minutes, time.Seconds);
             SaveToFile(data);
         }
-
-
-
-
 
         /// <summary>
         /// Saves survey answers.
@@ -141,10 +119,7 @@ namespace LastBastion.Analytics
             // save section headline:
             SaveToFile("- survey_answers");
             // save survey answers:
-            foreach(Question question in questions)
-            {
-                SaveToFile(question.ID + " " + (int)question.AnswerType + " " + question.Answer);
-            }
+            foreach(Question question in questions) SaveToFile(question.ID + " " + (int)question.AnswerType + " " + question.Answer);
         }
         #endregion
 
@@ -158,12 +133,6 @@ namespace LastBastion.Analytics
         {
             byte[] data = new UTF8Encoding(true).GetBytes(value + "\n");
             file.Write(data, 0, data.Length);
-        }
-
-
-        private static void SaveSurveyToFile()
-        {
-
         }
         #endregion
     }

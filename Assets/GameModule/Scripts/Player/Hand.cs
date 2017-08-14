@@ -40,10 +40,7 @@ namespace LastBastion.Game.Player
                 {
                     lastState = DataState.High;
                     // save info about event:
-                    if (GameManager.instance.AnalyticsEnabled)
-                    {
-                        LevelManager.instance.AddGameEvent(Analytics.EventType.Shaking);
-                    }
+                    if (GameManager.instance.AnalyticsEnabled) LevelManager.instance.AddGameEvent(Analytics.EventType.Shaking);
                 }
             }
         }
