@@ -69,17 +69,32 @@ namespace LastBastion.Game.Managers
 
 
         #region Public methods
+        /// <summary>
+        /// Updates achievement panels with current values.
+        /// </summary>
         private void UpdateAchievementsPanels()
         {
-            // TEST:
+            string timeAchievementTitle, runesAchievementTitle, doorAchievementTitle, lightSwitchAchievementTitle;
+            // update time achievement:
             string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}",
                                                GameManager.instance.GameTime.Hours,
                                                GameManager.instance.GameTime.Minutes,
                                                GameManager.instance.GameTime.Seconds);
-            timeAchievement.UpdateAchievementData("time achik >>", elapsedTime);
-            runesAchievement.UpdateAchievementData("runes achik >>", GameManager.instance.CollectedRunes.ToString());
-            doorsAchievement.UpdateAchievementData("doors achik >>", GameManager.instance.OpenedDoors.ToString());
-            lightSwitchAchievement.UpdateAchievementData("light switch achik >>", GameManager.instance.LightSwitchUses.ToString());
+            if (GameManager.instance.GameTime.Minutes < 10) timeAchievementTitle = "Fast & Furious >>";
+            else timeAchievementTitle = "One moment please >>";
+            timeAchievement.UpdateAchievementData(timeAchievementTitle, elapsedTime);
+            // update runes achievement:
+            if (GameManager.instance.CollectedRunes < 3) runesAchievementTitle = "Lucky find >>";
+            else runesAchievementTitle = "The Collector >>";
+            runesAchievement.UpdateAchievementData(runesAchievementTitle, GameManager.instance.CollectedRunes.ToString());
+            // update doors achievement:
+            if (GameManager.instance.OpenedDoors < 33) doorAchievementTitle = "Just passing by >>";
+            else doorAchievementTitle = "Every nook & cranny >>";
+            doorsAchievement.UpdateAchievementData(doorAchievementTitle, GameManager.instance.OpenedDoors.ToString());
+            // update light switch achievement:
+            if (GameManager.instance.LightSwitchUses < 5) lightSwitchAchievementTitle = "It wasn't me! >>";
+            else lightSwitchAchievementTitle = "Helpless clicker >>";
+            lightSwitchAchievement.UpdateAchievementData(lightSwitchAchievementTitle, GameManager.instance.LightSwitchUses.ToString());
         }
 
         /// <summary>

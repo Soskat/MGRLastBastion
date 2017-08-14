@@ -57,7 +57,7 @@ namespace LastBastion.Game.Managers
         public int IgnoreLightLayer { get { return ignoreLightLayer; } }
         /// <summary>Reference to SurveyManager component.</summary>
         public SurveyManager SurveyManager { get; set; }
-        // Achievements counters:
+        #region Achievements counters ---------
         /// <summary>Time of the game.</summary>
         public TimeSpan GameTime { get; set; }
         /// <summary>Collected runes.</summary>
@@ -66,6 +66,7 @@ namespace LastBastion.Game.Managers
         public int OpenedDoors { get; set; }
         /// <summary>Uses of the lightswitches count.</summary>
         public int LightSwitchUses { get; set; }
+        #endregion
         #endregion
 
 
@@ -93,8 +94,6 @@ namespace LastBastion.Game.Managers
             indexOfFirstLevel = 1;
             indexOfSecondLevel = 3;
             calculationTypes = new CalculationType[2] { CalculationType.Alternative, CalculationType.Conjunction };
-            //calculationTypes = new CalculationType[2];
-
             // initialize analytics system:
             DataManager.InitializeSystem();
         }
