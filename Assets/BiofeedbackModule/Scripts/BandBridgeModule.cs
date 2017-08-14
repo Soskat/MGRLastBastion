@@ -341,9 +341,11 @@ namespace LastBastion.Biofeedback
         {
             // update HR data:
             hrModifier = (float)currentHr / averageHr;
+            if (hrModifier < 0.1f) hrModifier = 0.1f;   // prevents hrModifier from getting negative value
             hrState = hrLevel.AssignState(hrModifier);
             // update GSR data:
             gsrModifier = (float)currentGsr / averageGsr;
+            if (gsrModifier < 0.1f) gsrModifier = 0.1f; //prevents gsrModifier from getting negative value
             gsrState = gsrLevel.AssignState(gsrModifier);
             // update arousal data:
             arousalState = DataState.None;

@@ -118,7 +118,17 @@ namespace LastBastion.Game.ObjectInteraction
                 {
                     // turn on TV:
                     TurnOnTV();
-                    GetComponent<SphereCollider>().radius = 3 * activationRange;
+                    // set new radius to sphere trigger:
+                    // biofeedback ON:
+                    if (GameManager.instance.BBModule.IsEnabled)
+                    {
+                        GetComponent<SphereCollider>().radius += GameManager.instance.BBModule.ArousalModifier * activationRange * 2f;
+                    }
+                    // biofeedback OFF:
+                    else
+                    {
+                        GetComponent<SphereCollider>().radius += Random.Range(0.1f, 1.5f) * activationRange * 2f;
+                    }
                     canTurnOn = false;
                     canTurnOff = true;
                 }

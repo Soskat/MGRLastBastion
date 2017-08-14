@@ -19,6 +19,7 @@ namespace LastBastion.Game.Managers
         private GameObject choosenSoundSource;
         private AudioClip choosenAudioClip;
         private bool isBusy = false;
+        private float cooldownTime = 1f;
         #endregion
         
 
@@ -47,6 +48,7 @@ namespace LastBastion.Game.Managers
                         // play hard sound:
                         choosenAudioClip = soundsHard[Random.Range(0, soundsHard.Count)];
                     }
+                    cooldownTime = startDelay * GameManager.instance.BBModule.ArousalModifier;
                 }
                 // biofeedback OFF:
                 else
@@ -55,13 +57,14 @@ namespace LastBastion.Game.Managers
                     int x = Random.Range(0, 2);
                     if (x == 0) choosenAudioClip = soundsLight[Random.Range(0, soundsLight.Count)];
                     else choosenAudioClip = soundsHard[Random.Range(0, soundsHard.Count)];
+                    cooldownTime = startDelay * Random.Range(0.5f, 1.5f);
                 }
                 
                 choosenSoundSource = FindBestSoundSource();
                 if (choosenSoundSource.GetComponent<SoundTrigger>() != null) choosenSoundSource.GetComponent<SoundTrigger>().PlaySound();
                 else choosenSoundSource.GetComponent<AudioSource>().PlayOneShot(choosenAudioClip);
-                // cooldown time is proportional to arousal modifier:
-                StartCoroutine(CooldownTimer(startDelay * GameManager.instance.BBModule.ArousalModifier));
+                // start cooldown timer:
+                StartCoroutine(CooldownTimer(cooldownTime));
                 
                 // save info about event:
                 if (GameManager.instance.AnalyticsEnabled) LevelManager.instance.AddGameEvent(Analytics.EventType.Sound);
