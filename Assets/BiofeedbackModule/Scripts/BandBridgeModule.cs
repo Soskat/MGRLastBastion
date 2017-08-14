@@ -48,6 +48,10 @@ namespace LastBastion.Biofeedback
         #endregion
 
 
+        private float arousalModifier = 0;
+        private DataState arousalState;
+
+
         #region Public fields & properties
         /// <summary>Is module enabled?</summary>
         public bool IsEnabled { get { return isEnabled; } }
@@ -91,10 +95,27 @@ namespace LastBastion.Biofeedback
         public int CurrentGsr { get { return currentGsr; } }
         /// <summary>List of connected MS Band devices.</summary>
         public List<string> ConnectedBands { get { return connectedBands; } }
-        /// <summary>Informs that biofeedback data has changed.</summary>
-        public Action<BiofeedbackData> BiofeedbackDataChanged;
+
+        ///// <summary>Informs that biofeedback data has changed.</summary>
+        //public Action<BiofeedbackData> BiofeedbackDataChanged;
         #endregion
 
+
+        /// <summary>Current arousal modifier.</summary>
+        public float ArousalModifier { get { return arousalModifier; } }
+        /// <summary>Current arousal state.</summary>
+        public DataState ArousalState { get { return arousalState; } }
+        /// <summary>Current HR modifier.</summary>
+        public float HrModifier { get { return hrModifier; } }
+        /// <summary>Current HR state.</summary>
+        public DataState HrState { get { return hrState; } }
+        /// <summary>Current GSR modifier.</summary>
+        public float GsrModifier { get { return gsrModifier; } }
+        /// <summary>Current GSR state.</summary>
+        public DataState GsrState { get { return gsrState; } }
+
+        /// <summary>Informs that biofeedback data has changed.</summary>
+        public Action BiofeedbackDataChanged;
 
         #region MonoBehaviour methods
         // Awake is called when the script instance is being loaded
@@ -327,14 +348,13 @@ namespace LastBastion.Biofeedback
         public void UpdateBiofeedbackData(int averageHr, int currentHr, int averageGsr, int currentGsr)
         {
             // update HR data:
-            this.hrModifier = (float)currentHr / averageHr;
-            this.hrState = hrLevel.AssignState(hrModifier);
+            hrModifier = (float)currentHr / averageHr;
+            hrState = hrLevel.AssignState(hrModifier);
             // update GSR data:
-            this.gsrModifier = (float)currentGsr / averageGsr;
-            this.gsrState = gsrLevel.AssignState(gsrModifier);
+            gsrModifier = (float)currentGsr / averageGsr;
+            gsrState = gsrLevel.AssignState(gsrModifier);
             // update arousal data:
-            float arousalModifier = 0.0f;
-            DataState arousalState = DataState.None;
+            arousalState = DataState.None;
             if (GameManager.instance.CurrentCalculationType == CalculationType.Alternative)
             {
                 if (hrState == DataState.High || gsrState == DataState.High) arousalState = DataState.High;
@@ -352,7 +372,8 @@ namespace LastBastion.Biofeedback
                 arousalModifier = Mathf.Max(hrModifier, gsrModifier);
             }
             // inform that biofeedback data has changed:
-            BiofeedbackDataChanged(new BiofeedbackData(hrModifier, hrState, gsrModifier, gsrState, arousalModifier, arousalState));
+            BiofeedbackDataChanged();
+            //BiofeedbackDataChanged(new BiofeedbackData(hrModifier, hrState, gsrModifier, gsrState, arousalModifier, arousalState));
         }
         #endregion
     }

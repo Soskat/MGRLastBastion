@@ -118,9 +118,7 @@ namespace LastBastion.Game.Managers
                 // save new sensors readings values:
                 if (GameManager.instance.AnalyticsEnabled)
                 {
-                    DataManager.AddGameEvent(Analytics.EventType.HrData, stopwatch.Elapsed, GameManager.instance.BBModule.CurrentHr);
-                    DataManager.AddGameEvent(Analytics.EventType.GsrData, stopwatch.Elapsed, GameManager.instance.BBModule.CurrentGsr);
-                    // arousal ...
+                    AddBiofeedbackEvents();
                 }
                 GameManager.instance.BBModule.IsSensorsReadingsChanged = false;
                 GameManager.instance.IsReadyForNewBandData = true;
@@ -236,8 +234,20 @@ namespace LastBastion.Game.Managers
         {
             currentTime = stopwatch.Elapsed;
             DataManager.AddGameEvent(eventType, currentTime, value);
+            AddBiofeedbackEvents(currentTime);
+        }
+
+        /// <summary>
+        /// Saves biofeedback info: current HR, GSR and Arousal modifier.
+        /// </summary>
+        /// <param name="value">Time when event occured</param>
+        private void AddBiofeedbackEvents(object time = null)
+        {
+            if (time != null) currentTime = (TimeSpan)time;
+            else currentTime = stopwatch.Elapsed;
             DataManager.AddGameEvent(Analytics.EventType.HrData, currentTime, GameManager.instance.BBModule.CurrentHr);
             DataManager.AddGameEvent(Analytics.EventType.GsrData, currentTime, GameManager.instance.BBModule.CurrentGsr);
+            DataManager.AddGameEvent(Analytics.EventType.ArousalData, currentTime, GameManager.instance.BBModule.ArousalModifier);
         }
         #endregion
     }

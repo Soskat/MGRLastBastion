@@ -58,7 +58,8 @@ namespace LastBastion.Game.Player
         // Use this for initialization
         void Start()
         {
-            GameManager.instance.BBModule.BiofeedbackDataChanged += data => UpdatePlayerState(data);            
+            GameManager.instance.BBModule.BiofeedbackDataChanged += () => UpdatePlayerState();            
+            //GameManager.instance.BBModule.BiofeedbackDataChanged += data => UpdatePlayerState(data);
         }
 
         // Update is called once per frame
@@ -140,14 +141,17 @@ namespace LastBastion.Game.Player
         /// Updates Player's biofeedback state.
         /// </summary>
         /// <param name="data"></param>
-        private void UpdatePlayerState(BiofeedbackData data)
+        private void UpdatePlayerState()
+        //private void UpdatePlayerState(BiofeedbackData data)
         {
             // save current arousal as old:
             arousalOldModifier = arousalCurrentModifier;
             arousalOldState = arousalCurrentState;
             // update current arousal:
-            arousalCurrentModifier = data.ArousalModifier;
-            arousalCurrentState = data.ArousalState;
+            arousalCurrentModifier = GameManager.instance.BBModule.ArousalModifier;
+            arousalCurrentState = GameManager.instance.BBModule.ArousalState;
+            //arousalCurrentModifier = data.ArousalModifier;
+            //arousalCurrentState = data.ArousalState;
         }
         
         /// <summary>
