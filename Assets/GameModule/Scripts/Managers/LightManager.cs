@@ -55,20 +55,24 @@ namespace LastBastion.Game.Managers
                     switch (LevelManager.instance.PlayerBiofeedback.ArousalCurrentState)
                     {
                         case Biofeedback.DataState.High:
-                            int choice = Random.Range(0, 3);
-                            switch (choice)
+                            if (!lightsOn) SwitchLights();
+                            else
                             {
-                                case 0:
-                                    SwitchLights();
-                                    break;
+                                int choice = Random.Range(0, 3);
+                                switch (choice)
+                                {
+                                    case 0:
+                                        SwitchLights();
+                                        break;
 
-                                case 1:
-                                    BlinkRandomLight();
-                                    break;
+                                    case 1:
+                                        BlinkRandomLight();
+                                        break;
 
-                                case 2:
-                                    BlinkAllLights();
-                                    break;
+                                    case 2:
+                                        BlinkAllLights();
+                                        break;
+                                }
                             }
                             break;
 
