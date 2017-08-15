@@ -1,6 +1,7 @@
 ﻿using LastBastion.Game.Managers;
 using LastBastion.Game.ObjectInteraction;
 using UnityEngine;
+using UnityStandardAssets.Characters.FirstPerson;
 
 
 namespace LastBastion.Game.Player
@@ -13,6 +14,15 @@ namespace LastBastion.Game.Player
         #region Private fields
         [SerializeField] private LayerMask layerMask;
         [SerializeField] private GameObject activeObject;
+        [SerializeField] private Transform focusPoint;
+        [SerializeField] private bool isFocused;
+        //private Transform oldTransform;
+        #endregion
+
+
+        #region Public fields & properties
+        /// <summary>Is player focused on interaction with object?</summary>
+        public bool IsFocused { get { return isFocused; } }
         #endregion
 
 
@@ -20,7 +30,7 @@ namespace LastBastion.Game.Player
         // Use this for initialization
         void Start()
         {
-
+            focusPoint = GameObject.FindGameObjectWithTag("FocusPoint").transform;
         }
 
         // Update is called once per frame
@@ -28,16 +38,37 @@ namespace LastBastion.Game.Player
         {
             if (activeObject != null && Input.GetKeyDown(KeyCode.E))
             {
-                if(activeObject.tag == "Interactive")
+                if (!isFocused)
                 {
-                    activeObject.GetComponentInParent<IInteractiveObject>().Interact();
+                    if (activeObject.tag == "Interactive")
+                    {
+                        // interact with the object:
+                        activeObject.GetComponentInParent<IInteractiveObject>().Interact();
+                    }
+                    else if (activeObject.tag == "Focusable")
+                    {
+                        // pick up the object to take a look at it:
+                        isFocused = true;
+                        LevelManager.instance.Player.GetComponent<FirstPersonController>().IsFocused = true;
+                        activeObject.GetComponentInParent<FocusableObject>().PickUp(focusPoint);
+                    }
                 }
+                else
+                {
+                    // put down the object:
+                    isFocused = false;
+                    LevelManager.instance.Player.GetComponent<FirstPersonController>().IsFocused = false;
+                    activeObject.GetComponentInParent<FocusableObject>().PutDown();
+                }
+
             }
         }
 
         // FixedUpdate is called every fixed framerate frame, if the MonoBehaviour is enabled
         private void FixedUpdate()
         {
+            if (isFocused) return;
+
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 

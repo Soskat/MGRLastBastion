@@ -15,14 +15,12 @@ namespace LastBastion.Game.Managers
     /// </summary>
     public class MainMenuManager : MonoBehaviour
     {
-
         #region Private fields
         [SerializeField] private GameObject gameType;
         [SerializeField] private GameObject analytics;
         [SerializeField] private GameObject settingsPanel;
         [SerializeField] private GameObject bbMenuPanel;
         [SerializeField] private GameObject listViewport;
-        [SerializeField] private int selectedAnalyticsOption = 1;
         private GameMode[] gameTypes = { GameMode.ModeA, GameMode.ModeB };
         private Dropdown gameTypeDropdown;
         private Dropdown analyticsDropdown;
@@ -55,7 +53,9 @@ namespace LastBastion.Game.Managers
             // add analytics dropdown:
             analyticsDropdown = analytics.GetComponent<Dropdown>();
             analyticsDropdown.AddOptions(new List<string>() { "enabled", "disabled" });
-            analyticsDropdown.value = selectedAnalyticsOption;
+            if (GameManager.instance.AnalyticsEnabled) analyticsDropdown.value = 0;
+            else analyticsDropdown.value = 1;
+
             // turn off settingsPanel visibility:
             TurnOffSettingsMenu();
         }

@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Interactive
+  - FocusPoint
+  - Focusable
+  - Door
   layers:
   - Default
   - TransparentFX
@@ -17,7 +20,7 @@ TagManager:
   - EditorOnly
   - InteractiveObjects
   - Sounds
-  - 
+  - IgnoreLight
   - 
   - 
   - 

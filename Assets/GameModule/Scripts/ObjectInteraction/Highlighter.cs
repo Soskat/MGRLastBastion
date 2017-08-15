@@ -22,7 +22,7 @@ namespace LastBastion.Game.ObjectInteraction
         {
             if (!isMouseOver)
             {
-                if ((transform.position - GameManager.instance.Player.transform.position).magnitude <= GameManager.instance.Assets.HintRange)
+                if ((transform.position - LevelManager.instance.Player.transform.position).magnitude <= GameManager.instance.Assets.HintRange)
                 {
                     if (!isInRange)
                     {

@@ -20,6 +20,7 @@ namespace LastBastion.Game.ObjectInteraction
         [SerializeField] AudioClip doorCloseSound;
         [SerializeField] AudioClip doorLockedSound;
         private bool isBusy = false;
+        private DoorState doorState;
         private Animator animator;
         private AudioSource audioSource;
         private int openDoorTrigger;
@@ -55,6 +56,7 @@ namespace LastBastion.Game.ObjectInteraction
         {
             animator = GetComponent<Animator>();
             audioSource = GetComponent<AudioSource>();
+            doorState = GetComponentInParent<DoorState>();
             openDoorTrigger = Animator.StringToHash("OpenTheDoor");
             closeDoorTrigger = Animator.StringToHash("CloseTheDoor");
             tryDoorTrigger = Animator.StringToHash("TryTheDoor");
@@ -115,7 +117,16 @@ namespace LastBastion.Game.ObjectInteraction
             if (isLocked) LockedDoor();
             else
             {
-                if (isClosed) OpenDoor();
+                if (isClosed)
+                {
+                    OpenDoor();
+                    if (doorState != null && !doorState.WasOpened)
+                    {
+                        // inform that door was opened:
+                        doorState.OpenDoor();
+                        LevelManager.instance.OpenedDoor();
+                    }
+                }
                 else CloseDoor();
             }
         }

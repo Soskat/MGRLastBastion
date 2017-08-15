@@ -50,25 +50,53 @@ namespace LastBastion.Game.Managers
         {
             if (WasActivated || GameManager.instance.ActiveRoom.GetComponentInChildren<LightManager>().LightsOn) return;
 
-            // activate decals set based on player's biofeedback:
-            switch (GameManager.instance.PlayerBiofeedback.ArousalCurrentState)
+            // biofeedback on:
+            if (GameManager.instance.BBModule.IsEnabled)
             {
-                // if player's arousal is high, activate extra decals set:
-                case Biofeedback.DataState.High:
-                    decalsLight.SetActive(true);
-                    if (decalsHard != null) decalsHard.SetActive(true);
-                    wasActivated = true;
-                    break;
+                // activate decals set based on player's biofeedback:
+                switch (GameManager.instance.BBModule.ArousalState)
+                {
+                    // if player's arousal is high, activate extra decals set:
+                    case Biofeedback.DataState.High:
+                        decalsLight.SetActive(true);
+                        if (decalsHard != null) decalsHard.SetActive(true);
+                        wasActivated = true;
+                        break;
 
-                // activate decals set:
-                case Biofeedback.DataState.Medium:
-                case Biofeedback.DataState.Low:
-                    decalsLight.SetActive(true);
-                    wasActivated = true;
-                    break;
+                    // activate decals set:
+                    case Biofeedback.DataState.Medium:
+                    case Biofeedback.DataState.Low:
+                        decalsLight.SetActive(true);
+                        wasActivated = true;
+                        break;
 
-                default: break;
+                    default: break;
+                }
             }
+            // biofeedback off:
+            else
+            {
+                // choose randomly decals set:
+                int choice = Random.Range(0, 2);
+                switch (choice)
+                {
+                    case 0:
+                        // activate both sets:
+                        decalsLight.SetActive(true);
+                        if (decalsHard != null) decalsHard.SetActive(true);
+                        wasActivated = true;
+                        break;
+
+                    case 1:
+                        // activate only one set:
+                        decalsLight.SetActive(true);
+                        wasActivated = true;
+                        break;
+                }
+            }
+
+            // save info about event:
+            if (GameManager.instance.AnalyticsEnabled) LevelManager.instance.AddGameEvent(Analytics.EventType.Decals);
         }
         #endregion
     }

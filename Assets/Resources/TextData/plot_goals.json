@@ -1,0 +1,24 @@
+{
+    "Set": [
+        {
+            "Weight": 0,
+            "Content": "Goal #0"
+        },
+        {
+            "Weight": 1,
+            "Content": "Goal #1"
+        },
+        {
+            "Weight": 2,
+            "Content": "Goal #2"
+        },
+        {
+            "Weight": 3,
+            "Content": "Goal #3"
+        },
+        {
+            "Weight": 4,
+            "Content": "Goal #4"
+        }
+    ]
+}

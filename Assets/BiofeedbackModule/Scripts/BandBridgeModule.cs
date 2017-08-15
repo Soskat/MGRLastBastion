@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
-using System.Threading;
 using UnityEngine;
 
 
@@ -35,18 +34,20 @@ namespace LastBastion.Biofeedback
         private bool isBandPaired = false;
         private bool isCalibrationOn = false;
         private bool canReceiveBandReadings = false;
-        private int averageHr = 0;
-        private int averageGsr = 0;
-        private int currentHr = 0;
-        private int currentGsr = 0;
-        private float hrModifier = 0;
-        private float gsrModifier = 0;
+        private int averageHr = 1;
+        private int averageGsr = 1;
+        private int currentHr = 1;
+        private int currentGsr = 1;
+        [SerializeField] private float hrModifier = 1.0f;
         private DataState hrState;
+        [SerializeField] private float gsrModifier = 1.0f;
         private DataState gsrState;
+        [SerializeField] private float arousalModifier = 1.0f;
+        private DataState arousalState;
         private List<string> connectedBands;
         private BackgroundWorker refresherWorker;
         #endregion
-
+        
 
         #region Public fields & properties
         /// <summary>Is module enabled?</summary>
@@ -89,10 +90,22 @@ namespace LastBastion.Biofeedback
         public int CurrentHr { get { return currentHr; } }
         /// <summary>Current GSR value.</summary>
         public int CurrentGsr { get { return currentGsr; } }
+        /// <summary>Current arousal modifier.</summary>
+        public float ArousalModifier { get { return arousalModifier; } }
+        /// <summary>Current arousal state.</summary>
+        public DataState ArousalState { get { return arousalState; } }
+        /// <summary>Current HR modifier.</summary>
+        public float HrModifier { get { return hrModifier; } }
+        /// <summary>Current HR state.</summary>
+        public DataState HrState { get { return hrState; } }
+        /// <summary>Current GSR modifier.</summary>
+        public float GsrModifier { get { return gsrModifier; } }
+        /// <summary>Current GSR state.</summary>
+        public DataState GsrState { get { return gsrState; } }
         /// <summary>List of connected MS Band devices.</summary>
         public List<string> ConnectedBands { get { return connectedBands; } }
         /// <summary>Informs that biofeedback data has changed.</summary>
-        public Action<BiofeedbackData> BiofeedbackDataChanged;
+        public Action BiofeedbackDataChanged;
         #endregion
 
 
@@ -327,14 +340,15 @@ namespace LastBastion.Biofeedback
         public void UpdateBiofeedbackData(int averageHr, int currentHr, int averageGsr, int currentGsr)
         {
             // update HR data:
-            this.hrModifier = (float)currentHr / averageHr;
-            this.hrState = hrLevel.AssignState(hrModifier);
+            hrModifier = (float)currentHr / averageHr;
+            if (hrModifier < 0.5f) hrModifier = 0.5f;   // prevents hrModifier from getting too small values
+            hrState = hrLevel.AssignState(hrModifier);
             // update GSR data:
-            this.gsrModifier = (float)currentGsr / averageGsr;
-            this.gsrState = gsrLevel.AssignState(gsrModifier);
+            gsrModifier = (float)currentGsr / averageGsr;
+            if (gsrModifier < 0.5f) gsrModifier = 0.5f; //prevents gsrModifier from getting too small values
+            gsrState = gsrLevel.AssignState(gsrModifier);
             // update arousal data:
-            float arousalModifier = 0.0f;
-            DataState arousalState = DataState.None;
+            arousalState = DataState.None;
             if (GameManager.instance.CurrentCalculationType == CalculationType.Alternative)
             {
                 if (hrState == DataState.High || gsrState == DataState.High) arousalState = DataState.High;
@@ -352,7 +366,7 @@ namespace LastBastion.Biofeedback
                 arousalModifier = Mathf.Max(hrModifier, gsrModifier);
             }
             // inform that biofeedback data has changed:
-            BiofeedbackDataChanged(new BiofeedbackData(hrModifier, hrState, gsrModifier, gsrState, arousalModifier, arousalState));
+            BiofeedbackDataChanged();
         }
         #endregion
     }

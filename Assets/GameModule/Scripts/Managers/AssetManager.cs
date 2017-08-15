@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using LastBastion.Game.Plot;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 
@@ -17,6 +19,10 @@ namespace LastBastion.Game.Managers
         [SerializeField] private float hintRange = 4f;
         [SerializeField] private List<AudioClip> metalDoorSqueak;
         [SerializeField] private List<AudioClip> woodenDoorSqueak;
+        [SerializeField] private List<AudioClip> footstepsGravel;
+        [SerializeField] private string plotGoalsPath;
+        [SerializeField] private Goals goals;
+        private int footstepGravelIndex;
         #endregion
 
 
@@ -29,6 +35,8 @@ namespace LastBastion.Game.Managers
         public float InteractionRange { get { return interactionRange; } }
         /// <summary>Hint range.</summary>
         public float HintRange { get { return hintRange; } }
+        /// <summary>List of plot goals.</summary>
+        public List<Goal> Goals { get { return goals.Set; } }
         #endregion
 
 
@@ -36,23 +44,65 @@ namespace LastBastion.Game.Managers
         // Awake is called when the script instance is being loaded
         private void Awake()
         {
+            // load sounds:
             metalDoorSqueak = new List<AudioClip>();
             woodenDoorSqueak = new List<AudioClip>();
-
+            footstepsGravel = new List<AudioClip>();
             metalDoorSqueak.AddRange(Resources.LoadAll<AudioClip>("Audio/metalSqueak"));
             woodenDoorSqueak.AddRange(Resources.LoadAll<AudioClip>("Audio/woodenSqueak"));
+            footstepsGravel.AddRange(Resources.LoadAll<AudioClip>("Audio/gravel"));
+            footstepGravelIndex = 0;
+            // load plot goals data:
+            plotGoalsPath = Application.dataPath + "/Resources/TextData/plot_goals.json";
+            goals = LoadGoalsDataFromFile(plotGoalsPath);
+            if (goals == null)
+            {
+                // file with plot goals doesn't exist - create new plot goals data:
+                goals = new Goals(CreateTestData(5));
+                SaveGoalsDataToFile(goals, plotGoalsPath);
+            }
+        }
+        #endregion
+
+
+        #region Private methods
+        /// <summary>
+        /// Loads plot goals data from a file with specific file path.
+        /// </summary>
+        /// <param name="filePath">Path of the file</param>
+        /// <returns>Plot goals data</returns>
+        private Goals LoadGoalsDataFromFile(string filePath)
+        {
+            if (File.Exists(filePath))
+            {
+                //Debug.Log("Loading plot goals data from a file...");
+                string dataAsText = File.ReadAllText(filePath);
+                return JsonUtility.FromJson<Goals>(dataAsText);
+            }
+            else return null;
         }
 
-        // Use this for initialization
-        void Start()
+        /// <summary>
+        /// Saves plot goals data to a file with specified file path.
+        /// </summary>
+        /// <param name="goals">Goals data to save</param>
+        /// <param name="filePath">Path of the file</param>
+        private void SaveGoalsDataToFile(Goals goals, string filePath)
         {
-
+            string dataAsJson = JsonUtility.ToJson(goals, true);
+            File.WriteAllText(filePath, dataAsJson);
+            //Debug.Log("Saved plot goals data to a file...");
         }
 
-        // Update is called once per frame
-        void Update()
+        /// <summary>
+        /// Creates test set of plot goals.
+        /// </summary>
+        /// <returns>Test plot goals data</returns>
+        private List<Goal> CreateTestData(int goalsCount)
         {
-
+            List<Goal> goals = new List<Goal>();
+            for (int i = 0; i < goalsCount; i++) goals.Add(new Goal(i, "Goal #" + i.ToString()));
+            return goals;
         }
         #endregion
 
@@ -84,6 +134,16 @@ namespace LastBastion.Game.Managers
                 return woodenDoorSqueak[index];
             }
             else return null;
+        }
+
+        /// <summary>
+        /// Returns next footstep on gravel sound.
+        /// </summary>
+        /// <returns>Footstep on gravel sound</returns>
+        public AudioClip GetFootstepOnGravelSound()
+        {
+            if (footstepGravelIndex >= footstepsGravel.Count) footstepGravelIndex = 0;
+            return footstepsGravel[footstepGravelIndex++];
         }
         #endregion
     }

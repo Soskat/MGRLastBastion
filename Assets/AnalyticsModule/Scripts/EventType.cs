@@ -9,6 +9,13 @@
         GameEnd,
         HrData,
         GsrData,
-        ArousalData
+        ArousalData,
+        Sound,
+        Light,
+        Decals,
+        TV,
+        Flashlight,
+        Heartbeat,
+        Shaking
     }
 }
