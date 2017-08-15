@@ -36,7 +36,7 @@ namespace LastBastion.Game.Managers
         private Stopwatch stopwatch;
         private TimeSpan currentTime;
         private GameObject player;
-        private BiofeedbackController playerBiofeedback;
+        private BiofeedbackAudioManager playerBiofeedback;
         #endregion
 
         
@@ -48,7 +48,7 @@ namespace LastBastion.Game.Managers
         /// <summary>Reference to player game object.</summary>
         public GameObject Player { get { return player; } }
         /// <summary>Reference to player's BiofeedbackController component.</summary>
-        public BiofeedbackController PlayerBiofeedback { get { return playerBiofeedback; } }
+        public BiofeedbackAudioManager PlayerBiofeedback { get { return playerBiofeedback; } }
         #endregion
 
 
@@ -61,7 +61,7 @@ namespace LastBastion.Game.Managers
             {
                 instance = this;
                 player = GameObject.FindGameObjectWithTag("Player");
-                playerBiofeedback = player.GetComponent<BiofeedbackController>();
+                playerBiofeedback = player.GetComponent<BiofeedbackAudioManager>();
                 // make some assertions:
                 Assert.IsNotNull(goalUpdatePanel);
                 Assert.IsNotNull(goalUpdateHeadlineText);

@@ -38,7 +38,7 @@ namespace LastBastion.Game.Managers
                 // biofeedback ON:
                 if (GameManager.instance.BBModule.IsEnabled)
                 {
-                    if (LevelManager.instance.PlayerBiofeedback.ArousalCurrentState == Biofeedback.DataState.High)
+                    if (GameManager.instance.BBModule.ArousalState == Biofeedback.DataState.High)
                     {
                         // play light sound:
                         choosenAudioClip = soundsLight[Random.Range(0, soundsLight.Count)];

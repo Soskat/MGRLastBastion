@@ -54,7 +54,7 @@ namespace LastBastion.Game.Managers
             if (GameManager.instance.BBModule.IsEnabled)
             {
                 // activate decals set based on player's biofeedback:
-                switch (LevelManager.instance.PlayerBiofeedback.ArousalCurrentState)
+                switch (GameManager.instance.BBModule.ArousalState)
                 {
                     // if player's arousal is high, activate extra decals set:
                     case Biofeedback.DataState.High:

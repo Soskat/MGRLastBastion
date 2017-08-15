@@ -52,7 +52,7 @@ namespace LastBastion.Game.Managers
                 // biofeedback logic:
                 if (GameManager.instance.BBModule.IsEnabled)
                 {
-                    switch (LevelManager.instance.PlayerBiofeedback.ArousalCurrentState)
+                    switch (GameManager.instance.BBModule.ArousalState)
                     {
                         case Biofeedback.DataState.High:
                             if (!lightsOn) SwitchLights();
@@ -88,7 +88,7 @@ namespace LastBastion.Game.Managers
                             break;
                     }
                     // wait for next move:
-                    float timeModifier = (LevelManager.instance.PlayerBiofeedback.ArousalCurrentModifier > 0f) ? LevelManager.instance.PlayerBiofeedback.ArousalCurrentModifier : 0.01f;
+                    float timeModifier = (GameManager.instance.BBModule.ArousalModifier > 0f) ? GameManager.instance.BBModule.ArousalModifier : 0.01f;
                     StartCoroutine(CooldownTimer(timeModifier * baseDelay));
                 }
                 // randomly choose light event:
