@@ -120,7 +120,7 @@ namespace LastBastion.Game.ObjectInteraction
                 if (isClosed)
                 {
                     OpenDoor();
-                    if (!doorState.WasOpened)
+                    if (doorState != null && !doorState.WasOpened)
                     {
                         // inform that door was opened:
                         doorState.OpenDoor();

@@ -1,6 +1,6 @@
 ﻿using LastBastion.Biofeedback;
 using LastBastion.Game.Managers;
-using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -17,14 +17,8 @@ namespace LastBastion.Game.Player
         [SerializeField] private DataState arousalCurrentState;
         [SerializeField] private float arousalOldModifier;
         [SerializeField] private DataState arousalOldState;
-        [SerializeField] private bool isFlashlightEquipped = true;
         [SerializeField] private AudioClip heartSound;
-        [SerializeField] private AudioClip breathSound;
         [SerializeField] private AudioSource biofeedbackAudio;
-        [SerializeField] private bool playHeartSound;
-        [SerializeField] private bool playBreathSound;
-        private bool heartSoundOn = false;
-        private bool breathSoundOn = false;
         #endregion
 
 
@@ -38,95 +32,37 @@ namespace LastBastion.Game.Player
         /// <summary>Old arousal state based on <see cref="arousalModifier"/>.</summary>
         public DataState ArousalOldState { get { return arousalOldState; } }
         #endregion
-
-
-        #region Public actions
-        /// <summary>Informs that player want to switch light in the flashlight</summary>
-        public Action SwitchLight;
-        #endregion
-
+        
 
         #region MonoBehaviour methods
         // Awake is called when the script instance is being loaded
         private void Awake()
         {
             Assert.IsNotNull(heartSound);
-            Assert.IsNotNull(breathSound);
             Assert.IsNotNull(biofeedbackAudio);
         }
 
         // Use this for initialization
         void Start()
         {
-            GameManager.instance.BBModule.BiofeedbackDataChanged += () => UpdatePlayerState();            
+            GameManager.instance.BBModule.BiofeedbackDataChanged += () => UpdatePlayerState();
+            biofeedbackAudio.clip = heartSound;
+            // biofeedback is off:
+            if (!GameManager.instance.BBModule.IsEnabled) StartCoroutine(Heartbeat());
         }
 
         // Update is called once per frame
         void Update()
         {
-            // manage game input: -------------------------------------------------------------
-            if (isFlashlightEquipped && Input.GetKeyDown(KeyCode.R)) SwitchLight();
-            
+            // biofeedback on:
             if (GameManager.instance.BBModule.IsEnabled)
             {
-                // activate mechanics based on biofeedback if module is enabled -------------------
-                switch (ArousalCurrentState)
+                if (GameManager.instance.BBModule.ArousalState == DataState.High)
                 {
-                    case DataState.High:
-                        playBreathSound = true;
-                        playHeartSound = false;
-                        break;
-
-                    case DataState.Medium:
-                        playBreathSound = false;
-                        if (arousalCurrentModifier > 1.0f) playHeartSound = true;
-                        else playHeartSound = false;
-                        break;
-
-                    case DataState.Low:
-                        playBreathSound = false;
-                        playHeartSound = false;
-                        break;
-
-                    default: break;
+                    if (GameManager.instance.AnalyticsEnabled) LevelManager.instance.AddGameEvent(Analytics.EventType.Heartbeat);
+                    StartPlayingSound();
                 }
-            }
-            // randomise events:
-            else
-            {
-                // ...
-            }
-
-
-            // Update player mechanics: -------------------------------------------------------
-
-            if (playHeartSound)
-            {
-                if (!heartSoundOn)
-                {
-                    PlaySound(heartSound);
-                    heartSoundOn = true;
-                }
-            }
-            else if (heartSoundOn)
-            {
-                biofeedbackAudio.Stop();
-                heartSoundOn = false;
-            }
-            
-
-            if (playBreathSound)
-            {
-                if (!breathSoundOn)
-                {
-                    PlaySound(breathSound);
-                    breathSoundOn = true;
-                }
-            }
-            else if (breathSoundOn)
-            {
-                biofeedbackAudio.Stop();
-                breathSoundOn = false;
+                else StopPlayingSound();
             }
         }
         #endregion
@@ -146,19 +82,36 @@ namespace LastBastion.Game.Player
             arousalCurrentModifier = GameManager.instance.BBModule.ArousalModifier;
             arousalCurrentState = GameManager.instance.BBModule.ArousalState;
         }
-        
-        /// <summary>
-        /// If biofeedback audio source is enabled, plays given clip.
-        /// </summary>
-        /// <param name="clip">Sound to play</param>
-        private void PlaySound(AudioClip clip)
-        {
-            if (biofeedbackAudio.isPlaying) biofeedbackAudio.Stop();
-            biofeedbackAudio.clip = clip;
-            biofeedbackAudio.Play();
 
+        /// <summary>
+        /// Starts playing biofeedback sound.
+        /// </summary>
+        private void StartPlayingSound()
+        {
+            biofeedbackAudio.Play();
             // save info about event:
             if (GameManager.instance.AnalyticsEnabled) LevelManager.instance.AddGameEvent(Analytics.EventType.Heartbeat);
+        }
+
+        /// <summary>
+        /// Stops playing biofeedback sound.
+        /// </summary>
+        private void StopPlayingSound()
+        {
+            if (biofeedbackAudio.isPlaying) biofeedbackAudio.Stop();
+        }
+
+        /// <summary>
+        /// Activates and deactivates shaking hand simulation.
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator Heartbeat()
+        {
+            yield return new WaitForSeconds(Random.Range(60, 120));
+            StartPlayingSound();
+            yield return new WaitForSeconds(Random.Range(30, 90));
+            StopPlayingSound();
+            StartCoroutine(Heartbeat());
         }
         #endregion
     }

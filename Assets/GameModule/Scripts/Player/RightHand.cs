@@ -21,15 +21,11 @@ namespace LastBastion.Game.Player
         private int flashlightHideAnimState;
         private int flashlightDrawAnimState;
         private int flashlightReviveAnimState;
+        private float deltaTime;
         #endregion
 
 
         #region MonoBehaviour methods
-        // Awake is called when the script instance is being loaded
-        private void Awake()
-        {
-        }
-
         // Use this for initialization
         new void Start()
         {
@@ -39,17 +35,21 @@ namespace LastBastion.Game.Player
             flashlightHideAnimState = Animator.StringToHash("HideFlashlight");
             flashlightDrawAnimState = Animator.StringToHash("DrawFlashlight");
             flashlightReviveAnimState = Animator.StringToHash("FlashlightRevive");
-            player.SwitchLight += SwitchLight;
+            //player.SwitchLight += SwitchLight;
+            // calculate current fps value:
+            deltaTime = 1.0f / Time.deltaTime;
 
+            // if biofeedback is off set up the blink events at random time:
             if (!GameManager.instance.BBModule.IsEnabled)
             {
                 StartCoroutine(BlinkFlashlight());
                 StartCoroutine(BlinkFlashlightToDeath());
             }
+            // if biofeedback is on set up initial counters values:
             else
             {
-                timeSinceLastBlink = GetRandomShortTime() * 100;
-                timeSinceLastBlinkToDeath = GetRandomLongTime() * 100;
+                timeSinceLastBlink = GetRandomSecondsShortRange() * (int)deltaTime;
+                timeSinceLastBlinkToDeath = GetRandomSecondsLongRange() * (int)deltaTime;
             }
         }
 
@@ -58,34 +58,31 @@ namespace LastBastion.Game.Player
         {
             base.Update();
 
-            // update game mechanics based on current player's arousal:
+            // manage game input: -------------------------------------------------------------
+            if (Input.GetKeyDown(KeyCode.R)) SwitchLight();
+
+            // update game mechanics based on player's current arousal:
             if (GameManager.instance.BBModule.IsEnabled)
             {
-                switch (player.ArousalCurrentState)
+                deltaTime = 1.0f / Time.deltaTime;
+                switch (GameManager.instance.BBModule.ArousalState)
                 {
                     case DataState.High:
-                        break;
-
-                    case DataState.Medium:
                         if (flashlight.LightOn && timeSinceLastBlink > 0) timeSinceLastBlink--;
-
-                        if (player.ArousalCurrentModifier < 1.0)
+                        if (flashlight.LightOn && !flashlight.IsBusy && timeSinceLastBlink <= 0)
                         {
-                            if (flashlight.LightOn && !flashlight.IsBusy && timeSinceLastBlink == 0)
-                            {
-                                StartCoroutine(flashlight.Blink(true));
-                                timeSinceLastBlink = GetRandomShortTime() * 100;
-                            }
+                            StartCoroutine(flashlight.Blink(true));
+                            timeSinceLastBlink = GetRandomSecondsShortRange() * (int)deltaTime;
                         }
                         break;
 
+                    case DataState.Medium:
                     case DataState.Low:
                         if (flashlight.LightOn && timeSinceLastBlinkToDeath > 0) timeSinceLastBlinkToDeath--;
-
-                        if (flashlight.LightOn && !flashlight.IsBusy && timeSinceLastBlinkToDeath == 0)
+                        if (flashlight.LightOn && !flashlight.IsBusy && timeSinceLastBlinkToDeath <= 0)
                         {
                             StartCoroutine(flashlight.BlinkToDeath());
-                            timeSinceLastBlinkToDeath = GetRandomLongTime() * 100;
+                            timeSinceLastBlinkToDeath = GetRandomSecondsLongRange() * (int)deltaTime;
                         }
                         break;
 
@@ -109,7 +106,6 @@ namespace LastBastion.Game.Player
         /// </summary>
         public void SwitchLight()
         {
-            // change it later to use actual biofeedback data:
             if (flashlight.IsDead)
             {
                 animator.applyRootMotion = false;
@@ -181,9 +177,8 @@ namespace LastBastion.Game.Player
         /// <returns></returns>
         private IEnumerator BlinkFlashlight()
         {
-            int counter = GetRandomShortTime();
-            yield return new WaitForSeconds(counter);
-            //doBlink = true;
+            yield return new WaitForSeconds(GetRandomSecondsShortRange());
+            StartCoroutine(flashlight.Blink(true));
             StartCoroutine(BlinkFlashlight());
         }
 
@@ -193,28 +188,27 @@ namespace LastBastion.Game.Player
         /// <returns></returns>
         private IEnumerator BlinkFlashlightToDeath()
         {
-            int counter = GetRandomLongTime();
-            yield return new WaitForSeconds(counter);
-            //doBlink = true;
+            yield return new WaitForSeconds(GetRandomSecondsLongRange());
+            StartCoroutine(flashlight.BlinkToDeath());
             StartCoroutine(BlinkFlashlightToDeath());
         }
 
         /// <summary>
-        /// Gets random int time from range [20, 40).
+        /// Gets random seconds from range [30, 90).
         /// </summary>
         /// <returns>Time in seconds</returns>
-        private int GetRandomShortTime()
+        private int GetRandomSecondsShortRange()
         {
-            return Random.Range(20, 40);
+            return Random.Range(30, 90);
         }
 
         /// <summary>
-        /// Gets random int time from range [50, 70).
+        /// Gets random seconds from range [120, 180).
         /// </summary>
         /// <returns>Time in seconds</returns>
-        private int GetRandomLongTime()
+        private int GetRandomSecondsLongRange()
         {
-            return Random.Range(50, 70);
+            return Random.Range(120, 180);
         }
         #endregion
     }
