@@ -7,7 +7,7 @@ namespace LastBastion.Game.ObjectInteraction
     /// <summary>
     /// Component that represents collectable rune object.
     /// </summary>
-    [RequireComponent(typeof(Highlighter))]
+    [RequireComponent(typeof(HighlighterOutlined))]
     public class Rune : FocusableObject
     {
         #region Public methods

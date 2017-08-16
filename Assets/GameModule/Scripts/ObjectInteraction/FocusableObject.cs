@@ -11,9 +11,12 @@ namespace LastBastion.Game.ObjectInteraction
     public class FocusableObject : MonoBehaviour
     {
         #region Private fields
+        [SerializeField] private Quaternion focusedRotation;
+        [SerializeField] private Vector3 focusedScale;
         private Transform originalParent;
         private Vector3 originalPosition;
         private Quaternion originalRotation;
+        private Vector3 originalScale;
         private int originalLayer;
         #endregion
 
@@ -22,8 +25,8 @@ namespace LastBastion.Game.ObjectInteraction
         // Use this for initialization
         void Start()
         {
-            originalPosition = transform.position;
-            originalRotation = transform.rotation;
+            SetOriginalPositionAndRotation();
+            originalScale = transform.localScale;
             originalParent = transform.parent;
             originalLayer = gameObject.layer;
         }
@@ -32,6 +35,15 @@ namespace LastBastion.Game.ObjectInteraction
 
         #region Public methods
         /// <summary>
+        /// Saves current position and rotation as original ones.
+        /// </summary>
+        public void SetOriginalPositionAndRotation()
+        {
+            originalPosition = transform.position;
+            originalRotation = transform.rotation;
+        }
+
+        /// <summary>
         /// Picks object up.
         /// </summary>
         public virtual void PickUp(Transform newTransform)
@@ -39,10 +51,13 @@ namespace LastBastion.Game.ObjectInteraction
             // transform object to newTransform and change layer:
             transform.parent = newTransform.parent;
             transform.position = newTransform.position;
-            transform.rotation = newTransform.rotation;
+            transform.localRotation = focusedRotation;
+            transform.localScale = focusedScale;
             gameObject.layer = GameManager.instance.IgnoreLightLayer;
+            // turn off highlight in focuse mode:
+            GetComponent<Highlighter>().SetHighlightBlockade();
         }
-
+        
         /// <summary>
         /// Puts object down.
         /// </summary>
@@ -52,7 +67,10 @@ namespace LastBastion.Game.ObjectInteraction
             transform.parent = originalParent;
             transform.position = originalPosition;
             transform.rotation = originalRotation;
+            transform.localScale = originalScale;
             gameObject.layer = originalLayer;
+            // turn on highlight back:
+            GetComponent<Highlighter>().ResetHighlightBlockade();
         }
         #endregion
     }

@@ -1,4 +1,5 @@
 ﻿using LastBastion.Game.Managers;
+using System;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -40,6 +41,12 @@ namespace LastBastion.Game.ObjectInteraction
             get { return isLocked; }
             set { isLocked = value; }
         }
+        /// <summary>Delegate which informs that door has opened.</summary>
+        public Action OpenedDoorAction { get; set; }
+        /// <summary>Delegate which informs that door has closed.</summary>
+        public Action ClosedDoorAction { get; set; }
+        /// <summary>Delegate which informs that door has stopped moving.</summary>
+        public Action EndedMovingAction { get; set; }
         #endregion
 
 
@@ -60,12 +67,10 @@ namespace LastBastion.Game.ObjectInteraction
             openDoorTrigger = Animator.StringToHash("OpenTheDoor");
             closeDoorTrigger = Animator.StringToHash("CloseTheDoor");
             tryDoorTrigger = Animator.StringToHash("TryTheDoor");
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
+            // assign actions to prevent errors when gameObject is not a drawer:
+            OpenedDoorAction += () => { };
+            ClosedDoorAction += () => { };
+            EndedMovingAction += () => { };
         }
         #endregion
 
@@ -78,6 +83,7 @@ namespace LastBastion.Game.ObjectInteraction
         {
             animator.SetTrigger(openDoorTrigger);
             isClosed = false;
+            OpenedDoorAction();
         }
 
         /// <summary>
@@ -87,6 +93,7 @@ namespace LastBastion.Game.ObjectInteraction
         {
             animator.SetTrigger(closeDoorTrigger);
             isClosed = true;
+            ClosedDoorAction();
         }
 
         /// <summary>
@@ -186,6 +193,14 @@ namespace LastBastion.Game.ObjectInteraction
                     PlaySound(GameManager.instance.Assets.GetMetalSqueakSound());
                     break;
             }
+        }
+
+        /// <summary>
+        /// Sets EndedMovingAction action.
+        /// </summary>
+        public void SetEndedMovingAction()
+        {
+            EndedMovingAction();
         }
         #endregion
     }
