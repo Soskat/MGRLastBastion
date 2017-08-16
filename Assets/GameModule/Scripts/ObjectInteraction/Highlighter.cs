@@ -10,9 +10,15 @@ namespace LastBastion.Game.ObjectInteraction
     public class Highlighter : MonoBehaviour
     {
         #region Private fields
-        [SerializeField][Range(0.0f, 2.0f)] private float outlineWidth;
+        [SerializeField][Range(0.0f, 5.0f)] private float outlineWidth;
         private bool isMouseOver = false;
         private bool isInRange = false;
+        #endregion
+
+
+        #region Public fields & properties
+        /// <summary>Highlight outline width.</summary>
+        public float OutlineWidth { get { return outlineWidth; } }
         #endregion
 
 
