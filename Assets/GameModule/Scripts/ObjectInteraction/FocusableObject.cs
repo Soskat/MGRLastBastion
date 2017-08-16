@@ -26,8 +26,7 @@ namespace LastBastion.Game.ObjectInteraction
         // Use this for initialization
         void Start()
         {
-            originalPosition = transform.position;
-            originalRotation = transform.rotation;
+            SetOriginalPositionAndRotation();
             originalScale = transform.localScale;
             originalParent = transform.parent;
             originalLayer = gameObject.layer;
@@ -37,6 +36,15 @@ namespace LastBastion.Game.ObjectInteraction
 
 
         #region Public methods
+        /// <summary>
+        /// Saves current position and rotation as original ones.
+        /// </summary>
+        public void SetOriginalPositionAndRotation()
+        {
+            originalPosition = transform.position;
+            originalRotation = transform.rotation;
+        }
+
         /// <summary>
         /// Picks object up.
         /// </summary>
@@ -50,20 +58,7 @@ namespace LastBastion.Game.ObjectInteraction
             gameObject.layer = GameManager.instance.IgnoreLightLayer;
             GetComponent<Renderer>().material.SetFloat("_Outline", 0f);
         }
-
-
-        ///// <summary>
-        ///// Picks object up.
-        ///// </summary>
-        //public virtual void PickUp(Transform newTransform)
-        //{
-        //    // transform object to newTransform and change layer:
-        //    transform.parent = newTransform.parent;
-        //    transform.position = newTransform.position;
-        //    transform.rotation = newTransform.rotation;
-        //    gameObject.layer = GameManager.instance.IgnoreLightLayer;
-        //}
-
+        
         /// <summary>
         /// Puts object down.
         /// </summary>

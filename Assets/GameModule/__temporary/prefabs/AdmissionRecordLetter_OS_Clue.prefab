@@ -22,8 +22,9 @@ GameObject:
   - component: {fileID: 33330631459305748}
   - component: {fileID: 23315656956223052}
   - component: {fileID: 64988664323164122}
-  - component: {fileID: 114109669096257166}
   - component: {fileID: 114320101399971674}
+  - component: {fileID: 114051268311312992}
+  - component: {fileID: 114261185810049744}
   m_Layer: 9
   m_Name: AdmissionRecordLetter_OS_Clue
   m_TagString: Focusable
@@ -38,7 +39,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1491403329362720}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16.101, y: -0.277, z: 53.92}
+  m_LocalPosition: {x: 16.101, y: -0.567, z: 54.559}
   m_LocalScale: {x: 22, y: 22, z: 22}
   m_Children: []
   m_Father: {fileID: 0}
@@ -97,7 +98,7 @@ MeshCollider:
   m_InflateMesh: 0
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: bc6d10232a81e1447a7d9500d8b9a5a9, type: 3}
---- !u!114 &114109669096257166
+--- !u!114 &114051268311312992
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -105,11 +106,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 1491403329362720}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39e1de354ddb35047a47293e08683c3b, type: 3}
+  m_Script: {fileID: 11500000, guid: e98986135f7e90b4ea6ddb7af62d9891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   focusedRotation: {x: 0, y: 180, z: 0, w: 0}
   focusedScale: {x: 57, y: 57, z: 57}
+--- !u!114 &114261185810049744
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1491403329362720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9711a76e774f24841abecce682cd987f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goal:
+    Weight: -1
+    Content: <empty>
 --- !u!114 &114320101399971674
 MonoBehaviour:
   m_ObjectHideFlags: 1

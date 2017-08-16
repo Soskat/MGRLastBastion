@@ -31,8 +31,9 @@ namespace LastBastion.Game.Managers
         private int indexOfFirstLevel;
         private int indexOfSecondLevel;
         private int ignoreLightLayer;
+        private int interactiveObjectsLayer;
         #endregion
-        
+
 
         #region Public fields & properties
         /// <summary>Is debug mode on?</summary>
@@ -55,6 +56,8 @@ namespace LastBastion.Game.Managers
         public GameObject ActiveRoom { get; set; }
         /// <summary>IgnoreLight layer number.</summary>
         public int IgnoreLightLayer { get { return ignoreLightLayer; } }
+        /// <summary>InteractiveObjects layer number.</summary>
+        public int InteractiveObjectsLayer { get { return interactiveObjectsLayer; } }
         /// <summary>Reference to SurveyManager component.</summary>
         public SurveyManager SurveyManager { get; set; }
         #region Achievements counters ---------
@@ -82,6 +85,7 @@ namespace LastBastion.Game.Managers
                 BBModule = GetComponent<BandBridgeModule>();
                 Assets = GetComponent<AssetManager>();
                 ignoreLightLayer = LayerMask.NameToLayer("IgnoreLight");
+                interactiveObjectsLayer = LayerMask.NameToLayer("InteractiveObjects");
             }
             else if (instance != this) Destroy(gameObject);
         }
