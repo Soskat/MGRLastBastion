@@ -18,7 +18,6 @@ namespace LastBastion.Game.ObjectInteraction
         private Quaternion originalRotation;
         private Vector3 originalScale;
         private int originalLayer;
-        private float originOutlineWidth;
         #endregion
 
         
@@ -30,7 +29,6 @@ namespace LastBastion.Game.ObjectInteraction
             originalScale = transform.localScale;
             originalParent = transform.parent;
             originalLayer = gameObject.layer;
-            originOutlineWidth = GetComponent<Highlighter>().OutlineWidth;
         }
         #endregion
 
@@ -56,7 +54,8 @@ namespace LastBastion.Game.ObjectInteraction
             transform.localRotation = focusedRotation;
             transform.localScale = focusedScale;
             gameObject.layer = GameManager.instance.IgnoreLightLayer;
-            GetComponent<Renderer>().material.SetFloat("_Outline", 0f);
+            // turn off highlight in focuse mode:
+            GetComponent<Highlighter>().SetHighlightBlockade();
         }
         
         /// <summary>
@@ -70,7 +69,8 @@ namespace LastBastion.Game.ObjectInteraction
             transform.rotation = originalRotation;
             transform.localScale = originalScale;
             gameObject.layer = originalLayer;
-            GetComponent<Renderer>().material.SetFloat("_Outline", originOutlineWidth);
+            // turn on highlight back:
+            GetComponent<Highlighter>().ResetHighlightBlockade();
         }
         #endregion
     }

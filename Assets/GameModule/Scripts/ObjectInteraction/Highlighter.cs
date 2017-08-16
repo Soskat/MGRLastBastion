@@ -1,30 +1,28 @@
 ﻿using LastBastion.Game.Managers;
 using UnityEngine;
 
-
 namespace LastBastion.Game.ObjectInteraction
 {
     /// <summary>
-    /// Component that manages higlighting interactive game object.
+    /// Interface that contains essential methods for highlighting objects.
     /// </summary>
     public class Highlighter : MonoBehaviour
     {
-        #region Private fields
-        [SerializeField][Range(0.0f, 5.0f)] private float outlineWidth;
-        private bool isMouseOver = false;
-        private bool isInRange = false;
-        #endregion
-
-
-        #region Public fields & properties
-        /// <summary>Highlight outline width.</summary>
-        public float OutlineWidth { get { return outlineWidth; } }
+        #region Protected fields
+        protected bool isMouseOver = false;
+        protected bool isInRange = false;
         #endregion
 
 
         #region MonoBehaviour methods
+        // Use this for initialization
+        void Start()
+        {
+            SetNormalColor();
+        }
+
         // Update is called once per frame
-        void Update()
+        public void Update()
         {
             if (!isMouseOver)
             {
@@ -49,43 +47,67 @@ namespace LastBastion.Game.ObjectInteraction
         #endregion
 
 
-        #region Public methods
-        /// <summary>
-        /// Turns on the highlight of the object.
-        /// </summary>
-        public void TurnOnHighlight()
-        {
-            isMouseOver = true;
-            GetComponent<Renderer>().material.SetColor("_OutlineColor", GameManager.instance.Assets.HighlightColor);
-            GetComponent<Renderer>().material.SetFloat("_Outline", outlineWidth);
-        }
-
-        /// <summary>
-        /// Turns off the highlight of the object.
-        /// </summary>
-        public void TurnOffHighlight()
-        {
-            isMouseOver = false;
-            ManageHintColor();
-        }
-        #endregion
-
-
         #region Private methods
         /// <summary>
         /// Sets or removes hint color from game object's material.
         /// </summary>
         private void ManageHintColor()
         {
-            if (isInRange)
-            {
-                GetComponent<Renderer>().material.SetColor("_OutlineColor", GameManager.instance.Assets.HintColor);
-                GetComponent<Renderer>().material.SetFloat("_Outline", outlineWidth);
-            }
-            else
-            {
-                GetComponent<Renderer>().material.SetFloat("_Outline", 0.0f);
-            }
+            if (isInRange) SetHintColor();
+            else SetNormalColor();
+        }
+        #endregion
+
+
+        #region Public methods
+        /// <summary>
+        /// Applies hint color to the object.
+        /// </summary>
+        public virtual void SetHintColor() { }
+
+        /// <summary>
+        /// Applies highlight color to the object.
+        /// </summary>
+        public virtual void SetHighlightColor() { }
+
+        /// <summary>
+        /// Applies normal color to the object.
+        /// </summary>
+        public virtual void SetNormalColor() { }
+        
+        /// <summary>
+        /// Turns on the highlight of the selected object.
+        /// </summary>
+        public void TurnOnHighlight()
+        {
+            isMouseOver = true;
+            SetHighlightColor();
+        }
+
+        /// <summary>
+        /// Turns off the highlight of the previously object.
+        /// </summary>
+        public void TurnOffHighlight()
+        {
+            isMouseOver = false;
+            ManageHintColor();
+        }
+
+        /// <summary>
+        /// Turns off highlight status of the focused object.
+        /// </summary>
+        public void SetHighlightBlockade()
+        {
+            SetNormalColor();
+        }
+
+        /// <summary>
+        /// Reset highlight status of the previously focused object.
+        /// </summary>
+        public void ResetHighlightBlockade()
+        {
+            if (isMouseOver) SetHighlightColor();
+            else ManageHintColor();
         }
         #endregion
     }
