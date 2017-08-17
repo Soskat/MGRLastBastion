@@ -95,7 +95,7 @@ namespace LastBastion.Game.Managers
         void Update()
         {
             // read input:
-            if (Input.GetKeyDown(KeyCode.Q)) ShowCurrentGoal();
+            if (!Player.GetComponent<InteractionController>().IsFocused && Input.GetKeyDown(KeyCode.Q)) ShowCurrentGoal();
 
             // debug mode:
             if (GameManager.instance.DebugMode)

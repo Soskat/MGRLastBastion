@@ -56,6 +56,9 @@ namespace LastBastion.Game.Player
         // Update is called once per frame
         new void Update()
         {
+            // player is focused on object in his hands - skip all calculations:
+            if (LevelManager.instance.Player.GetComponent<InteractionController>().IsFocused) return;
+
             base.Update();
 
             // manage game input: -------------------------------------------------------------
