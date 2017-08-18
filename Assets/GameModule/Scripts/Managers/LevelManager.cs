@@ -161,6 +161,7 @@ namespace LastBastion.Game.Managers
         /// <param name="newGoal">The new goal</param>
         public void UpdatePlotGoal(Goal newGoal)
         {
+            UnityEngine.Debug.Log("New goal content: " + newGoal.Content);
             if (newGoal.Weight > currentGoal.Weight)
             {
                 currentGoal = newGoal;

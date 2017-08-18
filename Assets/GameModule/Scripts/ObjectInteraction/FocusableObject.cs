@@ -20,10 +20,10 @@ namespace LastBastion.Game.ObjectInteraction
         private int originalLayer;
         #endregion
 
-        
+
         #region MonoBehaviour methods
-        // Use this for initialization
-        void Start()
+        // Awake is called when the script instance is being loaded
+        private void Awake()
         {
             SetOriginalPositionAndRotation();
             originalScale = transform.localScale;

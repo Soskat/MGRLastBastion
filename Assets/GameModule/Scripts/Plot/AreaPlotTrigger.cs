@@ -7,8 +7,8 @@ namespace LastBastion.Game.Plot
     /// <summary>
     /// Component that represents the area that trigger progress in main plot.
     /// </summary>
-    [RequireComponent(typeof(BoxCollider))]
     [RequireComponent(typeof(PlotGoal))]
+    [RequireComponent(typeof(BoxCollider))]
     public class AreaPlotTrigger : MonoBehaviour
     {
         #region MonoBehaviour methods
@@ -22,7 +22,8 @@ namespace LastBastion.Game.Plot
         private void OnTriggerEnter(Collider other)
         {
             // inform that new clue was found:
-            LevelManager.instance.UpdatePlotGoal(GetComponent<PlotGoal>().Goal);
+            GetComponent<PlotGoal>().Activate();
+            //LevelManager.instance.UpdatePlotGoal(GetComponent<PlotGoal>().Goal);
         }
         #endregion
     }

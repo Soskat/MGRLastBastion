@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using LastBastion.Game.Managers;
+using UnityEngine;
 
 
 namespace LastBastion.Game.Plot
@@ -10,6 +11,7 @@ namespace LastBastion.Game.Plot
     {
         #region Private fields
         [SerializeField] private Goal goal;
+        private bool wasActivated;
         #endregion
 
 
@@ -17,7 +19,16 @@ namespace LastBastion.Game.Plot
         /// <summary>The plot goal.</summary>
         public Goal Goal { get { return goal; } }
         #endregion
-        
+
+
+        #region MonoBehaviour methods
+        // Use this for initialization
+        protected void Start()
+        {
+            wasActivated = false;
+        }
+        #endregion
+
 
         #region Public methods
         /// <summary>
@@ -27,6 +38,18 @@ namespace LastBastion.Game.Plot
         public void UpdateGoal(Goal newGoal)
         {
             goal = newGoal;
+        }
+
+        /// <summary>
+        /// Activates the plot goal.
+        /// </summary>
+        public void Activate()
+        {
+            if (!wasActivated)
+            {
+                LevelManager.instance.UpdatePlotGoal(goal);
+                wasActivated = true;
+            }
         }
         #endregion
     }
