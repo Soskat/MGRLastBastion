@@ -23,7 +23,7 @@ namespace LastBastion.Game.Managers
 
 
         #region Private fields
-        [SerializeField] private string sceneName;
+        [SerializeField] private LevelName levelName;
         [SerializeField] private int runesLimit = 0;
         [SerializeField] private Goal currentGoal;
         [SerializeField] private GameObject goalUpdatePanel;
@@ -39,8 +39,10 @@ namespace LastBastion.Game.Managers
         private BiofeedbackAudioManager playerBiofeedback;
         #endregion
 
-        
+
         #region Public fields & properties
+        /// <summary>Name of the level.</summary>
+        public LevelName LevelName { get { return levelName; } }
         /// <summary>Fixed max amount of the runes that player can find in this level.</summary>
         public int RunesLimit { get { return runesLimit; } }
         /// <summary>Current plot goal.</summary>
@@ -86,7 +88,7 @@ namespace LastBastion.Game.Managers
             // save level info:
             if (GameManager.instance.AnalyticsEnabled)
             {
-                DataManager.AddLevelInfo(sceneName, GameManager.instance.CurrentCalculationType, GameManager.instance.BBModule.AverageHr, GameManager.instance.BBModule.AverageGsr);
+                DataManager.AddLevelInfo(levelName, GameManager.instance.CurrentCalculationType, GameManager.instance.BBModule.AverageHr, GameManager.instance.BBModule.AverageGsr);
                 DataManager.AddGameEvent(Analytics.EventType.GameStart, stopwatch.Elapsed);
             }
         }
