@@ -1,0 +1,124 @@
+{
+    "Questions": [
+        {
+            "ID": 0,
+            "Content": "Płeć",
+            "AnswerType": 0,
+            "Answer": ""
+        },
+        {
+            "ID": 1,
+            "Content": "Wiek",
+            "AnswerType": 1,
+            "Answer": ""
+        },
+        {
+            "ID": 2,
+            "Content": "Jak często grasz w gry?",
+            "AnswerType": 2,
+            "Answer": ""
+        },
+        {
+            "ID": 3,
+            "Content": "Czy kiedykolwiek grałeś(aś) w horrory?",
+            "AnswerType": 3,
+            "Answer": ""
+        },
+        {
+            "ID": 4,
+            "Content": "Czy lubisz horrory (gry/filmy)?",
+            "AnswerType": 3,
+            "Answer": ""
+        },
+        {
+            "ID": 5,
+            "Content": "Jak dużą czerpałeś(aś) przyjemność z rozgrywki?",
+            "AnswerType": 4,
+            "Answer": ""
+        },
+        {
+            "ID": 6,
+            "Content": "W jakim stopniu czułeś(aś) się zmotywowany(a) podczas gry?",
+            "AnswerType": 4,
+            "Answer": ""
+        },
+        {
+            "ID": 7,
+            "Content": "W jakim stopniu oceniasz swoje zaangażowanie w grę?",
+            "AnswerType": 4,
+            "Answer": ""
+        },
+        {
+            "ID": 8,
+            "Content": "Jak bardzo wymagająca była gra?",
+            "AnswerType": 4,
+            "Answer": ""
+        },
+        {
+            "ID": 9,
+            "Content": "W jakim stopniu gra była dla Ciebie wyzwaniem?",
+            "AnswerType": 4,
+            "Answer": ""
+        },
+        {
+            "ID": 10,
+            "Content": "Jak bardzo bałeś(aś) się podczas gry?",
+            "AnswerType": 4,
+            "Answer": ""
+        },
+        {
+            "ID": 11,
+            "Content": "Czy chciałbyś(aś) zagrać jeszcze raz w taką grę?",
+            "AnswerType": 4,
+            "Answer": ""
+        },
+        {
+            "ID": 12,
+            "Content": "Który poziom podobał Ci się bardziej?",
+            "AnswerType": 5,
+            "Answer": ""
+        },
+        {
+            "ID": 5,
+            "Content": "Który poziom był bardziej wymagający?",
+            "AnswerType": 5,
+            "Answer": ""
+        },
+        {
+            "ID": 13,
+            "Content": "Który poziom był bardziej wciągający?",
+            "AnswerType": 5,
+            "Answer": ""
+        },
+        {
+            "ID": 14,
+            "Content": "Który poziom zaskoczył Cię bardziej?",
+            "AnswerType": 5,
+            "Answer": ""
+        },
+        {
+            "ID": 15,
+            "Content": "Na którym poziomie bałeś(aś) się bardziej?",
+            "AnswerType": 5,
+            "Answer": ""
+        },
+        {
+            "ID": 16,
+            "Content": "Który poziom był łatwiejszy?",
+            "AnswerType": 5,
+            "Answer": ""
+        },
+        {
+            "ID": 17,
+            "Content": "Który poziom był bardziej przewidywalny?",
+            "AnswerType": 5,
+            "Answer": ""
+        },
+        {
+            "ID": 18,
+            "Content": "Co sprawiało, że się bałeś(aś)?",
+            "AnswerType": 6,
+            "Answer": ""
+        }
+    ]
+}

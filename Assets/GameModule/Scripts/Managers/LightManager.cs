@@ -40,88 +40,101 @@ namespace LastBastion.Game.Managers
         {
             if (isActive && !lightsBroken && !isBusy)
             {
-                // tests: -------------------------------
-                if (Input.GetKeyDown(KeyCode.L)) { Debug.Log(gameObject + ": Switch lights"); SwitchLights(); }
-                if (Input.GetKeyDown(KeyCode.K) && lightsOn) { Debug.Log(gameObject + ": Explode lights"); ExplodeAllLights(); }
+                // debug mode:
+                if (GameManager.instance.DebugMode)
+                {
+                    if (Input.GetKeyDown(KeyCode.L)) SwitchLights();
+                    if (Input.GetKeyDown(KeyCode.K) && lightsOn) ExplodeAllLights();
+                }
 
-                //isBusy = true;
+                isBusy = true;
 
-                //// biofeedback logic:
-                //if (GameManager.instance.BBModule.IsEnabled)
-                //{
-                //    switch (GameManager.instance.PlayerBiofeedback.ArousalCurrentState)
-                //    {
-                //        case Biofeedback.DataState.High:
-                //            int choice = Random.Range(0, 3);
-                //            switch (choice)
-                //            {
-                //                case 0:
-                //                    SwitchLights();
-                //                    break;
+                // biofeedback logic:
+                if (GameManager.instance.BBModule.IsEnabled)
+                {
+                    switch (GameManager.instance.BBModule.ArousalState)
+                    {
+                        case Biofeedback.DataState.High:
+                            if (!lightsOn) SwitchLights();
+                            else
+                            {
+                                int choice = Random.Range(0, 3);
+                                switch (choice)
+                                {
+                                    case 0:
+                                        SwitchLights();
+                                        break;
 
-                //                case 1:
-                //                    BlinkRandomLight();
-                //                    break;
+                                    case 1:
+                                        BlinkRandomLight();
+                                        break;
 
-                //                case 2:
-                //                    BlinkAllLights();
-                //                    break;
-                //            }
-                //            break;
+                                    case 2:
+                                        BlinkAllLights();
+                                        break;
+                                }
+                            }
+                            break;
 
-                //        case Biofeedback.DataState.Medium:
-                //            ExplodeRandomLight();
-                //            break;
+                        case Biofeedback.DataState.Medium:
+                            ExplodeRandomLight();
+                            break;
 
-                //        case Biofeedback.DataState.Low:
-                //            ExplodeAllLights();
-                //            break;
+                        case Biofeedback.DataState.Low:
+                            ExplodeAllLights();
+                            break;
 
-                //        default:
-                //            break;
-                //    }
-                //    // wait for next move:
-                //    float timeModifier = (GameManager.instance.PlayerBiofeedback.ArousalCurrentModifier > 0f) ? GameManager.instance.PlayerBiofeedback.ArousalCurrentModifier : 0.01f;
-                //    StartCoroutine(CooldownTimer(timeModifier * baseDelay));
-                //}
-                //// randomly choose light event:
-                //else
-                //{
-                //    int randomEvent = Random.Range(0, 5);
-                //    if (!lightsOn) SwitchLights();
-                //    else
-                //    {
-                //        switch (randomEvent)
-                //        {
-                //            case 0:
-                //                SwitchLights();
-                //                break;
+                        default:
+                            break;
+                    }
+                    // wait for next move:
+                    float timeModifier = (GameManager.instance.BBModule.ArousalModifier > 0f) ? GameManager.instance.BBModule.ArousalModifier : 0.01f;
+                    StartCoroutine(CooldownTimer(timeModifier * baseDelay));
+                }
+                // randomly choose light event:
+                else
+                {
+                    int randomEvent = Random.Range(0, 5);
+                    if (!lightsOn) SwitchLights();
+                    else
+                    {
+                        switch (randomEvent)
+                        {
+                            case 0:
+                                SwitchLights();
+                                break;
 
-                //            case 1:
-                //                BlinkAllLights();
-                //                break;
+                            case 1:
+                                BlinkAllLights();
+                                break;
 
-                //            case 2:
-                //                BlinkAllLights();
-                //                break;
+                            case 2:
+                                BlinkAllLights();
+                                break;
 
-                //            case 3:
-                //                ExplodeRandomLight();
-                //                break;
+                            case 3:
+                                ExplodeRandomLight();
+                                break;
 
-                //            case 4:
-                //                ExplodeAllLights();
-                //                break;
-                //        }
-                //    }
-                //    // wait for next move:
-                //    StartCoroutine(CooldownTimer(randomEvent + baseDelay));
-                //}
+                            case 4:
+                                ExplodeAllLights();
+                                break;
+                        }
+                    }
+                    // wait for next move:
+                    StartCoroutine(CooldownTimer(randomEvent + baseDelay));
+                }
+
+                // save info about event:
+                if (GameManager.instance.AnalyticsEnabled) LevelManager.instance.AddGameEvent(Analytics.EventType.Light);
             }
 
 
-            // debug: -----------------------------------------------------------------------------------------------------
-            if (isActive) Debug.DrawLine(GameManager.instance.Player.transform.position, transform.position, Color.magenta);
+            // debug mode:
+            if (GameManager.instance.DebugMode && isActive)
+            {
+                Debug.DrawLine(LevelManager.instance.Player.transform.position, transform.position, Color.magenta);
+            }
         }
 
         // OnTriggerEnter is called when the Collider other enters the trigger

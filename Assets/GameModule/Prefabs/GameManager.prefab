@@ -54,6 +54,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fabcab515ecc940449a7f92868a59e00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 1, g: 0.6901961, b: 0, a: 1}
+  hintColor: {r: 1, g: 0.9430147, b: 0.8161765, a: 1}
+  interactionRange: 2
+  hintRange: 4
+  metalDoorSqueak: []
+  woodenDoorSqueak: []
+  footstepsGravel: []
+  plotGoalsPath: 
+  goals:
+    Set: []
 --- !u!114 &114397083664327078
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -65,7 +75,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 483b2638f5c963a4f99f919f9423c29b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isEnabled: 0
+  isEnabled: 1
   remoteHostName: 
   remoteServicePort: 0
   hrLevel:
@@ -76,6 +86,9 @@ MonoBehaviour:
     Low: 0.8
     Medium: 1.2
     High: 2
+  hrModifier: 1
+  gsrModifier: 1
+  arousalModifier: 1
 --- !u!114 &114689790144993052
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -87,6 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3210d02ad6d1b5744ba32618fbba34a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debugMode: 0
   currentLevelID: 0
   gameLevels: []
   currentCalculationTypeID: 0
@@ -103,6 +117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9872b91a53fcb5b49a6895e11a4d6011, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEnabled: 0
   hrLevel:
     Low: 0.8
     Medium: 1.2

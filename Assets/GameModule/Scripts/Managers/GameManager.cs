@@ -1,6 +1,5 @@
 ﻿using LastBastion.Analytics;
 using LastBastion.Biofeedback;
-using LastBastion.Game.Player;
 using LastBastion.Game.UIControllers;
 using System;
 using UnityEngine;
@@ -24,20 +23,21 @@ namespace LastBastion.Game.Managers
 
 
         #region Private fields
+        [SerializeField] private bool debugMode = false;
         [SerializeField] private int currentLevelID = -1;
         [SerializeField] private string[] gameLevels;
         [SerializeField] private int currentCalculationTypeID = 0;
         [SerializeField] private CalculationType[] calculationTypes;
-        private DateTime startTime;
-        private DateTime currentTime;
         private int indexOfFirstLevel;
         private int indexOfSecondLevel;
-        private GameObject player;
-        private BiofeedbackController playerBiofeedback;
+        private int ignoreLightLayer;
+        private int interactiveObjectsLayer;
         #endregion
 
 
         #region Public fields & properties
+        /// <summary>Is debug mode on?</summary>
+        public bool DebugMode { get { return debugMode; } }
         /// <summary>Instance of <see cref="BandBridgeModule"/> class.</summary>
         public BandBridgeModule BBModule { get; set; }
         /// <summary>Instance of <see cref="AssetManager"/> class.</summary>
@@ -48,18 +48,28 @@ namespace LastBastion.Game.Managers
         public ListController ListController { get; set; }
         /// <summary>Active method of calculating player's arousal.</summary>
         public CalculationType CurrentCalculationType { get { return calculationTypes[currentCalculationTypeID]; } }
-        /// <summary>Current time stamp.</summary>
-        public int GetTime { get { return (currentTime - startTime).Milliseconds; } }
         /// <summary>Current game mode.</summary>
         public GameMode GameMode { get; set; }
         /// <summary>Is analytics module enabled?</summary>
         public bool AnalyticsEnabled = true;
-        /// <summary>Reference to player game object.</summary>
-        public GameObject Player { get { return player; } }
-        /// <summary>Reference to player's BiofeedbackController component.</summary>
-        public BiofeedbackController PlayerBiofeedback { get { return playerBiofeedback; } }
         /// <summary>The Room where player currently is.</summary>
-        public GameObject ActiveRoom;
+        public GameObject ActiveRoom { get; set; }
+        /// <summary>IgnoreLight layer number.</summary>
+        public int IgnoreLightLayer { get { return ignoreLightLayer; } }
+        /// <summary>InteractiveObjects layer number.</summary>
+        public int InteractiveObjectsLayer { get { return interactiveObjectsLayer; } }
+        /// <summary>Reference to SurveyManager component.</summary>
+        public SurveyManager SurveyManager { get; set; }
+        #region Achievements counters ---------
+        /// <summary>Time of the game.</summary>
+        public TimeSpan GameTime { get; set; }
+        /// <summary>Collected runes.</summary>
+        public int CollectedRunes { get; set; }
+        /// <summary>Opened doors count.</summary>
+        public int OpenedDoors { get; set; }
+        /// <summary>Uses of the lightswitches count.</summary>
+        public int LightSwitchUses { get; set; }
+        #endregion
         #endregion
 
 
@@ -74,8 +84,8 @@ namespace LastBastion.Game.Managers
                 DontDestroyOnLoad(gameObject);
                 BBModule = GetComponent<BandBridgeModule>();
                 Assets = GetComponent<AssetManager>();
-                player = GameObject.FindGameObjectWithTag("Player");
-                playerBiofeedback = player.GetComponent<BiofeedbackController>();
+                ignoreLightLayer = LayerMask.NameToLayer("IgnoreLight");
+                interactiveObjectsLayer = LayerMask.NameToLayer("InteractiveObjects");
             }
             else if (instance != this) Destroy(gameObject);
         }
@@ -84,19 +94,12 @@ namespace LastBastion.Game.Managers
         void Start()
         {
             IsReadyForNewBandData = false;
-            gameLevels = new string[] { "Intro", null, "Summary", "Intro", null, "Summary", "Survey" };
+            gameLevels = new string[] { "Intro", null, "Summary", null, "Summary", "Survey" };
             indexOfFirstLevel = 1;
-            indexOfSecondLevel = 4;
+            indexOfSecondLevel = 3;
             calculationTypes = new CalculationType[2] { CalculationType.Alternative, CalculationType.Conjunction };
-            //calculationTypes = new CalculationType[2];
-
             // initialize analytics system:
             DataManager.InitializeSystem();
-        }
-
-        // Update is called every frame, if the MonoBehaviour is enabled
-        void Update()
-        {
         }
         #endregion
 
@@ -110,15 +113,7 @@ namespace LastBastion.Game.Managers
         {
             return ListController.GetSelectedItem();
         }
-
-        /// <summary>
-        /// Sets current in-game reference time.
-        /// </summary>
-        public void SetTime()
-        {
-            currentTime = DateTime.Now;
-        }
-
+        
         /// <summary>
         /// Starts new game.
         /// </summary>
@@ -155,11 +150,7 @@ namespace LastBastion.Game.Managers
             }
 
             // setup new analysis data:
-            if (AnalyticsEnabled)
-            {
-                DataManager.BeginAnalysis(GameMode);
-                startTime = DateTime.Now;
-            }
+            if (AnalyticsEnabled) DataManager.BeginAnalysis(GameMode);
 
             IsReadyForNewBandData = true;
 
@@ -168,27 +159,14 @@ namespace LastBastion.Game.Managers
         }
 
         /// <summary>
-        /// Informs that level has ended.
-        /// </summary>
-        public void LevelHasEnded()
-        {
-            if (AnalyticsEnabled && (currentLevelID == indexOfFirstLevel || currentLevelID == indexOfSecondLevel))
-            {
-                SetTime();
-                DataManager.AddGameEvent(Analytics.EventType.GameEnd, GetTime);
-            }
-            LoadNextLevel();
-        }
-
-        /// <summary>
-        /// Loads next game level.
+        /// Loads next game scene.
         /// </summary>
         public void LoadNextLevel()
         {
             currentLevelID++;
 
             // set up current calculation type if needed:
-            if (currentLevelID == 3) currentCalculationTypeID++;
+            if (currentLevelID == 2) currentCalculationTypeID++;
 
             // load next scene (or main menu):
             if (currentLevelID < gameLevels.Length) SceneManager.LoadScene(gameLevels[currentLevelID]);

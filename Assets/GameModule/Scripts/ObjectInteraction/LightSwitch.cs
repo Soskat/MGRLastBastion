@@ -50,6 +50,8 @@ namespace LastBastion.Game.ObjectInteraction
             if (!isBusy)
             {
                 animator.SetTrigger(switchButtonTrigger);
+                // infrom that light switch was used:
+                LevelManager.instance.UsedLightSwitch();
             }
         }
 

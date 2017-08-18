@@ -11,7 +11,6 @@ namespace LastBastion.Game.UIControllers
     /// </summary>
     public class ListController : MonoBehaviour
     {
-
         #region Private fields
         [SerializeField] private GameObject contentPanel;
         [SerializeField] private GameObject listItemPrefab;
@@ -19,7 +18,7 @@ namespace LastBastion.Game.UIControllers
         [SerializeField] private int selectedItem = 0;
         #endregion
 
-        #region Unity methods
+        #region MonoBehaviour methods
         // Awake is called when the script instance is being loaded
         private void Awake()
         {

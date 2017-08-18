@@ -14,22 +14,18 @@ namespace LastBastion.Game.Player
     public class RightHand : Hand
     {
         #region Private fields
-        //[SerializeField] private int timeSinceLastBlink = 0;
-        //[SerializeField] private int timeSinceLastBlinkToDeath = 0;
+        [SerializeField] private int timeSinceLastBlink = 0;
+        [SerializeField] private int timeSinceLastBlinkToDeath = 0;
         private Flashlight flashlight;
         private Animator animator;
         private int flashlightHideAnimState;
         private int flashlightDrawAnimState;
         private int flashlightReviveAnimState;
+        private float deltaTime;
         #endregion
 
 
         #region MonoBehaviour methods
-        // Awake is called when the script instance is being loaded
-        private void Awake()
-        {
-        }
-
         // Use this for initialization
         new void Start()
         {
@@ -39,68 +35,70 @@ namespace LastBastion.Game.Player
             flashlightHideAnimState = Animator.StringToHash("HideFlashlight");
             flashlightDrawAnimState = Animator.StringToHash("DrawFlashlight");
             flashlightReviveAnimState = Animator.StringToHash("FlashlightRevive");
-            player.SwitchLight += SwitchLight;
+            //player.SwitchLight += SwitchLight;
+            // calculate current fps value:
+            deltaTime = 1.0f / Time.deltaTime;
 
-            // to uncomment -------------------------------------------------------------------------------
-            //if (!GameManager.instance.BBModule.IsEnabled)
-            //{
-            //    StartCoroutine(BlinkFlashlight());
-            //    StartCoroutine(BlinkFlashlightToDeath());
-            //}
-            //else
-            //{
-            //    timeSinceLastBlink = GetRandomShortTime() * 100;
-            //    timeSinceLastBlinkToDeath = GetRandomLongTime() * 100;
-            //}
+            // if biofeedback is off set up the blink events at random time:
+            if (!GameManager.instance.BBModule.IsEnabled)
+            {
+                StartCoroutine(BlinkFlashlight());
+                StartCoroutine(BlinkFlashlightToDeath());
+            }
+            // if biofeedback is on set up initial counters values:
+            else
+            {
+                timeSinceLastBlink = GetRandomSecondsShortRange() * (int)deltaTime;
+                timeSinceLastBlinkToDeath = GetRandomSecondsLongRange() * (int)deltaTime;
+            }
         }
 
         // Update is called once per frame
         new void Update()
         {
+            // player is focused on object in his hands - skip all calculations:
+            if (LevelManager.instance.Player.GetComponent<InteractionController>().IsFocused) return;
+
             base.Update();
 
-            //// update game mechanics based on current player's arousal:
-            //if (GameManager.instance.BBModule.IsEnabled)
-            //{
-            //    //...
-            //}
+            // manage game input: -------------------------------------------------------------
+            if (Input.GetKeyDown(KeyCode.R)) SwitchLight();
 
-            // move it above ---------------------------------------------------------------------
-            //switch (player.ArousalCurrentState)
-            //{
-            //    case DataState.High:
-            //        break;
+            // update game mechanics based on player's current arousal:
+            if (GameManager.instance.BBModule.IsEnabled)
+            {
+                deltaTime = 1.0f / Time.deltaTime;
+                switch (GameManager.instance.BBModule.ArousalState)
+                {
+                    case DataState.High:
+                        if (flashlight.LightOn && timeSinceLastBlink > 0) timeSinceLastBlink--;
+                        if (flashlight.LightOn && !flashlight.IsBusy && timeSinceLastBlink <= 0)
+                        {
+                            StartCoroutine(flashlight.Blink(true));
+                            timeSinceLastBlink = GetRandomSecondsShortRange() * (int)deltaTime;
+                        }
+                        break;
 
-            //    case DataState.Medium:
-            //        if (flashlight.LightOn && timeSinceLastBlink > 0) timeSinceLastBlink--;
+                    case DataState.Medium:
+                    case DataState.Low:
+                        if (flashlight.LightOn && timeSinceLastBlinkToDeath > 0) timeSinceLastBlinkToDeath--;
+                        if (flashlight.LightOn && !flashlight.IsBusy && timeSinceLastBlinkToDeath <= 0)
+                        {
+                            StartCoroutine(flashlight.BlinkToDeath());
+                            timeSinceLastBlinkToDeath = GetRandomSecondsLongRange() * (int)deltaTime;
+                        }
+                        break;
 
-            //        if (player.ArousalCurrentModifier < 1.0)
-            //        {
-            //            if (flashlight.LightOn && !flashlight.IsBusy && timeSinceLastBlink == 0)
-            //            {
-            //                StartCoroutine(flashlight.Blink(true));
-            //                timeSinceLastBlink = GetRandomShortTime() * 100;
-            //            }
-            //        }
-            //        break;
-
-            //    case DataState.Low:
-            //        if (flashlight.LightOn && timeSinceLastBlinkToDeath > 0) timeSinceLastBlinkToDeath--;
-
-            //        if (flashlight.LightOn && !flashlight.IsBusy && timeSinceLastBlinkToDeath == 0)
-            //        {
-            //            StartCoroutine(flashlight.BlinkToDeath());
-            //            timeSinceLastBlinkToDeath = GetRandomLongTime() * 100;
-            //        }
-            //        break;
-
-            //    default: break;
-            //}
-
+                    default: break;
+                }
+            }
 
             // manual test: ---------------------------
-            if (Input.GetKeyDown(KeyCode.B) && !flashlight.IsBusy) StartCoroutine(flashlight.Blink(true));
-            if (Input.GetKeyDown(KeyCode.N) && !flashlight.IsBusy) StartCoroutine(flashlight.BlinkToDeath());
+            if (GameManager.instance.DebugMode)
+            {
+                if (Input.GetKeyDown(KeyCode.B) && !flashlight.IsBusy) StartCoroutine(flashlight.Blink(true));
+                if (Input.GetKeyDown(KeyCode.N) && !flashlight.IsBusy) StartCoroutine(flashlight.BlinkToDeath());
+            }
         }
         #endregion
 
@@ -111,7 +109,6 @@ namespace LastBastion.Game.Player
         /// </summary>
         public void SwitchLight()
         {
-            // change it later to use actual biofeedback data:
             if (flashlight.IsDead)
             {
                 animator.applyRootMotion = false;
@@ -183,9 +180,8 @@ namespace LastBastion.Game.Player
         /// <returns></returns>
         private IEnumerator BlinkFlashlight()
         {
-            int counter = GetRandomShortTime();
-            yield return new WaitForSeconds(counter);
-            //doBlink = true;
+            yield return new WaitForSeconds(GetRandomSecondsShortRange());
+            StartCoroutine(flashlight.Blink(true));
             StartCoroutine(BlinkFlashlight());
         }
 
@@ -195,28 +191,27 @@ namespace LastBastion.Game.Player
         /// <returns></returns>
         private IEnumerator BlinkFlashlightToDeath()
         {
-            int counter = GetRandomLongTime();
-            yield return new WaitForSeconds(counter);
-            //doBlink = true;
+            yield return new WaitForSeconds(GetRandomSecondsLongRange());
+            StartCoroutine(flashlight.BlinkToDeath());
             StartCoroutine(BlinkFlashlightToDeath());
         }
 
         /// <summary>
-        /// Gets random int time from range [20, 40).
+        /// Gets random seconds from range [30, 90).
         /// </summary>
         /// <returns>Time in seconds</returns>
-        private int GetRandomShortTime()
+        private int GetRandomSecondsShortRange()
         {
-            return Random.Range(20, 40);
+            return Random.Range(30, 90);
         }
 
         /// <summary>
-        /// Gets random int time from range [50, 70).
+        /// Gets random seconds from range [120, 180).
         /// </summary>
         /// <returns>Time in seconds</returns>
-        private int GetRandomLongTime()
+        private int GetRandomSecondsLongRange()
         {
-            return Random.Range(50, 70);
+            return Random.Range(120, 180);
         }
         #endregion
     }

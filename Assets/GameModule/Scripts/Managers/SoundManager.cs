@@ -19,6 +19,7 @@ namespace LastBastion.Game.Managers
         private GameObject choosenSoundSource;
         private AudioClip choosenAudioClip;
         private bool isBusy = false;
+        private float cooldownTime = 1f;
         #endregion
         
 
@@ -34,9 +35,10 @@ namespace LastBastion.Game.Managers
         {
             if (isActive && !isBusy)
             {
+                // biofeedback ON:
                 if (GameManager.instance.BBModule.IsEnabled)
                 {
-                    if (GameManager.instance.PlayerBiofeedback.ArousalCurrentState == Biofeedback.DataState.High)
+                    if (GameManager.instance.BBModule.ArousalState == Biofeedback.DataState.High)
                     {
                         // play light sound:
                         choosenAudioClip = soundsLight[Random.Range(0, soundsLight.Count)];
@@ -46,23 +48,33 @@ namespace LastBastion.Game.Managers
                         // play hard sound:
                         choosenAudioClip = soundsHard[Random.Range(0, soundsHard.Count)];
                     }
+                    cooldownTime = startDelay * GameManager.instance.BBModule.ArousalModifier;
                 }
+                // biofeedback OFF:
                 else
                 {
                     // play sounds at random time - but still choose the best awailable audio source
                     int x = Random.Range(0, 2);
                     if (x == 0) choosenAudioClip = soundsLight[Random.Range(0, soundsLight.Count)];
                     else choosenAudioClip = soundsHard[Random.Range(0, soundsHard.Count)];
+                    cooldownTime = startDelay * Random.Range(0.5f, 1.5f);
                 }
                 
                 choosenSoundSource = FindBestSoundSource();
                 if (choosenSoundSource.GetComponent<SoundTrigger>() != null) choosenSoundSource.GetComponent<SoundTrigger>().PlaySound();
                 else choosenSoundSource.GetComponent<AudioSource>().PlayOneShot(choosenAudioClip);
-                StartCoroutine(CooldownTimer(startDelay));
+                // start cooldown timer:
+                StartCoroutine(CooldownTimer(cooldownTime));
+                
+                // save info about event:
+                if (GameManager.instance.AnalyticsEnabled) LevelManager.instance.AddGameEvent(Analytics.EventType.Sound);
             }
 
-            // debug: ------------------------------------------------------------------------------------------------------------------------
-            if (isActive) Debug.DrawLine(GameManager.instance.Player.transform.position, FindBestSoundSource().transform.position, Color.cyan);
+            // debug mode:
+            if (GameManager.instance.DebugMode && isActive)
+            {
+                Debug.DrawLine(LevelManager.instance.Player.transform.position, FindBestSoundSource().transform.position, Color.cyan);
+            }
         }
 
         // OnTriggerEnter is called when the Collider other enters the trigger
@@ -92,9 +104,9 @@ namespace LastBastion.Game.Managers
             float minDistance = 100f, minDistanceSecond = 100f;
             foreach(Transform child in transform)
             {
-                Vector3 playerToSoundSource = child.transform.position - GameManager.instance.Player.transform.position;
+                Vector3 playerToSoundSource = child.transform.position - LevelManager.instance.Player.transform.position;
                 // sound source is behind player:
-                if (Vector3.Dot(playerToSoundSource, GameManager.instance.Player.transform.forward) <= 0)
+                if (Vector3.Dot(playerToSoundSource, LevelManager.instance.Player.transform.forward) <= 0)
                 {
                     if (playerToSoundSource.magnitude < minDistance)
                     {

@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: eda21043033635a4fa67956171c75613
+timeCreated: 1502349864
+licenseType: Pro
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Roman Antique
+  fontNames:
+  - Roman Antique
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 3522600080eb1ef44b4673105eb4fb26, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

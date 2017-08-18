@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using LastBastion.Game.Managers;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -9,15 +10,16 @@ namespace LastBastion.Game.ObjectInteraction
     /// <summary>
     /// Component that represents television behaviour.
     /// </summary>
+    [RequireComponent(typeof(SphereCollider))]
     [RequireComponent(typeof(AudioSource))]
     public class Television : MonoBehaviour
     {
         #region Private fields
-        [SerializeField] private bool isOn = false; // ------------------- for testing
+        [SerializeField] private float activationRange = 15f;
+        [SerializeField] private float distanceToEvent = 4f;
         [SerializeField] private AudioClip staticBuzzSound;
         [SerializeField] private List<AudioClip> channelSounds;
-        [SerializeField]
-        private AudioSource channelAudioSource;
+        [SerializeField] private AudioSource channelAudioSource;
         private int channelSoundIndex = 0;
         private AudioSource audioSource;
         private Light monitorLight;
@@ -26,6 +28,10 @@ namespace LastBastion.Game.ObjectInteraction
         private float hue;
         private float saturation;
         private float value;
+        private bool isOn;
+        private bool wasActivated;
+        private bool canTurnOn;
+        private bool canTurnOff;
         #endregion
 
 
@@ -47,13 +53,20 @@ namespace LastBastion.Game.ObjectInteraction
             material = GetComponent<Renderer>().material;
             glassColor = material.GetColor("_EmissionColor");
             TurnOffTV();
+            // setup collider trigger:
+            GetComponent<SphereCollider>().isTrigger = true;
+            GetComponent<SphereCollider>().radius = activationRange;
+            isOn = false;
+            wasActivated = false;
+            canTurnOn = false;
+            canTurnOff = false;
         }
 
         // Update is called once per frame
         void Update()
         {
             // for testing purposes:
-            if (Input.GetKeyDown(KeyCode.X))
+            if (GameManager.instance.DebugMode && Input.GetKeyDown(KeyCode.X))
             {
                 if (isOn)
                 {
@@ -64,6 +77,60 @@ namespace LastBastion.Game.ObjectInteraction
                 {
                     TurnOffTV();
                     isOn = true;
+                }
+            }
+        }
+
+        // OnTriggerEnter is called when the Collider other enters the trigger
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.tag == "Player")
+            {
+                if (!wasActivated)
+                {
+                    // biofeedback ON:
+                    if (GameManager.instance.BBModule.IsEnabled)
+                    {
+                        GetComponent<SphereCollider>().radius += GameManager.instance.BBModule.ArousalModifier * distanceToEvent;
+                    }
+                    // biofeedback OFF:
+                    else
+                    {
+                        GetComponent<SphereCollider>().radius += Random.Range(0.1f, 1.5f) * distanceToEvent;
+                    }
+                    wasActivated = true;
+                    canTurnOn = true;
+                }
+            }
+        }
+
+        // OnTriggerExit is called when the Collider other has stopped touching the trigger
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.gameObject.tag == "Player")
+            {
+                if (canTurnOff)
+                {
+                    TurnOffTV();
+                    canTurnOff = false;
+                }
+                if (canTurnOn)
+                {
+                    // turn on TV:
+                    TurnOnTV();
+                    // set new radius to sphere trigger:
+                    // biofeedback ON:
+                    if (GameManager.instance.BBModule.IsEnabled)
+                    {
+                        GetComponent<SphereCollider>().radius += GameManager.instance.BBModule.ArousalModifier * activationRange * 2f;
+                    }
+                    // biofeedback OFF:
+                    else
+                    {
+                        GetComponent<SphereCollider>().radius += Random.Range(0.1f, 1.5f) * activationRange * 2f;
+                    }
+                    canTurnOn = false;
+                    canTurnOff = true;
                 }
             }
         }
@@ -91,6 +158,9 @@ namespace LastBastion.Game.ObjectInteraction
         /// </summary>
         private void TurnOnTV()
         {
+            // save info about event:
+            if (GameManager.instance.AnalyticsEnabled) LevelManager.instance.AddGameEvent(Analytics.EventType.TV);
+
             // enable light:
             monitorLight.gameObject.SetActive(true);
             monitorLight.intensity = 1.5f;

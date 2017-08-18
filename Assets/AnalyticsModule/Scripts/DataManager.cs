@@ -1,7 +1,11 @@
-﻿using System;
+﻿using LastBastion.Game;
+using LastBastion.Game.SurveySystem;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using UnityEngine;
+
 
 namespace LastBastion.Analytics
 {
@@ -29,10 +33,7 @@ namespace LastBastion.Analytics
         public static void InitializeSystem()
         {
             dataDirectory = Application.streamingAssetsPath + "/TestsData/";
-            if (!Directory.Exists(dataDirectory))
-            {
-                Directory.CreateDirectory(dataDirectory);
-            }
+            if (!Directory.Exists(dataDirectory)) Directory.CreateDirectory(dataDirectory);
         }
 
         /// <summary>
@@ -76,9 +77,9 @@ namespace LastBastion.Analytics
         /// <param name="calculationType">Calculation type for calculating arousal from HR and GSR</param>
         /// <param name="averageHr">Average HR value</param>
         /// <param name="averageGsr">Average GSR value</param>
-        public static void AddLevelInfo(string levelName, CalculationType calculationType, int averageHr, int averageGsr)
+        public static void AddLevelInfo(LevelName levelName, CalculationType calculationType, int averageHr, int averageGsr)
         {
-            string data = "- " + levelName + " " + (int)calculationType + " " + averageHr + " " + averageGsr;
+            string data = "- " + (int)levelName + " " + (int)calculationType + " " + averageHr + " " + averageGsr;
             SaveToFile(data);
         }
 
@@ -91,15 +92,35 @@ namespace LastBastion.Analytics
         public static void AddGameEvent(EventType eventType, int time, object value = null)
         {
             string data;
-            if (value != null)
-            {
-                data = (int)eventType + " " + time + " " + value.ToString();
-            }
-            else
-            {
-                data = (int)eventType + " " + time;
-            }
+            if (value != null) data = (int)eventType + " " + time + " " + value.ToString();
+            else data = (int)eventType + " " + time;
             SaveToFile(data);
+        }
+
+        /// <summary>
+        /// Saves game event.
+        /// </summary>
+        /// <param name="eventType">Type of the event</param>
+        /// <param name="time">Time of the event</param>
+        /// <param name="value">Additional event object value</param>
+        public static void AddGameEvent(EventType eventType, TimeSpan time, object value = null)
+        {
+            string data;
+            if (value != null) data = (int)eventType + " " + String.Format("{0:00}:{1:00}", time.Minutes, time.Seconds) + " " + value.ToString();
+            else data = (int)eventType + " " + String.Format("{0:00}:{1:00}", time.Minutes, time.Seconds);
+            SaveToFile(data);
+        }
+
+        /// <summary>
+        /// Saves survey answers.
+        /// </summary>
+        /// <param name="survey">List of questions</param>
+        public static void AddSurveyAnswers(List<Question> questions)
+        {
+            // save section headline:
+            SaveToFile("- survey_answers");
+            // save survey answers:
+            foreach(Question question in questions) SaveToFile(question.ID + " " + (int)question.AnswerType + " " + question.Answer);
         }
         #endregion
 
@@ -113,12 +134,6 @@ namespace LastBastion.Analytics
         {
             byte[] data = new UTF8Encoding(true).GetBytes(value + "\n");
             file.Write(data, 0, data.Length);
-        }
-
-
-        private static void SaveSurveyToFile()
-        {
-
         }
         #endregion
     }
