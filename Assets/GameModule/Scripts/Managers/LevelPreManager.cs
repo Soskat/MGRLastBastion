@@ -43,7 +43,7 @@ namespace LastBastion.Game.Managers
             // save level info:
             if (GameManager.instance.AnalyticsEnabled)
             {
-                DataManager.AddLevelInfo(sceneName, GameManager.instance.CurrentCalculationType, GameManager.instance.BBModule.AverageHr, GameManager.instance.BBModule.AverageGsr);
+                //DataManager.AddLevelInfo(sceneName, GameManager.instance.CurrentCalculationType, GameManager.instance.BBModule.AverageHr, GameManager.instance.BBModule.AverageGsr);
                 //GameManager.instance.SetTime();
                 //DataManager.AddGameEvent(Analytics.EventType.GameStart, GameManager.instance.GetTime);
             }

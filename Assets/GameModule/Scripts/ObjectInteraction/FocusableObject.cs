@@ -20,10 +20,10 @@ namespace LastBastion.Game.ObjectInteraction
         private int originalLayer;
         #endregion
 
-        
+
         #region MonoBehaviour methods
-        // Use this for initialization
-        void Start()
+        // Awake is called when the script instance is being loaded
+        private void Awake()
         {
             SetOriginalPositionAndRotation();
             originalScale = transform.localScale;
@@ -48,12 +48,14 @@ namespace LastBastion.Game.ObjectInteraction
         /// </summary>
         public virtual void PickUp(Transform newTransform)
         {
-            // transform object to newTransform and change layer:
+            // transform object to newTransform:
             transform.parent = newTransform.parent;
             transform.position = newTransform.position;
             transform.localRotation = focusedRotation;
             transform.localScale = focusedScale;
+            // change layer of game object and its children:
             gameObject.layer = GameManager.instance.IgnoreLightLayer;
+            foreach(Transform child in transform) child.gameObject.layer = GameManager.instance.IgnoreLightLayer;
             // turn off highlight in focuse mode:
             GetComponent<Highlighter>().SetHighlightBlockade();
         }
@@ -68,7 +70,9 @@ namespace LastBastion.Game.ObjectInteraction
             transform.position = originalPosition;
             transform.rotation = originalRotation;
             transform.localScale = originalScale;
+            // back to original layer:
             gameObject.layer = originalLayer;
+            foreach (Transform child in transform) child.gameObject.layer = gameObject.layer = originalLayer;
             // turn on highlight back:
             GetComponent<Highlighter>().ResetHighlightBlockade();
         }

@@ -16,6 +16,7 @@ namespace LastBastion.Game.ObjectInteraction
         public override void SetHintColor()
         {
             GetComponent<Renderer>().material.SetColor("_EmissionColor", GameManager.instance.Assets.HintColor);
+            GetComponent<Renderer>().material.SetColor("_Color", Color.white);
         }
 
         /// <summary>
@@ -24,6 +25,7 @@ namespace LastBastion.Game.ObjectInteraction
         public override void SetHighlightColor()
         {
             GetComponent<Renderer>().material.SetColor("_EmissionColor", GameManager.instance.Assets.HighlightColor);
+            GetComponent<Renderer>().material.SetColor("_Color", GameManager.instance.Assets.HighlightColor);
         }
 
         /// <summary>
@@ -32,6 +34,7 @@ namespace LastBastion.Game.ObjectInteraction
         public override void SetNormalColor()
         {
             GetComponent<Renderer>().material.SetColor("_EmissionColor", Color.black);
+            GetComponent<Renderer>().material.SetColor("_Color", Color.white);
         }
         #endregion
     }

@@ -1,4 +1,5 @@
-﻿using LastBastion.Game.SurveySystem;
+﻿using LastBastion.Game;
+using LastBastion.Game.SurveySystem;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -76,9 +77,9 @@ namespace LastBastion.Analytics
         /// <param name="calculationType">Calculation type for calculating arousal from HR and GSR</param>
         /// <param name="averageHr">Average HR value</param>
         /// <param name="averageGsr">Average GSR value</param>
-        public static void AddLevelInfo(string levelName, CalculationType calculationType, int averageHr, int averageGsr)
+        public static void AddLevelInfo(LevelName levelName, CalculationType calculationType, int averageHr, int averageGsr)
         {
-            string data = "- " + levelName + " " + (int)calculationType + " " + averageHr + " " + averageGsr;
+            string data = "- " + (int)levelName + " " + (int)calculationType + " " + averageHr + " " + averageGsr;
             SaveToFile(data);
         }
 

@@ -1,5 +1,4 @@
 ﻿using LastBastion.Game.Plot;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -20,7 +19,6 @@ namespace LastBastion.Game.Managers
         [SerializeField] private List<AudioClip> metalDoorSqueak;
         [SerializeField] private List<AudioClip> woodenDoorSqueak;
         [SerializeField] private List<AudioClip> footstepsGravel;
-        [SerializeField] private string plotGoalsPath;
         [SerializeField] private Goals goals;
         private int footstepGravelIndex;
         #endregion
@@ -35,8 +33,6 @@ namespace LastBastion.Game.Managers
         public float InteractionRange { get { return interactionRange; } }
         /// <summary>Hint range.</summary>
         public float HintRange { get { return hintRange; } }
-        /// <summary>List of plot goals.</summary>
-        public List<Goal> Goals { get { return goals.Set; } }
         #endregion
 
 
@@ -52,15 +48,6 @@ namespace LastBastion.Game.Managers
             woodenDoorSqueak.AddRange(Resources.LoadAll<AudioClip>("Audio/woodenSqueak"));
             footstepsGravel.AddRange(Resources.LoadAll<AudioClip>("Audio/gravel"));
             footstepGravelIndex = 0;
-            // load plot goals data:
-            plotGoalsPath = Application.dataPath + "/Resources/TextData/plot_goals.json";
-            goals = LoadGoalsDataFromFile(plotGoalsPath);
-            if (goals == null)
-            {
-                // file with plot goals doesn't exist - create new plot goals data:
-                goals = new Goals(CreateTestData(5));
-                SaveGoalsDataToFile(goals, plotGoalsPath);
-            }
         }
         #endregion
 
@@ -108,6 +95,28 @@ namespace LastBastion.Game.Managers
 
 
         #region Public methods
+        /// <summary>
+        /// Loads plot goals list that match the current level.
+        /// </summary>
+        /// <returns>List of plot goals</returns>
+        public List<Goal> LoadPlotGoals()
+        {
+            string plotGoalsFilePath;
+            // load plot goals for level A:
+            if (LevelManager.instance.LevelName == LevelName.LevelA) plotGoalsFilePath = Application.dataPath + "/Resources/TextData/plot_goals_a.json";
+            // load plot goals for level B:
+            else plotGoalsFilePath = Application.dataPath + "/Resources/TextData/plot_goals_b.json";
+            // load plot goals:
+            goals = LoadGoalsDataFromFile(plotGoalsFilePath);
+            if (goals == null)
+            {
+                // file with plot goals doesn't exist - create new plot goals data:
+                goals = new Goals(CreateTestData(5));
+                SaveGoalsDataToFile(goals, plotGoalsFilePath);
+            }
+            return goals.Set;
+        }
+
         /// <summary>
         /// Returns random metal door squeak sound.
         /// </summary>

@@ -1,0 +1,52 @@
+{
+    "Set": [
+        {
+            "Weight": 0,
+            "Content": "Search through the office"
+        },
+        {
+            "Weight": 1,
+            "Content": "Go to the nurses office"
+        },
+        {
+            "Weight": 2,
+            "Content": "Find James' room number in ward records"
+        },
+        {
+            "Weight": 3,
+            "Content": "Search through the ward 3"
+        },
+        {
+            "Weight": 4,
+            "Content": "Go to the hospital"
+        },
+        {
+            "Weight": 5,
+            "Content": "Find any information about James illness"
+        },
+        {
+            "Weight": 6,
+            "Content": "Search through the operation rooms"
+        },
+        {
+            "Weight": 7,
+            "Content": "Go to the floor -1"
+        },
+        {
+            "Weight": 8,
+            "Content": "Find out to which isolation ward James was sent"
+        },
+        {
+            "Weight": 9,
+            "Content": "Open isolation ward no. B"
+        },
+        {
+            "Weight": 10,
+            "Content": "Search through isolation ward no. B"
+        },
+        {
+            "Weight": 10,
+            "Content": "Finish the ritual"
+        }
+    ]
+}

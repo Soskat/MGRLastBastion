@@ -44,11 +44,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private AudioSource m_AudioSource;
 
 
-
+        /// <summary>Is player focused on some object?</summary>
         public bool IsFocused { get; set; }
-
-
-
+        
 
         // Use this for initialization
         private void Start()
@@ -71,8 +69,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         {
             // player is focused on object in his hands - skip movement calculations:
             if (IsFocused) return;
-
-
+            
 
             RotateView();
             // the jump state needs to read here to make sure it is not missed
@@ -107,6 +104,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void FixedUpdate()
         {
+            // player is focused on object in his hands - skip movement calculations:
+            if (IsFocused) return;
+
+
             float speed;
             GetInput(out speed);
             // always move along the camera forward as it is the direction that it being aimed at
