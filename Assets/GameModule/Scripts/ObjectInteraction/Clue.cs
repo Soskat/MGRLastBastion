@@ -1,5 +1,4 @@
-﻿using LastBastion.Game.Managers;
-using LastBastion.Game.Plot;
+﻿using LastBastion.Game.Plot;
 using UnityEngine;
 
 
@@ -20,7 +19,6 @@ namespace LastBastion.Game.ObjectInteraction
             base.PickUp(newTransform);
             // inform that new clue was found:
             GetComponent<PlotGoal>().Activate();
-            //LevelManager.instance.UpdatePlotGoal(GetComponent<PlotGoal>().Goal);
         }
         #endregion
     }

@@ -1,5 +1,4 @@
-﻿using LastBastion.Game.Managers;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 namespace LastBastion.Game.Plot
@@ -23,7 +22,6 @@ namespace LastBastion.Game.Plot
         {
             // inform that new clue was found:
             GetComponent<PlotGoal>().Activate();
-            //LevelManager.instance.UpdatePlotGoal(GetComponent<PlotGoal>().Goal);
         }
         #endregion
     }
