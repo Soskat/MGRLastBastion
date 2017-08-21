@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using LastBastion.Game.Plot;
+using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace LastBastion.Game.ObjectInteraction
@@ -49,6 +50,8 @@ namespace LastBastion.Game.ObjectInteraction
             if (!isBusy)
             {
                 animator.SetTrigger(pushedButtonTrigger);
+                // activate plot goal if any assigned:
+                if (GetComponent<PlotGoal>() != null) GetComponent<PlotGoal>().Activate();
             }
         }
 

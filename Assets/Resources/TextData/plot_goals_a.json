@@ -14,15 +14,15 @@
         },
         {
             "Weight": 3,
-            "Content": "Search through the ward 3"
+            "Content": "Search through the ward 1C"
         },
         {
             "Weight": 4,
-            "Content": "Go to the hospital"
+            "Content": "Go to the Intensive Care Unit"
         },
         {
             "Weight": 5,
-            "Content": "Find any information about James illness"
+            "Content": "Find any information about James' illness"
         },
         {
             "Weight": 6,
@@ -30,22 +30,22 @@
         },
         {
             "Weight": 7,
-            "Content": "Go to the floor -1"
+            "Content": "Go to the Isolation Ward"
         },
         {
             "Weight": 8,
-            "Content": "Find out to which isolation ward James was sent"
+            "Content": "Find out to which isolation cell James was sent"
         },
         {
             "Weight": 9,
-            "Content": "Open isolation ward no. B"
+            "Content": "Open isolation cell no. B"
         },
         {
             "Weight": 10,
-            "Content": "Search through isolation ward no. B"
+            "Content": "Search through isolation cell no. B"
         },
         {
-            "Weight": 10,
+            "Weight": 11,
             "Content": "Finish the ritual"
         }
     ]
