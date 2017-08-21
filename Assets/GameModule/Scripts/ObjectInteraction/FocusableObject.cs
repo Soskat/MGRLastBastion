@@ -53,11 +53,15 @@ namespace LastBastion.Game.ObjectInteraction
             transform.position = newTransform.position;
             transform.localRotation = focusedRotation;
             transform.localScale = focusedScale;
-            // change layer of game object and its children:
+            // change layer of game object and turn off highlight in focus mode:
             gameObject.layer = GameManager.instance.IgnoreLightLayer;
-            foreach(Transform child in transform) child.gameObject.layer = GameManager.instance.IgnoreLightLayer;
-            // turn off highlight in focuse mode:
             GetComponent<Highlighter>().SetHighlightBlockade();
+            // do the same to game object's children:
+            foreach (Transform child in transform)
+            {
+                child.gameObject.layer = GameManager.instance.IgnoreLightLayer;
+                if (child.gameObject.GetComponent<Highlighter>() != null) child.gameObject.GetComponent<Highlighter>().SetHighlightBlockade();
+            }
         }
         
         /// <summary>
@@ -70,11 +74,15 @@ namespace LastBastion.Game.ObjectInteraction
             transform.position = originalPosition;
             transform.rotation = originalRotation;
             transform.localScale = originalScale;
-            // back to original layer:
+            // change back layer of game object and turn on highlight:
             gameObject.layer = originalLayer;
-            foreach (Transform child in transform) child.gameObject.layer = gameObject.layer = originalLayer;
-            // turn on highlight back:
             GetComponent<Highlighter>().ResetHighlightBlockade();
+            // do the same to game object's children:
+            foreach (Transform child in transform)
+            {
+                child.gameObject.layer = gameObject.layer;
+                if (child.gameObject.GetComponent<Highlighter>() != null) child.gameObject.GetComponent<Highlighter>().ResetHighlightBlockade();
+            }
         }
         #endregion
     }
