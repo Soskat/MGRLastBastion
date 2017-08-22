@@ -55,6 +55,8 @@ namespace LastBastion.Game.Managers
         public RunesManager RuneManager { get { return runesManager; } }
         /// <summary>Is current goal the last one?</summary>
         public bool CurrentGoalIsTheLast { get { return currentGoal.Weight == GetComponent<PlotManager>().LastGoal.Weight; } }
+        /// <summary>Is the outro of the level playing?</summary>
+        public bool IsOutroOn { get; set; }
         #endregion
 
 
@@ -69,6 +71,7 @@ namespace LastBastion.Game.Managers
                 player = GameObject.FindGameObjectWithTag("Player");
                 playerBiofeedback = player.GetComponent<BiofeedbackAudioManager>();
                 runesManager = GameObject.FindGameObjectWithTag("RunesManager").GetComponent<RunesManager>();
+                IsOutroOn = false;
                 // make some assertions:
                 Assert.IsNotNull(goalUpdatePanel);
                 Assert.IsNotNull(goalUpdateHeadlineText);

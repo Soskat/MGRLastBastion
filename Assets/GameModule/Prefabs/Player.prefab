@@ -185,7 +185,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4172536660163578}
   - component: {fileID: 143777548065131746}
-  - component: {fileID: 114599843427104646}
+  - component: {fileID: 114010677763398642}
   - component: {fileID: 54704326900735668}
   - component: {fileID: 82776416796828232}
   - component: {fileID: 114245610154542102}
@@ -246,8 +246,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1887102829654164}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 17.35, y: -0.285, z: 61.65}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -17.45, y: -4.393, z: 2.74}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4567411499193758}
@@ -255,7 +255,7 @@ Transform:
   - {fileID: 4260327619469422}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4206672011162124
 Transform:
   m_ObjectHideFlags: 1
@@ -925,7 +925,7 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &114245610154542102
+--- !u!114 &114010677763398642
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -933,51 +933,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1887102829654164}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abc91cc992da4b74cb6c490b278ed4e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  biofeedbackSound: {fileID: 8300000, guid: 9c82d2ff0af678e4087551e28740dec6, type: 3}
-  biofeedbackAudio: {fileID: 82167149161251878}
---- !u!114 &114276798552163928
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1855547365467016}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8163876f02c8a73449d304cbf3b1d619, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lightOn: 0
-  lightRay: {fileID: 1772480256386792}
-  switchOnSound: {fileID: 8300000, guid: e46be936f6ca29745afdd2dc418b3a2c, type: 3}
-  switchOffSound: {fileID: 8300000, guid: 72c6ca511f3ec7b4ba22d9f137f23c33, type: 3}
-  hitSound: {fileID: 8300000, guid: 94f01f3848dc3f44b8e1e6fe62d49685, type: 3}
-  IsDead: 0
-  IsBusy: 0
---- !u!114 &114494633221299792
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1769807232432228}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 473bbedefe6443341b88b3ffda522a1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeSinceLastBlink: 0
-  timeSinceLastBlinkToDeath: 0
---- !u!114 &114599843427104646
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1887102829654164}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05ec5cf00ca181d45a42ba1870e148c3, type: 3}
+  m_Script: {fileID: 11500000, guid: 72490ab7597c42c40b57bf615b2071b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_IsWalking: 0
@@ -1020,7 +976,7 @@ MonoBehaviour:
         tangentMode: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
-      m_RotationOrder: 4
+      m_RotationOrder: 0
   m_UseHeadBob: 1
   m_HeadBob:
     HorizontalBobRange: 0.1
@@ -1071,6 +1027,50 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e9714160ce34f2b4ab63ff8c27bd68e1, type: 3}
   m_JumpSound: {fileID: 8300000, guid: 5897aeed9b676024fbb8c694b421a861, type: 3}
   m_LandSound: {fileID: 8300000, guid: 3b09d59f4499d45428baa7a21e954296, type: 3}
+--- !u!114 &114245610154542102
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1887102829654164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abc91cc992da4b74cb6c490b278ed4e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  biofeedbackSound: {fileID: 8300000, guid: 9c82d2ff0af678e4087551e28740dec6, type: 3}
+  biofeedbackAudio: {fileID: 82167149161251878}
+--- !u!114 &114276798552163928
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1855547365467016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8163876f02c8a73449d304cbf3b1d619, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightOn: 0
+  lightRay: {fileID: 1772480256386792}
+  switchOnSound: {fileID: 8300000, guid: e46be936f6ca29745afdd2dc418b3a2c, type: 3}
+  switchOffSound: {fileID: 8300000, guid: 72c6ca511f3ec7b4ba22d9f137f23c33, type: 3}
+  hitSound: {fileID: 8300000, guid: 94f01f3848dc3f44b8e1e6fe62d49685, type: 3}
+  IsDead: 0
+  IsBusy: 0
+--- !u!114 &114494633221299792
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1769807232432228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 473bbedefe6443341b88b3ffda522a1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeSinceLastBlink: 0
+  timeSinceLastBlinkToDeath: 0
 --- !u!114 &114945134263122558
 MonoBehaviour:
   m_ObjectHideFlags: 1

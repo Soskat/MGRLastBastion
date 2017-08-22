@@ -49,7 +49,7 @@ namespace LastBastion.Game.Player
                     {
                         // pick up the object to take a look at it:
                         isFocused = true;
-                        LevelManager.instance.Player.GetComponent<FirstPersonController>().IsFocused = true;
+                        LevelManager.instance.Player.GetComponent<FirstPersonController_Edited>().IsFocused = true;
                         activeObject.GetComponentInParent<FocusableObject>().PickUp(focusPoint);
                     }
                 }
@@ -57,7 +57,7 @@ namespace LastBastion.Game.Player
                 {
                     // put down the object:
                     isFocused = false;
-                    LevelManager.instance.Player.GetComponent<FirstPersonController>().IsFocused = false;
+                    LevelManager.instance.Player.GetComponent<FirstPersonController_Edited>().IsFocused = false;
                     activeObject.GetComponentInParent<FocusableObject>().PutDown();
                 }
 
