@@ -7037,25 +7037,6 @@ Mesh:
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
   m_MeshOptimized: 0
---- !u!1 &720927750 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1024674373447952, guid: 1159c1007f4ae244397e583769c6f6af,
-    type: 2}
-  m_PrefabInternal: {fileID: 1808906965}
---- !u!114 &720927755
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 720927750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9781ab38aada9c747b3c83fec9c8f63c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initialDelay: 5
-  duration: 35
-  magnitude: 0.05
 --- !u!43 &734666469
 Mesh:
   m_ObjectHideFlags: 0
@@ -12515,6 +12496,11 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114234289600111866, guid: ea38cd58e78228947a2990f5f424b0dd,
+        type: 2}
+      propertyPath: endGameDelay
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ea38cd58e78228947a2990f5f424b0dd, type: 2}
   m_IsPrefabParent: 0
@@ -14588,18 +14574,6 @@ Prefab:
     - target: {fileID: 4172536660163578, guid: 1159c1007f4ae244397e583769c6f6af, type: 2}
       propertyPath: m_RootOrder
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4172536660163578, guid: 1159c1007f4ae244397e583769c6f6af, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -228.607
-      objectReference: {fileID: 0}
-    - target: {fileID: 4172536660163578, guid: 1159c1007f4ae244397e583769c6f6af, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1887102829654164, guid: 1159c1007f4ae244397e583769c6f6af, type: 2}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1159c1007f4ae244397e583769c6f6af, type: 2}

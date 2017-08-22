@@ -17,6 +17,7 @@ namespace LastBastion.Game
         [SerializeField] private float endGameDelay = 38f;
         [SerializeField] private float outroStartDelay = 2f;
         private bool isInRange;
+        private bool wasActivated;
         private int cooldownTime;
         private int timeToEnd;
         #endregion
@@ -29,6 +30,7 @@ namespace LastBastion.Game
             Assert.IsNotNull(glyphParticle);
             glyphParticle.gameObject.SetActive(false);
             isInRange = false;
+            wasActivated = false;
         }
 
         // Use this for initialization
@@ -40,7 +42,7 @@ namespace LastBastion.Game
         // Update is called once per frame
         void Update()
         {
-            if (isInRange)
+            if (!wasActivated && isInRange)
             {
                 timeToEnd++;
                 if (timeToEnd > cooldownTime)
@@ -50,6 +52,7 @@ namespace LastBastion.Game
                     LevelManager.instance.Player.GetComponent<FirstPersonController_Edited>().IsOutroOn = true;
                     glyphParticle.gameObject.SetActive(true);
                     StartCoroutine(EndGameCounter());
+                    wasActivated = true;
                 }
             }
         }
@@ -78,9 +81,9 @@ namespace LastBastion.Game
         private IEnumerator EndGameCounter()
         {
             yield return new WaitForSeconds(endGameDelay);
-            // fade out the camera for a moment:
-            LevelManager.instance.FadeOutCamera();
-            yield return new WaitForSeconds(4f);
+            // play the riser sound (which triggers camera fading out):
+            LevelManager.instance.Player.GetComponent<PlayerAudioManager>().PlayRiserSound();
+            yield return new WaitForSeconds(LevelManager.instance.Player.GetComponent<PlayerAudioManager>().RiserSoundLenght);
             // inform LevelManager, that level has ended:
             LevelManager.instance.EndLevel();
         }

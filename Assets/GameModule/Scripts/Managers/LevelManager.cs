@@ -35,7 +35,7 @@ namespace LastBastion.Game.Managers
         private Stopwatch stopwatch;
         private TimeSpan currentTime;
         private GameObject player;
-        private BiofeedbackAudioManager playerBiofeedback;
+        private PlayerAudioManager playerBiofeedback;
         private RunesManager runesManager;
         #endregion
 
@@ -50,7 +50,7 @@ namespace LastBastion.Game.Managers
         /// <summary>Reference to player game object.</summary>
         public GameObject Player { get { return player; } }
         /// <summary>Reference to player's BiofeedbackController component.</summary>
-        public BiofeedbackAudioManager PlayerBiofeedback { get { return playerBiofeedback; } }
+        public PlayerAudioManager PlayerBiofeedback { get { return playerBiofeedback; } }
         /// <summary>Reference to RuneManager instance.</summary>
         public RunesManager RuneManager { get { return runesManager; } }
         /// <summary>Is current goal the last one?</summary>
@@ -69,7 +69,7 @@ namespace LastBastion.Game.Managers
             {
                 instance = this;
                 player = GameObject.FindGameObjectWithTag("Player");
-                playerBiofeedback = player.GetComponent<BiofeedbackAudioManager>();
+                playerBiofeedback = player.GetComponent<PlayerAudioManager>();
                 runesManager = GameObject.FindGameObjectWithTag("RunesManager").GetComponent<RunesManager>();
                 IsOutroOn = false;
                 // make some assertions:
@@ -155,10 +155,13 @@ namespace LastBastion.Game.Managers
         }
 
         /// <summary>
-        /// Fades out camera view.
+        /// Fades out the camera after given delay.
         /// </summary>
-        public void FadeOutCamera()
+        /// <param name="delay">Time delay</param>
+        /// <returns></returns>
+        public IEnumerator FadeOutCamera(float delay)
         {
+            yield return new WaitForSeconds(delay);
             GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().farClipPlane = 0.2f;
         }
 
