@@ -1,16 +1,21 @@
 ﻿using LastBastion.Game.Managers;
 using LastBastion.Game.Player;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 
 namespace LastBastion.Game
 {
+    /// <summary>
+    /// Component that triggers start of the level outro.
+    /// </summary>
     public class EndGameTrigger : MonoBehaviour
     {
         #region Private fields
         [SerializeField] private ParticleSystem glyphParticle;
-        [SerializeField] private double delayTime = 2f;
+        [SerializeField] private float endGameDelay = 38f;
+        [SerializeField] private float outroStartDelay = 2f;
         private bool isInRange;
         private int cooldownTime;
         private int timeToEnd;
@@ -44,6 +49,7 @@ namespace LastBastion.Game
                     LevelManager.instance.IsOutroOn = true;
                     LevelManager.instance.Player.GetComponent<FirstPersonController_Edited>().IsOutroOn = true;
                     glyphParticle.gameObject.SetActive(true);
+                    StartCoroutine(EndGameCounter());
                 }
             }
         }
@@ -52,7 +58,7 @@ namespace LastBastion.Game
         private void OnTriggerEnter(Collider other)
         {
             isInRange = true;
-            cooldownTime = (int)(delayTime / Time.deltaTime);
+            cooldownTime = (int)(outroStartDelay / Time.deltaTime);
             timeToEnd = 0;
         }
 
@@ -60,6 +66,23 @@ namespace LastBastion.Game
         private void OnTriggerExit(Collider other)
         {
             isInRange = false;
+        }
+        #endregion
+
+
+        #region Private methods
+        /// <summary>
+        /// Counts time to end the level.
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator EndGameCounter()
+        {
+            yield return new WaitForSeconds(endGameDelay);
+            // fade out the camera for a moment:
+            LevelManager.instance.FadeOutCamera();
+            yield return new WaitForSeconds(4f);
+            // inform LevelManager, that level has ended:
+            LevelManager.instance.EndLevel();
         }
         #endregion
     }

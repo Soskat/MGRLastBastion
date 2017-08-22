@@ -104,7 +104,7 @@ namespace LastBastion.Game.Managers
         void Update()
         {
             // read input:
-            if (!Player.GetComponent<InteractionController>().IsFocused && Input.GetKeyDown(KeyCode.Q)) ShowCurrentGoal();
+            if (!Player.GetComponent<InteractionController>().IsFocused && !IsOutroOn && Input.GetKeyDown(KeyCode.Q)) ShowCurrentGoal();
 
             // debug mode:
             if (GameManager.instance.DebugMode)
@@ -152,6 +152,14 @@ namespace LastBastion.Game.Managers
         public void OpenedDoor()
         {
             openedDoors++;
+        }
+
+        /// <summary>
+        /// Fades out camera view.
+        /// </summary>
+        public void FadeOutCamera()
+        {
+            GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().farClipPlane = 0.2f;
         }
 
         /// <summary>

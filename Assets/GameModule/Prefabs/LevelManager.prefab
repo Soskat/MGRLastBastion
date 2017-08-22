@@ -58,9 +58,9 @@ MonoBehaviour:
     Weight: -1
     Content: <empty>
   goalUpdatePanel: {fileID: 0}
+  cameraFadeOutPanel: {fileID: 0}
   goalUpdateHeadlineText: {fileID: 0}
   goalUpdateContentText: {fileID: 0}
-  collectedRunes: 0
   openedDoors: 0
   lightSwitchUses: 0
 --- !u!114 &114574697531982682
