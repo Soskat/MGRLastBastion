@@ -30,13 +30,13 @@ namespace LastBastion.Game.Managers
         [SerializeField] private Text goalUpdateHeadlineText;
         [SerializeField] private Text goalUpdateContentText;
         // achievements counters:
-        [SerializeField] private int collectedRunes = 0;
         [SerializeField] private int openedDoors = 0;
         [SerializeField] private int lightSwitchUses = 0;
         private Stopwatch stopwatch;
         private TimeSpan currentTime;
         private GameObject player;
         private BiofeedbackAudioManager playerBiofeedback;
+        private RunesManager runesManager;
         #endregion
 
 
@@ -51,6 +51,10 @@ namespace LastBastion.Game.Managers
         public GameObject Player { get { return player; } }
         /// <summary>Reference to player's BiofeedbackController component.</summary>
         public BiofeedbackAudioManager PlayerBiofeedback { get { return playerBiofeedback; } }
+        /// <summary>Reference to RuneManager instance.</summary>
+        public RunesManager RuneManager { get { return runesManager; } }
+        /// <summary>Is current goal the last one?</summary>
+        public bool CurrentGoalIsTheLast { get { return currentGoal.Weight == GetComponent<PlotManager>().LastGoal.Weight; } }
         #endregion
 
 
@@ -64,6 +68,7 @@ namespace LastBastion.Game.Managers
                 instance = this;
                 player = GameObject.FindGameObjectWithTag("Player");
                 playerBiofeedback = player.GetComponent<BiofeedbackAudioManager>();
+                runesManager = GameObject.FindGameObjectWithTag("RunesManager").GetComponent<RunesManager>();
                 // make some assertions:
                 Assert.IsNotNull(goalUpdatePanel);
                 Assert.IsNotNull(goalUpdateHeadlineText);
@@ -78,7 +83,6 @@ namespace LastBastion.Game.Managers
             goalUpdatePanel.SetActive(false);
             currentGoal = GetComponent<PlotManager>().Init();
             // reset achievements:
-            collectedRunes = 0;
             openedDoors = 0;
             lightSwitchUses = 0;
             // start stopwatch:
@@ -132,11 +136,11 @@ namespace LastBastion.Game.Managers
         public void FoundRune()
         {
             // update runes count:
-            collectedRunes++;
+            runesManager.CollectRune();
             // show update info:
             StopAllCoroutines();
-            if (collectedRunes > 1) StartCoroutine(ShowPlotInfoPanel("Rune found", "You have collected " + collectedRunes + " runes"));
-            else StartCoroutine(ShowPlotInfoPanel("Rune found", "You have collected " + collectedRunes + " rune"));
+            if (runesManager.CollectedRunes > 1) StartCoroutine(ShowPlotInfoPanel("Rune found", "You have collected " + runesManager.CollectedRunes + " runes"));
+            else StartCoroutine(ShowPlotInfoPanel("Rune found", "You have collected " + runesManager.CollectedRunes + " rune"));
         }
 
         /// <summary>
@@ -168,6 +172,8 @@ namespace LastBastion.Game.Managers
                 // show update info:
                 StopAllCoroutines();
                 StartCoroutine(ShowPlotInfoPanel("Goal update", currentGoal.Content));
+                // if newGoal is the last goal, activate rune orbs:
+                if (CurrentGoalIsTheLast) runesManager.ActivateOrbs();
             }
         }
 
@@ -217,7 +223,7 @@ namespace LastBastion.Game.Managers
             }
             // save achievements progress:
             GameManager.instance.GameTime = stopwatch.Elapsed;
-            GameManager.instance.CollectedRunes = collectedRunes;
+            GameManager.instance.CollectedRunes = runesManager.CollectedRunes;
             GameManager.instance.OpenedDoors = openedDoors;
             GameManager.instance.LightSwitchUses = lightSwitchUses;
             // inform game manager that level has ended:

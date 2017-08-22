@@ -9,21 +9,13 @@ namespace LastBastion.Game.Managers
     {
         #region Private fields
         [SerializeField] private List<PlotGoal> plotGoals;
+        private Goal lastGoal;
         #endregion
 
 
-        #region MonoBehaviour methods
-        //// Use this for initialization
-        //void Start()
-        //{
-
-        //}
-
-        //// Update is called once per frame
-        //void Update()
-        //{
-
-        //}
+        #region Public fields & properties
+        /// <summary>Final plot goal.</summary>
+        public Goal LastGoal { get { return lastGoal; } }
         #endregion
 
 
@@ -43,6 +35,7 @@ namespace LastBastion.Game.Managers
                 if (plotGoals[j] == null) break;
                 plotGoals[j].UpdateGoal(goals[i]);
             }
+            lastGoal = plotGoals[plotGoals.Count - 1].Goal;
             // return current plot goal:
             return goals[0];
         }
