@@ -22,6 +22,7 @@ namespace LastBastion.Game
         private void Awake()
         {
             Assert.IsNotNull(glyphParticle);
+            glyphParticle.gameObject.SetActive(false);
             isInRange = false;
         }
 
@@ -42,7 +43,7 @@ namespace LastBastion.Game
                     // start playing the level outro:
                     LevelManager.instance.IsOutroOn = true;
                     LevelManager.instance.Player.GetComponent<FirstPersonController_Edited>().IsOutroOn = true;
-                    glyphParticle.Play();
+                    glyphParticle.gameObject.SetActive(true);
                 }
             }
         }
