@@ -15,6 +15,8 @@ namespace LastBastion.Game.ObjectInteraction
         [SerializeField] private Door door;
         [SerializeField] private AudioClip pushButtonSound;
         [SerializeField] private AudioClip buzzerSound;
+        [SerializeField] private bool hasTriggeringGoal = false;
+        [SerializeField] private PlotGoal triggeringGoal;
         private Animator animator;
         private AudioSource audioSource;
         private int pushedButtonTrigger;
@@ -29,6 +31,7 @@ namespace LastBastion.Game.ObjectInteraction
             Assert.IsNotNull(door);
             Assert.IsNotNull(pushButtonSound);
             Assert.IsNotNull(buzzerSound);
+            if (hasTriggeringGoal) Assert.IsNotNull(triggeringGoal);
         }
 
         // Use this for initialization
@@ -37,6 +40,13 @@ namespace LastBastion.Game.ObjectInteraction
             animator = GetComponent<Animator>();
             pushedButtonTrigger = Animator.StringToHash("PushedButton");
             audioSource = GetComponent<AudioSource>();
+            if (hasTriggeringGoal)
+            {
+                triggeringGoal.Triggered += () => {
+                    // if door is already open, activate next plot goal:
+                    if (!door.IsLocked && GetComponent<PlotGoal>() != null) GetComponent<PlotGoal>().Activate();
+                };
+            }
         }
         #endregion
 
