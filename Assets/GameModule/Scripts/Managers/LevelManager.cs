@@ -26,6 +26,7 @@ namespace LastBastion.Game.Managers
         [SerializeField] private LevelName levelName;
         [SerializeField] private int runesLimit = 0;
         [SerializeField] private Goal currentGoal;
+        [SerializeField] private GameObject endGameTriggerPanel;
         [SerializeField] private GameObject goalUpdatePanel;
         [SerializeField] private Text goalUpdateHeadlineText;
         [SerializeField] private Text goalUpdateContentText;
@@ -75,6 +76,7 @@ namespace LastBastion.Game.Managers
                 IsOutroOn = false;
                 activatedRunes = 0;
                 // make some assertions:
+                Assert.IsNotNull(endGameTriggerPanel);
                 Assert.IsNotNull(goalUpdatePanel);
                 Assert.IsNotNull(goalUpdateHeadlineText);
                 Assert.IsNotNull(goalUpdateContentText);
@@ -86,6 +88,7 @@ namespace LastBastion.Game.Managers
         void Start()
         {
             goalUpdatePanel.SetActive(false);
+            SetEndGamePanelActivityStateTo(false);
             currentGoal = GetComponent<PlotManager>().Init();
             // reset achievements:
             openedDoors = 0;
@@ -135,6 +138,15 @@ namespace LastBastion.Game.Managers
 
 
         #region Public methods
+        /// <summary>
+        /// Sets activity state of endGameTriggerPanel to given value.
+        /// </summary>
+        /// <param name="visibility">New value activity state</param>
+        public void SetEndGamePanelActivityStateTo(bool visibility)
+        {
+            endGameTriggerPanel.SetActive(visibility);
+        }
+
         /// <summary>
         /// Actions after finding a rune.
         /// </summary>

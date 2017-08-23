@@ -15,11 +15,9 @@ namespace LastBastion.Game
         #region Private fields
         [SerializeField] private ParticleSystem glyphParticle;
         [SerializeField] private float endGameDelay = 38f;
-        [SerializeField] private float outroStartDelay = 2f;
         private bool isInRange;
         private bool wasActivated;
-        private int cooldownTime;
-        private int timeToEnd;
+        private bool panelInfoOn;
         #endregion
 
 
@@ -31,21 +29,15 @@ namespace LastBastion.Game
             glyphParticle.gameObject.SetActive(false);
             isInRange = false;
             wasActivated = false;
-        }
-
-        // Use this for initialization
-        void Start()
-        {
-
+            panelInfoOn = false;
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (!wasActivated && isInRange)
+            if (isInRange)
             {
-                timeToEnd++;
-                if (timeToEnd > cooldownTime)
+                if (!wasActivated && Input.GetKeyDown(KeyCode.T))
                 {
                     // start playing the level outro:
                     LevelManager.instance.IsOutroOn = true;
@@ -53,22 +45,24 @@ namespace LastBastion.Game
                     glyphParticle.gameObject.SetActive(true);
                     StartCoroutine(EndGameCounter());
                     wasActivated = true;
+                    // turn on end game panel visibility:
+                    LevelManager.instance.SetEndGamePanelActivityStateTo(false);
                 }
             }
         }
-
+        
         // OnTriggerEnter is called when the Collider other enters the trigger
         private void OnTriggerEnter(Collider other)
         {
             isInRange = true;
-            cooldownTime = (int)(outroStartDelay / Time.deltaTime);
-            timeToEnd = 0;
+            LevelManager.instance.SetEndGamePanelActivityStateTo(isInRange);
         }
 
         // OnTriggerExit is called when the Collider other has stopped touching the trigger
         private void OnTriggerExit(Collider other)
         {
             isInRange = false;
+            LevelManager.instance.SetEndGamePanelActivityStateTo(isInRange);
         }
         #endregion
 
