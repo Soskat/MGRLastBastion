@@ -50,15 +50,16 @@ namespace LastBastion.Game.Managers
             // set up in-game menu:
             resumeButton.onClick.AddListener(() => { menuOn = false; menuPanel.SetActive(menuOn); });
             backToMainMenuButton.onClick.AddListener(() => { StopAllCoroutines();  GameManager.instance.BackToMainMenu(); });
-            skipIntroButton.onClick.AddListener((UnityEngine.Events.UnityAction)(() => { GameManager.instance.LoadNextLevel(); }));
+            skipIntroButton.onClick.AddListener(() => { GameManager.instance.LoadNextLevel(); });
             skipIntroButton.gameObject.SetActive(GameManager.instance.DebugMode);
             menuOn = false;
             menuPanel.SetActive(menuOn);            
             // start calibration data:
             if (GameManager.instance.BBModule.IsBandPaired) GameManager.instance.BBModule.CalibrateBandData();
             calibrationLabel.SetActive(true);
-            // load intro text:
-            introFilePath = Application.streamingAssetsPath + "/Resources/TextData/intro_eng.json";
+            // load intro text based on choosen language:
+            if (GameManager.instance.ChoosenLanguage == GameLanguage.Polish) introFilePath = Application.streamingAssetsPath + "/Resources/TextData/intro_pl.json";
+            else introFilePath = Application.streamingAssetsPath + "/Resources/TextData/intro_eng.json";
             introText = LoadIntroTextFromFile(introFilePath);
             if (introText == null)
             {
@@ -239,10 +240,7 @@ namespace LastBastion.Game.Managers
         private float CalculateTextDuration(IntroText introText)
         {
             float duration = 0f;
-            foreach(IntroLine line in introText.Content)
-            {
-                duration += line.Cooldown + line.Duration;
-            }
+            foreach(IntroLine line in introText.Content) duration += line.Cooldown + line.Duration;
             return duration;
         }
 

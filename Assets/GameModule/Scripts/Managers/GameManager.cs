@@ -74,9 +74,9 @@ namespace LastBastion.Game.Managers
         /// <summary>Uses of the lightswitches count.</summary>
         public int LightSwitchUses { get; set; }
         #endregion
-        #endregion
-
+        /// <summary>Informs all objects that choosen language has changed.</summary>
         public Action UpdatedLanguage { get; set; }
+        #endregion
 
 
         #region MonoBehaviour methods

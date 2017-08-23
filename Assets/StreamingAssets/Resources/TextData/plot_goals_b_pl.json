@@ -10,7 +10,7 @@
         },
         {
             "Weight": 2,
-            "Content": "Znajdź numer pokoju Jamesa w rejestrze oddziałów"
+            "Content": "Znajdź numer pokoju Jamesa w rejestrze pacjentów"
         },
         {
             "Weight": 3,
@@ -38,11 +38,11 @@
         },
         {
             "Weight": 9,
-            "Content": "Otwórz izolatkę nr F"
+            "Content": "Otwórz izolatkę F"
         },
         {
             "Weight": 10,
-            "Content": "Przeszukaj izolatkę nr F"
+            "Content": "Przeszukaj izolatkę F"
         },
         {
             "Weight": 11,
@@ -50,7 +50,7 @@
         },
         {
             "Weight": 12,
-            "Content": "Dodaj brakujące znaki do glifu"
+            "Content": "Dodaj brakujące runy do glifu"
         },
         {
             "Weight": 13,

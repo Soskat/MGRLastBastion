@@ -2,19 +2,19 @@
     "Set": [
         {
             "Weight": 0,
-            "Content": "Search through the office"
+            "Content": "Search the office"
         },
         {
             "Weight": 1,
-            "Content": "Go to the nurses office"
+            "Content": "Go to the nurses' office"
         },
         {
             "Weight": 2,
-            "Content": "Find James' room number in ward records"
+            "Content": "Find James' room number in patient records"
         },
         {
             "Weight": 3,
-            "Content": "Search through the room 1C"
+            "Content": "Search room 1C"
         },
         {
             "Weight": 4,
@@ -26,7 +26,7 @@
         },
         {
             "Weight": 6,
-            "Content": "Search through the operation rooms"
+            "Content": "Search all operation rooms"
         },
         {
             "Weight": 7,
@@ -34,19 +34,19 @@
         },
         {
             "Weight": 8,
-            "Content": "Find out to which isolation cell James was sent"
+            "Content": "Find out to which isolation ward James was sent to"
         },
         {
             "Weight": 9,
-            "Content": "Open isolation cell no. B"
+            "Content": "Open isolation ward B"
         },
         {
             "Weight": 10,
-            "Content": "Search through isolation cell no. B"
+            "Content": "Search isolation ward B"
         },
         {
             "Weight": 11,
-            "Content": "Finish the ritual"
+            "Content": "Complete the ritual"
         },
         {
             "Weight": 12,

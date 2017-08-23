@@ -103,9 +103,33 @@ namespace LastBastion.Game.Managers
         {
             string plotGoalsFilePath;
             // load plot goals for level A:
-            if (LevelManager.instance.LevelName == LevelName.LevelA) plotGoalsFilePath = Application.streamingAssetsPath + "/Resources/TextData/plot_goals_a_eng.json";
+            if (LevelManager.instance.LevelName == LevelName.LevelA)
+            {
+                if (GameManager.instance.ChoosenLanguage == GameLanguage.Polish)
+                {
+                    // load plot goals in polish:
+                    plotGoalsFilePath = Application.streamingAssetsPath + "/Resources/TextData/plot_goals_a_pl.json";
+                }
+                else
+                {
+                    // load plot goals in english:
+                    plotGoalsFilePath = Application.streamingAssetsPath + "/Resources/TextData/plot_goals_a_eng.json";
+                }
+            }
             // load plot goals for level B:
-            else plotGoalsFilePath = Application.streamingAssetsPath + "/Resources/TextData/plot_goals_b_eng.json";
+            else
+            {
+                if (GameManager.instance.ChoosenLanguage == GameLanguage.Polish)
+                {
+                    // load plot goals in polish:
+                    plotGoalsFilePath = Application.streamingAssetsPath + "/Resources/TextData/plot_goals_b_pl.json";
+                }
+                else
+                {
+                    // load plot goals in english:
+                    plotGoalsFilePath = Application.streamingAssetsPath + "/Resources/TextData/plot_goals_b_eng.json";
+                }
+            }
             // load plot goals:
             goals = LoadGoalsDataFromFile(plotGoalsFilePath);
             if (goals == null)

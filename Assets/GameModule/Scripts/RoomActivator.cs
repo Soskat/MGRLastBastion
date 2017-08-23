@@ -15,6 +15,7 @@ namespace LastBastion.Game
         private bool wasActivated;
         #endregion
 
+
         #region MonoBehaviour methods
         // Use this for initialization
         void Start()
@@ -36,7 +37,6 @@ namespace LastBastion.Game
                 {
                     LevelManager.instance.SearchedRoom();
                     wasActivated = true;
-                    Debug.Log(gameObject);
                 }
             }
         }

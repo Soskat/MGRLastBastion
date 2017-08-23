@@ -30,9 +30,10 @@ namespace LastBastion.Game.Managers
         [SerializeField] private GameObject goalUpdatePanel;
         [SerializeField] private Text goalUpdateHeadlineText;
         [SerializeField] private Text goalUpdateContentText;
-        // achievements counters:
+        #region Achievements counters:
         [SerializeField] private int searchedRooms = 0;
         [SerializeField] private int lightSwitchUses = 0;
+        #endregion
         private Stopwatch stopwatch;
         private TimeSpan currentTime;
         private GameObject player;
@@ -157,8 +158,21 @@ namespace LastBastion.Game.Managers
             runesManager.CollectRune();
             // show update info:
             StopAllCoroutines();
-            if (runesManager.CollectedRunes > 1) StartCoroutine(ShowPlotInfoPanel("Rune found", "You have collected " + runesManager.CollectedRunes + " runes"));
-            else StartCoroutine(ShowPlotInfoPanel("Rune found", "You have collected " + runesManager.CollectedRunes + " rune"));
+            // choosen language is polish:
+            if (GameManager.instance.ChoosenLanguage == GameLanguage.Polish)
+            {
+                if (runesManager.CollectedRunes == 1)
+                    StartCoroutine(ShowPlotInfoPanel("Znaleziono runę", "Zebrałeś " + runesManager.CollectedRunes + " runę"));
+                else if (runesManager.CollectedRunes > 1 && runesManager.CollectedRunes < 5)
+                    StartCoroutine(ShowPlotInfoPanel("Znaleziono runę", "Zebrałeś " + runesManager.CollectedRunes + " runy"));
+                else StartCoroutine(ShowPlotInfoPanel("Znaleziono runę", "Zebrałeś " + runesManager.CollectedRunes + " run"));
+            }
+            // choosen language is english:
+            else
+            {
+                if (runesManager.CollectedRunes > 1) StartCoroutine(ShowPlotInfoPanel("Rune found", "You have collected " + runesManager.CollectedRunes + " runes"));
+                else StartCoroutine(ShowPlotInfoPanel("Rune found", "You have collected " + runesManager.CollectedRunes + " rune"));
+            }
         }
 
         /// <summary>
@@ -204,13 +218,16 @@ namespace LastBastion.Game.Managers
         /// <param name="newGoal">The new goal</param>
         public void UpdatePlotGoal(Goal newGoal)
         {
-            UnityEngine.Debug.Log("New goal content: " + newGoal.Content + " (weight: " + newGoal.Weight + ")");
+            //UnityEngine.Debug.Log("New goal content: " + newGoal.Content + " (weight: " + newGoal.Weight + ")");
             if (newGoal.Weight > currentGoal.Weight)
             {
                 currentGoal = newGoal;
                 // show update info:
                 StopAllCoroutines();
-                StartCoroutine(ShowPlotInfoPanel("Goal update", currentGoal.Content));
+                // choosen language is polish:
+                if (GameManager.instance.ChoosenLanguage == GameLanguage.Polish) StartCoroutine(ShowPlotInfoPanel("Aktualizacja celu", currentGoal.Content));
+                // choosen language is english:
+                else StartCoroutine(ShowPlotInfoPanel("Goal update", currentGoal.Content));
                 // if newGoal is the last goal, activate rune orbs:
                 if (CurrentGoalIsTheOrbGoal) runesManager.ActivateOrbs();
             }
@@ -222,7 +239,10 @@ namespace LastBastion.Game.Managers
         public void ShowCurrentGoal()
         {
             StopAllCoroutines();
-            StartCoroutine(ShowPlotInfoPanel("Goal", currentGoal.Content));
+            // choosen language is polish:
+            if (GameManager.instance.ChoosenLanguage == GameLanguage.Polish) StartCoroutine(ShowPlotInfoPanel("Cel", currentGoal.Content));
+            // choosen language is english:
+            else StartCoroutine(ShowPlotInfoPanel("Goal", currentGoal.Content));
         }
 
         /// <summary>

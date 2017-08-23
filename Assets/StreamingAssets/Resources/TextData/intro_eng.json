@@ -62,7 +62,7 @@
         },
         {
             "Cooldown": 1.5,
-            "Duration": 3.0,
+            "Duration": 4.0,
             "Text": "PS As an incentive I'm sending you a bottle of your favorite vintage."
         },
         {
@@ -88,7 +88,7 @@
         {
             "Cooldown": 1.5,
             "Duration": 4.0,
-            "Text": "And now, all of the sudden, you have disappered and they have just closed this place for good..."
+            "Text": "And now, all of the sudden, you have disappered and they have just closed this place for good."
         },
         {
             "Cooldown": 1.5,
