@@ -17,7 +17,6 @@ namespace LastBastion.Game
         [SerializeField] private float endGameDelay = 38f;
         private bool isInRange;
         private bool wasActivated;
-        private bool panelInfoOn;
         #endregion
 
 
@@ -29,7 +28,6 @@ namespace LastBastion.Game
             glyphParticle.gameObject.SetActive(false);
             isInRange = false;
             wasActivated = false;
-            panelInfoOn = false;
         }
 
         // Update is called once per frame

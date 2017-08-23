@@ -31,14 +31,14 @@ namespace LastBastion.Game.Managers
         [SerializeField] private Text goalUpdateHeadlineText;
         [SerializeField] private Text goalUpdateContentText;
         // achievements counters:
-        [SerializeField] private int openedDoors = 0;
+        [SerializeField] private int searchedRooms = 0;
         [SerializeField] private int lightSwitchUses = 0;
         private Stopwatch stopwatch;
         private TimeSpan currentTime;
         private GameObject player;
         private PlayerAudioManager playerBiofeedback;
         private RunesManager runesManager;
-        [SerializeField] private int activatedRunes;
+        private int activatedRunes;
         #endregion
 
 
@@ -91,7 +91,7 @@ namespace LastBastion.Game.Managers
             SetEndGamePanelActivityStateTo(false);
             currentGoal = GetComponent<PlotManager>().Init();
             // reset achievements:
-            openedDoors = 0;
+            searchedRooms = 0;
             lightSwitchUses = 0;
             // start stopwatch:
             stopwatch = new Stopwatch();
@@ -171,11 +171,11 @@ namespace LastBastion.Game.Managers
         }
 
         /// <summary>
-        /// Opened a door.
+        /// Searched a room.
         /// </summary>
-        public void OpenedDoor()
+        public void SearchedRoom()
         {
-            openedDoors++;
+            searchedRooms++;
         }
 
         /// <summary>
@@ -262,7 +262,7 @@ namespace LastBastion.Game.Managers
             // save achievements progress:
             GameManager.instance.GameTime = stopwatch.Elapsed;
             GameManager.instance.CollectedRunes = runesManager.CollectedRunes;
-            GameManager.instance.OpenedDoors = openedDoors;
+            GameManager.instance.OpenedDoors = searchedRooms;
             GameManager.instance.LightSwitchUses = lightSwitchUses;
             // inform game manager that level has ended:
             GameManager.instance.LoadNextLevel();

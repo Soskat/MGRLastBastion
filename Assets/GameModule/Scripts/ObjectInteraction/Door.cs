@@ -131,7 +131,6 @@ namespace LastBastion.Game.ObjectInteraction
                     {
                         // inform that door was opened:
                         doorState.OpenDoor();
-                        LevelManager.instance.OpenedDoor();
                     }
                 }
                 else CloseDoor();
