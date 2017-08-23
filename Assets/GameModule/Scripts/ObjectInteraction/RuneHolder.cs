@@ -75,7 +75,7 @@ namespace LastBastion.Game.ObjectInteraction
         {
             isEnabled = true;
             // if current plot goal is the last one, activate the orb:
-            if (LevelManager.instance.CurrentGoalIsTheLast) ActivateOrb();
+            if (LevelManager.instance.CurrentGoalIsTheOrbGoal) ActivateOrb();
         }
 
         /// <summary>
@@ -92,6 +92,7 @@ namespace LastBastion.Game.ObjectInteraction
         public void Interact()
         {
             ActivateRuneSignOnTheFloor();
+            LevelManager.instance.ActivatedRune();
         }
         #endregion
     }

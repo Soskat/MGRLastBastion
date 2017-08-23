@@ -103,9 +103,9 @@ namespace LastBastion.Game.Managers
         {
             string plotGoalsFilePath;
             // load plot goals for level A:
-            if (LevelManager.instance.LevelName == LevelName.LevelA) plotGoalsFilePath = Application.dataPath + "/Resources/TextData/plot_goals_a.json";
+            if (LevelManager.instance.LevelName == LevelName.LevelA) plotGoalsFilePath = Application.streamingAssetsPath + "/Resources/TextData/plot_goals_a_eng.json";
             // load plot goals for level B:
-            else plotGoalsFilePath = Application.dataPath + "/Resources/TextData/plot_goals_b.json";
+            else plotGoalsFilePath = Application.streamingAssetsPath + "/Resources/TextData/plot_goals_b_eng.json";
             // load plot goals:
             goals = LoadGoalsDataFromFile(plotGoalsFilePath);
             if (goals == null)

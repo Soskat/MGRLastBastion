@@ -37,6 +37,7 @@ namespace LastBastion.Game.Managers
         private GameObject player;
         private PlayerAudioManager playerBiofeedback;
         private RunesManager runesManager;
+        [SerializeField] private int activatedRunes;
         #endregion
 
 
@@ -54,7 +55,7 @@ namespace LastBastion.Game.Managers
         /// <summary>Reference to RuneManager instance.</summary>
         public RunesManager RuneManager { get { return runesManager; } }
         /// <summary>Is current goal the last one?</summary>
-        public bool CurrentGoalIsTheLast { get { return currentGoal.Weight == GetComponent<PlotManager>().LastGoal.Weight; } }
+        public bool CurrentGoalIsTheOrbGoal { get { return currentGoal.Weight == GetComponent<PlotManager>().OrbGoal.Weight; } }
         /// <summary>Is the outro of the level playing?</summary>
         public bool IsOutroOn { get; set; }
         #endregion
@@ -72,6 +73,7 @@ namespace LastBastion.Game.Managers
                 playerBiofeedback = player.GetComponent<PlayerAudioManager>();
                 runesManager = GameObject.FindGameObjectWithTag("RunesManager").GetComponent<RunesManager>();
                 IsOutroOn = false;
+                activatedRunes = 0;
                 // make some assertions:
                 Assert.IsNotNull(goalUpdatePanel);
                 Assert.IsNotNull(goalUpdateHeadlineText);
@@ -147,6 +149,16 @@ namespace LastBastion.Game.Managers
         }
 
         /// <summary>
+        /// Actions after activating a rune.
+        /// </summary>
+        public void ActivatedRune()
+        {
+            activatedRunes++;
+            // if player activated all runes, uptade current goal:
+            if (activatedRunes >= runesManager.RunesAmount) UpdatePlotGoal(GetComponent<PlotManager>().LastGoal);
+        }
+
+        /// <summary>
         /// Opened a door.
         /// </summary>
         public void OpenedDoor()
@@ -179,7 +191,7 @@ namespace LastBastion.Game.Managers
         /// <param name="newGoal">The new goal</param>
         public void UpdatePlotGoal(Goal newGoal)
         {
-            UnityEngine.Debug.Log("New goal content: " + newGoal.Content);
+            UnityEngine.Debug.Log("New goal content: " + newGoal.Content + " (weight: " + newGoal.Weight + ")");
             if (newGoal.Weight > currentGoal.Weight)
             {
                 currentGoal = newGoal;
@@ -187,7 +199,7 @@ namespace LastBastion.Game.Managers
                 StopAllCoroutines();
                 StartCoroutine(ShowPlotInfoPanel("Goal update", currentGoal.Content));
                 // if newGoal is the last goal, activate rune orbs:
-                if (CurrentGoalIsTheLast) runesManager.ActivateOrbs();
+                if (CurrentGoalIsTheOrbGoal) runesManager.ActivateOrbs();
             }
         }
 

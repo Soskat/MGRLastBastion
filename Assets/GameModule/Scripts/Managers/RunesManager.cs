@@ -19,6 +19,8 @@ namespace LastBastion.Game.Managers
         #region Public fields & properties
         /// <summary>Amount of collected runes.</summary>
         public int CollectedRunes { get { return collectedRunes; } }
+        /// <summary>Amount of all runes.</summary>
+        public int RunesAmount { get { return runeHolders.Count; } }
         #endregion
 
 

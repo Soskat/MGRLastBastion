@@ -58,7 +58,7 @@ namespace LastBastion.Game.Managers
             if (GameManager.instance.BBModule.IsBandPaired) GameManager.instance.BBModule.CalibrateBandData();
             calibrationLabel.SetActive(true);
             // load intro text:
-            introFilePath = Application.dataPath + "/Resources/TextData/intro.json";
+            introFilePath = Application.streamingAssetsPath + "/Resources/TextData/intro_eng.json";
             introText = LoadIntroTextFromFile(introFilePath);
             if (introText == null)
             {
