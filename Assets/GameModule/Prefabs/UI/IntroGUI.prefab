@@ -152,7 +152,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1873699320680064
 GameObject:
   m_ObjectHideFlags: 1
@@ -201,7 +201,7 @@ GameObject:
   - component: {fileID: 114596566168375886}
   - component: {fileID: 114518692609651916}
   m_Layer: 5
-  m_Name: SkipIntroButton
+  m_Name: SkipButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -649,7 +649,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Back to Main Menu
+  m_Text: Back to Menu
 --- !u!114 &114658461915830690
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -960,7 +960,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ca451c12395ff84dbd6f2399ab0b44e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textInEnglish: Back to Main Menu
+  textInEnglish: Back to Menu
   textInPolish: "Powr\xF3t do Menu"
 --- !u!114 &114989423667172116
 MonoBehaviour:

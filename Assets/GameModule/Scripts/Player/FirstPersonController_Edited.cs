@@ -1,3 +1,4 @@
+using LastBastion.Game.Managers;
 using System;
 using UnityEngine;
 using UnityStandardAssets.Characters.FirstPerson;
@@ -45,10 +46,10 @@ namespace LastBastion.Game.Player
         private AudioSource m_AudioSource;
 
 
-        /// <summary>Is player focused on some object?</summary>
-        public bool IsFocused { get; set; }
-        /// <summary>Is level outro playing?</summary>
-        public bool IsOutroOn { get; set; }
+        ///// <summary>Is player focused on some object?</summary>
+        //public bool IsFocused { get; set; }
+        ///// <summary>Is level outro playing?</summary>
+        //public bool IsOutroOn { get; set; }
 
 
         // Use this for initialization
@@ -65,17 +66,17 @@ namespace LastBastion.Game.Player
             m_AudioSource = GetComponent<AudioSource>();
 			m_MouseLook.Init(transform , m_Camera.transform);
 
-            // reset IsFocused and IsOutroOn flags:
-            IsFocused = false;
-            IsOutroOn = false;
+            //// reset IsFocused and IsOutroOn flags:
+            //IsFocused = false;
+            //IsOutroOn = false;
         }
 
 
         // Update is called once per frame
         private void Update()
         {
-            // player is focused on object in his hands - disable rotating view and player movement:
-            if (IsFocused) return;
+            // player is focused on object in his hands or game is paused - disable rotating view and player movement:
+            if (LevelManager.instance.Player.GetComponent<InteractionController>().IsFocused || LevelManager.instance.IsPaused) return;
             
             RotateView();
 
@@ -105,9 +106,10 @@ namespace LastBastion.Game.Player
 
         private void FixedUpdate()
         {
-            // player is focused on object in his hands or level outro is playing - skip movement calculations:
-            if (IsFocused || IsOutroOn) return;
-
+            // player is focused on object in his hands, level outro is playing or game is paused - skip movement calculations:
+            if (LevelManager.instance.Player.GetComponent<InteractionController>().IsFocused ||
+                LevelManager.instance.IsOutroOn || LevelManager.instance.IsPaused) return;
+            
             float speed;
             GetInput(out speed);
             // always move along the camera forward as it is the direction that it being aimed at
@@ -146,7 +148,7 @@ namespace LastBastion.Game.Player
             ProgressStepCycle(speed);
             UpdateCameraPosition(speed);
 
-            m_MouseLook.UpdateCursorLock();
+            if (!LevelManager.instance.IsPaused) m_MouseLook.UpdateCursorLock();
         }
 
 

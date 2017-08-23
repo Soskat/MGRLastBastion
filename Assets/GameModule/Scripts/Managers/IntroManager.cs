@@ -1,4 +1,5 @@
-﻿using LastBastion.Game.Plot;
+﻿using LastBastion.Analytics;
+using LastBastion.Game.Plot;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -48,9 +49,22 @@ namespace LastBastion.Game.Managers
         void Start()
         {
             // set up in-game menu:
-            resumeButton.onClick.AddListener(() => { menuOn = false; menuPanel.SetActive(menuOn); });
-            backToMainMenuButton.onClick.AddListener(() => { StopAllCoroutines();  GameManager.instance.BackToMainMenu(); });
-            skipIntroButton.onClick.AddListener(() => { GameManager.instance.LoadNextLevel(); });
+            resumeButton.onClick.AddListener(() => {
+                menuOn = false;
+                menuPanel.SetActive(menuOn);
+            });
+            backToMainMenuButton.onClick.AddListener(() => {
+                StopAllCoroutines();
+                GameManager.instance.BackToMainMenu();
+            });
+            skipIntroButton.onClick.AddListener(() => {
+                // safe calibration data:
+                if (GameManager.instance.AnalyticsEnabled)
+                {
+                    DataManager.AddCalibrationData(InfoType.Avg_HR_GSR, GameManager.instance.BBModule.AverageHr, GameManager.instance.BBModule.AverageGsr);
+                }
+                GameManager.instance.LoadNextLevel();
+            });
             skipIntroButton.gameObject.SetActive(GameManager.instance.DebugMode);
             menuOn = false;
             menuPanel.SetActive(menuOn);            
@@ -89,13 +103,17 @@ namespace LastBastion.Game.Managers
             {
                 introTextUI.GetComponent<CanvasGroup>().alpha = 1f;
                 introTextUI.text = "( Loading game level )";
+
+                // safe calibration data:
+                if (GameManager.instance.AnalyticsEnabled)
+                {
+                    DataManager.AddCalibrationData(InfoType.Avg_HR_GSR, GameManager.instance.BBModule.AverageHr, GameManager.instance.BBModule.AverageGsr);
+                }
+
                 GameManager.instance.LoadNextLevel();
             }
 
-            if (!GameManager.instance.BBModule.IsCalibrationOn)
-            {
-                calibrationLabel.SetActive(false);
-            }
+            if (!GameManager.instance.BBModule.IsCalibrationOn) calibrationLabel.SetActive(false);
         }
         #endregion
 

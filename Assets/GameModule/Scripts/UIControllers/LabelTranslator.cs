@@ -33,6 +33,7 @@ namespace LastBastion.Game.UIControllers
         /// </summary>
         private void UpdateLabelLanguage()
         {
+            if (this == null) return;
             switch (GameManager.instance.ChoosenLanguage)
             {
                 case GameLanguage.Polish:

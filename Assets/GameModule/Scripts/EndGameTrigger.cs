@@ -39,7 +39,6 @@ namespace LastBastion.Game
                 {
                     // start playing the level outro:
                     LevelManager.instance.IsOutroOn = true;
-                    LevelManager.instance.Player.GetComponent<FirstPersonController_Edited>().IsOutroOn = true;
                     glyphParticle.gameObject.SetActive(true);
                     StartCoroutine(EndGameCounter());
                     wasActivated = true;

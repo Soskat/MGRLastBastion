@@ -28,6 +28,10 @@ namespace LastBastion.Game.Managers
         [SerializeField] private Goal currentGoal;
         [SerializeField] private GameObject endGameTriggerPanel;
         [SerializeField] private GameObject goalUpdatePanel;
+        [SerializeField] private GameObject menuPanel;
+        [SerializeField] private Button resumeButton;
+        [SerializeField] private Button backToMainMenuButton;
+        [SerializeField] private Button skipLevelButton;
         [SerializeField] private Text goalUpdateHeadlineText;
         [SerializeField] private Text goalUpdateContentText;
         #region Achievements counters:
@@ -40,6 +44,7 @@ namespace LastBastion.Game.Managers
         private PlayerAudioManager playerBiofeedback;
         private RunesManager runesManager;
         private int activatedRunes;
+        private bool menuOn;
         #endregion
 
 
@@ -60,6 +65,8 @@ namespace LastBastion.Game.Managers
         public bool CurrentGoalIsTheOrbGoal { get { return currentGoal.Weight == GetComponent<PlotManager>().OrbGoal.Weight; } }
         /// <summary>Is the outro of the level playing?</summary>
         public bool IsOutroOn { get; set; }
+        /// <summary>Is game paused?</summary>
+        public bool IsPaused { get { return menuOn; } }
         #endregion
 
 
@@ -79,6 +86,10 @@ namespace LastBastion.Game.Managers
                 // make some assertions:
                 Assert.IsNotNull(endGameTriggerPanel);
                 Assert.IsNotNull(goalUpdatePanel);
+                Assert.IsNotNull(menuPanel);
+                Assert.IsNotNull(resumeButton);
+                Assert.IsNotNull(backToMainMenuButton);
+                Assert.IsNotNull(skipLevelButton);
                 Assert.IsNotNull(goalUpdateHeadlineText);
                 Assert.IsNotNull(goalUpdateContentText);
             }
@@ -92,6 +103,23 @@ namespace LastBastion.Game.Managers
             SetEndGamePanelActivityStateTo(false);
             currentGoal = GetComponent<PlotManager>().Init();
             GameManager.instance.RunesAmount = runesManager.RunesAmount;
+            // set up in-game menu:
+            resumeButton.onClick.AddListener(() => {
+                menuOn = false;
+                menuPanel.SetActive(menuOn);
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            });
+            backToMainMenuButton.onClick.AddListener(() => {
+                StopAllCoroutines();
+                GameManager.instance.BackToMainMenu();
+            });
+            skipLevelButton.onClick.AddListener(() => {
+                EndLevel();
+            });
+            skipLevelButton.gameObject.SetActive(GameManager.instance.DebugMode);
+            menuOn = false;
+            menuPanel.SetActive(menuOn);
             // reset achievements:
             searchedRooms = 0;
             lightSwitchUses = 0;
@@ -102,7 +130,8 @@ namespace LastBastion.Game.Managers
             // save level info:
             if (GameManager.instance.AnalyticsEnabled)
             {
-                DataManager.AddLevelInfo(levelName, GameManager.instance.CurrentCalculationType, GameManager.instance.BBModule.AverageHr, GameManager.instance.BBModule.AverageGsr);
+                //DataManager.AddLevelInfo(levelName, GameManager.instance.CurrentCalculationType, GameManager.instance.BBModule.AverageHr, GameManager.instance.BBModule.AverageGsr);
+                DataManager.AddLevelInfo(levelName, GameManager.instance.CurrentCalculationType);
                 DataManager.AddGameEvent(Analytics.EventType.GameStart, stopwatch.Elapsed);
             }
         }
@@ -110,6 +139,14 @@ namespace LastBastion.Game.Managers
         // Update is called once per frame
         void Update()
         {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                menuOn = menuOn ? false : true;
+                menuPanel.SetActive(menuOn);
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+
             // read input:
             if (!Player.GetComponent<InteractionController>().IsFocused && !IsOutroOn && Input.GetKeyDown(KeyCode.Q)) ShowCurrentGoal();
 
@@ -298,7 +335,7 @@ namespace LastBastion.Game.Managers
         {
             currentTime = stopwatch.Elapsed;
             DataManager.AddGameEvent(eventType, currentTime, value);
-            AddBiofeedbackEvents(currentTime);
+            if (GameManager.instance.BBModule.IsBandPaired) AddBiofeedbackEvents(currentTime);
         }
 
         /// <summary>
