@@ -14,7 +14,7 @@
         },
         {
             "Weight": 3,
-            "Content": "Search through the ward 1C"
+            "Content": "Search through the room 1B"
         },
         {
             "Weight": 4,
@@ -38,15 +38,23 @@
         },
         {
             "Weight": 9,
-            "Content": "Open isolation cell no. B"
+            "Content": "Open isolation cell no. F"
         },
         {
             "Weight": 10,
-            "Content": "Search through isolation cell no. B"
+            "Content": "Search through isolation cell no. F"
         },
         {
             "Weight": 11,
             "Content": "Finish the ritual"
+        },
+        {
+            "Weight": 12,
+            "Content": "Add missing runes to the glyph"
+        },
+        {
+            "Weight": 13,
+            "Content": "Stand in the middle of the glyph and read incantations"
         }
     ]
 }

@@ -14,15 +14,15 @@
         },
         {
             "Weight": 3,
-            "Content": "Search through the ward 2"
+            "Content": "Search through the room 1C"
         },
         {
             "Weight": 4,
-            "Content": "Go to the hospital"
+            "Content": "Go to the Intensive Care Unit"
         },
         {
             "Weight": 5,
-            "Content": "Find any information about James illness"
+            "Content": "Find any information about James' illness"
         },
         {
             "Weight": 6,
@@ -30,23 +30,31 @@
         },
         {
             "Weight": 7,
-            "Content": "Go to the floor -1"
+            "Content": "Go to the Isolation Ward"
         },
         {
             "Weight": 8,
-            "Content": "Find out to which isolation ward James was sent"
+            "Content": "Find out to which isolation cell James was sent"
         },
         {
             "Weight": 9,
-            "Content": "Open isolation ward no. F"
+            "Content": "Open isolation cell no. B"
         },
         {
             "Weight": 10,
-            "Content": "Search through isolation ward no. F"
+            "Content": "Search through isolation cell no. B"
         },
         {
-            "Weight": 10,
+            "Weight": 11,
             "Content": "Finish the ritual"
+        },
+        {
+            "Weight": 12,
+            "Content": "Add missing runes to the glyph"
+        },
+        {
+            "Weight": 13,
+            "Content": "Stand in the middle of the glyph and read incantations"
         }
     ]
 }
