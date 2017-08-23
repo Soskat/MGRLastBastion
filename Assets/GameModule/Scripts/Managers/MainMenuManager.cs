@@ -21,6 +21,8 @@ namespace LastBastion.Game.Managers
         [SerializeField] private GameObject settingsPanel;
         [SerializeField] private GameObject bbMenuPanel;
         [SerializeField] private GameObject listViewport;
+        [SerializeField] private Toggle toggleEnglish;
+        [SerializeField] private Toggle togglePolish;
         private GameMode[] gameTypes = { GameMode.ModeA, GameMode.ModeB };
         private Dropdown gameTypeDropdown;
         private Dropdown analyticsDropdown;
@@ -37,6 +39,8 @@ namespace LastBastion.Game.Managers
             Assert.IsNotNull(settingsPanel);
             Assert.IsNotNull(bbMenuPanel);
             Assert.IsNotNull(listViewport);
+            Assert.IsNotNull(toggleEnglish);
+            Assert.IsNotNull(togglePolish);
         }
 
         // Use this for initialization
@@ -55,6 +59,10 @@ namespace LastBastion.Game.Managers
             analyticsDropdown.AddOptions(new List<string>() { "enabled", "disabled" });
             if (GameManager.instance.AnalyticsEnabled) analyticsDropdown.value = 0;
             else analyticsDropdown.value = 1;
+            // update choosen game language and language toggles:
+            GameManager.instance.ChoosenLanguage = GameLanguage.Default;
+            togglePolish.isOn = !(toggleEnglish.isOn = true);
+            GameManager.instance.UpdatedLanguage();
 
             // turn off settingsPanel visibility:
             TurnOffSettingsMenu();
@@ -140,6 +148,20 @@ namespace LastBastion.Game.Managers
             int servicePort;
             if (!Int32.TryParse(bbMenuController.ServicePort, out servicePort)) GameManager.instance.BBModule.RemoteServicePort = BandBridgeModule.DefaultServicePort;
             else GameManager.instance.BBModule.RemoteServicePort = servicePort;
+        }
+        
+        /// <summary>
+        /// Sets game language based on language assigned to given toggle.
+        /// </summary>
+        /// <param name="toggle">Toggle</param>
+        public void SetGameLanguage(Toggle toggle)
+        {
+            // if toggle is on change game language:
+            if (toggle.isOn && toggle.GetComponent<AssignedLanguage>() != null)
+            {
+                GameManager.instance.ChoosenLanguage = toggle.GetComponent<AssignedLanguage>().Language;
+                GameManager.instance.UpdatedLanguage();
+            }
         }
         #endregion
     }

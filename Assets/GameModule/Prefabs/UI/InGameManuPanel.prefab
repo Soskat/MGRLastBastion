@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 222862476561765436}
   - component: {fileID: 114037626474951248}
   m_Layer: 5
-  m_Name: Image
+  m_Name: BackgroundImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,6 +73,7 @@ GameObject:
   - component: {fileID: 224899667991470312}
   - component: {fileID: 222698074335294730}
   - component: {fileID: 114455415441756540}
+  - component: {fileID: 114625764121600192}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -108,6 +109,7 @@ GameObject:
   - component: {fileID: 224940577406812692}
   - component: {fileID: 222517711904775336}
   - component: {fileID: 114915808093616096}
+  - component: {fileID: 114132925565317342}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -125,6 +127,7 @@ GameObject:
   - component: {fileID: 224695519739086892}
   - component: {fileID: 222995352399718486}
   - component: {fileID: 114872154454476886}
+  - component: {fileID: 114778969659271480}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -144,7 +147,7 @@ GameObject:
   - component: {fileID: 114979141384785960}
   - component: {fileID: 114704109174300034}
   m_Layer: 5
-  m_Name: BackToMainMenuButton (1)
+  m_Name: BackToMainMenuButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -177,6 +180,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114132925565317342
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1741833640772916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ca451c12395ff84dbd6f2399ab0b44e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textInEnglish: Resume
+  textInPolish: "Wzn\xF3w gr\u0119"
 --- !u!114 &114288532076039174
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -328,8 +344,8 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: eda21043033635a4fa67956171c75613, type: 3}
-    m_FontSize: 20
+    m_Font: {fileID: 12800000, guid: 33e7be05e762ed94fbab3fd6b7cd680f, type: 3}
+    m_FontSize: 18
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -341,6 +357,19 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Back to Main Menu
+--- !u!114 &114625764121600192
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1138615183815402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ca451c12395ff84dbd6f2399ab0b44e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textInEnglish: Back to Main Menu
+  textInPolish: "Powr\xF3t do Menu"
 --- !u!114 &114704109174300034
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -393,6 +422,19 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114778969659271480
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1901237207491840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ca451c12395ff84dbd6f2399ab0b44e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textInEnglish: Skip intro
+  textInPolish: "Pomi\u0144 intro"
 --- !u!114 &114872154454476886
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -413,8 +455,8 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: eda21043033635a4fa67956171c75613, type: 3}
-    m_FontSize: 20
+    m_Font: {fileID: 12800000, guid: 33e7be05e762ed94fbab3fd6b7cd680f, type: 3}
+    m_FontSize: 18
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -473,8 +515,8 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: eda21043033635a4fa67956171c75613, type: 3}
-    m_FontSize: 20
+    m_Font: {fileID: 12800000, guid: 33e7be05e762ed94fbab3fd6b7cd680f, type: 3}
+    m_FontSize: 18
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1

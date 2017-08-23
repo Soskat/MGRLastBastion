@@ -1,5 +1,4 @@
-﻿using LastBastion.Game.UIControllers;
-using System;
+﻿using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -18,10 +17,9 @@ namespace LastBastion.Game.Managers
         [SerializeField] private Button backToMainMenuButton;
         [SerializeField] private Text timerText;
         [SerializeField] private Text nextLevelText;
-        [SerializeField] private AchievementPanelController timeAchievement;
-        [SerializeField] private AchievementPanelController runesAchievement;
-        [SerializeField] private AchievementPanelController doorsAchievement;
-        [SerializeField] private AchievementPanelController lightSwitchAchievement;
+        [SerializeField] private Text summaryHeadline;
+        [SerializeField] private GameObject achievementPanelENG;
+        [SerializeField] private GameObject achievementPanelPL;
         [SerializeField] private int secondsToGo = 120;
         #endregion
 
@@ -32,10 +30,9 @@ namespace LastBastion.Game.Managers
         {
             Assert.IsNotNull(timerText);
             Assert.IsNotNull(nextLevelText);
-            Assert.IsNotNull(timeAchievement);
-            Assert.IsNotNull(runesAchievement);
-            Assert.IsNotNull(doorsAchievement);
-            Assert.IsNotNull(lightSwitchAchievement);
+            Assert.IsNotNull(summaryHeadline);
+            Assert.IsNotNull(achievementPanelENG);
+            Assert.IsNotNull(achievementPanelPL);
         }
 
         // Use this for initialization
@@ -44,7 +41,7 @@ namespace LastBastion.Game.Managers
             // update buttons behaviour:
             if (GameManager.instance.DebugMode)
             {
-                endSceneButton.onClick.AddListener((UnityEngine.Events.UnityAction)(() => { GameManager.instance.LoadNextLevel(); }));
+                endSceneButton.onClick.AddListener(() => { GameManager.instance.LoadNextLevel(); });
                 endSceneButton.gameObject.SetActive(true);
                 backToMainMenuButton.onClick.AddListener(() => { GameManager.instance.BackToMainMenu(); });
                 backToMainMenuButton.gameObject.SetActive(true);
@@ -55,8 +52,21 @@ namespace LastBastion.Game.Managers
                 backToMainMenuButton.gameObject.SetActive(false);
             }
 
-            // update achievements data:
-            UpdateAchievementsPanels();
+            // update GUI based on choosen game language:
+            if (GameManager.instance.ChoosenLanguage == GameLanguage.Polish)
+            {
+                summaryHeadline.text = "Podsumowanie rozgrywki";
+                nextLevelText.text = "Następna scena rozpocznie się za:";
+                achievementPanelENG.SetActive(false);
+                achievementPanelPL.SetActive(true);
+            }
+            else
+            {
+                summaryHeadline.text = "Summary of the game";
+                nextLevelText.text = "Next scene will start in:";
+                achievementPanelENG.SetActive(true);
+                achievementPanelPL.SetActive(false);
+            }
 
             // unlock cursor state after game level:
             Cursor.lockState = CursorLockMode.None;
@@ -69,34 +79,6 @@ namespace LastBastion.Game.Managers
 
 
         #region Public methods
-        /// <summary>
-        /// Updates achievement panels with current values.
-        /// </summary>
-        private void UpdateAchievementsPanels()
-        {
-            string timeAchievementTitle, runesAchievementTitle, doorAchievementTitle, lightSwitchAchievementTitle;
-            // update time achievement:
-            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}",
-                                               GameManager.instance.GameTime.Hours,
-                                               GameManager.instance.GameTime.Minutes,
-                                               GameManager.instance.GameTime.Seconds);
-            if (GameManager.instance.GameTime.Minutes < 10) timeAchievementTitle = "Fast & Furious >>";
-            else timeAchievementTitle = "One moment please >>";
-            timeAchievement.UpdateAchievementData(timeAchievementTitle, elapsedTime);
-            // update runes achievement:
-            if (GameManager.instance.CollectedRunes < 3) runesAchievementTitle = "Lucky find >>";
-            else runesAchievementTitle = "The Collector >>";
-            runesAchievement.UpdateAchievementData(runesAchievementTitle, GameManager.instance.CollectedRunes.ToString());
-            // update doors achievement:
-            if (GameManager.instance.OpenedDoors < 33) doorAchievementTitle = "Just passing by >>";
-            else doorAchievementTitle = "Every nook & cranny >>";
-            doorsAchievement.UpdateAchievementData(doorAchievementTitle, GameManager.instance.OpenedDoors.ToString());
-            // update light switch achievement:
-            if (GameManager.instance.LightSwitchUses < 5) lightSwitchAchievementTitle = "It wasn't me! >>";
-            else lightSwitchAchievementTitle = "Helpless clicker >>";
-            lightSwitchAchievement.UpdateAchievementData(lightSwitchAchievementTitle, GameManager.instance.LightSwitchUses.ToString());
-        }
-
         /// <summary>
         /// Simple coroutine that simulates timer.
         /// </summary>

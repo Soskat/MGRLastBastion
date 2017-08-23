@@ -5,8 +5,8 @@
 [ENG] One moment please >>
 [ PL] Jeszcze momencik >>
 ================================================================================
-[ENG] You have played game by _
-[ PL] Grałeś przez _
+[ENG] Time of the game:
+[ PL] Czas gry:
 ================================================================================
 [ENG] Lucky find >>
 [ PL] Szczęścliwy traf >>
@@ -14,8 +14,8 @@
 [ENG] The Collector >>
 [ PL] Kolekcjoner >>
 ================================================================================
-[ENG] You have collected _ runes
-[ PL] Zebrałeś _ run
+[ENG] Collected runes:
+[ PL] Zebrane runy:
 ================================================================================
 [ENG] Just passing by >>
 [ PL] Tylko przechodziłem >>
@@ -23,8 +23,8 @@
 [ENG] Every nook & cranny >>
 [ PL] Każdy zakamarek >>
 ================================================================================
-[ENG] You have searched _ rooms
-[ PL] Przeszukałeś _ pomieszczeń
+[ENG] Searched rooms:
+[ PL] Przeszukane pomieszczenia:
 ================================================================================
 [ENG] It wasn't me! >>
 [ PL] To nie ja! >>
@@ -32,6 +32,6 @@
 [ENG] Helpless Clicker >>
 [ PL] Beznadziejny Klikacz >>
 ================================================================================
-[ENG] You have used light switch for _ times
-[ PL] Użyłeś włącznika światła _ razy
+[ENG] Uses of light switches:
+[ PL] Użycia włącznika światła:
 ================================================================================

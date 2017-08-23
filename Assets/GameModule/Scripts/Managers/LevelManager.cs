@@ -90,6 +90,7 @@ namespace LastBastion.Game.Managers
             goalUpdatePanel.SetActive(false);
             SetEndGamePanelActivityStateTo(false);
             currentGoal = GetComponent<PlotManager>().Init();
+            GameManager.instance.RunesAmount = runesManager.RunesAmount;
             // reset achievements:
             searchedRooms = 0;
             lightSwitchUses = 0;
@@ -262,7 +263,7 @@ namespace LastBastion.Game.Managers
             // save achievements progress:
             GameManager.instance.GameTime = stopwatch.Elapsed;
             GameManager.instance.CollectedRunes = runesManager.CollectedRunes;
-            GameManager.instance.OpenedDoors = searchedRooms;
+            GameManager.instance.SearchedRooms = searchedRooms;
             GameManager.instance.LightSwitchUses = lightSwitchUses;
             // inform game manager that level has ended:
             GameManager.instance.LoadNextLevel();
