@@ -97,7 +97,6 @@ namespace LastBastion.Game.ObjectInteraction
                     // biofeedback OFF:
                     else
                     {
-                        Debug.Log("Random TV on event");
                         GetComponent<SphereCollider>().radius += Random.Range(0.1f, 1.5f) * distanceToEvent;
                     }
                     wasActivated = true;
@@ -129,7 +128,6 @@ namespace LastBastion.Game.ObjectInteraction
                     // biofeedback OFF:
                     else
                     {
-                        Debug.Log("Random TV off event");
                         GetComponent<SphereCollider>().radius += Random.Range(0.1f, 1.5f) * activationRange * 2f;
                     }
                     canTurnOn = false;

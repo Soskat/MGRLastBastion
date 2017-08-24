@@ -1,0 +1,33 @@
+- ID 2017082416252182
+- GameType BiofeedbackON
+- Avg_HR_GSR 1 1
+GameEnd 00:05
+- LevelA Alternative
+GameStart 00:00
+Light 00:06
+Sound 00:15
+Sound 00:15
+Light 00:16
+Light 00:18
+GameEnd 00:18
+- survey_answers
+0 Sex -1
+1 Age -1
+2 PlayRoutine -1
+3 TrueFalse -1
+4 TrueFalse -1
+5 Scale -1
+6 Scale -1
+7 Scale -1
+8 Scale -1
+9 Scale -1
+10 Scale -1
+11 Scale -1
+12 AorB -1
+5 AorB -1
+13 AorB -1
+14 AorB -1
+15 AorB -1
+16 AorB -1
+17 AorB -1
+18 Open 

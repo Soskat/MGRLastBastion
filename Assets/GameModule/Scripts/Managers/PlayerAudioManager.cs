@@ -105,7 +105,6 @@ namespace LastBastion.Game.Managers
         private IEnumerator Heartbeat()
         {
             yield return new WaitForSeconds(Random.Range(60, 120));
-            Debug.Log("Random heart beat event");
             StartPlayingSound();
             yield return new WaitForSeconds(Random.Range(30, 90));
             StopPlayingSound();

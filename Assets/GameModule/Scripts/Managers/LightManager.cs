@@ -107,7 +107,6 @@ namespace LastBastion.Game.Managers
                 // randomly choose light event:
                 else
                 {
-                    Debug.Log("Random light event");
                     somethingHappened = true;
                     int randomEvent = Random.Range(0, 5);
                     if (!lightsOn) SwitchLights();

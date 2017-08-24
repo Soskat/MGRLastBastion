@@ -77,7 +77,6 @@ namespace LastBastion.Game.Managers
             // biofeedback off:
             else
             {
-                Debug.Log("Random decals event");
                 // choose randomly decals set:
                 int choice = Random.Range(0, 2);
                 switch (choice)
