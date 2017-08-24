@@ -178,7 +178,23 @@ namespace LastBastion.Game.Managers
 
             // load next scene (or main menu):
             if (currentLevelID < gameLevels.Length) SceneManager.LoadScene(gameLevels[currentLevelID]);
-            else BackToMainMenu();
+            else
+            {
+                // safe info about game mode to PlayerPrefs:
+                if (biofeedbackMode == BiofeedbackMode.BiofeedbackON)
+                {
+                    int biofeedbackOnGames = PlayerPrefs.GetInt("biofeedbackOnGames");
+                    biofeedbackOnGames++;
+                    PlayerPrefs.SetInt("biofeedbackOnGames", biofeedbackOnGames);
+                }
+                else
+                {
+                    int biofeedbackOffGames = PlayerPrefs.GetInt("biofeedbackOffGames");
+                    biofeedbackOffGames++;
+                    PlayerPrefs.SetInt("biofeedbackOffGames", biofeedbackOffGames);
+                }
+                BackToMainMenu();
+            }
         }
 
         /// <summary>

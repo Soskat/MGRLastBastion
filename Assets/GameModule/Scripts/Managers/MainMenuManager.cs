@@ -16,6 +16,7 @@ namespace LastBastion.Game.Managers
     public class MainMenuManager : MonoBehaviour
     {
         #region Private fields
+        [SerializeField] private Toggle autoGameTypeToggle;
         [SerializeField] private GameObject gameType;
         [SerializeField] private GameObject analytics;
         [SerializeField] private GameObject settingsPanel;
@@ -35,6 +36,7 @@ namespace LastBastion.Game.Managers
         // Awake is called when the script instance is being loaded
         private void Awake()
         {
+            Assert.IsNotNull(autoGameTypeToggle);
             Assert.IsNotNull(gameType);
             Assert.IsNotNull(settingsPanel);
             Assert.IsNotNull(bbMenuPanel);
@@ -62,8 +64,12 @@ namespace LastBastion.Game.Managers
                     break;
                 }
             }
-            // add analytics dropdown:
-            analyticsDropdown = analytics.GetComponent<Dropdown>();
+            // if autoGameModeToggle is on, disable gameTypeDropdown:
+            autoGameTypeToggle.isOn = true;
+            SetAutoGameMode(autoGameTypeToggle);
+
+             // add analytics dropdown:
+             analyticsDropdown = analytics.GetComponent<Dropdown>();
             analyticsDropdown.AddOptions(new List<string>() { "enabled", "disabled" });
             if (GameManager.instance.AnalyticsEnabled) analyticsDropdown.value = 0;
             else analyticsDropdown.value = 1;
@@ -106,7 +112,15 @@ namespace LastBastion.Game.Managers
         /// </summary>
         public void StartNewGame()
         {
-            GameManager.instance.BiofeedbackMode = (BiofeedbackMode)gameTypes[gameTypeDropdown.value];
+            if (autoGameTypeToggle.isOn)
+            {
+                // choose game mode based on data from PlayerPrefs:
+                int biofeedbackOnGames = PlayerPrefs.GetInt("biofeedbackOnGames");
+                int biofeedbackOffGames = PlayerPrefs.GetInt("biofeedbackOffGames");
+                if (biofeedbackOnGames <= biofeedbackOffGames) GameManager.instance.BiofeedbackMode = BiofeedbackMode.BiofeedbackON;
+                else GameManager.instance.BiofeedbackMode = BiofeedbackMode.BiofeedbackOFF;                
+            }
+            else GameManager.instance.BiofeedbackMode = (BiofeedbackMode)gameTypes[gameTypeDropdown.value];
             if (analyticsDropdown.value == 0) GameManager.instance.AnalyticsEnabled = true;
             else if (analyticsDropdown.value == 1) GameManager.instance.AnalyticsEnabled = false;
             GameManager.instance.StartNewGame();
@@ -171,6 +185,13 @@ namespace LastBastion.Game.Managers
                 GameManager.instance.ChoosenLanguage = toggle.GetComponent<AssignedLanguage>().Language;
                 GameManager.instance.UpdatedLanguage();
             }
+        }
+
+
+        public void SetAutoGameMode(Toggle toggle)
+        {
+            if (toggle.isOn) gameTypeDropdown.enabled = false;
+            else gameTypeDropdown.enabled = true;
         }
         #endregion
     }
