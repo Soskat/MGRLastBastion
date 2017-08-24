@@ -126,6 +126,9 @@ namespace LastBastion.Game.Managers
             // start stopwatch:
             stopwatch = new Stopwatch();
             stopwatch.Start();
+            // if debug mode is enabled, show debug info:
+            if (GameManager.instance.DebugMode && GetComponent<DebugInfo>() != null) GetComponent<DebugInfo>().enabled = true;
+            else GetComponent<DebugInfo>().enabled = false;
             
             // save level info:
             if (GameManager.instance.AnalyticsEnabled)

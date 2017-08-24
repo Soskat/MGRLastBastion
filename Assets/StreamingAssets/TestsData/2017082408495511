@@ -1,0 +1,47 @@
+- ID 2017082408495511
+- GameType ModeA
+- Avg_HR_GSR 1 1
+- LevelA Alternative
+GameStart 00:00
+Light 00:05
+Sound 00:15
+Sound 00:15
+Light 00:15
+Sound 00:25
+Sound 00:25
+Light 00:25
+Light 00:30
+Sound 00:33
+Sound 00:35
+Light 00:36
+Sound 00:43
+Light 00:45
+Light 00:46
+Sound 00:50
+Light 00:56
+GameEnd 00:56
+- LevelA Conjunction
+GameStart 00:00
+Light 00:06
+GameEnd 00:12
+- survey_answers
+0 Sex 0
+1 Age 0
+2 PlayRoutine -1
+3 TrueFalse -1
+4 TrueFalse -1
+5 Scale -1
+6 Scale -1
+7 Scale -1
+8 Scale -1
+9 Scale -1
+10 Scale -1
+11 Scale -1
+12 AorB -1
+5 AorB -1
+13 AorB -1
+14 AorB -1
+15 AorB -1
+16 AorB -1
+17 AorB -1
+18 Open 

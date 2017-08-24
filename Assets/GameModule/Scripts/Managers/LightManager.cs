@@ -19,6 +19,7 @@ namespace LastBastion.Game.Managers
         [SerializeField] private bool isBusy = false;
         [SerializeField] private float baseDelay = 10f;
         [SerializeField] private List<LightSource> lights;
+        private bool somethingHappened;
         #endregion
 
 
@@ -33,6 +34,7 @@ namespace LastBastion.Game.Managers
         void Start()
         {
             lights.AddRange(GetComponentsInChildren<LightSource>());
+            somethingHappened = false;
         }
 
         // Update is called once per frame
@@ -60,6 +62,7 @@ namespace LastBastion.Game.Managers
                 // biofeedback logic:
                 if (GameManager.instance.BBModule.IsEnabled)
                 {
+                    somethingHappened = true;
                     switch (GameManager.instance.BBModule.ArousalState)
                     {
                         case Biofeedback.DataState.High:
@@ -93,6 +96,7 @@ namespace LastBastion.Game.Managers
                             break;
 
                         default:
+                            somethingHappened = false;
                             break;
                     }
                     // wait for next move:
@@ -102,6 +106,8 @@ namespace LastBastion.Game.Managers
                 // randomly choose light event:
                 else
                 {
+                    Debug.Log("Random light event");
+                    somethingHappened = true;
                     int randomEvent = Random.Range(0, 5);
                     if (!lightsOn) SwitchLights();
                     else
@@ -134,7 +140,7 @@ namespace LastBastion.Game.Managers
                 }
 
                 // save info about event:
-                if (GameManager.instance.AnalyticsEnabled) LevelManager.instance.AddGameEvent(Analytics.EventType.Light);
+                if (GameManager.instance.AnalyticsEnabled && somethingHappened) LevelManager.instance.AddGameEvent(Analytics.EventType.Light);
             }
 
 
