@@ -8,6 +8,7 @@ TagManager:
   - FocusPoint
   - Focusable
   - Door
+  - RunesManager
   layers:
   - Default
   - TransparentFX

@@ -38,6 +38,8 @@ namespace LastBastion.Game.Managers
         #region Public fields & properties
         /// <summary>Is debug mode on?</summary>
         public bool DebugMode { get { return debugMode; } }
+        /// <summary>Choosen game language.</summary>
+        public GameLanguage ChoosenLanguage;
         /// <summary>Instance of <see cref="BandBridgeModule"/> class.</summary>
         public BandBridgeModule BBModule { get; set; }
         /// <summary>Instance of <see cref="AssetManager"/> class.</summary>
@@ -65,11 +67,15 @@ namespace LastBastion.Game.Managers
         public TimeSpan GameTime { get; set; }
         /// <summary>Collected runes.</summary>
         public int CollectedRunes { get; set; }
-        /// <summary>Opened doors count.</summary>
-        public int OpenedDoors { get; set; }
+        /// <summary>Amount of runes at all.</summary>
+        public int RunesAmount { get; set; }
+        /// <summary>Searched rooms count.</summary>
+        public int SearchedRooms { get; set; }
         /// <summary>Uses of the lightswitches count.</summary>
         public int LightSwitchUses { get; set; }
         #endregion
+        /// <summary>Informs all objects that choosen language has changed.</summary>
+        public Action UpdatedLanguage { get; set; }
         #endregion
 
 
@@ -98,6 +104,7 @@ namespace LastBastion.Game.Managers
             indexOfFirstLevel = 1;
             indexOfSecondLevel = 3;
             calculationTypes = new CalculationType[2] { CalculationType.Alternative, CalculationType.Conjunction };
+            UpdatedLanguage += () => { };  // in case there were no active LabelTranslator components
             // initialize analytics system:
             DataManager.InitializeSystem();
         }

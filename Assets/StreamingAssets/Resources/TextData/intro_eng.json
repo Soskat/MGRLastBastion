@@ -1,0 +1,104 @@
+{
+    "Content": [
+        {
+            "Cooldown": 3.0,
+            "Duration": 2.0,
+            "Text": "\"Dear friend,"
+        },
+        {
+            "Cooldown": 1.0,
+            "Duration": 3.0,
+            "Text": "I hope this letter finds you in good health."
+        },
+        {
+            "Cooldown": 1.0,
+            "Duration": 5.0,
+            "Text": "I know you're not one for pleasantries, so let me cut straight to the chase."
+        },
+        {
+            "Cooldown": 1.5,
+            "Duration": 5.0,
+            "Text": "During my last investigation I had to look into one of the many cults of Boston's underbelly."
+        },
+        {
+            "Cooldown": 1.0,
+            "Duration": 8.0,
+            "Text": "We were chasing a murderer that left his victims with eyes burnt out, their hands tied as if a mockery of praying."
+        },
+        {
+            "Cooldown": 1.5,
+            "Duration": 5.0,
+            "Text": "The book you will find in the package was found in his base of operations."
+        },
+        {
+            "Cooldown": 1.0,
+            "Duration": 7.0,
+            "Text": "I glanced into it briefly. Judging by the sketches, it might be his Codex or some way of planning his murders."
+        },
+        {
+            "Cooldown": 1.0,
+            "Duration": 6.0,
+            "Text": "I tried googling the script used in the book and concluded it's written entirely in ancient Sumerian."
+        },
+        {
+            "Cooldown": 1.5,
+            "Duration": 6.0,
+            "Text": "Since you are the only person that I know of that could try and decipher this tome, I turn to you."
+        },
+        {
+            "Cooldown": 1.0,
+            "Duration": 6.0,
+            "Text": "If you find any information that can help us apprehend the killer, please contact me immediately."
+        },
+        {
+            "Cooldown": 1.5,
+            "Duration": 5.0,
+            "Text": "I will owe you yet another favor and the city of Boston - eternal grattitude."
+        },
+        {
+            "Cooldown": 1.0,
+            "Duration": 3.0,
+            "Text": "Best regards, John Murphy"
+        },
+        {
+            "Cooldown": 1.5,
+            "Duration": 4.0,
+            "Text": "PS As an incentive I'm sending you a bottle of your favorite vintage."
+        },
+        {
+            "Cooldown": 1.0,
+            "Duration": 3.0,
+            "Text": "If anyone asks - you didn't get it from me\""
+        },
+        {
+            "Cooldown": 3.0,
+            "Duration": 2.0,
+            "Text": "Poor James..."
+        },
+        {
+            "Cooldown": 1.5,
+            "Duration": 4.0,
+            "Text": "I have felt it earlier that this book is somehow cursed."
+        },
+        {
+            "Cooldown": 1.5,
+            "Duration": 4.0,
+            "Text": "Because of it they locked you up in this miserable asylum."
+        },
+        {
+            "Cooldown": 1.5,
+            "Duration": 4.0,
+            "Text": "And now, all of the sudden, you have disappered and they have just closed this place for good."
+        },
+        {
+            "Cooldown": 1.5,
+            "Duration": 4.0,
+            "Text": "Something isn't right, I can feel it deep in my bones."
+        },
+        {
+            "Cooldown": 3.0,
+            "Duration": 6.0,
+            "Text": "...and I will find out what it is."
+        }
+    ]
+}

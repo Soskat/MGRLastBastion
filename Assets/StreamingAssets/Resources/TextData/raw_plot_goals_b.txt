@@ -1,0 +1,43 @@
+================================================================================
+[ENG] Search through the office
+[ PL] Przeszukaj biuro
+================================================================================
+[ENG] Go to the nurses office
+[ PL] Idź do pokoju pielęgniarek
+================================================================================
+[ENG] Find James' room number in ward records
+[ PL] Znajdź numer pokoju Jamesa w rejestrze oddziałów
+================================================================================
+[ENG] Search through the ward 1B
+[ PL] Przeszukaj pokój 1B
+================================================================================
+[ENG] Go to the Intensive Care Unit
+[ PL] Idź na oddział intensywnej terapii
+================================================================================
+[ENG] Find any information about James' illness
+[ PL] Znajdź informacje na temat choroby Jamesa
+================================================================================
+[ENG] Search through the operation rooms
+[ PL] Przeszukaj sale operacyjne
+================================================================================
+[ENG] Go to the Isolation Ward
+[ PL] Idź na oddział izolowany
+================================================================================
+[ENG] Find out to which isolation cell James was sent
+[ PL] Dowiedz się do której izolatki został przydzielony James
+================================================================================
+[ENG] Open isolation cell no. F
+[ PL] Otwórz izolatkę nr F
+================================================================================
+[ENG] Search through isolation cell no. F
+[ PL] Przeszukaj izolatkę nr F
+================================================================================
+[ENG] Finish the ritual
+[ PL] Dokończ rytuał
+================================================================================
+[ENG] Add missing runes to the glyph
+[ PL] Dodaj brakujące znaki do glifu
+================================================================================
+[ENG] Stand in the middle of the glyph and read incantations
+[ PL] Stań pośrodku glifu i przeczytaj inkantacje
+================================================================================

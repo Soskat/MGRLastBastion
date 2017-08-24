@@ -1,0 +1,104 @@
+{
+    "Content": [
+        {
+            "Cooldown": 3.0,
+            "Duration": 2.0,
+            "Text": "\"Drogi przyjacielu,"
+        },
+        {
+            "Cooldown": 1.0,
+            "Duration": 4.0,
+            "Text": "Mam nadzieję, że ten list zastanie Cię w dobrym zdrowiu."
+        },
+        {
+            "Cooldown": 1.0,
+            "Duration": 5.0,
+            "Text": "Wiem, że nie przepadasz za uprzejmościami, więc od razu przejdę do rzeczy."
+        },
+        {
+            "Cooldown": 1.5,
+            "Duration": 5.0,
+            "Text": "Podczas mojego ostatniego śledztwa musiałem zgłębić jeden z wielu kultów bostońskiego półświadka."
+        },
+        {
+            "Cooldown": 1.0,
+            "Duration": 7.0,
+            "Text": "Ścigaliśmy mordercę, który pozostawiał swoje ofiary z wypalonymi oczami i dłońmi związanymi w prześmiewczej modlitwie."
+        },
+        {
+            "Cooldown": 1.5,
+            "Duration": 4.0,
+            "Text": "Książkę, którą znajdziesz w paczce, znaleźliśmy w jego bazie operacyjnej."
+        },
+        {
+            "Cooldown": 1.0,
+            "Duration": 7.0,
+            "Text": "Rzuciłem na nią okiem. Wnioskując po szkicach, może to być jego kodeks lub jakiś sposób planowania kolejnych morderstw."
+        },
+        {
+            "Cooldown": 1.0,
+            "Duration": 7.0,
+            "Text": "Próbowałem odszyfrować skrypt użyty w książce, ale doszedłem jedynie do wniosku, że jest w całości napisany w starożytnym sumeryjskim."
+        },
+        {
+            "Cooldown": 1.5,
+            "Duration": 6.0,
+            "Text": "Ponieważ jesteś jedyną osobą, którą znam i wiem że jest w stanie odczytać ten manuskrypt, zwracam się do Ciebie."
+        },
+        {
+            "Cooldown": 1.0,
+            "Duration": 5.0,
+            "Text": "Jeśli znajdziesz jakiekolwiek informacje, które mogą nam pomóc, natychmiast skontaktuj się ze mną."
+        },
+        {
+            "Cooldown": 1.5,
+            "Duration": 5.0,
+            "Text": "Będę Ci winien kolejną przysługę, zaś Boston – dozgonną wdzięczność."
+        },
+        {
+            "Cooldown": 1.0,
+            "Duration": 3.0,
+            "Text": "Pozdrawiam, John Murphy"
+        },
+        {
+            "Cooldown": 1.5,
+            "Duration": 4.0,
+            "Text": "PS Na zachętę przesyłam Ci butelkę twojego ulubionego rocznika."
+        },
+        {
+            "Cooldown": 1.0,
+            "Duration": 3.0,
+            "Text": "Jakby ktoś pytał – nie dostałeś tego ode mnie\""
+        },
+        {
+            "Cooldown": 3.0,
+            "Duration": 2.0,
+            "Text": "Biedny James..."
+        },
+        {
+            "Cooldown": 1.5,
+            "Duration": 4.0,
+            "Text": "Czułem już wcześniej, że ta książka jest w jakiś sposób przeklęta."
+        },
+        {
+            "Cooldown": 1.5,
+            "Duration": 4.0,
+            "Text": "To przez nią zamknęli Cię w tym nędznym przytułku."
+        },
+        {
+            "Cooldown": 1.5,
+            "Duration": 4.0,
+            "Text": "A teraz nagle znikasz, zaś oni zamykają to miejsce na dobre."
+        },
+        {
+            "Cooldown": 1.5,
+            "Duration": 4.0,
+            "Text": "Coś tu nie gra, czuję to w kościach."
+        },
+        {
+            "Cooldown": 3.0,
+            "Duration": 6.0,
+            "Text": "...i dowiem się co to jest."
+        }
+    ]
+}

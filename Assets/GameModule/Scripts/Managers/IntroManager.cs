@@ -1,4 +1,5 @@
-﻿using LastBastion.Game.Plot;
+﻿using LastBastion.Analytics;
+using LastBastion.Game.Plot;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -48,17 +49,31 @@ namespace LastBastion.Game.Managers
         void Start()
         {
             // set up in-game menu:
-            resumeButton.onClick.AddListener(() => { menuOn = false; menuPanel.SetActive(menuOn); });
-            backToMainMenuButton.onClick.AddListener(() => { StopAllCoroutines();  GameManager.instance.BackToMainMenu(); });
-            skipIntroButton.onClick.AddListener((UnityEngine.Events.UnityAction)(() => { GameManager.instance.LoadNextLevel(); }));
+            resumeButton.onClick.AddListener(() => {
+                menuOn = false;
+                menuPanel.SetActive(menuOn);
+            });
+            backToMainMenuButton.onClick.AddListener(() => {
+                StopAllCoroutines();
+                GameManager.instance.BackToMainMenu();
+            });
+            skipIntroButton.onClick.AddListener(() => {
+                // safe calibration data:
+                if (GameManager.instance.AnalyticsEnabled)
+                {
+                    DataManager.AddCalibrationData(InfoType.Avg_HR_GSR, GameManager.instance.BBModule.AverageHr, GameManager.instance.BBModule.AverageGsr);
+                }
+                GameManager.instance.LoadNextLevel();
+            });
             skipIntroButton.gameObject.SetActive(GameManager.instance.DebugMode);
             menuOn = false;
             menuPanel.SetActive(menuOn);            
             // start calibration data:
             if (GameManager.instance.BBModule.IsBandPaired) GameManager.instance.BBModule.CalibrateBandData();
             calibrationLabel.SetActive(true);
-            // load intro text:
-            introFilePath = Application.dataPath + "/Resources/TextData/intro.json";
+            // load intro text based on choosen language:
+            if (GameManager.instance.ChoosenLanguage == GameLanguage.Polish) introFilePath = Application.streamingAssetsPath + "/Resources/TextData/intro_pl.json";
+            else introFilePath = Application.streamingAssetsPath + "/Resources/TextData/intro_eng.json";
             introText = LoadIntroTextFromFile(introFilePath);
             if (introText == null)
             {
@@ -88,13 +103,17 @@ namespace LastBastion.Game.Managers
             {
                 introTextUI.GetComponent<CanvasGroup>().alpha = 1f;
                 introTextUI.text = "( Loading game level )";
+
+                // safe calibration data:
+                if (GameManager.instance.AnalyticsEnabled)
+                {
+                    DataManager.AddCalibrationData(InfoType.Avg_HR_GSR, GameManager.instance.BBModule.AverageHr, GameManager.instance.BBModule.AverageGsr);
+                }
+
                 GameManager.instance.LoadNextLevel();
             }
 
-            if (!GameManager.instance.BBModule.IsCalibrationOn)
-            {
-                calibrationLabel.SetActive(false);
-            }
+            if (!GameManager.instance.BBModule.IsCalibrationOn) calibrationLabel.SetActive(false);
         }
         #endregion
 
@@ -239,10 +258,7 @@ namespace LastBastion.Game.Managers
         private float CalculateTextDuration(IntroText introText)
         {
             float duration = 0f;
-            foreach(IntroLine line in introText.Content)
-            {
-                duration += line.Cooldown + line.Duration;
-            }
+            foreach(IntroLine line in introText.Content) duration += line.Cooldown + line.Duration;
             return duration;
         }
 

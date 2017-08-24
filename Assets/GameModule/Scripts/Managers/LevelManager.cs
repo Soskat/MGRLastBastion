@@ -26,17 +26,25 @@ namespace LastBastion.Game.Managers
         [SerializeField] private LevelName levelName;
         [SerializeField] private int runesLimit = 0;
         [SerializeField] private Goal currentGoal;
+        [SerializeField] private GameObject endGameTriggerPanel;
         [SerializeField] private GameObject goalUpdatePanel;
+        [SerializeField] private GameObject menuPanel;
+        [SerializeField] private Button resumeButton;
+        [SerializeField] private Button backToMainMenuButton;
+        [SerializeField] private Button skipLevelButton;
         [SerializeField] private Text goalUpdateHeadlineText;
         [SerializeField] private Text goalUpdateContentText;
-        // achievements counters:
-        [SerializeField] private int collectedRunes = 0;
-        [SerializeField] private int openedDoors = 0;
+        #region Achievements counters:
+        [SerializeField] private int searchedRooms = 0;
         [SerializeField] private int lightSwitchUses = 0;
+        #endregion
         private Stopwatch stopwatch;
         private TimeSpan currentTime;
         private GameObject player;
-        private BiofeedbackAudioManager playerBiofeedback;
+        private PlayerAudioManager playerBiofeedback;
+        private RunesManager runesManager;
+        private int activatedRunes;
+        private bool menuOn;
         #endregion
 
 
@@ -50,7 +58,15 @@ namespace LastBastion.Game.Managers
         /// <summary>Reference to player game object.</summary>
         public GameObject Player { get { return player; } }
         /// <summary>Reference to player's BiofeedbackController component.</summary>
-        public BiofeedbackAudioManager PlayerBiofeedback { get { return playerBiofeedback; } }
+        public PlayerAudioManager PlayerBiofeedback { get { return playerBiofeedback; } }
+        /// <summary>Reference to RuneManager instance.</summary>
+        public RunesManager RuneManager { get { return runesManager; } }
+        /// <summary>Is current goal the last one?</summary>
+        public bool CurrentGoalIsTheOrbGoal { get { return currentGoal.Weight == GetComponent<PlotManager>().OrbGoal.Weight; } }
+        /// <summary>Is the outro of the level playing?</summary>
+        public bool IsOutroOn { get; set; }
+        /// <summary>Is game paused?</summary>
+        public bool IsPaused { get { return menuOn; } }
         #endregion
 
 
@@ -63,9 +79,17 @@ namespace LastBastion.Game.Managers
             {
                 instance = this;
                 player = GameObject.FindGameObjectWithTag("Player");
-                playerBiofeedback = player.GetComponent<BiofeedbackAudioManager>();
+                playerBiofeedback = player.GetComponent<PlayerAudioManager>();
+                runesManager = GameObject.FindGameObjectWithTag("RunesManager").GetComponent<RunesManager>();
+                IsOutroOn = false;
+                activatedRunes = 0;
                 // make some assertions:
+                Assert.IsNotNull(endGameTriggerPanel);
                 Assert.IsNotNull(goalUpdatePanel);
+                Assert.IsNotNull(menuPanel);
+                Assert.IsNotNull(resumeButton);
+                Assert.IsNotNull(backToMainMenuButton);
+                Assert.IsNotNull(skipLevelButton);
                 Assert.IsNotNull(goalUpdateHeadlineText);
                 Assert.IsNotNull(goalUpdateContentText);
             }
@@ -76,10 +100,28 @@ namespace LastBastion.Game.Managers
         void Start()
         {
             goalUpdatePanel.SetActive(false);
+            SetEndGamePanelActivityStateTo(false);
             currentGoal = GetComponent<PlotManager>().Init();
+            GameManager.instance.RunesAmount = runesManager.RunesAmount;
+            // set up in-game menu:
+            resumeButton.onClick.AddListener(() => {
+                menuOn = false;
+                menuPanel.SetActive(menuOn);
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            });
+            backToMainMenuButton.onClick.AddListener(() => {
+                StopAllCoroutines();
+                GameManager.instance.BackToMainMenu();
+            });
+            skipLevelButton.onClick.AddListener(() => {
+                EndLevel();
+            });
+            skipLevelButton.gameObject.SetActive(GameManager.instance.DebugMode);
+            menuOn = false;
+            menuPanel.SetActive(menuOn);
             // reset achievements:
-            collectedRunes = 0;
-            openedDoors = 0;
+            searchedRooms = 0;
             lightSwitchUses = 0;
             // start stopwatch:
             stopwatch = new Stopwatch();
@@ -88,7 +130,8 @@ namespace LastBastion.Game.Managers
             // save level info:
             if (GameManager.instance.AnalyticsEnabled)
             {
-                DataManager.AddLevelInfo(levelName, GameManager.instance.CurrentCalculationType, GameManager.instance.BBModule.AverageHr, GameManager.instance.BBModule.AverageGsr);
+                //DataManager.AddLevelInfo(levelName, GameManager.instance.CurrentCalculationType, GameManager.instance.BBModule.AverageHr, GameManager.instance.BBModule.AverageGsr);
+                DataManager.AddLevelInfo(levelName, GameManager.instance.CurrentCalculationType);
                 DataManager.AddGameEvent(Analytics.EventType.GameStart, stopwatch.Elapsed);
             }
         }
@@ -96,8 +139,16 @@ namespace LastBastion.Game.Managers
         // Update is called once per frame
         void Update()
         {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                menuOn = menuOn ? false : true;
+                menuPanel.SetActive(menuOn);
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+
             // read input:
-            if (!Player.GetComponent<InteractionController>().IsFocused && Input.GetKeyDown(KeyCode.Q)) ShowCurrentGoal();
+            if (!Player.GetComponent<InteractionController>().IsFocused && !IsOutroOn && Input.GetKeyDown(KeyCode.Q)) ShowCurrentGoal();
 
             // debug mode:
             if (GameManager.instance.DebugMode)
@@ -127,24 +178,67 @@ namespace LastBastion.Game.Managers
 
         #region Public methods
         /// <summary>
+        /// Sets activity state of endGameTriggerPanel to given value.
+        /// </summary>
+        /// <param name="visibility">New value activity state</param>
+        public void SetEndGamePanelActivityStateTo(bool visibility)
+        {
+            endGameTriggerPanel.SetActive(visibility);
+        }
+
+        /// <summary>
         /// Actions after finding a rune.
         /// </summary>
         public void FoundRune()
         {
             // update runes count:
-            collectedRunes++;
+            runesManager.CollectRune();
             // show update info:
             StopAllCoroutines();
-            if (collectedRunes > 1) StartCoroutine(ShowPlotInfoPanel("Rune found", "You have collected " + collectedRunes + " runes"));
-            else StartCoroutine(ShowPlotInfoPanel("Rune found", "You have collected " + collectedRunes + " rune"));
+            // choosen language is polish:
+            if (GameManager.instance.ChoosenLanguage == GameLanguage.Polish)
+            {
+                if (runesManager.CollectedRunes == 1)
+                    StartCoroutine(ShowPlotInfoPanel("Znaleziono runę", "Zebrałeś " + runesManager.CollectedRunes + " runę"));
+                else if (runesManager.CollectedRunes > 1 && runesManager.CollectedRunes < 5)
+                    StartCoroutine(ShowPlotInfoPanel("Znaleziono runę", "Zebrałeś " + runesManager.CollectedRunes + " runy"));
+                else StartCoroutine(ShowPlotInfoPanel("Znaleziono runę", "Zebrałeś " + runesManager.CollectedRunes + " run"));
+            }
+            // choosen language is english:
+            else
+            {
+                if (runesManager.CollectedRunes > 1) StartCoroutine(ShowPlotInfoPanel("Rune found", "You have collected " + runesManager.CollectedRunes + " runes"));
+                else StartCoroutine(ShowPlotInfoPanel("Rune found", "You have collected " + runesManager.CollectedRunes + " rune"));
+            }
         }
 
         /// <summary>
-        /// Opened a door.
+        /// Actions after activating a rune.
         /// </summary>
-        public void OpenedDoor()
+        public void ActivatedRune()
         {
-            openedDoors++;
+            activatedRunes++;
+            // if player activated all runes, uptade current goal:
+            if (activatedRunes >= runesManager.RunesAmount) UpdatePlotGoal(GetComponent<PlotManager>().LastGoal);
+        }
+
+        /// <summary>
+        /// Searched a room.
+        /// </summary>
+        public void SearchedRoom()
+        {
+            searchedRooms++;
+        }
+
+        /// <summary>
+        /// Fades out the camera after given delay.
+        /// </summary>
+        /// <param name="delay">Time delay</param>
+        /// <returns></returns>
+        public IEnumerator FadeOutCamera(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().farClipPlane = 0.2f;
         }
 
         /// <summary>
@@ -161,13 +255,18 @@ namespace LastBastion.Game.Managers
         /// <param name="newGoal">The new goal</param>
         public void UpdatePlotGoal(Goal newGoal)
         {
-            UnityEngine.Debug.Log("New goal content: " + newGoal.Content);
+            //UnityEngine.Debug.Log("New goal content: " + newGoal.Content + " (weight: " + newGoal.Weight + ")");
             if (newGoal.Weight > currentGoal.Weight)
             {
                 currentGoal = newGoal;
                 // show update info:
                 StopAllCoroutines();
-                StartCoroutine(ShowPlotInfoPanel("Goal update", currentGoal.Content));
+                // choosen language is polish:
+                if (GameManager.instance.ChoosenLanguage == GameLanguage.Polish) StartCoroutine(ShowPlotInfoPanel("Aktualizacja celu", currentGoal.Content));
+                // choosen language is english:
+                else StartCoroutine(ShowPlotInfoPanel("Goal update", currentGoal.Content));
+                // if newGoal is the last goal, activate rune orbs:
+                if (CurrentGoalIsTheOrbGoal) runesManager.ActivateOrbs();
             }
         }
 
@@ -177,7 +276,10 @@ namespace LastBastion.Game.Managers
         public void ShowCurrentGoal()
         {
             StopAllCoroutines();
-            StartCoroutine(ShowPlotInfoPanel("Goal", currentGoal.Content));
+            // choosen language is polish:
+            if (GameManager.instance.ChoosenLanguage == GameLanguage.Polish) StartCoroutine(ShowPlotInfoPanel("Cel", currentGoal.Content));
+            // choosen language is english:
+            else StartCoroutine(ShowPlotInfoPanel("Goal", currentGoal.Content));
         }
 
         /// <summary>
@@ -217,8 +319,8 @@ namespace LastBastion.Game.Managers
             }
             // save achievements progress:
             GameManager.instance.GameTime = stopwatch.Elapsed;
-            GameManager.instance.CollectedRunes = collectedRunes;
-            GameManager.instance.OpenedDoors = openedDoors;
+            GameManager.instance.CollectedRunes = runesManager.CollectedRunes;
+            GameManager.instance.SearchedRooms = searchedRooms;
             GameManager.instance.LightSwitchUses = lightSwitchUses;
             // inform game manager that level has ended:
             GameManager.instance.LoadNextLevel();
@@ -233,7 +335,7 @@ namespace LastBastion.Game.Managers
         {
             currentTime = stopwatch.Elapsed;
             DataManager.AddGameEvent(eventType, currentTime, value);
-            AddBiofeedbackEvents(currentTime);
+            if (GameManager.instance.BBModule.IsBandPaired) AddBiofeedbackEvents(currentTime);
         }
 
         /// <summary>

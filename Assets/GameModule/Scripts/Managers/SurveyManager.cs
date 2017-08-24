@@ -2,10 +2,10 @@
 using UnityEngine.UI;
 using LastBastion.Game.SurveySystem;
 using System.IO;
-using System.Collections.Generic;
 using LastBastion.Analytics;
 using LastBastion.Game.UIControllers;
 using UnityEngine.Assertions;
+
 
 namespace LastBastion.Game.Managers
 {
@@ -19,7 +19,13 @@ namespace LastBastion.Game.Managers
         [SerializeField] private Button backToMainMenuButton;
         [SerializeField] private QuestionnairePanelController questionnairePC;
         [SerializeField] private string filePath;
-        public Survey Survey;       // ---------- make it private after tests
+        private Survey survey;
+        #endregion
+
+
+        #region Public fields & properties
+        /// <summary>The evaluation questionnaire.</summary>
+        public Survey Survey { get { return survey; } }
         #endregion
 
 
@@ -29,12 +35,12 @@ namespace LastBastion.Game.Managers
         {
             Assert.IsNotNull(questionnairePC);
 
-            filePath = Application.dataPath + "/Resources/TextData/survey.json";
-            Survey = LoadSurveyQuestionnaireFromFile(filePath);
-            if (Survey == null)
+            filePath = Application.streamingAssetsPath + "/Resources/TextData/survey.json";
+            survey = LoadSurveyQuestionnaireFromFile(filePath);
+            if (survey == null)
             {
-                Survey = CreateTestData();
-                SaveSurveyToFile(Survey, filePath);
+                survey = CreateTestData();
+                SaveSurveyToFile(survey, filePath);
             }
             GameManager.instance.SurveyManager = this;
         }
@@ -42,11 +48,11 @@ namespace LastBastion.Game.Managers
         // Use this for initialization
         void Start()
         {
-            endSceneButton.onClick.AddListener((UnityEngine.Events.UnityAction)(() =>
+            endSceneButton.onClick.AddListener(() =>
             {
                 if (GameManager.instance.AnalyticsEnabled) DataManager.AddSurveyAnswers(questionnairePC.GetSurveyAnswers());
                 GameManager.instance.LoadNextLevel();
-            }));
+            });
             endSceneButton.gameObject.SetActive(false);
             if (GameManager.instance.DebugMode)
             {

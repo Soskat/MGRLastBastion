@@ -33,6 +33,9 @@ namespace LastBastion.Game.Managers
         // Update is called once per frame
         void Update()
         {
+            // if level outro is playing, skip all calculations:
+            if (LevelManager.instance.IsOutroOn) return;
+
             if (isActive && !isBusy)
             {
                 // biofeedback ON:

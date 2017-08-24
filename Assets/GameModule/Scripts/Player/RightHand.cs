@@ -35,7 +35,6 @@ namespace LastBastion.Game.Player
             flashlightHideAnimState = Animator.StringToHash("HideFlashlight");
             flashlightDrawAnimState = Animator.StringToHash("DrawFlashlight");
             flashlightReviveAnimState = Animator.StringToHash("FlashlightRevive");
-            //player.SwitchLight += SwitchLight;
             // calculate current fps value:
             deltaTime = 1.0f / Time.deltaTime;
 
@@ -56,6 +55,22 @@ namespace LastBastion.Game.Player
         // Update is called once per frame
         new void Update()
         {
+            // if level outro is playing, skip all calculations:
+            if (LevelManager.instance.IsOutroOn)
+            {
+                // if flashilight was turned on before outro has started, turn it off:
+                if (flashlight.LightOn && !flashlight.IsBusy)
+                {
+                    flashlight.IsBusy = true;
+                    StartCoroutine(TurnOffFlashlightOnOutro());
+                }
+                if (flashlight.IsDead)
+                {
+                    StartCoroutine(HideFlashlightOnOutro());
+                }
+                return;
+            }
+
             // player is focused on object in his hands - skip all calculations:
             if (LevelManager.instance.Player.GetComponent<InteractionController>().IsFocused) return;
 
@@ -160,7 +175,7 @@ namespace LastBastion.Game.Player
         /// </summary>
         public void PlayFlashlightSwitchSound()
         {
-            flashlight.PlaySwitchSound();
+            if (!LevelManager.instance.IsOutroOn) flashlight.PlaySwitchSound();
         }
 
         /// <summary>
@@ -212,6 +227,28 @@ namespace LastBastion.Game.Player
         private int GetRandomSecondsLongRange()
         {
             return Random.Range(120, 180);
+        }
+
+        /// <summary>
+        /// Turns off flashlight after outro has started playing.
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator TurnOffFlashlightOnOutro()
+        {
+            yield return new WaitForSeconds(Random.Range(3, 5));
+            StartCoroutine(flashlight.BlinkToDeath());
+        }
+
+        /// <summary>
+        /// Hides flashlight during outro after small delay.
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator HideFlashlightOnOutro()
+        {
+            yield return new WaitForSeconds(Random.Range(3, 5));
+            animator.applyRootMotion = false;
+            animator.Play(flashlightHideAnimState);
+            flashlight.IsDead = false;
         }
         #endregion
     }

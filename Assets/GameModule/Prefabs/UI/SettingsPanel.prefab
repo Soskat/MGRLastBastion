@@ -53,6 +53,7 @@ GameObject:
   - component: {fileID: 224095308307538600}
   - component: {fileID: 222480564691086792}
   - component: {fileID: 114432727973391394}
+  - component: {fileID: 114184305845354940}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -70,6 +71,7 @@ GameObject:
   - component: {fileID: 224649345920895048}
   - component: {fileID: 222132207465157792}
   - component: {fileID: 114687884133490866}
+  - component: {fileID: 114807317553588748}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -287,6 +289,7 @@ GameObject:
   - component: {fileID: 224329551367874470}
   - component: {fileID: 222019294443214770}
   - component: {fileID: 114822939939849194}
+  - component: {fileID: 114028477995881340}
   m_Layer: 5
   m_Name: AvailableMSBandsLabel
   m_TagString: Untagged
@@ -353,6 +356,7 @@ GameObject:
   - component: {fileID: 224114973839994672}
   - component: {fileID: 222699645548425324}
   - component: {fileID: 114188016603019862}
+  - component: {fileID: 114171391630430056}
   m_Layer: 5
   m_Name: ServicePortLabel
   m_TagString: Untagged
@@ -421,6 +425,7 @@ GameObject:
   - component: {fileID: 224837637959598632}
   - component: {fileID: 222385898689588130}
   - component: {fileID: 114441006735704898}
+  - component: {fileID: 114290065030040754}
   m_Layer: 5
   m_Name: PairedBandLabel
   m_TagString: Untagged
@@ -523,6 +528,7 @@ GameObject:
   - component: {fileID: 224251363680296266}
   - component: {fileID: 222013974863288908}
   - component: {fileID: 114651133491441596}
+  - component: {fileID: 114209490790223182}
   m_Layer: 5
   m_Name: HostNameLabel
   m_TagString: Untagged
@@ -555,6 +561,7 @@ GameObject:
   - component: {fileID: 224456064963857976}
   - component: {fileID: 222243897292000694}
   - component: {fileID: 114201024246763544}
+  - component: {fileID: 114462633718581860}
   m_Layer: 5
   m_Name: ConnectionInfoLabel
   m_TagString: Untagged
@@ -608,6 +615,7 @@ GameObject:
   - component: {fileID: 224206321149162914}
   - component: {fileID: 222970301909668526}
   - component: {fileID: 114202141681859032}
+  - component: {fileID: 114598867844078226}
   m_Layer: 5
   m_Name: AnalyticsLabel
   m_TagString: Untagged
@@ -933,6 +941,7 @@ GameObject:
   - component: {fileID: 224282010724983662}
   - component: {fileID: 222467801657207162}
   - component: {fileID: 114495032203707846}
+  - component: {fileID: 114617279888635382}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -985,6 +994,7 @@ GameObject:
   - component: {fileID: 224293433825178162}
   - component: {fileID: 222382954123292740}
   - component: {fileID: 114314011295664690}
+  - component: {fileID: 114846562125704044}
   m_Layer: 5
   m_Name: GameTypeLabel
   m_TagString: Untagged
@@ -1054,6 +1064,7 @@ GameObject:
   - component: {fileID: 224900857604352142}
   - component: {fileID: 222950356548859630}
   - component: {fileID: 114081343409540306}
+  - component: {fileID: 114388439759245948}
   m_Layer: 5
   m_Name: GameInfoLabel
   m_TagString: Untagged
@@ -1071,6 +1082,7 @@ GameObject:
   - component: {fileID: 224430282194292522}
   - component: {fileID: 222785145858672154}
   - component: {fileID: 114701866606422636}
+  - component: {fileID: 114227480684613630}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -1199,6 +1211,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114028477995881340
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1178899304932746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ca451c12395ff84dbd6f2399ab0b44e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textInEnglish: 'Available MS Bands:'
+  textInPolish: "Dost\u0119pne MS Band:"
 --- !u!114 &114041434244167874
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1549,6 +1574,19 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Scrollbar+ScrollEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114171391630430056
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1266604393155998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ca451c12395ff84dbd6f2399ab0b44e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textInEnglish: 'Service port:'
+  textInPolish: "Port us\u0142ugi:"
 --- !u!114 &114172841115931928
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1576,6 +1614,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114184305845354940
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1036958828970878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ca451c12395ff84dbd6f2399ab0b44e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textInEnglish: Refresh
+  textInPolish: "Od\u015Bwie\u017C"
 --- !u!114 &114188016603019862
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1702,6 +1753,19 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Analytics
+--- !u!114 &114209490790223182
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1478957793123206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ca451c12395ff84dbd6f2399ab0b44e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textInEnglish: 'Host name:'
+  textInPolish: 'Nazwa hosta:'
 --- !u!114 &114224240747007688
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1735,6 +1799,19 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 
+--- !u!114 &114227480684613630
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1940448654791774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ca451c12395ff84dbd6f2399ab0b44e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textInEnglish: Unpair
+  textInPolish: "Usu\u0144"
 --- !u!114 &114233625306730426
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1838,6 +1915,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114290065030040754
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1319609612196396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ca451c12395ff84dbd6f2399ab0b44e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textInEnglish: 'Paired MS Band:'
+  textInPolish: 'Sparowany MS Band:'
 --- !u!114 &114314011295664690
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1870,7 +1960,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Game type:'
+  m_Text: 'Game mode:'
 --- !u!114 &114325282770442036
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2065,6 +2155,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114388439759245948
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1940230414503460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ca451c12395ff84dbd6f2399ab0b44e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textInEnglish: 'Game settings:'
+  textInPolish: 'Ustawienia gry:'
 --- !u!114 &114412816966711738
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2371,6 +2474,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114462633718581860
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1531277929066136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ca451c12395ff84dbd6f2399ab0b44e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textInEnglish: 'Connection settings:'
+  textInPolish: "Ustawienia po\u0142\u0105czenia:"
 --- !u!114 &114469868204716534
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2482,7 +2598,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Pair Band
+  m_Text: Pair Band device
 --- !u!114 &114500047069939894
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2573,7 +2689,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114458992773292038}
   m_HandleRect: {fileID: 224220975096423658}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -2693,6 +2809,19 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 
+--- !u!114 &114598867844078226
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1591998276286166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ca451c12395ff84dbd6f2399ab0b44e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textInEnglish: 'Analytics:'
+  textInPolish: 'Analityka:'
 --- !u!114 &114611155000942426
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2720,6 +2849,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114617279888635382
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1835851655913054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ca451c12395ff84dbd6f2399ab0b44e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textInEnglish: Pair Band
+  textInPolish: "Sparuj urz\u0105dzenie"
 --- !u!114 &114651133491441596
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3029,6 +3171,19 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Scrollbar+ScrollEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114807317553588748
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1046397146267146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ca451c12395ff84dbd6f2399ab0b44e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textInEnglish: Back
+  textInPolish: Wstecz
 --- !u!114 &114822939939849194
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3167,6 +3322,19 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Option A
+--- !u!114 &114846562125704044
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1906296239406350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ca451c12395ff84dbd6f2399ab0b44e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textInEnglish: 'Game mode:'
+  textInPolish: 'Tryb gry:'
 --- !u!114 &114850442475754456
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3233,7 +3401,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -3844,9 +4012,9 @@ RectTransform:
   m_Father: {fileID: 224575020785491228}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -47.300003}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 149.9}
   m_SizeDelta: {x: 260, y: 82.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224023792955273862
@@ -4607,7 +4775,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 272.7, y: 393}
+  m_SizeDelta: {x: 400, y: 440}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224592007885802648
 RectTransform:
@@ -4758,9 +4926,9 @@ RectTransform:
   m_Father: {fileID: 224575020785491228}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 163.8}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -28.599998}
   m_SizeDelta: {x: 260, y: 270.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224761788162261488
@@ -4800,8 +4968,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 40, y: 10}
-  m_SizeDelta: {x: 80, y: 20}
+  m_AnchoredPosition: {x: 54.2, y: 10}
+  m_SizeDelta: {x: 110, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224805412639348676
 RectTransform:
@@ -4872,9 +5040,9 @@ RectTransform:
   m_Father: {fileID: 224575020785491228}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 15}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -180.07}
   m_SizeDelta: {x: 80, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224877147354737172

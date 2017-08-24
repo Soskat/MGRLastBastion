@@ -1,0 +1,60 @@
+{
+    "Set": [
+        {
+            "Weight": 0,
+            "Content": "Przeszukaj biuro"
+        },
+        {
+            "Weight": 1,
+            "Content": "Idź do pokoju pielęgniarek"
+        },
+        {
+            "Weight": 2,
+            "Content": "Znajdź numer pokoju Jamesa w rejestrze pacjentów"
+        },
+        {
+            "Weight": 3,
+            "Content": "Przeszukaj pokój 1B"
+        },
+        {
+            "Weight": 4,
+            "Content": "Idź na oddział intensywnej terapii"
+        },
+        {
+            "Weight": 5,
+            "Content": "Znajdź informacje na temat choroby Jamesa"
+        },
+        {
+            "Weight": 6,
+            "Content": "Przeszukaj sale operacyjne"
+        },
+        {
+            "Weight": 7,
+            "Content": "Idź na oddział izolowany"
+        },
+        {
+            "Weight": 8,
+            "Content": "Dowiedz się do której izolatki został przydzielony James"
+        },
+        {
+            "Weight": 9,
+            "Content": "Otwórz izolatkę F"
+        },
+        {
+            "Weight": 10,
+            "Content": "Przeszukaj izolatkę F"
+        },
+        {
+            "Weight": 11,
+            "Content": "Dokończ rytuał"
+        },
+        {
+            "Weight": 12,
+            "Content": "Dodaj brakujące runy do glifu"
+        },
+        {
+            "Weight": 13,
+            "Content": "Stań pośrodku glifu i przeczytaj inkantacje"
+        }
+    ]
+}

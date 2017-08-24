@@ -48,7 +48,8 @@ namespace LastBastion.Analytics
 
             // save info about player and game settings:
             AddTestInfo(InfoType.ID, playerID);
-            AddTestInfo(InfoType.GameType, (int)gameType);
+            AddTestInfo(InfoType.GameType, gameType);
+            //AddTestInfo(InfoType.GameType, (int)gameType);
         }
 
         /// <summary>
@@ -71,6 +72,30 @@ namespace LastBastion.Analytics
         }
 
         /// <summary>
+        /// Saves calibration data (average HR and GSR values) as string "- Avg_HR_GSR [averageHR] [averageGSR]".
+        /// </summary>
+        /// <param name="infoType">Type of game settings data</param>
+        /// <param name="averageHr">Average HR</param>
+        /// <param name="averageGsr">Average GSR</param>
+        public static void AddCalibrationData(InfoType infoType, int averageHr, int averageGsr)
+        {
+            string data = "- " + infoType.ToString() + " " + averageHr.ToString() + " " + averageGsr.ToString();
+            SaveToFile(data);
+        }
+
+        /// <summary>
+        /// Saves level data as string: "- [levelName] [calculationType]".
+        /// </summary>
+        /// <param name="levelName"></param>
+        /// <param name="calculationType"></param>
+        public static void AddLevelInfo(LevelName levelName, CalculationType calculationType)
+        {
+            string data = "- " + levelName + " " + calculationType;
+            //string data = "- " + levelName + " " + (int)calculationType;
+            SaveToFile(data);
+        }
+
+        /// <summary>
         /// Saves level data as string: "- [levelName] [calculationType] [averageHr] [averageGsr]".
         /// </summary>
         /// <param name="levelName">Name of the level</param>
@@ -82,7 +107,7 @@ namespace LastBastion.Analytics
             string data = "- " + (int)levelName + " " + (int)calculationType + " " + averageHr + " " + averageGsr;
             SaveToFile(data);
         }
-
+        
         /// <summary>
         /// Saves game event.
         /// </summary>
@@ -106,8 +131,10 @@ namespace LastBastion.Analytics
         public static void AddGameEvent(EventType eventType, TimeSpan time, object value = null)
         {
             string data;
-            if (value != null) data = (int)eventType + " " + String.Format("{0:00}:{1:00}", time.Minutes, time.Seconds) + " " + value.ToString();
-            else data = (int)eventType + " " + String.Format("{0:00}:{1:00}", time.Minutes, time.Seconds);
+            if (value != null) data = eventType + " " + String.Format("{0:00}:{1:00}", time.Minutes, time.Seconds) + " " + value.ToString();
+            else data = eventType + " " + String.Format("{0:00}:{1:00}", time.Minutes, time.Seconds);
+            //if (value != null) data = (int)eventType + " " + String.Format("{0:00}:{1:00}", time.Minutes, time.Seconds) + " " + value.ToString();
+            //else data = (int)eventType + " " + String.Format("{0:00}:{1:00}", time.Minutes, time.Seconds);
             SaveToFile(data);
         }
 
@@ -120,7 +147,8 @@ namespace LastBastion.Analytics
             // save section headline:
             SaveToFile("- survey_answers");
             // save survey answers:
-            foreach(Question question in questions) SaveToFile(question.ID + " " + (int)question.AnswerType + " " + question.Answer);
+            foreach (Question question in questions) SaveToFile(question.ID + " " + question.AnswerType + " " + question.Answer);
+            //foreach(Question question in questions) SaveToFile(question.ID + " " + (int)question.AnswerType + " " + question.Answer);
         }
         #endregion
 

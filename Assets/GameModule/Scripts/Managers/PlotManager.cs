@@ -8,22 +8,17 @@ namespace LastBastion.Game.Managers
     public class PlotManager : MonoBehaviour
     {
         #region Private fields
-        [SerializeField] private List<PlotGoal> plotGoals;
+        [SerializeField] private List<PlotGoal> clueObjects;
+        private Goal orbGoal;
+        private Goal lastGoal;
         #endregion
 
 
-        #region MonoBehaviour methods
-        //// Use this for initialization
-        //void Start()
-        //{
-
-        //}
-
-        //// Update is called once per frame
-        //void Update()
-        //{
-
-        //}
+        #region Public fields & properties
+        /// <summary>Plot goal that triggers orb rune holders.</summary>
+        public Goal OrbGoal { get { return orbGoal; } }
+        /// <summary>Final plot goal.</summary>
+        public Goal LastGoal { get { return lastGoal; } }
         #endregion
 
 
@@ -39,10 +34,12 @@ namespace LastBastion.Game.Managers
             // update all clue objects from scene with plot goals info:
             for(int i = 1, j = 0; i < goals.Count; i++, j++)
             {
-                if (j >= plotGoals.Count) break;
-                if (plotGoals[j] == null) break;
-                plotGoals[j].UpdateGoal(goals[i]);
+                if (j >= clueObjects.Count) break;
+                if (clueObjects[j] == null) break;
+                clueObjects[j].UpdateGoal(goals[i]);
             }
+            orbGoal = clueObjects[clueObjects.Count - 1].Goal;
+            lastGoal = goals[goals.Count - 1];
             // return current plot goal:
             return goals[0];
         }
