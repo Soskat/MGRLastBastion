@@ -1,4 +1,5 @@
-﻿using LastBastion.Biofeedback;
+﻿using LastBastion.Analytics;
+using LastBastion.Biofeedback;
 using LastBastion.Game.Managers;
 using System.Collections;
 using UnityEngine;
@@ -24,15 +25,15 @@ namespace LastBastion.Game.Player
             lastState = DataState.None;
             shakeOn = false;
             // biofeedback off:
-            if (!GameManager.instance.BBModule.IsEnabled) StartCoroutine(Shake());
+            if (GameManager.instance.BiofeedbackMode == BiofeedbackMode.BiofeedbackOFF || !GameManager.instance.BBModule.IsEnabled) StartCoroutine(Shake());
         }
 
         // Update is called once per frame
         protected void Update()
         {
             // biofeedback on:
-            if (GameManager.instance.BBModule.IsEnabled)
-            {
+            if (GameManager.instance.BiofeedbackMode == BiofeedbackMode.BiofeedbackON && GameManager.instance.BBModule.IsEnabled)
+                {
                 if (GameManager.instance.BBModule.ArousalState == DataState.High)
                 {
                     shakeOn = true;
@@ -68,6 +69,7 @@ namespace LastBastion.Game.Player
         private IEnumerator Shake()
         {
             yield return new WaitForSeconds(Random.Range(60, 120));
+            Debug.Log("Random shake event");
             shakeOn = true;
             // save info about start of the shaking event:
             if (GameManager.instance.AnalyticsEnabled) LevelManager.instance.AddGameEvent(Analytics.EventType.Shaking);

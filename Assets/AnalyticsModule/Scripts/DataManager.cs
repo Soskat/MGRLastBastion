@@ -40,7 +40,7 @@ namespace LastBastion.Analytics
         /// Begins new analysis record.
         /// </summary>
         /// <param name="gameType">Current game mode</param>
-        public static void BeginAnalysis(GameMode gameType)
+        public static void BeginAnalysis(BiofeedbackMode gameType)
         {
             playerID = Convert.ToInt64(DateTime.Now.ToString("yyyyMMddHHmmssff"));
             filePath = dataDirectory + playerID;
@@ -49,7 +49,6 @@ namespace LastBastion.Analytics
             // save info about player and game settings:
             AddTestInfo(InfoType.ID, playerID);
             AddTestInfo(InfoType.GameType, gameType);
-            //AddTestInfo(InfoType.GameType, (int)gameType);
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using LastBastion.Biofeedback;
+﻿using LastBastion.Analytics;
+using LastBastion.Biofeedback;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -55,7 +56,7 @@ namespace LastBastion.Game.Managers
             outroRiserAudio.clip = riserSound;
             outroRiserAudio.playOnAwake = false;
             // biofeedback is off:
-            if (!GameManager.instance.BBModule.IsEnabled) StartCoroutine(Heartbeat());
+            if (GameManager.instance.BiofeedbackMode == BiofeedbackMode.BiofeedbackOFF || !GameManager.instance.BBModule.IsEnabled) StartCoroutine(Heartbeat());
         }
 
         // Update is called once per frame
@@ -65,7 +66,7 @@ namespace LastBastion.Game.Managers
             if (LevelManager.instance.IsOutroOn) return;
 
             // biofeedback on:
-            if (GameManager.instance.BBModule.IsEnabled)
+            if (GameManager.instance.BiofeedbackMode == BiofeedbackMode.BiofeedbackON && GameManager.instance.BBModule.IsEnabled)
             {
                 if (GameManager.instance.BBModule.ArousalState == DataState.High)
                 {
@@ -104,6 +105,7 @@ namespace LastBastion.Game.Managers
         private IEnumerator Heartbeat()
         {
             yield return new WaitForSeconds(Random.Range(60, 120));
+            Debug.Log("Random heart beat event");
             StartPlayingSound();
             yield return new WaitForSeconds(Random.Range(30, 90));
             StopPlayingSound();

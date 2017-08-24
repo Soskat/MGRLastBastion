@@ -5,7 +5,7 @@
     /// </summary>
     public enum BiofeedbackMode : byte
     {
-        BiofeedbackOff,
-        BiofeedbackOn
+        BiofeedbackON = GameMode.ModeB,
+        BiofeedbackOFF = GameMode.ModeA
     }
 }

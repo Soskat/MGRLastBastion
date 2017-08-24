@@ -1,5 +1,4 @@
-﻿using LastBastion.Analytics;
-using LastBastion.Game.Managers;
+﻿using LastBastion.Game.Managers;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -25,10 +24,10 @@ namespace LastBastion.Game
             if (guiSkin != null) GUI.skin = guiSkin;
 
             // background box:
-            GUI.Box(new Rect(0, 0, 100, 90), GUIContent.none);
+            GUI.Box(new Rect(0, 0, 164, 126), GUIContent.none);
             // game data:
             GUI.Label(new Rect(10, 10, 40, 12), LevelManager.instance.LevelName.ToString());
-            GUI.Label(new Rect(60, 10, 80, 12), ((BiofeedbackMode)GameManager.instance.GameMode).ToString());
+            GUI.Label(new Rect(60, 10, 80, 12), GameManager.instance.BiofeedbackMode.ToString());
             // HR and GSR data:
             GUI.Label(new Rect(43, 28, 46, 12), "Average:");
             GUI.Label(new Rect(94, 28, 42, 12), "Current:");

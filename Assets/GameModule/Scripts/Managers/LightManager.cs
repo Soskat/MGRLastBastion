@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using LastBastion.Analytics;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -59,8 +60,8 @@ namespace LastBastion.Game.Managers
 
                 isBusy = true;
 
-                // biofeedback logic:
-                if (GameManager.instance.BBModule.IsEnabled)
+                // biofeedback on:
+                if (GameManager.instance.BiofeedbackMode == BiofeedbackMode.BiofeedbackON && GameManager.instance.BBModule.IsEnabled)
                 {
                     somethingHappened = true;
                     switch (GameManager.instance.BBModule.ArousalState)

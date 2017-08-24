@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using LastBastion.Analytics;
+using UnityEngine;
 using UnityEngine.Assertions;
 
 
@@ -51,7 +52,7 @@ namespace LastBastion.Game.Managers
             if (WasActivated || GameManager.instance.ActiveRoom.GetComponentInChildren<LightManager>().LightsOn) return;
 
             // biofeedback on:
-            if (GameManager.instance.BBModule.IsEnabled)
+            if (GameManager.instance.BiofeedbackMode == BiofeedbackMode.BiofeedbackON && GameManager.instance.BBModule.IsEnabled)
             {
                 // activate decals set based on player's biofeedback:
                 switch (GameManager.instance.BBModule.ArousalState)
@@ -76,6 +77,7 @@ namespace LastBastion.Game.Managers
             // biofeedback off:
             else
             {
+                Debug.Log("Random decals event");
                 // choose randomly decals set:
                 int choice = Random.Range(0, 2);
                 switch (choice)

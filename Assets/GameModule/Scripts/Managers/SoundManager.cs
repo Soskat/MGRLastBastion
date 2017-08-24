@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using LastBastion.Analytics;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -39,8 +40,8 @@ namespace LastBastion.Game.Managers
             if (isActive && !isBusy)
             {
                 // biofeedback ON:
-                if (GameManager.instance.BBModule.IsEnabled)
-                {
+                if (GameManager.instance.BiofeedbackMode == BiofeedbackMode.BiofeedbackON && GameManager.instance.BBModule.IsEnabled)
+                    {
                     if (GameManager.instance.BBModule.ArousalState == Biofeedback.DataState.High)
                     {
                         // play light sound:
@@ -56,6 +57,7 @@ namespace LastBastion.Game.Managers
                 // biofeedback OFF:
                 else
                 {
+                    Debug.Log("Random sound event");
                     // play sounds at random time - but still choose the best awailable audio source
                     int x = Random.Range(0, 2);
                     if (x == 0) choosenAudioClip = soundsLight[Random.Range(0, soundsLight.Count)];

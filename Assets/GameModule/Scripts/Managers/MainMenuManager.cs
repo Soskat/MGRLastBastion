@@ -54,6 +54,14 @@ namespace LastBastion.Game.Managers
             List<string> gameOptions = new List<string>();
             foreach (var option in gameTypes) gameOptions.Add(option.ToString());
             gameTypeDropdown.AddOptions(gameOptions);
+            for (int i = 0; i < gameTypes.Length; i++)
+            {
+                if (gameTypes[i] == (GameMode)GameManager.instance.BiofeedbackMode)
+                {
+                    gameTypeDropdown.value = i;
+                    break;
+                }
+            }
             // add analytics dropdown:
             analyticsDropdown = analytics.GetComponent<Dropdown>();
             analyticsDropdown.AddOptions(new List<string>() { "enabled", "disabled" });
@@ -98,7 +106,7 @@ namespace LastBastion.Game.Managers
         /// </summary>
         public void StartNewGame()
         {
-            GameManager.instance.GameMode = gameTypes[gameTypeDropdown.value];
+            GameManager.instance.BiofeedbackMode = (BiofeedbackMode)gameTypes[gameTypeDropdown.value];
             if (analyticsDropdown.value == 0) GameManager.instance.AnalyticsEnabled = true;
             else if (analyticsDropdown.value == 1) GameManager.instance.AnalyticsEnabled = false;
             GameManager.instance.StartNewGame();

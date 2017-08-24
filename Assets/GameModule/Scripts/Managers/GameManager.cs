@@ -23,6 +23,7 @@ namespace LastBastion.Game.Managers
 
 
         #region Private fields
+        [SerializeField] private BiofeedbackMode biofeedbackMode = BiofeedbackMode.BiofeedbackON;
         [SerializeField] private bool debugMode = false;
         [SerializeField] private int currentLevelID = -1;
         [SerializeField] private string[] gameLevels;
@@ -50,8 +51,8 @@ namespace LastBastion.Game.Managers
         public ListController ListController { get; set; }
         /// <summary>Active method of calculating player's arousal.</summary>
         public CalculationType CurrentCalculationType { get { return calculationTypes[currentCalculationTypeID]; } }
-        /// <summary>Current game mode.</summary>
-        public GameMode GameMode { get; set; }
+        /// <summary>Current biofeedback mode.</summary>
+        public BiofeedbackMode BiofeedbackMode { get { return biofeedbackMode; } set { biofeedbackMode = value; } }
         /// <summary>Is analytics module enabled?</summary>
         public bool AnalyticsEnabled = true;
         /// <summary>The Room where player currently is.</summary>
@@ -157,7 +158,7 @@ namespace LastBastion.Game.Managers
             }
 
             // setup new analysis data:
-            if (AnalyticsEnabled) DataManager.BeginAnalysis(GameMode);
+            if (AnalyticsEnabled) DataManager.BeginAnalysis(BiofeedbackMode);
 
             IsReadyForNewBandData = true;
 

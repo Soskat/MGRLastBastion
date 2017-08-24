@@ -1,4 +1,5 @@
-﻿using LastBastion.Biofeedback;
+﻿using LastBastion.Analytics;
+using LastBastion.Biofeedback;
 using LastBastion.Game.Managers;
 using LastBastion.Game.ObjectInteraction;
 using System.Collections;
@@ -39,7 +40,7 @@ namespace LastBastion.Game.Player
             deltaTime = 1.0f / Time.deltaTime;
 
             // if biofeedback is off set up the blink events at random time:
-            if (!GameManager.instance.BBModule.IsEnabled)
+            if (GameManager.instance.BiofeedbackMode == BiofeedbackMode.BiofeedbackOFF || !GameManager.instance.BBModule.IsEnabled)
             {
                 StartCoroutine(BlinkFlashlight());
                 StartCoroutine(BlinkFlashlightToDeath());
@@ -80,7 +81,7 @@ namespace LastBastion.Game.Player
             if (Input.GetKeyDown(KeyCode.R)) SwitchLight();
 
             // update game mechanics based on player's current arousal:
-            if (GameManager.instance.BBModule.IsEnabled)
+            if (GameManager.instance.BiofeedbackMode == BiofeedbackMode.BiofeedbackON && GameManager.instance.BBModule.IsEnabled)
             {
                 deltaTime = 1.0f / Time.deltaTime;
                 switch (GameManager.instance.BBModule.ArousalState)

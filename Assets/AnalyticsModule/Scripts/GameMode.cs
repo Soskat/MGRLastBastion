@@ -1,11 +1,11 @@
 ﻿namespace LastBastion.Analytics
 {
     /// <summary>
-    /// Game type.
+    /// Game mode.
     /// </summary>
     public enum GameMode : byte
     {
-        ModeA = BiofeedbackMode.BiofeedbackOn,
-        ModeB = BiofeedbackMode.BiofeedbackOff
+        ModeA,
+        ModeB
     }
 }
