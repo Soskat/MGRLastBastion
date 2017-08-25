@@ -39,6 +39,8 @@ namespace LastBastion.Game.Managers
                 }
                 else if (isInRange) SwitchVisibilityTo(false);
             }
+
+            //if (isInRange) Debug.DrawLine(LevelManager.instance.Player.transform.position, transform.position, Color.green);
         }
         #endregion
 

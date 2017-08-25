@@ -147,7 +147,7 @@ namespace LastBastion.Game.Managers
             // debug mode:
             if (GameManager.instance.DebugMode && isActive)
             {
-                Debug.DrawLine(LevelManager.instance.Player.transform.position, transform.position, Color.magenta);
+                Debug.DrawLine(LevelManager.instance.Player.transform.position, transform.position, Color.yellow);
             }
         }
 

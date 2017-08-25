@@ -80,7 +80,8 @@ namespace LastBastion.Game.Managers
                 instance = this;
                 player = GameObject.FindGameObjectWithTag("Player");
                 playerBiofeedback = player.GetComponent<PlayerAudioManager>();
-                runesManager = GameObject.FindGameObjectWithTag("RunesManager").GetComponent<RunesManager>();
+                GameObject go = GameObject.FindGameObjectWithTag("RunesManager");
+                if (go != null) runesManager = go.GetComponent<RunesManager>();
                 IsOutroOn = false;
                 activatedRunes = 0;
                 // make some assertions:
@@ -193,6 +194,7 @@ namespace LastBastion.Game.Managers
         /// </summary>
         public void FoundRune()
         {
+            if (runesManager == null) return;
             // update runes count:
             runesManager.CollectRune();
             // show update info:

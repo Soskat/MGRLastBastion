@@ -34,10 +34,7 @@ namespace LastBastion.Game
         // OnTriggerEnter is called when the Collider other enters the trigger
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.tag == "Player")
-            {
-                PlaySound();
-            }
+            if (other.gameObject.tag == "Player") PlaySound();
         }
         #endregion
 

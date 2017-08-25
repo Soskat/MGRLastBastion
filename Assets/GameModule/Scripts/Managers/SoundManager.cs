@@ -41,16 +41,20 @@ namespace LastBastion.Game.Managers
             {
                 // biofeedback ON:
                 if (GameManager.instance.BiofeedbackMode == BiofeedbackMode.BiofeedbackON && GameManager.instance.BBModule.IsEnabled)
-                    {
+                {
                     if (GameManager.instance.BBModule.ArousalState == Biofeedback.DataState.High)
                     {
                         // play light sound:
                         choosenAudioClip = soundsLight[Random.Range(0, soundsLight.Count)];
+
+                        Debug.Log(gameObject + " -> played BIOFEEDBACK - LIGHT sound");//---------------------------------------------------------------------------------
                     }
                     else
                     {
                         // play hard sound:
                         choosenAudioClip = soundsHard[Random.Range(0, soundsHard.Count)];
+
+                        Debug.Log(gameObject + " -> played BIOFEEDBACK - HARD sound");//---------------------------------------------------------------------------------
                     }
                     cooldownTime = startDelay * GameManager.instance.BBModule.ArousalModifier;
                 }
@@ -62,6 +66,8 @@ namespace LastBastion.Game.Managers
                     if (x == 0) choosenAudioClip = soundsLight[Random.Range(0, soundsLight.Count)];
                     else choosenAudioClip = soundsHard[Random.Range(0, soundsHard.Count)];
                     cooldownTime = startDelay * Random.Range(0.5f, 1.5f);
+
+                    Debug.Log(gameObject + " -> played RANDOM sound");//---------------------------------------------------------------------------------
                 }
                 
                 choosenSoundSource = FindBestSoundSource();
@@ -77,7 +83,7 @@ namespace LastBastion.Game.Managers
             // debug mode:
             if (GameManager.instance.DebugMode && isActive)
             {
-                Debug.DrawLine(LevelManager.instance.Player.transform.position, FindBestSoundSource().transform.position, Color.cyan);
+                Debug.DrawLine(LevelManager.instance.Player.transform.position, FindBestSoundSource().transform.position, Color.magenta);
             }
         }
 
