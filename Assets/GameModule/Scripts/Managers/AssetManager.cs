@@ -105,7 +105,7 @@ namespace LastBastion.Game.Managers
             // load plot goals for level A:
             if (LevelManager.instance.LevelName == LevelName.LevelA)
             {
-                if (GameManager.instance.ChoosenLanguage == GameLanguage.Polish)
+                if (GameManager.instance.ChosenLanguage == GameLanguage.Polish)
                 {
                     // load plot goals in polish:
                     plotGoalsFilePath = Application.streamingAssetsPath + "/Resources/TextData/plot_goals_a_pl.json";
@@ -119,7 +119,7 @@ namespace LastBastion.Game.Managers
             // load plot goals for level B:
             else
             {
-                if (GameManager.instance.ChoosenLanguage == GameLanguage.Polish)
+                if (GameManager.instance.ChosenLanguage == GameLanguage.Polish)
                 {
                     // load plot goals in polish:
                     plotGoalsFilePath = Application.streamingAssetsPath + "/Resources/TextData/plot_goals_b_pl.json";

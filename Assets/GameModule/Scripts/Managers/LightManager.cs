@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using LastBastion.Analytics;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,18 +8,26 @@ using UnityEngine;
 namespace LastBastion.Game.Managers
 {
     /// <summary>
-    /// Component that manages lights switching logic based on player's biofeedback.
+    /// Component that manages logic of switching lights in area based on player's biofeedback.
     /// </summary>
     [RequireComponent(typeof(BoxCollider))]
     public class LightManager : MonoBehaviour
     {
         #region Private fields
+        /// <summary>Is light manager active?</summary>
         [SerializeField] private bool isActive = false;
+        /// <summary>Is light switched on?</summary>
         [SerializeField] private bool lightsOn = false;
+        /// <summary>Are lights broken?</summary>
         [SerializeField] private bool lightsBroken = false;
+        /// <summary>Is light manager busy?</summary>
         [SerializeField] private bool isBusy = false;
+        /// <summary>Base delay for cooldown.</summary>
         [SerializeField] private float baseDelay = 10f;
+        /// <summary>List of light sources in area.</summary>
         [SerializeField] private List<LightSource> lights;
+        /// <summary>Has something happened during current frame?</summary>
+        private bool somethingHappened;
         #endregion
 
 
@@ -33,6 +42,7 @@ namespace LastBastion.Game.Managers
         void Start()
         {
             lights.AddRange(GetComponentsInChildren<LightSource>());
+            somethingHappened = false;
         }
 
         // Update is called once per frame
@@ -57,9 +67,10 @@ namespace LastBastion.Game.Managers
 
                 isBusy = true;
 
-                // biofeedback logic:
-                if (GameManager.instance.BBModule.IsEnabled)
+                // biofeedback on:
+                if (GameManager.instance.BiofeedbackMode == BiofeedbackMode.BiofeedbackON && GameManager.instance.BBModule.IsEnabled)
                 {
+                    somethingHappened = true;
                     switch (GameManager.instance.BBModule.ArousalState)
                     {
                         case Biofeedback.DataState.High:
@@ -93,6 +104,7 @@ namespace LastBastion.Game.Managers
                             break;
 
                         default:
+                            somethingHappened = false;
                             break;
                     }
                     // wait for next move:
@@ -102,6 +114,7 @@ namespace LastBastion.Game.Managers
                 // randomly choose light event:
                 else
                 {
+                    somethingHappened = true;
                     int randomEvent = Random.Range(0, 5);
                     if (!lightsOn) SwitchLights();
                     else
@@ -134,14 +147,14 @@ namespace LastBastion.Game.Managers
                 }
 
                 // save info about event:
-                if (GameManager.instance.AnalyticsEnabled) LevelManager.instance.AddGameEvent(Analytics.EventType.Light);
+                if (GameManager.instance.AnalyticsEnabled && somethingHappened) LevelManager.instance.AddGameEvent(Analytics.EventType.Light);
             }
 
 
             // debug mode:
             if (GameManager.instance.DebugMode && isActive)
             {
-                Debug.DrawLine(LevelManager.instance.Player.transform.position, transform.position, Color.magenta);
+                Debug.DrawLine(LevelManager.instance.Player.transform.position, transform.position, Color.yellow);
             }
         }
 
@@ -184,7 +197,7 @@ namespace LastBastion.Game.Managers
         }
 
         /// <summary>
-        /// Sets <see cref="isBusy"/> flag to true for specific time.
+        /// Sets <see cref="isBusy"/> flag to true for specific period of time.
         /// </summary>
         /// <param name="cooldownTime">Time to wait</param>
         /// <returns></returns>
@@ -199,7 +212,7 @@ namespace LastBastion.Game.Managers
 
         #region Public methods
         /// <summary>
-        /// Switches the lights ON/OFF state.
+        /// Switches all child lights' ON/OFF state.
         /// </summary>
         public void SwitchLights()
         {

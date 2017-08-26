@@ -37,6 +37,7 @@ namespace LastBastion.Game.Managers
         #region Achievements counters:
         [SerializeField] private int searchedRooms = 0;
         [SerializeField] private int lightSwitchUses = 0;
+        [SerializeField] private bool renderManagerOn = false;
         #endregion
         private Stopwatch stopwatch;
         private TimeSpan currentTime;
@@ -67,6 +68,8 @@ namespace LastBastion.Game.Managers
         public bool IsOutroOn { get; set; }
         /// <summary>Is game paused?</summary>
         public bool IsPaused { get { return menuOn; } }
+        /// <summary>Is render manager on?</summary>
+        public bool RenderManagerOn { get { return renderManagerOn; } }
         #endregion
 
 
@@ -80,7 +83,8 @@ namespace LastBastion.Game.Managers
                 instance = this;
                 player = GameObject.FindGameObjectWithTag("Player");
                 playerBiofeedback = player.GetComponent<PlayerAudioManager>();
-                runesManager = GameObject.FindGameObjectWithTag("RunesManager").GetComponent<RunesManager>();
+                GameObject go = GameObject.FindGameObjectWithTag("RunesManager");
+                if (go != null) runesManager = go.GetComponent<RunesManager>();
                 IsOutroOn = false;
                 activatedRunes = 0;
                 // make some assertions:
@@ -102,7 +106,6 @@ namespace LastBastion.Game.Managers
             goalUpdatePanel.SetActive(false);
             SetEndGamePanelActivityStateTo(false);
             currentGoal = GetComponent<PlotManager>().Init();
-            GameManager.instance.RunesAmount = runesManager.RunesAmount;
             // set up in-game menu:
             resumeButton.onClick.AddListener(() => {
                 menuOn = false;
@@ -126,6 +129,9 @@ namespace LastBastion.Game.Managers
             // start stopwatch:
             stopwatch = new Stopwatch();
             stopwatch.Start();
+            // if debug mode is enabled, show debug info:
+            if (GameManager.instance.DebugMode && GetComponent<DebugInfo>() != null) GetComponent<DebugInfo>().enabled = true;
+            else GetComponent<DebugInfo>().enabled = false;
             
             // save level info:
             if (GameManager.instance.AnalyticsEnabled)
@@ -147,6 +153,8 @@ namespace LastBastion.Game.Managers
                 Cursor.visible = true;
             }
 
+            if (Input.GetKeyDown(KeyCode.Y)) renderManagerOn = (renderManagerOn) ? false : true;
+
             // read input:
             if (!Player.GetComponent<InteractionController>().IsFocused && !IsOutroOn && Input.GetKeyDown(KeyCode.Q)) ShowCurrentGoal();
 
@@ -158,7 +166,8 @@ namespace LastBastion.Game.Managers
 
             // manage biofeedback: ===============================================
             // get current Band sensors readings:
-            if (GameManager.instance.BBModule.IsBandPaired && GameManager.instance.BBModule.CanReceiveBandReadings && GameManager.instance.IsReadyForNewBandData)
+            if (GameManager.instance.BBModule.IsEnabled && GameManager.instance.BBModule.CanReceiveBandReadings && GameManager.instance.IsReadyForNewBandData)
+            //if (GameManager.instance.BBModule.IsBandPaired && GameManager.instance.BBModule.CanReceiveBandReadings && GameManager.instance.IsReadyForNewBandData)
             {
                 GameManager.instance.BBModule.GetBandData();
                 GameManager.instance.IsReadyForNewBandData = false;
@@ -191,12 +200,13 @@ namespace LastBastion.Game.Managers
         /// </summary>
         public void FoundRune()
         {
+            if (runesManager == null) return;
             // update runes count:
             runesManager.CollectRune();
             // show update info:
             StopAllCoroutines();
-            // choosen language is polish:
-            if (GameManager.instance.ChoosenLanguage == GameLanguage.Polish)
+            // chosen language is polish:
+            if (GameManager.instance.ChosenLanguage == GameLanguage.Polish)
             {
                 if (runesManager.CollectedRunes == 1)
                     StartCoroutine(ShowPlotInfoPanel("Znaleziono runę", "Zebrałeś " + runesManager.CollectedRunes + " runę"));
@@ -204,7 +214,7 @@ namespace LastBastion.Game.Managers
                     StartCoroutine(ShowPlotInfoPanel("Znaleziono runę", "Zebrałeś " + runesManager.CollectedRunes + " runy"));
                 else StartCoroutine(ShowPlotInfoPanel("Znaleziono runę", "Zebrałeś " + runesManager.CollectedRunes + " run"));
             }
-            // choosen language is english:
+            // chosen language is english:
             else
             {
                 if (runesManager.CollectedRunes > 1) StartCoroutine(ShowPlotInfoPanel("Rune found", "You have collected " + runesManager.CollectedRunes + " runes"));
@@ -261,9 +271,9 @@ namespace LastBastion.Game.Managers
                 currentGoal = newGoal;
                 // show update info:
                 StopAllCoroutines();
-                // choosen language is polish:
-                if (GameManager.instance.ChoosenLanguage == GameLanguage.Polish) StartCoroutine(ShowPlotInfoPanel("Aktualizacja celu", currentGoal.Content));
-                // choosen language is english:
+                // chosen language is polish:
+                if (GameManager.instance.ChosenLanguage == GameLanguage.Polish) StartCoroutine(ShowPlotInfoPanel("Aktualizacja celu", currentGoal.Content));
+                // chosen language is english:
                 else StartCoroutine(ShowPlotInfoPanel("Goal update", currentGoal.Content));
                 // if newGoal is the last goal, activate rune orbs:
                 if (CurrentGoalIsTheOrbGoal) runesManager.ActivateOrbs();
@@ -276,9 +286,9 @@ namespace LastBastion.Game.Managers
         public void ShowCurrentGoal()
         {
             StopAllCoroutines();
-            // choosen language is polish:
-            if (GameManager.instance.ChoosenLanguage == GameLanguage.Polish) StartCoroutine(ShowPlotInfoPanel("Cel", currentGoal.Content));
-            // choosen language is english:
+            // chosen language is polish:
+            if (GameManager.instance.ChosenLanguage == GameLanguage.Polish) StartCoroutine(ShowPlotInfoPanel("Cel", currentGoal.Content));
+            // chosen language is english:
             else StartCoroutine(ShowPlotInfoPanel("Goal", currentGoal.Content));
         }
 
@@ -320,6 +330,7 @@ namespace LastBastion.Game.Managers
             // save achievements progress:
             GameManager.instance.GameTime = stopwatch.Elapsed;
             GameManager.instance.CollectedRunes = runesManager.CollectedRunes;
+            GameManager.instance.RunesAmount = runesManager.RunesAmount;
             GameManager.instance.SearchedRooms = searchedRooms;
             GameManager.instance.LightSwitchUses = lightSwitchUses;
             // inform game manager that level has ended:
@@ -335,7 +346,8 @@ namespace LastBastion.Game.Managers
         {
             currentTime = stopwatch.Elapsed;
             DataManager.AddGameEvent(eventType, currentTime, value);
-            if (GameManager.instance.BBModule.IsBandPaired) AddBiofeedbackEvents(currentTime);
+            if (GameManager.instance.BBModule.IsEnabled) AddBiofeedbackEvents(currentTime);
+            //if (GameManager.instance.BBModule.IsBandPaired) AddBiofeedbackEvents(currentTime);
         }
 
         /// <summary>

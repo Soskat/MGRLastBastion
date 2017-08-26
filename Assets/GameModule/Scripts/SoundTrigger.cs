@@ -31,13 +31,10 @@ namespace LastBastion.Game
             GetComponent<AudioSource>().loop = false;
         }
 
-        // OnCollisionEnter is called when this collider/rigidbody has begun touching another rigidbody/collider
-        private void OnCollisionExit(Collision collision)
+        // OnTriggerEnter is called when the Collider other enters the trigger
+        private void OnTriggerEnter(Collider other)
         {
-            if (collision.gameObject.tag == "Player")
-            {
-                PlaySound();
-            }
+            if (other.gameObject.tag == "Player") PlaySound();
         }
         #endregion
 

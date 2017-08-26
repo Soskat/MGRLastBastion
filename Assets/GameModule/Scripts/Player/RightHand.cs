@@ -1,4 +1,5 @@
-﻿using LastBastion.Biofeedback;
+﻿using LastBastion.Analytics;
+using LastBastion.Biofeedback;
 using LastBastion.Game.Managers;
 using LastBastion.Game.ObjectInteraction;
 using System.Collections;
@@ -8,19 +9,27 @@ using UnityEngine;
 namespace LastBastion.Game.Player
 {
     /// <summary>
-    /// Component that represents Player's right hand.
+    /// Component that represents player's right hand.
     /// </summary>
     [RequireComponent(typeof(Animator))]
     public class RightHand : Hand
     {
         #region Private fields
+        /// <summary>Time since last blink of flashlight's light.</summary>
         [SerializeField] private int timeSinceLastBlink = 0;
+        /// <summary>Time since last blink-to-death of flashlight's light.</summary>
         [SerializeField] private int timeSinceLastBlinkToDeath = 0;
+        /// <summary>The equipped flashlight.</summary>
         private Flashlight flashlight;
+        /// <summary>Animator component.</summary>
         private Animator animator;
+        /// <summary>The animator's state of hiding flashlight.</summary>
         private int flashlightHideAnimState;
+        /// <summary>The animator's state of drawing flashlight.</summary>
         private int flashlightDrawAnimState;
+        /// <summary>The animator's state of reviving flashlight.</summary>
         private int flashlightReviveAnimState;
+        /// <summary>Current FPS value.</summary>
         private float deltaTime;
         #endregion
 
@@ -39,7 +48,7 @@ namespace LastBastion.Game.Player
             deltaTime = 1.0f / Time.deltaTime;
 
             // if biofeedback is off set up the blink events at random time:
-            if (!GameManager.instance.BBModule.IsEnabled)
+            if (GameManager.instance.BiofeedbackMode == BiofeedbackMode.BiofeedbackOFF || !GameManager.instance.BBModule.IsEnabled)
             {
                 StartCoroutine(BlinkFlashlight());
                 StartCoroutine(BlinkFlashlightToDeath());
@@ -64,10 +73,7 @@ namespace LastBastion.Game.Player
                     flashlight.IsBusy = true;
                     StartCoroutine(TurnOffFlashlightOnOutro());
                 }
-                if (flashlight.IsDead)
-                {
-                    StartCoroutine(HideFlashlightOnOutro());
-                }
+                if (flashlight.IsDead) StartCoroutine(HideFlashlightOnOutro());
                 return;
             }
 
@@ -80,7 +86,7 @@ namespace LastBastion.Game.Player
             if (Input.GetKeyDown(KeyCode.R)) SwitchLight();
 
             // update game mechanics based on player's current arousal:
-            if (GameManager.instance.BBModule.IsEnabled)
+            if (GameManager.instance.BiofeedbackMode == BiofeedbackMode.BiofeedbackON && GameManager.instance.BBModule.IsEnabled)
             {
                 deltaTime = 1.0f / Time.deltaTime;
                 switch (GameManager.instance.BBModule.ArousalState)
@@ -226,7 +232,7 @@ namespace LastBastion.Game.Player
         /// <returns>Time in seconds</returns>
         private int GetRandomSecondsLongRange()
         {
-            return Random.Range(120, 180);
+            return Random.Range(90, 150);
         }
 
         /// <summary>
@@ -240,15 +246,16 @@ namespace LastBastion.Game.Player
         }
 
         /// <summary>
-        /// Hides flashlight during outro after small delay.
+        /// Hides flashlight during outro after delay.
         /// </summary>
         /// <returns></returns>
         private IEnumerator HideFlashlightOnOutro()
         {
+            flashlight.IsDead = false;
+            flashlight.IsBusy = false;
             yield return new WaitForSeconds(Random.Range(3, 5));
             animator.applyRootMotion = false;
             animator.Play(flashlightHideAnimState);
-            flashlight.IsDead = false;
         }
         #endregion
     }

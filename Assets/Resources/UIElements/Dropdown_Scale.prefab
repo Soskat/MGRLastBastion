@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 222505467078711602}
   - component: {fileID: 114302410151483672}
   - component: {fileID: 114956887421738888}
+  - component: {fileID: 114594741464586602}
   m_Layer: 5
   m_Name: Dropdown_Scale
   m_TagString: Untagged
@@ -430,6 +431,18 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Scrollbar+ScrollEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114594741464586602
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1013845325694730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b814d47e7be386c4888240646864be4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WasAnswered: 0
 --- !u!114 &114636748796702004
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -11,7 +11,7 @@ namespace LastBastion.Game.Managers
     public class RunesManager : MonoBehaviour
     {
         #region Private fields
-        [SerializeField] private List<RuneHolder> runeHolders;
+        private List<RuneHolder> runeHolders;
         private int collectedRunes;
         #endregion
 
@@ -29,6 +29,7 @@ namespace LastBastion.Game.Managers
         void Start()
         {
             collectedRunes = 0;
+            runeHolders = new List<RuneHolder>();
             runeHolders.AddRange(GetComponentsInChildren<RuneHolder>());
         }
         #endregion

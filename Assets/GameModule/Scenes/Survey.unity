@@ -139,8 +139,6 @@ MonoBehaviour:
   backToMainMenuButton: {fileID: 1855071622}
   questionnairePC: {fileID: 2022965537}
   filePath: 
-  Survey:
-    Questions: []
 --- !u!4 &440474616
 Transform:
   m_ObjectHideFlags: 0

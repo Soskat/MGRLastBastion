@@ -54,14 +54,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fabcab515ecc940449a7f92868a59e00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highlightColor: {r: 1, g: 0.6901961, b: 0, a: 1}
-  hintColor: {r: 1, g: 0.9430147, b: 0.8161765, a: 1}
+  highlightColor: {r: 0, g: 0.5862069, b: 1, a: 1}
+  hintColor: {r: 0.6129598, g: 1, b: 0.39705884, a: 1}
   interactionRange: 2
   hintRange: 4
   metalDoorSqueak: []
   woodenDoorSqueak: []
   footstepsGravel: []
-  plotGoalsPath: 
   goals:
     Set: []
 --- !u!114 &114397083664327078
@@ -100,12 +99,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3210d02ad6d1b5744ba32618fbba34a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugMode: 0
+  biofeedbackMode: 1
   currentLevelID: 0
   gameLevels: []
   currentCalculationTypeID: 0
   calculationTypes: 01000000
+  DebugMode: 0
+  ChosenLanguage: 0
   AnalyticsEnabled: 1
+  ActiveRoom: {fileID: 0}
 --- !u!114 &114784912383324130
 MonoBehaviour:
   m_ObjectHideFlags: 1

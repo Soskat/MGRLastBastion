@@ -23,7 +23,7 @@ namespace LastBastion.Game.Managers
 
 
         #region Private fields
-        [SerializeField] private bool debugMode = false;
+        [SerializeField] private BiofeedbackMode biofeedbackMode = BiofeedbackMode.BiofeedbackON;
         [SerializeField] private int currentLevelID = -1;
         [SerializeField] private string[] gameLevels;
         [SerializeField] private int currentCalculationTypeID = 0;
@@ -37,9 +37,9 @@ namespace LastBastion.Game.Managers
 
         #region Public fields & properties
         /// <summary>Is debug mode on?</summary>
-        public bool DebugMode { get { return debugMode; } }
-        /// <summary>Choosen game language.</summary>
-        public GameLanguage ChoosenLanguage;
+        public bool DebugMode;
+        /// <summary>Chosen game language.</summary>
+        public GameLanguage ChosenLanguage;
         /// <summary>Instance of <see cref="BandBridgeModule"/> class.</summary>
         public BandBridgeModule BBModule { get; set; }
         /// <summary>Instance of <see cref="AssetManager"/> class.</summary>
@@ -50,12 +50,12 @@ namespace LastBastion.Game.Managers
         public ListController ListController { get; set; }
         /// <summary>Active method of calculating player's arousal.</summary>
         public CalculationType CurrentCalculationType { get { return calculationTypes[currentCalculationTypeID]; } }
-        /// <summary>Current game mode.</summary>
-        public GameMode GameMode { get; set; }
+        /// <summary>Current biofeedback mode.</summary>
+        public BiofeedbackMode BiofeedbackMode { get { return biofeedbackMode; } set { biofeedbackMode = value; } }
         /// <summary>Is analytics module enabled?</summary>
         public bool AnalyticsEnabled = true;
         /// <summary>The Room where player currently is.</summary>
-        public GameObject ActiveRoom { get; set; }
+        public GameObject ActiveRoom;
         /// <summary>IgnoreLight layer number.</summary>
         public int IgnoreLightLayer { get { return ignoreLightLayer; } }
         /// <summary>InteractiveObjects layer number.</summary>
@@ -74,7 +74,7 @@ namespace LastBastion.Game.Managers
         /// <summary>Uses of the lightswitches count.</summary>
         public int LightSwitchUses { get; set; }
         #endregion
-        /// <summary>Informs all objects that choosen language has changed.</summary>
+        /// <summary>Informs all objects that chosen language has changed.</summary>
         public Action UpdatedLanguage { get; set; }
         #endregion
 
@@ -116,7 +116,7 @@ namespace LastBastion.Game.Managers
         /// Gets currently selected item on connected Bands list.
         /// </summary>
         /// <returns>Currently selected Band name</returns>
-        public string GetChoosenBandName()
+        public string GetChosenBandName()
         {
             return ListController.GetSelectedItem();
         }
@@ -157,7 +157,7 @@ namespace LastBastion.Game.Managers
             }
 
             // setup new analysis data:
-            if (AnalyticsEnabled) DataManager.BeginAnalysis(GameMode);
+            if (AnalyticsEnabled) DataManager.BeginAnalysis(BiofeedbackMode);
 
             IsReadyForNewBandData = true;
 
@@ -177,7 +177,23 @@ namespace LastBastion.Game.Managers
 
             // load next scene (or main menu):
             if (currentLevelID < gameLevels.Length) SceneManager.LoadScene(gameLevels[currentLevelID]);
-            else BackToMainMenu();
+            else
+            {
+                // safe info about game mode to PlayerPrefs:
+                if (biofeedbackMode == BiofeedbackMode.BiofeedbackON)
+                {
+                    int biofeedbackOnGames = PlayerPrefs.GetInt("biofeedbackOnGames");
+                    biofeedbackOnGames++;
+                    PlayerPrefs.SetInt("biofeedbackOnGames", biofeedbackOnGames);
+                }
+                else
+                {
+                    int biofeedbackOffGames = PlayerPrefs.GetInt("biofeedbackOffGames");
+                    biofeedbackOffGames++;
+                    PlayerPrefs.SetInt("biofeedbackOffGames", biofeedbackOffGames);
+                }
+                BackToMainMenu();
+            }
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using LastBastion.Game.Managers;
+﻿using LastBastion.Analytics;
+using LastBastion.Game.Managers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -89,7 +90,7 @@ namespace LastBastion.Game.ObjectInteraction
                 if (!wasActivated)
                 {
                     // biofeedback ON:
-                    if (GameManager.instance.BBModule.IsEnabled)
+                    if (GameManager.instance.BiofeedbackMode == BiofeedbackMode.BiofeedbackON && GameManager.instance.BBModule.IsEnabled)
                     {
                         GetComponent<SphereCollider>().radius += GameManager.instance.BBModule.ArousalModifier * distanceToEvent;
                     }
@@ -120,7 +121,7 @@ namespace LastBastion.Game.ObjectInteraction
                     TurnOnTV();
                     // set new radius to sphere trigger:
                     // biofeedback ON:
-                    if (GameManager.instance.BBModule.IsEnabled)
+                    if (GameManager.instance.BiofeedbackMode == BiofeedbackMode.BiofeedbackON && GameManager.instance.BBModule.IsEnabled)
                     {
                         GetComponent<SphereCollider>().radius += GameManager.instance.BBModule.ArousalModifier * activationRange * 2f;
                     }

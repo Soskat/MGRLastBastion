@@ -187,7 +187,7 @@ namespace LastBastion.Game
         /// </summary>
         private void SparksBurst()
         {
-            sparksBurst.Play();
+            if (sparksBurst != null) sparksBurst.Play();
         }
 
         /// <summary>

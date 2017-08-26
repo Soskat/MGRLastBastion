@@ -43,18 +43,20 @@ namespace LastBastion.Biofeedback
             CurrentHr = AverageHr;
             CurrentGsr = AverageGsr;
             GameManager.instance.BBModule.BiofeedbackDataChanged += () => UpdateBiofeedbackVariables();
+            if (isEnabled) GameManager.instance.BBModule.UpdateAverageBiofeedbackData(AverageHr, AverageGsr);
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (isEnabled) GameManager.instance.BBModule.UpdateBiofeedbackData(AverageHr, CurrentHr, AverageGsr, CurrentGsr);
+            //if (isEnabled) GameManager.instance.BBModule.UpdateCurrentBiofeedbackData(AverageHr, CurrentHr, AverageGsr, CurrentGsr);
+            if (isEnabled) GameManager.instance.BBModule.UpdateCurrentBiofeedbackData(CurrentHr, CurrentGsr);
 
             // just for test:
-            if (Input.GetKey(KeyCode.KeypadPlus)) CurrentHr += 1;
-            if (Input.GetKey(KeyCode.KeypadMinus)) CurrentHr -= 1;
-            if (Input.GetKey(KeyCode.Keypad8)) CurrentGsr += 1;
-            if (Input.GetKey(KeyCode.Keypad2)) CurrentGsr -= 1;
+            if (Input.GetKey(KeyCode.KeypadPlus)) CurrentHr = (++CurrentHr > 200) ? 200 : CurrentHr;
+            if (Input.GetKey(KeyCode.KeypadMinus)) CurrentHr = (--CurrentHr < 0) ? 0 : CurrentHr;
+            if (Input.GetKey(KeyCode.Keypad8)) CurrentGsr = (++CurrentGsr > 200) ? 200 : CurrentGsr;
+            if (Input.GetKey(KeyCode.Keypad2)) CurrentGsr = (--CurrentGsr < 0) ? 0 : CurrentGsr;
         }
         #endregion
 

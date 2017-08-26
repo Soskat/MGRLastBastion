@@ -46,15 +46,16 @@ namespace LastBastion.Game.Managers
                                                GameManager.instance.GameTime.Hours,
                                                GameManager.instance.GameTime.Minutes,
                                                GameManager.instance.GameTime.Seconds);
-            // polish is the choosen language:
-            if (GameManager.instance.ChoosenLanguage == GameLanguage.Polish)
+            // polish is the chosen language:
+            if (GameManager.instance.ChosenLanguage == GameLanguage.Polish)
             {
                 // update time achievement:
                 if (GameManager.instance.GameTime.Minutes < 10) timeAchievementTitle = "Szybki & Wściekły >>";
                 else timeAchievementTitle = "Jeszcze momencik >>";
                 timeAchievement.UpdateAchievementData(timeAchievementTitle, elapsedTime);
                 // update runes achievement:
-                if (GameManager.instance.CollectedRunes < GameManager.instance.RunesAmount) runesAchievementTitle = "Szczęśliwy traf >>";
+                if (GameManager.instance.CollectedRunes == 0) runesAchievementTitle = "Ślepiec >>";
+                else if (GameManager.instance.CollectedRunes < GameManager.instance.RunesAmount) runesAchievementTitle = "Szczęśliwy traf >>";
                 else runesAchievementTitle = "Kolekcjoner >>";
                 runesAchievement.UpdateAchievementData(runesAchievementTitle, GameManager.instance.CollectedRunes.ToString());
                 // update rooms achievement:
@@ -62,11 +63,12 @@ namespace LastBastion.Game.Managers
                 else roomsAchievementTitle = "Każdy zakamarek >>";
                 roomsAchievement.UpdateAchievementData(roomsAchievementTitle, GameManager.instance.SearchedRooms.ToString());
                 // update light switch achievement:
-                if (GameManager.instance.LightSwitchUses < 5) lightSwitchAchievementTitle = "To nie ja! >>";
+                if (GameManager.instance.LightSwitchUses == 0) lightSwitchAchievementTitle = "Nie dotykaj tego >>";
+                else if (GameManager.instance.LightSwitchUses < 5) lightSwitchAchievementTitle = "To nie ja! >>";
                 else lightSwitchAchievementTitle = "Beznadziejny klikacz >>";
                 lightSwitchAchievement.UpdateAchievementData(lightSwitchAchievementTitle, GameManager.instance.LightSwitchUses.ToString());
             }
-            // english is the choosen language:
+            // english is the chosen language:
             else
             {
                 // update time achievement:
@@ -74,7 +76,8 @@ namespace LastBastion.Game.Managers
                 else timeAchievementTitle = "One moment please >>";
                 timeAchievement.UpdateAchievementData(timeAchievementTitle, elapsedTime);
                 // update runes achievement:
-                if (GameManager.instance.CollectedRunes < GameManager.instance.RunesAmount) runesAchievementTitle = "Lucky find >>";
+                if (GameManager.instance.CollectedRunes == 0) runesAchievementTitle = "Blind spot >>";
+                else if (GameManager.instance.CollectedRunes < GameManager.instance.RunesAmount) runesAchievementTitle = "Lucky find >>";
                 else runesAchievementTitle = "The Collector >>";
                 runesAchievement.UpdateAchievementData(runesAchievementTitle, GameManager.instance.CollectedRunes.ToString());
                 // update rooms achievement:
@@ -82,7 +85,8 @@ namespace LastBastion.Game.Managers
                 else roomsAchievementTitle = "Every nook & cranny >>";
                 roomsAchievement.UpdateAchievementData(roomsAchievementTitle, GameManager.instance.SearchedRooms.ToString());
                 // update light switch achievement:
-                if (GameManager.instance.LightSwitchUses < 5) lightSwitchAchievementTitle = "It wasn't me! >>";
+                if (GameManager.instance.LightSwitchUses == 0) lightSwitchAchievementTitle = "Dont's touch this >>";
+                else if (GameManager.instance.LightSwitchUses < 5) lightSwitchAchievementTitle = "It wasn't me! >>";
                 else lightSwitchAchievementTitle = "Helpless clicker >>";
                 lightSwitchAchievement.UpdateAchievementData(lightSwitchAchievementTitle, GameManager.instance.LightSwitchUses.ToString());
             }

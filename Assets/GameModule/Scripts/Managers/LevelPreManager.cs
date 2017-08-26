@@ -54,8 +54,9 @@ namespace LastBastion.Game.Managers
         {
 
             // get current Band sensors readings:
-            if (GameManager.instance.BBModule.CanReceiveBandReadings && GameManager.instance.BBModule.IsBandPaired && GameManager.instance.IsReadyForNewBandData)
-            {
+            if (GameManager.instance.BBModule.CanReceiveBandReadings && GameManager.instance.BBModule.IsEnabled && GameManager.instance.IsReadyForNewBandData)
+            //if (GameManager.instance.BBModule.CanReceiveBandReadings && GameManager.instance.BBModule.IsBandPaired && GameManager.instance.IsReadyForNewBandData)
+                {
                 GameManager.instance.BBModule.GetBandData();
                 GameManager.instance.IsReadyForNewBandData = false;
             }
@@ -65,8 +66,9 @@ namespace LastBastion.Game.Managers
             // update sensors readings values:
             if (GameManager.instance.BBModule.IsSensorsReadingsChanged)
             {
-                if (GameManager.instance.BBModule.IsBandPaired)
-                {
+                if (GameManager.instance.BBModule.IsEnabled)
+                //if (GameManager.instance.BBModule.IsBandPaired)
+                    {
                     sensorPanelController.UpdateCurrentReadings(GameManager.instance.BBModule.CurrentHr, GameManager.instance.BBModule.CurrentGsr);
 
                     // save new sensors readings values:

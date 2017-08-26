@@ -18,7 +18,8 @@ namespace LastBastion.Biofeedback
     {
         #region Constants
         /// <summary>Default remote host name.</summary>
-        public const string DefaultHostName = "DESKTOP-KPBRM2V";
+        public const string DefaultHostName = "192.168.0.73";
+        //public const string DefaultHostName = "DESKTOP-KPBRM2V";
         /// <summary>Default remote host service port.</summary>
         public const int DefaultServicePort = 2055;
         #endregion
@@ -50,8 +51,8 @@ namespace LastBastion.Biofeedback
         
 
         #region Public fields & properties
-        /// <summary>Is module enabled?</summary>
-        public bool IsEnabled { get { return isEnabled; } }
+        /// <summary>Is module enabled (taht means isEnabled ang isBandPaired flags are set to true)?</summary>
+        public bool IsEnabled { get { return isEnabled && isBandPaired; } }
         /// <summary>Name of the remote host.</summary>
         public string RemoteHostName
         {
@@ -128,28 +129,6 @@ namespace LastBastion.Biofeedback
         private void Start()
         {
             connectedBands = new List<string>();
-
-            //// refresh connected Bands list periodically:
-            //refresherWorker = new BackgroundWorker();
-            //refresherWorker.WorkerSupportsCancellation = true;
-            //refresherWorker.DoWork += (s, e) =>
-            //{
-            //    while (!e.Cancel)
-            //    {
-            //        Debug.Log("Inside refresherWorker...");
-            //        RefreshList();
-            //        Thread.Sleep(RefreshingTime);
-            //        if (refresherWorker.CancellationPending)
-            //        {
-            //            e.Cancel = true;
-            //        }
-            //    }
-            //};
-            //refresherWorker.RunWorkerCompleted += (s, e) =>
-            //{
-            //    Debug.Log("RefresherWorker work is done");
-            //};
-            //refresherWorker.RunWorkerAsync();
         }
 
         // Sent to all game objects before the application is quit
@@ -178,22 +157,22 @@ namespace LastBastion.Biofeedback
         }
 
         /// <summary>
-        /// Saves info about choosen Band device name.
+        /// Saves info about chosen Band device name.
         /// </summary>
         public void PairBand()
         {
             // first, unpair Band if needed:
             if (PairedBand != null && PairedBand.ToString() != "") UnpairBand();
             // pair with new Band:
-            string newChoosenBand = GameManager.instance.GetChoosenBandName();
-            if (newChoosenBand == null) return;
-            PairedBand.Append(newChoosenBand);
+            string newChosenBand = GameManager.instance.GetChosenBandName();
+            if (newChosenBand == null) return;
+            PairedBand.Append(newChosenBand);
             isBandPaired = true;
             IsPairedBandChanged = true;
         }
 
         /// <summary>
-        /// Removes info about choosen Band device name.
+        /// Removes info about chosen Band device name.
         /// </summary>
         public void UnpairBand()
         {
@@ -208,17 +187,17 @@ namespace LastBastion.Biofeedback
         }
 
         /// <summary>
-        /// Refresh connection with choosen Band.
+        /// Refresh connection with chosen Band.
         /// </summary>
         public void RefreshPairedBand()
         {
-            string choosenBand = PairedBand.ToString();
+            string chosenBand = PairedBand.ToString();
             foreach (string bandName in ConnectedBands)
             {
-                // choosen Band is still connected:
-                if (choosenBand == bandName) return;
+                // chosen Band is still connected:
+                if (chosenBand == bandName) return;
             }
-            // choosen Band is not connected any more:
+            // chosen Band is not connected any more:
             UnpairBand();
         }
 
@@ -239,7 +218,7 @@ namespace LastBastion.Biofeedback
         }
 
         /// <summary>
-        /// Initiates calibration of sensors data on choosen Band.
+        /// Initiates calibration of sensors data on chosen Band.
         /// The result of calibration is the control average value of sensors data from specific range of time.
         /// </summary>
         public void CalibrateBandData()
@@ -308,12 +287,16 @@ namespace LastBastion.Biofeedback
                 case MessageCode.GET_DATA_ANS:
                     if (msg.Result != null && msg.Result.GetType() == typeof(SensorData[]))
                     {
-                        // update sensors data readings:
-                        currentHr = ((SensorData[])msg.Result)[0].Data;
-                        currentGsr = ((SensorData[])msg.Result)[1].Data;
-                        IsSensorsReadingsChanged = true;
+                        //// update sensors data readings:
+                        //currentHr = ((SensorData[])msg.Result)[0].Data;
+                        //currentGsr = ((SensorData[])msg.Result)[1].Data;
+                        //IsSensorsReadingsChanged = true;
+                        //// calculate biofeedback modifiers and assign stated:
+                        //UpdateCurrentBiofeedbackData(averageHr, currentHr, averageGsr, currentGsr);
+
                         // calculate biofeedback modifiers and assign stated:
-                        UpdateBiofeedbackData(averageHr, currentHr, averageGsr, currentGsr);
+                        //UpdateCurrentBiofeedbackData(averageHr, ((SensorData[])msg.Result)[0].Data, averageGsr, ((SensorData[])msg.Result)[1].Data);
+                        UpdateCurrentBiofeedbackData(((SensorData[])msg.Result)[0].Data, ((SensorData[])msg.Result)[1].Data);
                     }
                     break;
 
@@ -322,28 +305,42 @@ namespace LastBastion.Biofeedback
                     if (msg.Result != null && msg.Result.GetType() == typeof(SensorData[]))
                     {
                         // update sensors data readings:
-                        averageHr = ((SensorData[])msg.Result)[0].Data;
-                        averageGsr = ((SensorData[])msg.Result)[1].Data;
+                        //averageHr = ((SensorData[])msg.Result)[0].Data;
+                        //averageGsr = ((SensorData[])msg.Result)[1].Data;
+                        UpdateAverageBiofeedbackData(((SensorData[])msg.Result)[0].Data, ((SensorData[])msg.Result)[1].Data);
                         IsAverageReadingsChanged = true;
                         canReceiveBandReadings = true;
                     }
                     break;
 
-                default:
-                    break;
+                default: break;
             }
         }
 
         /// <summary>
-        /// Updates biofeedback data.
+        /// Updates average biofeedback data values.
         /// </summary>
-        public void UpdateBiofeedbackData(int averageHr, int currentHr, int averageGsr, int currentGsr)
+        public void UpdateAverageBiofeedbackData(int averageHr, int averageGsr)
         {
-            // update HR data:
+            this.averageHr = averageHr;
+            this.averageGsr = averageGsr;
+        }
+
+        /// <summary>
+        /// Updates current biofeedback data values.
+        /// </summary>
+        public void UpdateCurrentBiofeedbackData(int currentHr, int currentGsr)
+        //public void UpdateCurrentBiofeedbackData(int averageHr, int currentHr, int averageGsr, int currentGsr)
+        {
+            // update current HR and GSR values:
+            this.currentHr = currentHr;
+            this.currentGsr = currentGsr;
+            IsSensorsReadingsChanged = true;
+            // update HR modifier & state:
             hrModifier = (float)currentHr / averageHr;
             if (hrModifier < 0.5f) hrModifier = 0.5f;   // prevents hrModifier from getting too small values
             hrState = hrLevel.AssignState(hrModifier);
-            // update GSR data:
+            // update GSR modifier & state:
             gsrModifier = (float)currentGsr / averageGsr;
             if (gsrModifier < 0.5f) gsrModifier = 0.5f; //prevents gsrModifier from getting too small values
             gsrState = gsrLevel.AssignState(gsrModifier);
@@ -354,16 +351,16 @@ namespace LastBastion.Biofeedback
                 if (hrState == DataState.High || gsrState == DataState.High) arousalState = DataState.High;
                 else if (hrState == DataState.Low || gsrState == DataState.Low) arousalState = DataState.Low;
                 else arousalState = DataState.Medium;
-
-                arousalModifier = Mathf.Min(hrModifier, gsrModifier);
+                // alternative -> maximum value:
+                arousalModifier = Mathf.Max(hrModifier, gsrModifier);
             }
             else if (GameManager.instance.CurrentCalculationType == CalculationType.Conjunction)
             {
                 if (hrState == DataState.High && gsrState == DataState.High) arousalState = DataState.High;
                 else if (hrState == DataState.Low && gsrState == DataState.Low) arousalState = DataState.Low;
                 else arousalState = DataState.Medium;
-
-                arousalModifier = Mathf.Max(hrModifier, gsrModifier);
+                // conjunction -> minimum value:
+                arousalModifier = Mathf.Min(hrModifier, gsrModifier);
             }
             // inform that biofeedback data has changed:
             BiofeedbackDataChanged();

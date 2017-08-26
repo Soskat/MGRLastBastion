@@ -46,11 +46,7 @@ namespace LastBastion.Game.UIControllers
             question = _question;
             questionContent.text = question.Content;
             // open question:
-            if (question.AnswerType == QuestionType.Open)
-            {
-                answerHolder = GetComponentInChildren<InputField>().gameObject;
-                GetComponentInParent<QuestionnairePanelController>().ChangeAnswer(1);   // mark that open question already has been done (empty answer)
-            }
+            if (question.AnswerType == QuestionType.Open) answerHolder = GetComponentInChildren<InputField>().gameObject;
             // closed question:
             else if(answerHolderObject != null)
             {
@@ -82,7 +78,9 @@ namespace LastBastion.Game.UIControllers
 
                     default: break;
                 }
-                answerHolder.GetComponent<Dropdown>().onValueChanged.AddListener(GetComponentInParent<QuestionnairePanelController>().ChangeAnswer);
+                answerHolder.GetComponent<Dropdown>().onValueChanged.AddListener(
+                    delegate { GetComponentInParent<QuestionnairePanelController>().OnDropdonwValueChanged(answerHolder.GetComponent<Dropdown>()); }
+                );
             }
         }
 
@@ -93,7 +91,7 @@ namespace LastBastion.Game.UIControllers
         {
             if (question.AnswerType == QuestionType.Open) question.Answer = answerHolder.GetComponent<InputField>().text;
             // value - 1 because first option is always empty:
-            else question.Answer = (answerHolder.GetComponent<Dropdown>().value - 1).ToString();
+            else question.Answer = answerHolder.GetComponent<Dropdown>().value.ToString();
         }
         #endregion
     }

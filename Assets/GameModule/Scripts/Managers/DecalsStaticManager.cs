@@ -1,17 +1,21 @@
-﻿using UnityEngine;
+﻿using LastBastion.Analytics;
+using UnityEngine;
 using UnityEngine.Assertions;
 
 
 namespace LastBastion.Game.Managers
 {
     /// <summary>
-    /// Component that represents static decals that exist on scene.
+    /// Component that manages visibility of static decals that exist on scene.
     /// </summary>
     public class DecalsStaticManager : MonoBehaviour
     {
         #region Private fields
+        /// <summary>Game object with light decals objects as children.</summary>
         [SerializeField] private GameObject decalsLight;
+        /// <summary>Game object with hard decals objects as children.</summary>
         [SerializeField] private GameObject decalsHard;
+        /// <summary>Has the decals manager been activated?</summary>
         [SerializeField] private bool wasActivated = false;
         #endregion
 
@@ -44,14 +48,15 @@ namespace LastBastion.Game.Managers
 
         #region Public methods
         /// <summary>
-        /// Activates decals set based on current player's biofeedback state.
+        /// Activates sets of decals.
         /// </summary>
         public void ActivateDecals()
         {
-            if (WasActivated || GameManager.instance.ActiveRoom.GetComponentInChildren<LightManager>().LightsOn) return;
+            if (WasActivated || (GameManager.instance.ActiveRoom.GetComponentInChildren<LightManager>() != null &&
+                GameManager.instance.ActiveRoom.GetComponentInChildren<LightManager>().LightsOn)) return;
 
             // biofeedback on:
-            if (GameManager.instance.BBModule.IsEnabled)
+            if (GameManager.instance.BiofeedbackMode == BiofeedbackMode.BiofeedbackON && GameManager.instance.BBModule.IsEnabled)
             {
                 // activate decals set based on player's biofeedback:
                 switch (GameManager.instance.BBModule.ArousalState)

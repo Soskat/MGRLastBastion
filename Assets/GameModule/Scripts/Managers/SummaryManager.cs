@@ -52,8 +52,8 @@ namespace LastBastion.Game.Managers
                 backToMainMenuButton.gameObject.SetActive(false);
             }
 
-            // update GUI based on choosen game language:
-            if (GameManager.instance.ChoosenLanguage == GameLanguage.Polish)
+            // update GUI based on chosen game language:
+            if (GameManager.instance.ChosenLanguage == GameLanguage.Polish)
             {
                 summaryHeadline.text = "Podsumowanie rozgrywki";
                 nextLevelText.text = "Następna scena rozpocznie się za:";
