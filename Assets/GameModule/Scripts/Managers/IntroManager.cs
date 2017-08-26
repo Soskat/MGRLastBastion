@@ -71,8 +71,8 @@ namespace LastBastion.Game.Managers
             // start calibration data:
             if (GameManager.instance.BBModule.IsBandPaired) GameManager.instance.BBModule.CalibrateBandData();
             calibrationLabel.SetActive(true);
-            // load intro text based on choosen language:
-            if (GameManager.instance.ChoosenLanguage == GameLanguage.Polish) introFilePath = Application.streamingAssetsPath + "/Resources/TextData/intro_pl.json";
+            // load intro text based on chosen language:
+            if (GameManager.instance.ChosenLanguage == GameLanguage.Polish) introFilePath = Application.streamingAssetsPath + "/Resources/TextData/intro_pl.json";
             else introFilePath = Application.streamingAssetsPath + "/Resources/TextData/intro_eng.json";
             introText = LoadIntroTextFromFile(introFilePath);
             if (introText == null)

@@ -74,8 +74,8 @@ namespace LastBastion.Game.Managers
             if (GameManager.instance.AnalyticsEnabled) analyticsDropdown.value = 0;
             else analyticsDropdown.value = 1;
             
-            // update choosen game language and language toggles:
-            GameManager.instance.ChoosenLanguage = GameLanguage.Default;
+            // update chosen game language and language toggles:
+            GameManager.instance.ChosenLanguage = GameLanguage.Default;
             togglePolish.isOn = !(toggleEnglish.isOn = true);
             GameManager.instance.UpdatedLanguage();
             
@@ -182,7 +182,7 @@ namespace LastBastion.Game.Managers
             // if toggle is on change game language:
             if (toggle.isOn && toggle.GetComponent<AssignedLanguage>() != null)
             {
-                GameManager.instance.ChoosenLanguage = toggle.GetComponent<AssignedLanguage>().Language;
+                GameManager.instance.ChosenLanguage = toggle.GetComponent<AssignedLanguage>().Language;
                 GameManager.instance.UpdatedLanguage();
             }
         }

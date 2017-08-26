@@ -204,8 +204,8 @@ namespace LastBastion.Game.Managers
             runesManager.CollectRune();
             // show update info:
             StopAllCoroutines();
-            // choosen language is polish:
-            if (GameManager.instance.ChoosenLanguage == GameLanguage.Polish)
+            // chosen language is polish:
+            if (GameManager.instance.ChosenLanguage == GameLanguage.Polish)
             {
                 if (runesManager.CollectedRunes == 1)
                     StartCoroutine(ShowPlotInfoPanel("Znaleziono runę", "Zebrałeś " + runesManager.CollectedRunes + " runę"));
@@ -213,7 +213,7 @@ namespace LastBastion.Game.Managers
                     StartCoroutine(ShowPlotInfoPanel("Znaleziono runę", "Zebrałeś " + runesManager.CollectedRunes + " runy"));
                 else StartCoroutine(ShowPlotInfoPanel("Znaleziono runę", "Zebrałeś " + runesManager.CollectedRunes + " run"));
             }
-            // choosen language is english:
+            // chosen language is english:
             else
             {
                 if (runesManager.CollectedRunes > 1) StartCoroutine(ShowPlotInfoPanel("Rune found", "You have collected " + runesManager.CollectedRunes + " runes"));
@@ -270,9 +270,9 @@ namespace LastBastion.Game.Managers
                 currentGoal = newGoal;
                 // show update info:
                 StopAllCoroutines();
-                // choosen language is polish:
-                if (GameManager.instance.ChoosenLanguage == GameLanguage.Polish) StartCoroutine(ShowPlotInfoPanel("Aktualizacja celu", currentGoal.Content));
-                // choosen language is english:
+                // chosen language is polish:
+                if (GameManager.instance.ChosenLanguage == GameLanguage.Polish) StartCoroutine(ShowPlotInfoPanel("Aktualizacja celu", currentGoal.Content));
+                // chosen language is english:
                 else StartCoroutine(ShowPlotInfoPanel("Goal update", currentGoal.Content));
                 // if newGoal is the last goal, activate rune orbs:
                 if (CurrentGoalIsTheOrbGoal) runesManager.ActivateOrbs();
@@ -285,9 +285,9 @@ namespace LastBastion.Game.Managers
         public void ShowCurrentGoal()
         {
             StopAllCoroutines();
-            // choosen language is polish:
-            if (GameManager.instance.ChoosenLanguage == GameLanguage.Polish) StartCoroutine(ShowPlotInfoPanel("Cel", currentGoal.Content));
-            // choosen language is english:
+            // chosen language is polish:
+            if (GameManager.instance.ChosenLanguage == GameLanguage.Polish) StartCoroutine(ShowPlotInfoPanel("Cel", currentGoal.Content));
+            // chosen language is english:
             else StartCoroutine(ShowPlotInfoPanel("Goal", currentGoal.Content));
         }
 

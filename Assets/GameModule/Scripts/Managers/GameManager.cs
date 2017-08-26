@@ -39,8 +39,8 @@ namespace LastBastion.Game.Managers
         #region Public fields & properties
         /// <summary>Is debug mode on?</summary>
         public bool DebugMode { get { return debugMode; } }
-        /// <summary>Choosen game language.</summary>
-        public GameLanguage ChoosenLanguage;
+        /// <summary>Chosen game language.</summary>
+        public GameLanguage ChosenLanguage;
         /// <summary>Instance of <see cref="BandBridgeModule"/> class.</summary>
         public BandBridgeModule BBModule { get; set; }
         /// <summary>Instance of <see cref="AssetManager"/> class.</summary>
@@ -75,7 +75,7 @@ namespace LastBastion.Game.Managers
         /// <summary>Uses of the lightswitches count.</summary>
         public int LightSwitchUses { get; set; }
         #endregion
-        /// <summary>Informs all objects that choosen language has changed.</summary>
+        /// <summary>Informs all objects that chosen language has changed.</summary>
         public Action UpdatedLanguage { get; set; }
         #endregion
 
@@ -117,7 +117,7 @@ namespace LastBastion.Game.Managers
         /// Gets currently selected item on connected Bands list.
         /// </summary>
         /// <returns>Currently selected Band name</returns>
-        public string GetChoosenBandName()
+        public string GetChosenBandName()
         {
             return ListController.GetSelectedItem();
         }

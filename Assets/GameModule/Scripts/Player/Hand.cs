@@ -13,7 +13,9 @@ namespace LastBastion.Game.Player
     public class Hand : MonoBehaviour
     {
         #region Private fields
-        private DataState lastState;
+        /// <summary>Last arousal state.</summary>
+        private DataState lastArousalState;
+        /// <summary>Is shaking on?</summary>
         private bool shakeOn;
         #endregion
 
@@ -22,7 +24,7 @@ namespace LastBastion.Game.Player
         // Use this for initialization
         protected void Start()
         {
-            lastState = DataState.None;
+            lastArousalState = DataState.None;
             shakeOn = false;
             // biofeedback off:
             if (GameManager.instance.BiofeedbackMode == BiofeedbackMode.BiofeedbackOFF || !GameManager.instance.BBModule.IsEnabled) StartCoroutine(Shake());
@@ -33,11 +35,11 @@ namespace LastBastion.Game.Player
         {
             // biofeedback on:
             if (GameManager.instance.BiofeedbackMode == BiofeedbackMode.BiofeedbackON && GameManager.instance.BBModule.IsEnabled)
-                {
+            {
                 if (GameManager.instance.BBModule.ArousalState == DataState.High)
                 {
                     shakeOn = true;
-                    if (lastState != DataState.High)
+                    if (lastArousalState != DataState.High)
                     {
                         // save info about start of the shaking event:
                         if (GameManager.instance.AnalyticsEnabled) LevelManager.instance.AddGameEvent(Analytics.EventType.Shaking);
@@ -45,7 +47,7 @@ namespace LastBastion.Game.Player
                 }
                 else shakeOn = false;
                 // update last state variable:
-                lastState = GameManager.instance.BBModule.ArousalState;
+                lastArousalState = GameManager.instance.BBModule.ArousalState;
             }
 
             // simulate hand shaking:
@@ -69,7 +71,6 @@ namespace LastBastion.Game.Player
         private IEnumerator Shake()
         {
             yield return new WaitForSeconds(Random.Range(60, 120));
-            Debug.Log("Random shake event");
             shakeOn = true;
             // save info about start of the shaking event:
             if (GameManager.instance.AnalyticsEnabled) LevelManager.instance.AddGameEvent(Analytics.EventType.Shaking);

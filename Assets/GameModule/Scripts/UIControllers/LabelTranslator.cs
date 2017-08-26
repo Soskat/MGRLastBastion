@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace LastBastion.Game.UIControllers
 {
     /// <summary>
-    /// Component that translates Text content of UI element based on choosen game language.
+    /// Component that translates Text content of UI element based on chosen game language.
     /// </summary>
     [RequireComponent(typeof(Text))]
     public class LabelTranslator : MonoBehaviour
@@ -29,12 +29,12 @@ namespace LastBastion.Game.UIControllers
 
         #region Private methods
         /// <summary>
-        /// Updates label content with text in choosen game language.
+        /// Updates label content with text in chosen game language.
         /// </summary>
         private void UpdateLabelLanguage()
         {
             if (this == null) return;
-            switch (GameManager.instance.ChoosenLanguage)
+            switch (GameManager.instance.ChosenLanguage)
             {
                 case GameLanguage.Polish:
                     if (textInPolish == "") goto default;

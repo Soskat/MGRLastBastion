@@ -156,22 +156,22 @@ namespace LastBastion.Biofeedback
         }
 
         /// <summary>
-        /// Saves info about choosen Band device name.
+        /// Saves info about chosen Band device name.
         /// </summary>
         public void PairBand()
         {
             // first, unpair Band if needed:
             if (PairedBand != null && PairedBand.ToString() != "") UnpairBand();
             // pair with new Band:
-            string newChoosenBand = GameManager.instance.GetChoosenBandName();
-            if (newChoosenBand == null) return;
-            PairedBand.Append(newChoosenBand);
+            string newChosenBand = GameManager.instance.GetChosenBandName();
+            if (newChosenBand == null) return;
+            PairedBand.Append(newChosenBand);
             isBandPaired = true;
             IsPairedBandChanged = true;
         }
 
         /// <summary>
-        /// Removes info about choosen Band device name.
+        /// Removes info about chosen Band device name.
         /// </summary>
         public void UnpairBand()
         {
@@ -186,17 +186,17 @@ namespace LastBastion.Biofeedback
         }
 
         /// <summary>
-        /// Refresh connection with choosen Band.
+        /// Refresh connection with chosen Band.
         /// </summary>
         public void RefreshPairedBand()
         {
-            string choosenBand = PairedBand.ToString();
+            string chosenBand = PairedBand.ToString();
             foreach (string bandName in ConnectedBands)
             {
-                // choosen Band is still connected:
-                if (choosenBand == bandName) return;
+                // chosen Band is still connected:
+                if (chosenBand == bandName) return;
             }
-            // choosen Band is not connected any more:
+            // chosen Band is not connected any more:
             UnpairBand();
         }
 
@@ -217,7 +217,7 @@ namespace LastBastion.Biofeedback
         }
 
         /// <summary>
-        /// Initiates calibration of sensors data on choosen Band.
+        /// Initiates calibration of sensors data on chosen Band.
         /// The result of calibration is the control average value of sensors data from specific range of time.
         /// </summary>
         public void CalibrateBandData()

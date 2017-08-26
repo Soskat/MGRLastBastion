@@ -8,18 +8,25 @@ using UnityEngine;
 namespace LastBastion.Game.Managers
 {
     /// <summary>
-    /// Component that manages lights switching logic based on player's biofeedback.
+    /// Component that manages logic of switching lights in area based on player's biofeedback.
     /// </summary>
     [RequireComponent(typeof(BoxCollider))]
     public class LightManager : MonoBehaviour
     {
         #region Private fields
+        /// <summary>Is light manager active?</summary>
         [SerializeField] private bool isActive = false;
+        /// <summary>Is light switched on?</summary>
         [SerializeField] private bool lightsOn = false;
+        /// <summary>Are lights broken?</summary>
         [SerializeField] private bool lightsBroken = false;
+        /// <summary>Is light manager busy?</summary>
         [SerializeField] private bool isBusy = false;
+        /// <summary>Base delay for cooldown.</summary>
         [SerializeField] private float baseDelay = 10f;
+        /// <summary>List of light sources in area.</summary>
         [SerializeField] private List<LightSource> lights;
+        /// <summary>Has something happened during current frame?</summary>
         private bool somethingHappened;
         #endregion
 
@@ -190,7 +197,7 @@ namespace LastBastion.Game.Managers
         }
 
         /// <summary>
-        /// Sets <see cref="isBusy"/> flag to true for specific time.
+        /// Sets <see cref="isBusy"/> flag to true for specific period of time.
         /// </summary>
         /// <param name="cooldownTime">Time to wait</param>
         /// <returns></returns>
@@ -205,7 +212,7 @@ namespace LastBastion.Game.Managers
 
         #region Public methods
         /// <summary>
-        /// Switches the lights ON/OFF state.
+        /// Switches all child lights' ON/OFF state.
         /// </summary>
         public void SwitchLights()
         {

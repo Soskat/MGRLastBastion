@@ -46,8 +46,8 @@ namespace LastBastion.Game.Managers
                                                GameManager.instance.GameTime.Hours,
                                                GameManager.instance.GameTime.Minutes,
                                                GameManager.instance.GameTime.Seconds);
-            // polish is the choosen language:
-            if (GameManager.instance.ChoosenLanguage == GameLanguage.Polish)
+            // polish is the chosen language:
+            if (GameManager.instance.ChosenLanguage == GameLanguage.Polish)
             {
                 // update time achievement:
                 if (GameManager.instance.GameTime.Minutes < 10) timeAchievementTitle = "Szybki & Wściekły >>";
@@ -68,7 +68,7 @@ namespace LastBastion.Game.Managers
                 else lightSwitchAchievementTitle = "Beznadziejny klikacz >>";
                 lightSwitchAchievement.UpdateAchievementData(lightSwitchAchievementTitle, GameManager.instance.LightSwitchUses.ToString());
             }
-            // english is the choosen language:
+            // english is the chosen language:
             else
             {
                 // update time achievement:
