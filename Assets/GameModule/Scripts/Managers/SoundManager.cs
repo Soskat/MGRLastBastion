@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using LastBastion.Game;
+
 
 namespace LastBastion.Game.Managers
 {
@@ -14,15 +16,15 @@ namespace LastBastion.Game.Managers
     {
         #region Private fields
         [SerializeField] private bool isActive = false;
+        [SerializeField] private bool isBusy = false;
         [SerializeField] private float startDelay = 10f;
         [SerializeField] private List<AudioClip> soundsHard;
         [SerializeField] private List<AudioClip> soundsLight;
         private GameObject choosenSoundSource;
         private AudioClip choosenAudioClip;
-        private bool isBusy = false;
         private float cooldownTime = 1f;
         #endregion
-        
+
 
         #region MonoBehaviour methods
         // Use this for initialization
@@ -36,6 +38,12 @@ namespace LastBastion.Game.Managers
         {
             // if level outro is playing, skip all calculations:
             if (LevelManager.instance.IsOutroOn) return;
+            
+            // debug mode:
+            if (GameManager.instance.DebugMode && isActive && isBusy)
+            {
+                Debug.DrawLine(LevelManager.instance.Player.transform.position, FindBestSoundSource().transform.position, Color.green);
+            }
 
             if (isActive && !isBusy)
             {
@@ -46,15 +54,11 @@ namespace LastBastion.Game.Managers
                     {
                         // play light sound:
                         choosenAudioClip = soundsLight[Random.Range(0, soundsLight.Count)];
-
-                        Debug.Log(gameObject + " -> played BIOFEEDBACK - LIGHT sound");//---------------------------------------------------------------------------------
                     }
                     else
                     {
                         // play hard sound:
                         choosenAudioClip = soundsHard[Random.Range(0, soundsHard.Count)];
-
-                        Debug.Log(gameObject + " -> played BIOFEEDBACK - HARD sound");//---------------------------------------------------------------------------------
                     }
                     cooldownTime = startDelay * GameManager.instance.BBModule.ArousalModifier;
                 }
@@ -66,8 +70,6 @@ namespace LastBastion.Game.Managers
                     if (x == 0) choosenAudioClip = soundsLight[Random.Range(0, soundsLight.Count)];
                     else choosenAudioClip = soundsHard[Random.Range(0, soundsHard.Count)];
                     cooldownTime = startDelay * Random.Range(0.5f, 1.5f);
-
-                    Debug.Log(gameObject + " -> played RANDOM sound");//---------------------------------------------------------------------------------
                 }
                 
                 choosenSoundSource = FindBestSoundSource();
@@ -79,18 +81,13 @@ namespace LastBastion.Game.Managers
                 // save info about event:
                 if (GameManager.instance.AnalyticsEnabled) LevelManager.instance.AddGameEvent(Analytics.EventType.Sound);
             }
-
-            // debug mode:
-            if (GameManager.instance.DebugMode && isActive)
-            {
-                Debug.DrawLine(LevelManager.instance.Player.transform.position, FindBestSoundSource().transform.position, Color.magenta);
-            }
         }
 
         // OnTriggerEnter is called when the Collider other enters the trigger
         private void OnTriggerEnter(Collider other)
         {
             isActive = true;
+            isBusy = false;
         }
 
         // OnTriggerExit is called when the Collider other has stopped touching the trigger

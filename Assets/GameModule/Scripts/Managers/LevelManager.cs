@@ -37,6 +37,7 @@ namespace LastBastion.Game.Managers
         #region Achievements counters:
         [SerializeField] private int searchedRooms = 0;
         [SerializeField] private int lightSwitchUses = 0;
+        [SerializeField] private bool renderManagerOn = false;
         #endregion
         private Stopwatch stopwatch;
         private TimeSpan currentTime;
@@ -67,6 +68,8 @@ namespace LastBastion.Game.Managers
         public bool IsOutroOn { get; set; }
         /// <summary>Is game paused?</summary>
         public bool IsPaused { get { return menuOn; } }
+        /// <summary>Is render manager on?</summary>
+        public bool RenderManagerOn { get { return renderManagerOn; } }
         #endregion
 
 
@@ -149,6 +152,8 @@ namespace LastBastion.Game.Managers
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
             }
+
+            if (Input.GetKeyDown(KeyCode.Y)) renderManagerOn = (renderManagerOn) ? false : true;
 
             // read input:
             if (!Player.GetComponent<InteractionController>().IsFocused && !IsOutroOn && Input.GetKeyDown(KeyCode.Q)) ShowCurrentGoal();

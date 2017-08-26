@@ -39,18 +39,18 @@ namespace LastBastion.Game.Player
             // calculate current fps value:
             deltaTime = 1.0f / Time.deltaTime;
 
-            // if biofeedback is off set up the blink events at random time:
-            if (GameManager.instance.BiofeedbackMode == BiofeedbackMode.BiofeedbackOFF || !GameManager.instance.BBModule.IsEnabled)
-            {
-                StartCoroutine(BlinkFlashlight());
-                StartCoroutine(BlinkFlashlightToDeath());
-            }
-            // if biofeedback is on set up initial counters values:
-            else
-            {
-                timeSinceLastBlink = GetRandomSecondsShortRange() * (int)deltaTime;
-                timeSinceLastBlinkToDeath = GetRandomSecondsLongRange() * (int)deltaTime;
-            }
+            //// if biofeedback is off set up the blink events at random time:
+            //if (GameManager.instance.BiofeedbackMode == BiofeedbackMode.BiofeedbackOFF || !GameManager.instance.BBModule.IsEnabled)
+            //{
+            //    StartCoroutine(BlinkFlashlight());
+            //    StartCoroutine(BlinkFlashlightToDeath());
+            //}
+            //// if biofeedback is on set up initial counters values:
+            //else
+            //{
+            //    timeSinceLastBlink = GetRandomSecondsShortRange() * (int)deltaTime;
+            //    timeSinceLastBlinkToDeath = GetRandomSecondsLongRange() * (int)deltaTime;
+            //}
         }
 
         // Update is called once per frame
@@ -80,34 +80,34 @@ namespace LastBastion.Game.Player
             // manage game input: -------------------------------------------------------------
             if (Input.GetKeyDown(KeyCode.R)) SwitchLight();
 
-            // update game mechanics based on player's current arousal:
-            if (GameManager.instance.BiofeedbackMode == BiofeedbackMode.BiofeedbackON && GameManager.instance.BBModule.IsEnabled)
-            {
-                deltaTime = 1.0f / Time.deltaTime;
-                switch (GameManager.instance.BBModule.ArousalState)
-                {
-                    case DataState.High:
-                        if (flashlight.LightOn && timeSinceLastBlink > 0) timeSinceLastBlink--;
-                        if (flashlight.LightOn && !flashlight.IsBusy && timeSinceLastBlink <= 0)
-                        {
-                            StartCoroutine(flashlight.Blink(true));
-                            timeSinceLastBlink = GetRandomSecondsShortRange() * (int)deltaTime;
-                        }
-                        break;
+            //// update game mechanics based on player's current arousal:
+            //if (GameManager.instance.BiofeedbackMode == BiofeedbackMode.BiofeedbackON && GameManager.instance.BBModule.IsEnabled)
+            //{
+            //    deltaTime = 1.0f / Time.deltaTime;
+            //    switch (GameManager.instance.BBModule.ArousalState)
+            //    {
+            //        case DataState.High:
+            //            if (flashlight.LightOn && timeSinceLastBlink > 0) timeSinceLastBlink--;
+            //            if (flashlight.LightOn && !flashlight.IsBusy && timeSinceLastBlink <= 0)
+            //            {
+            //                StartCoroutine(flashlight.Blink(true));
+            //                timeSinceLastBlink = GetRandomSecondsShortRange() * (int)deltaTime;
+            //            }
+            //            break;
 
-                    case DataState.Medium:
-                    case DataState.Low:
-                        if (flashlight.LightOn && timeSinceLastBlinkToDeath > 0) timeSinceLastBlinkToDeath--;
-                        if (flashlight.LightOn && !flashlight.IsBusy && timeSinceLastBlinkToDeath <= 0)
-                        {
-                            StartCoroutine(flashlight.BlinkToDeath());
-                            timeSinceLastBlinkToDeath = GetRandomSecondsLongRange() * (int)deltaTime;
-                        }
-                        break;
+            //        case DataState.Medium:
+            //        case DataState.Low:
+            //            if (flashlight.LightOn && timeSinceLastBlinkToDeath > 0) timeSinceLastBlinkToDeath--;
+            //            if (flashlight.LightOn && !flashlight.IsBusy && timeSinceLastBlinkToDeath <= 0)
+            //            {
+            //                StartCoroutine(flashlight.BlinkToDeath());
+            //                timeSinceLastBlinkToDeath = GetRandomSecondsLongRange() * (int)deltaTime;
+            //            }
+            //            break;
 
-                    default: break;
-                }
-            }
+            //        default: break;
+            //    }
+            //}
 
             // manual test: ---------------------------
             if (GameManager.instance.DebugMode)
