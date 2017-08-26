@@ -56,7 +56,7 @@ namespace LastBastion.Game.Managers
         /// <summary>Is analytics module enabled?</summary>
         public bool AnalyticsEnabled = true;
         /// <summary>The Room where player currently is.</summary>
-        public GameObject ActiveRoom { get; set; }
+        public GameObject ActiveRoom;
         /// <summary>IgnoreLight layer number.</summary>
         public int IgnoreLightLayer { get { return ignoreLightLayer; } }
         /// <summary>InteractiveObjects layer number.</summary>

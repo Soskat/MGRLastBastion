@@ -67,7 +67,7 @@ namespace LastBastion.Game.Managers
                         // play hard sound:
                         chosenAudioClip = soundsHard[Random.Range(0, soundsHard.Count)];
                     }
-                    cooldownTime = startDelay * GameManager.instance.BBModule.ArousalModifier;
+                    cooldownTime = startDelay * 1.5f * GameManager.instance.BBModule.ArousalModifier;
                 }
                 // biofeedback OFF:
                 else
@@ -76,7 +76,7 @@ namespace LastBastion.Game.Managers
                     int x = Random.Range(0, 2);
                     if (x == 0) chosenAudioClip = soundsLight[Random.Range(0, soundsLight.Count)];
                     else chosenAudioClip = soundsHard[Random.Range(0, soundsHard.Count)];
-                    cooldownTime = startDelay * Random.Range(0.5f, 1.5f);
+                    cooldownTime = startDelay * Random.Range(0.5f, 2.0f);
                 }
                 
                 chosenSoundSource = FindBestSoundSource();

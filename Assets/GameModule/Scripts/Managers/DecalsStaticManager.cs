@@ -6,13 +6,16 @@ using UnityEngine.Assertions;
 namespace LastBastion.Game.Managers
 {
     /// <summary>
-    /// Component that represents static decals that exist on scene.
+    /// Component that manages visibility of static decals that exist on scene.
     /// </summary>
     public class DecalsStaticManager : MonoBehaviour
     {
         #region Private fields
+        /// <summary>Game object with light decals objects as children.</summary>
         [SerializeField] private GameObject decalsLight;
+        /// <summary>Game object with hard decals objects as children.</summary>
         [SerializeField] private GameObject decalsHard;
+        /// <summary>Has the decals manager been activated?</summary>
         [SerializeField] private bool wasActivated = false;
         #endregion
 
@@ -45,7 +48,7 @@ namespace LastBastion.Game.Managers
 
         #region Public methods
         /// <summary>
-        /// Activates decals set based on current player's biofeedback state.
+        /// Activates sets of decals.
         /// </summary>
         public void ActivateDecals()
         {

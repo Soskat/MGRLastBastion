@@ -50,8 +50,8 @@ namespace LastBastion.Biofeedback
         
 
         #region Public fields & properties
-        /// <summary>Is module enabled?</summary>
-        public bool IsEnabled { get { return isEnabled; } }
+        /// <summary>Is module enabled (taht means isEnabled ang isBandPaired flags are set to true)?</summary>
+        public bool IsEnabled { get { return isEnabled && isBandPaired; } }
         /// <summary>Name of the remote host.</summary>
         public string RemoteHostName
         {

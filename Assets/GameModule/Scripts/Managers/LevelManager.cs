@@ -166,7 +166,8 @@ namespace LastBastion.Game.Managers
 
             // manage biofeedback: ===============================================
             // get current Band sensors readings:
-            if (GameManager.instance.BBModule.IsBandPaired && GameManager.instance.BBModule.CanReceiveBandReadings && GameManager.instance.IsReadyForNewBandData)
+            if (GameManager.instance.BBModule.IsEnabled && GameManager.instance.BBModule.CanReceiveBandReadings && GameManager.instance.IsReadyForNewBandData)
+            //if (GameManager.instance.BBModule.IsBandPaired && GameManager.instance.BBModule.CanReceiveBandReadings && GameManager.instance.IsReadyForNewBandData)
             {
                 GameManager.instance.BBModule.GetBandData();
                 GameManager.instance.IsReadyForNewBandData = false;
@@ -345,7 +346,8 @@ namespace LastBastion.Game.Managers
         {
             currentTime = stopwatch.Elapsed;
             DataManager.AddGameEvent(eventType, currentTime, value);
-            if (GameManager.instance.BBModule.IsBandPaired) AddBiofeedbackEvents(currentTime);
+            if (GameManager.instance.BBModule.IsEnabled) AddBiofeedbackEvents(currentTime);
+            //if (GameManager.instance.BBModule.IsBandPaired) AddBiofeedbackEvents(currentTime);
         }
 
         /// <summary>

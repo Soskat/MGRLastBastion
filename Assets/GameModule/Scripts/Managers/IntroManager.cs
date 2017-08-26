@@ -69,7 +69,8 @@ namespace LastBastion.Game.Managers
             menuOn = false;
             menuPanel.SetActive(menuOn);            
             // start calibration data:
-            if (GameManager.instance.BBModule.IsBandPaired) GameManager.instance.BBModule.CalibrateBandData();
+            if (GameManager.instance.BBModule.IsEnabled) GameManager.instance.BBModule.CalibrateBandData();
+            //if (GameManager.instance.BBModule.IsBandPaired) GameManager.instance.BBModule.CalibrateBandData();
             calibrationLabel.SetActive(true);
             // load intro text based on chosen language:
             if (GameManager.instance.ChosenLanguage == GameLanguage.Polish) introFilePath = Application.streamingAssetsPath + "/Resources/TextData/intro_pl.json";
