@@ -70,6 +70,7 @@ GameObject:
   - component: {fileID: 222047798462859006}
   - component: {fileID: 114627800375473308}
   - component: {fileID: 114031519683351310}
+  - component: {fileID: 114844124536081254}
   m_Layer: 5
   m_Name: Dropdown_Age
   m_TagString: Untagged
@@ -632,6 +633,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114844124536081254
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1226152421632116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b814d47e7be386c4888240646864be4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WasAnswered: 0
 --- !u!114 &114898542044053580
 MonoBehaviour:
   m_ObjectHideFlags: 1

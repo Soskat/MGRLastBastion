@@ -91,19 +91,6 @@ namespace LastBastion.Game.UIControllers
             currentPageIndex = (--currentPageIndex < 0) ? 0 : currentPageIndex;
             pages[currentPageIndex].gameObject.SetActive(true);
         }
-        
-        /// <summary>
-        /// Changes if player answered to all of the survey questions.
-        /// </summary>
-        /// <param name="selectedIndex">Index of selected answer in dropdown menu</param>
-        public void ChangeAnswer(int selectedIndex)
-        {
-            if (selectedIndex > 0) givenAnswers++;
-            else givenAnswers--;
-
-            if (givenAnswers == GameManager.instance.SurveyManager.Survey.Questions.Count) GameManager.instance.SurveyManager.SetActiveEndSceneButton(true);
-            else GameManager.instance.SurveyManager.SetActiveEndSceneButton(false);
-        }
 
         /// <summary>
         /// Prevents from switching to empty option from dropdown menu.
@@ -115,6 +102,14 @@ namespace LastBastion.Game.UIControllers
             {
                 dropdown.options.RemoveAt(0);
                 dropdown.value -= 1;
+            }
+            // inform that answer was given:
+            if (!dropdown.gameObject.GetComponent<AnswerRecord>().WasAnswered)
+            {
+                dropdown.gameObject.GetComponent<AnswerRecord>().WasAnswered = true;
+                givenAnswers++;
+                if (givenAnswers == GameManager.instance.SurveyManager.Survey.Questions.Count - 1) GameManager.instance.SurveyManager.SetActiveEndSceneButton(true);
+                Debug.Log(" :new answer");
             }
         }
 
