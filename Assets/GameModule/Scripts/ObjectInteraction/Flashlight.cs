@@ -1,5 +1,4 @@
 ﻿using LastBastion.Game.Managers;
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -13,11 +12,17 @@ namespace LastBastion.Game.ObjectInteraction
     public class Flashlight : MonoBehaviour
     {
         #region Private fields
+        /// <summary>Is light on?</summary>
         [SerializeField] private bool lightOn = false;
+        /// <summary>Game object that represents the flashlight's light ray.</summary>
         [SerializeField] private GameObject lightRay;
+        /// <summary>Sound of switching flashlight on.</summary>
         [SerializeField] private AudioClip switchOnSound;
+        /// <summary>Sound of switching flashlight off.</summary>
         [SerializeField] private AudioClip switchOffSound;
+        /// <summary>Sound of flashlight hitting something.</summary>
         [SerializeField] private AudioClip hitSound;
+        /// <summary>Assigned audio source.</summary>
         private AudioSource audioSource;
         #endregion
 
@@ -74,21 +79,21 @@ namespace LastBastion.Game.ObjectInteraction
         }
 
         /// <summary>
-        /// Turns off the light.
-        /// </summary>
-        public void TurnOffLight()
-        {
-            lightOn = false;
-            lightRay.SetActive(false);
-        }
-
-        /// <summary>
         /// Turns on the light.
         /// </summary>
         public void TurnOnLight()
         {
             lightOn = true;
             lightRay.SetActive(true);
+        }
+
+        /// <summary>
+        /// Turns off the light.
+        /// </summary>
+        public void TurnOffLight()
+        {
+            lightOn = false;
+            lightRay.SetActive(false);
         }
 
         /// <summary>
@@ -110,6 +115,7 @@ namespace LastBastion.Game.ObjectInteraction
         /// <summary>
         /// Simulates light blinking.
         /// </summary>
+        /// <param name="isFinallyLightOn">Is light turned on after blinking?</param>
         /// <returns></returns>
         public IEnumerator Blink(bool isFinallyLightOn)
         {
