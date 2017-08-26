@@ -18,7 +18,8 @@ namespace LastBastion.Biofeedback
     {
         #region Constants
         /// <summary>Default remote host name.</summary>
-        public const string DefaultHostName = "DESKTOP-KPBRM2V";
+        public const string DefaultHostName = "192.168.0.73";
+        //public const string DefaultHostName = "DESKTOP-KPBRM2V";
         /// <summary>Default remote host service port.</summary>
         public const int DefaultServicePort = 2055;
         #endregion

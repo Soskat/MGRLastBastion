@@ -109,7 +109,6 @@ namespace LastBastion.Game.UIControllers
                 dropdown.gameObject.GetComponent<AnswerRecord>().WasAnswered = true;
                 givenAnswers++;
                 if (givenAnswers == GameManager.instance.SurveyManager.Survey.Questions.Count - 1) GameManager.instance.SurveyManager.SetActiveEndSceneButton(true);
-                Debug.Log(" :new answer");
             }
         }
 

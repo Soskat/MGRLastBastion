@@ -259,6 +259,11 @@ Prefab:
       propertyPath: debugMode
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114689790144993052, guid: 47271ac3843b94a47a5c74fab94e7a7f,
+        type: 2}
+      propertyPath: ChosenLanguage
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 47271ac3843b94a47a5c74fab94e7a7f, type: 2}
   m_IsPrefabParent: 0
@@ -459,6 +464,43 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114942863642342550, guid: 05a4415e4e1191b429e8a9202d870d83,
+        type: 2}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 33e7be05e762ed94fbab3fd6b7cd680f,
+        type: 3}
+    - target: {fileID: 114942863642342550, guid: 05a4415e4e1191b429e8a9202d870d83,
+        type: 2}
+      propertyPath: m_Text
+      value: "Powr\xF3t do Menu"
+      objectReference: {fileID: 0}
+    - target: {fileID: 114783788289347462, guid: 05a4415e4e1191b429e8a9202d870d83,
+        type: 2}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 33e7be05e762ed94fbab3fd6b7cd680f,
+        type: 3}
+    - target: {fileID: 114783788289347462, guid: 05a4415e4e1191b429e8a9202d870d83,
+        type: 2}
+      propertyPath: m_Text
+      value: Next level
+      objectReference: {fileID: 0}
+    - target: {fileID: 114783788289347462, guid: 05a4415e4e1191b429e8a9202d870d83,
+        type: 2}
+      propertyPath: m_FontData.m_FontSize
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 114942863642342550, guid: 05a4415e4e1191b429e8a9202d870d83,
+        type: 2}
+      propertyPath: m_FontData.m_FontSize
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 114103833356597938, guid: 05a4415e4e1191b429e8a9202d870d83,
+        type: 2}
+      propertyPath: textInEnglish
+      value: Back to Menu
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 05a4415e4e1191b429e8a9202d870d83, type: 2}
   m_IsPrefabParent: 0
@@ -474,6 +516,24 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 1132683128}
   m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+--- !u!1 &1132683131 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1379074469973508, guid: 05a4415e4e1191b429e8a9202d870d83,
+    type: 2}
+  m_PrefabInternal: {fileID: 1132683128}
+--- !u!114 &1132683132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1132683131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ca451c12395ff84dbd6f2399ab0b44e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textInEnglish: Summary of the game
+  textInPolish: Podsumowanie rozgrywki
 --- !u!114 &1178481239 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114430484418028878, guid: 05a4415e4e1191b429e8a9202d870d83,

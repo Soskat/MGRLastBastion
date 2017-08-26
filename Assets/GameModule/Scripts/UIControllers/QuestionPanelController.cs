@@ -91,7 +91,7 @@ namespace LastBastion.Game.UIControllers
         {
             if (question.AnswerType == QuestionType.Open) question.Answer = answerHolder.GetComponent<InputField>().text;
             // value - 1 because first option is always empty:
-            else question.Answer = (answerHolder.GetComponent<Dropdown>().value - 1).ToString();
+            else question.Answer = answerHolder.GetComponent<Dropdown>().value.ToString();
         }
         #endregion
     }
