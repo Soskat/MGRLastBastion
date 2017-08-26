@@ -108,11 +108,6 @@ NavMeshSettings:
     tileSize: 256
     accuratePlacement: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &4710206 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1279262781859710, guid: 3669c4b6a9afad64f9a04760c432f1d7,
-    type: 2}
-  m_PrefabInternal: {fileID: 515877346}
 --- !u!1 &4710207 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1360319542183264, guid: 3669c4b6a9afad64f9a04760c432f1d7,
@@ -475,6 +470,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3669c4b6a9afad64f9a04760c432f1d7, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &515877347 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114720218307896914, guid: 3669c4b6a9afad64f9a04760c432f1d7,
+    type: 2}
+  m_PrefabInternal: {fileID: 515877346}
+  m_Script: {fileID: 853051423, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!114 &590476720 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114277446542647934, guid: 3669c4b6a9afad64f9a04760c432f1d7,
@@ -539,14 +540,24 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 114255921525577998, guid: 251a4707aedd5f8479c56256dfee92b9,
         type: 2}
-      propertyPath: gameType
+      propertyPath: autoGameTypeToggle
       value: 
-      objectReference: {fileID: 4710206}
+      objectReference: {fileID: 1917910905}
     - target: {fileID: 114255921525577998, guid: 251a4707aedd5f8479c56256dfee92b9,
         type: 2}
-      propertyPath: analytics
+      propertyPath: gameTypeDropdown
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 515877347}
+    - target: {fileID: 114255921525577998, guid: 251a4707aedd5f8479c56256dfee92b9,
+        type: 2}
+      propertyPath: analyticsToggle
+      value: 
+      objectReference: {fileID: 590476720}
+    - target: {fileID: 114255921525577998, guid: 251a4707aedd5f8479c56256dfee92b9,
+        type: 2}
+      propertyPath: debugModeToggle
+      value: 
+      objectReference: {fileID: 152686286}
     - target: {fileID: 114255921525577998, guid: 251a4707aedd5f8479c56256dfee92b9,
         type: 2}
       propertyPath: settingsPanel
@@ -572,21 +583,6 @@ Prefab:
       propertyPath: togglePolish
       value: 
       objectReference: {fileID: 1285816339}
-    - target: {fileID: 114255921525577998, guid: 251a4707aedd5f8479c56256dfee92b9,
-        type: 2}
-      propertyPath: autoGameTypeToggle
-      value: 
-      objectReference: {fileID: 1917910905}
-    - target: {fileID: 114255921525577998, guid: 251a4707aedd5f8479c56256dfee92b9,
-        type: 2}
-      propertyPath: analyticsToggle
-      value: 
-      objectReference: {fileID: 590476720}
-    - target: {fileID: 114255921525577998, guid: 251a4707aedd5f8479c56256dfee92b9,
-        type: 2}
-      propertyPath: debugModeToggle
-      value: 
-      objectReference: {fileID: 152686286}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 251a4707aedd5f8479c56256dfee92b9, type: 2}
   m_IsPrefabParent: 0

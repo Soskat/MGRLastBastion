@@ -23,28 +23,49 @@ namespace LastBastion.Game.Managers
 
 
         #region Private fields
+        /// <summary>Name of the level.</summary>
         [SerializeField] private LevelName levelName;
+        /// <summary>Limit of runes amount.</summary>
         [SerializeField] private int runesLimit = 0;
+        /// <summary>Current goal of the game.</summary>
         [SerializeField] private Goal currentGoal;
+        /// <summary>End game instruction panel object.</summary>
         [SerializeField] private GameObject endGameTriggerPanel;
+        /// <summary>Goal update panel object.</summary>
         [SerializeField] private GameObject goalUpdatePanel;
+        /// <summary>In-game menu panel object.</summary>
         [SerializeField] private GameObject menuPanel;
+        /// <summary>'Resume' button in in-game menu.</summary>
         [SerializeField] private Button resumeButton;
+        /// <summary>'Back to main menu' button in in-game menu.</summary>
         [SerializeField] private Button backToMainMenuButton;
+        /// <summary>'Skip' button in in-game menu (debug mode only).</summary>
         [SerializeField] private Button skipLevelButton;
+        /// <summary>Headline text of the goal update panel.</summary>
         [SerializeField] private Text goalUpdateHeadlineText;
+        /// <summary>Content text of the goal update panel.</summary>
         [SerializeField] private Text goalUpdateContentText;
         #region Achievements counters:
+        /// <summary>Amount of searched rooms.</summary>
         [SerializeField] private int searchedRooms = 0;
+        /// <summary>Amount of used light switches.</summary>
         [SerializeField] private int lightSwitchUses = 0;
-        [SerializeField] private bool renderManagerOn = false;
         #endregion
+        /// <summary>Is render manager on?</summary>
+        [SerializeField] private bool renderManagerOn = false;
+        /// <summary>Stopwatch object.</summary>
         private Stopwatch stopwatch;
+        /// <summary>Current time.</summary>
         private TimeSpan currentTime;
+        /// <summary>Game object that represents the Player.</summary>
         private GameObject player;
-        private PlayerAudioManager playerBiofeedback;
+        /// <summary>Player's audio manager component.</summary>
+        private PlayerAudioManager playerAudioManager;
+        /// <summary>Component that manages runes.</summary>
         private RunesManager runesManager;
+        /// <summary>Amount of activated runes.</summary>
         private int activatedRunes;
+        /// <summary>Is in-game menu on?</summary>
         private bool menuOn;
         #endregion
 
@@ -59,7 +80,7 @@ namespace LastBastion.Game.Managers
         /// <summary>Reference to player game object.</summary>
         public GameObject Player { get { return player; } }
         /// <summary>Reference to player's BiofeedbackController component.</summary>
-        public PlayerAudioManager PlayerBiofeedback { get { return playerBiofeedback; } }
+        public PlayerAudioManager PlayerBiofeedback { get { return playerAudioManager; } }
         /// <summary>Reference to RuneManager instance.</summary>
         public RunesManager RuneManager { get { return runesManager; } }
         /// <summary>Is current goal the last one?</summary>
@@ -82,7 +103,7 @@ namespace LastBastion.Game.Managers
             {
                 instance = this;
                 player = GameObject.FindGameObjectWithTag("Player");
-                playerBiofeedback = player.GetComponent<PlayerAudioManager>();
+                playerAudioManager = player.GetComponent<PlayerAudioManager>();
                 GameObject go = GameObject.FindGameObjectWithTag("RunesManager");
                 if (go != null) runesManager = go.GetComponent<RunesManager>();
                 IsOutroOn = false;
@@ -136,7 +157,6 @@ namespace LastBastion.Game.Managers
             // save level info:
             if (GameManager.instance.AnalyticsEnabled)
             {
-                //DataManager.AddLevelInfo(levelName, GameManager.instance.CurrentCalculationType, GameManager.instance.BBModule.AverageHr, GameManager.instance.BBModule.AverageGsr);
                 DataManager.AddLevelInfo(levelName, GameManager.instance.CurrentCalculationType);
                 DataManager.AddGameEvent(Analytics.EventType.GameStart, stopwatch.Elapsed);
             }
@@ -167,18 +187,17 @@ namespace LastBastion.Game.Managers
             // manage biofeedback: ===============================================
             // get current Band sensors readings:
             if (GameManager.instance.BBModule.IsEnabled && GameManager.instance.BBModule.CanReceiveBandReadings && GameManager.instance.IsReadyForNewBandData)
-            //if (GameManager.instance.BBModule.IsBandPaired && GameManager.instance.BBModule.CanReceiveBandReadings && GameManager.instance.IsReadyForNewBandData)
             {
                 GameManager.instance.BBModule.GetBandData();
                 GameManager.instance.IsReadyForNewBandData = false;
             }
             // update sensors readings values:
-            if (GameManager.instance.BBModule.IsSensorsReadingsChanged)
+            if (GameManager.instance.BBModule.SensorsReadingsChanged)
             {
                 // save new sensors readings values:
                 if (GameManager.instance.AnalyticsEnabled) AddBiofeedbackEvents();
                 // reset flags:
-                GameManager.instance.BBModule.IsSensorsReadingsChanged = false;
+                GameManager.instance.BBModule.SensorsReadingsChanged = false;
                 GameManager.instance.IsReadyForNewBandData = true;
             }
         }
@@ -265,7 +284,6 @@ namespace LastBastion.Game.Managers
         /// <param name="newGoal">The new goal</param>
         public void UpdatePlotGoal(Goal newGoal)
         {
-            //UnityEngine.Debug.Log("New goal content: " + newGoal.Content + " (weight: " + newGoal.Weight + ")");
             if (newGoal.Weight > currentGoal.Weight)
             {
                 currentGoal = newGoal;
@@ -323,10 +341,7 @@ namespace LastBastion.Game.Managers
         public void EndLevel()
         {
             stopwatch.Stop();
-            if (GameManager.instance.AnalyticsEnabled)
-            {
-                DataManager.AddGameEvent(Analytics.EventType.GameEnd, stopwatch.Elapsed);
-            }
+            if (GameManager.instance.AnalyticsEnabled) DataManager.AddGameEvent(Analytics.EventType.GameEnd, stopwatch.Elapsed);
             // save achievements progress:
             GameManager.instance.GameTime = stopwatch.Elapsed;
             GameManager.instance.CollectedRunes = runesManager.CollectedRunes;
@@ -347,7 +362,6 @@ namespace LastBastion.Game.Managers
             currentTime = stopwatch.Elapsed;
             DataManager.AddGameEvent(eventType, currentTime, value);
             if (GameManager.instance.BBModule.IsEnabled) AddBiofeedbackEvents(currentTime);
-            //if (GameManager.instance.BBModule.IsBandPaired) AddBiofeedbackEvents(currentTime);
         }
 
         /// <summary>

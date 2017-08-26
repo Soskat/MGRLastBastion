@@ -17,17 +17,29 @@ namespace LastBastion.Game.Managers
     public class IntroManager : MonoBehaviour
     {
         #region Private fields
+        /// <summary>In-game menu panel object.</summary>
         [SerializeField] private GameObject menuPanel;
+        /// <summary>'Resume' button of in-game menu.</summary>
         [SerializeField] private Button resumeButton;
+        /// <summary>'Back to main menu' button of in-game menu.</summary>
         [SerializeField] private Button backToMainMenuButton;
+        /// <summary>'Skip' button of in-game menu (debug mode only).</summary>
         [SerializeField] private Button skipIntroButton;
+        /// <summary>Calibration info label object.</summary>
         [SerializeField] private GameObject calibrationLabel;
+        /// <summary>UI Text panel for the introduction story.</summary>
         [SerializeField] private Text introTextUI;
+        /// <summary>Path to a file with content of the introduction story.</summary>
         [SerializeField] private string introFilePath;
+        /// <summary>Sound of opening metal gate.</summary>
         [SerializeField] private AudioClip metalGateOpeningSound;
+        /// <summary>Object that contains introduction text.</summary>
         private IntroText introText;
+        /// <summary>Assigned audio source component.</summary>
         private AudioSource audioSource;
+        /// <summary>Is in-game menu on?</summary>
         private bool menuOn;
+        /// <summary>Has intro ended?</summary>
         private bool introHasEnded;
         #endregion
 
@@ -61,7 +73,7 @@ namespace LastBastion.Game.Managers
                 // safe calibration data:
                 if (GameManager.instance.AnalyticsEnabled)
                 {
-                    DataManager.AddCalibrationData(InfoType.Avg_HR_GSR, GameManager.instance.BBModule.AverageHr, GameManager.instance.BBModule.AverageGsr);
+                    DataManager.AddCalibrationData(GameManager.instance.BBModule.AverageHr, GameManager.instance.BBModule.AverageGsr);
                 }
                 GameManager.instance.LoadNextLevel();
             });
@@ -70,7 +82,6 @@ namespace LastBastion.Game.Managers
             menuPanel.SetActive(menuOn);            
             // start calibration data:
             if (GameManager.instance.BBModule.IsEnabled) GameManager.instance.BBModule.CalibrateBandData();
-            //if (GameManager.instance.BBModule.IsBandPaired) GameManager.instance.BBModule.CalibrateBandData();
             calibrationLabel.SetActive(true);
             // load intro text based on chosen language:
             if (GameManager.instance.ChosenLanguage == GameLanguage.Polish) introFilePath = Application.streamingAssetsPath + "/Resources/TextData/intro_pl.json";
@@ -106,11 +117,7 @@ namespace LastBastion.Game.Managers
                 introTextUI.text = "( Loading game level )";
 
                 // safe calibration data:
-                if (GameManager.instance.AnalyticsEnabled)
-                {
-                    DataManager.AddCalibrationData(InfoType.Avg_HR_GSR, GameManager.instance.BBModule.AverageHr, GameManager.instance.BBModule.AverageGsr);
-                }
-
+                if (GameManager.instance.AnalyticsEnabled) DataManager.AddCalibrationData(GameManager.instance.BBModule.AverageHr, GameManager.instance.BBModule.AverageGsr);
                 GameManager.instance.LoadNextLevel();
             }
 
@@ -221,7 +228,7 @@ namespace LastBastion.Game.Managers
         }
 
         /// <summary>
-        /// Simulates footsteps on gravel sounds in the background.
+        /// Simulates sounds of footsteps on gravel in the background.
         /// </summary>
         /// <param name="textDuration">Duration of introduction text</param>
         /// <param name="delay">Delay at the beginning</param>
@@ -278,7 +285,6 @@ namespace LastBastion.Game.Managers
             yield return new WaitForEndOfFrame();
         }
         #endregion
-
         #endregion
     }
 }

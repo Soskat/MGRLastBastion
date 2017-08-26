@@ -1,7 +1,7 @@
 ﻿namespace LastBastion.Biofeedback
 {
     /// <summary>
-    /// Describes the height of biofeedback data levels.
+    /// Represents the biofeedback state levels.
     /// </summary>
     public enum DataState : short
     {

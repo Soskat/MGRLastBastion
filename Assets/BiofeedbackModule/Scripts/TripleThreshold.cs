@@ -11,9 +11,9 @@ namespace LastBastion.Biofeedback
     {
         #region Public properties
         /// <summary>Maximum value of <see cref="DataState.Low"/> state.</summary>
-        public float Low = 0.7f;
+        public float Low = 0.9f;
         /// <summary>Maximum value of <see cref="DataState.Medium"/> state.</summary>
-        public float Medium = 1.3f;
+        public float Medium = 1.2f;
         /// <summary>Maximum value of <see cref="DataState.High"/> state.</summary>
         public float High = 2.0f;
         #endregion
@@ -21,7 +21,7 @@ namespace LastBastion.Biofeedback
 
         #region Public methods
         /// <summary>
-        /// Assign <see cref="DataState"/> stated to given value.
+        /// Assigns a <see cref="DataState"/> state based on given value.
         /// </summary>
         /// <param name="value">Input value</param>
         /// <returns>Assigned <see cref="DataState"/> state</returns>

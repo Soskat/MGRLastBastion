@@ -51,8 +51,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac86fd66487244345bf41797d465e452, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameType: {fileID: 0}
-  analytics: {fileID: 0}
+  autoGameTypeToggle: {fileID: 0}
+  gameTypeDropdown: {fileID: 0}
+  analyticsToggle: {fileID: 0}
+  debugModeToggle: {fileID: 0}
   settingsPanel: {fileID: 0}
   bbMenuPanel: {fileID: 0}
   listViewport: {fileID: 0}
+  toggleEnglish: {fileID: 0}
+  togglePolish: {fileID: 0}

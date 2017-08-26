@@ -16,20 +16,29 @@ namespace LastBastion.Game.Managers
     public class MainMenuManager : MonoBehaviour
     {
         #region Private fields
+        /// <summary>Auto-choose game type toggle.</summary>
         [SerializeField] private Toggle autoGameTypeToggle;
-        [SerializeField] private GameObject gameType;
-        //[SerializeField] private GameObject analytics;
+        /// <summary>Dropdown menu with game types options.</summary>
+        [SerializeField] private Dropdown gameTypeDropdown;
+        /// <summary>Analytics toggle.</summary>
         [SerializeField] private Toggle analyticsToggle;
+        /// <summary>Debug mode toggle.</summary>
         [SerializeField] private Toggle debugModeToggle;
+        /// <summary>Settings panel object.</summary>
         [SerializeField] private GameObject settingsPanel;
+        /// <summary>BandBridge menu panel object.</summary>
         [SerializeField] private GameObject bbMenuPanel;
+        /// <summary>List viewport object.</summary>
         [SerializeField] private GameObject listViewport;
+        /// <summary>English language toggle.</summary>
         [SerializeField] private Toggle toggleEnglish;
+        /// <summary>Polish language toggle.</summary>
         [SerializeField] private Toggle togglePolish;
+        /// <summary>Game type options.</summary>
         private GameMode[] gameTypes = { GameMode.ModeA, GameMode.ModeB };
-        private Dropdown gameTypeDropdown;
-        private Dropdown analyticsDropdown;
+        /// <summary>Component that manages UI interaction of BandBridge panel.</summary>
         private BandBridgeMenuController bbMenuController;
+        /// <summary>Component that manages UI interaction of list viewport.</summary>
         private ListController listController;
         #endregion
 
@@ -39,7 +48,7 @@ namespace LastBastion.Game.Managers
         private void Awake()
         {
             Assert.IsNotNull(autoGameTypeToggle);
-            Assert.IsNotNull(gameType);
+            Assert.IsNotNull(gameTypeDropdown);
             Assert.IsNotNull(analyticsToggle);
             Assert.IsNotNull(debugModeToggle);
             Assert.IsNotNull(settingsPanel);
@@ -55,8 +64,7 @@ namespace LastBastion.Game.Managers
             bbMenuController = bbMenuPanel.GetComponent<BandBridgeMenuController>();
             listController = listViewport.GetComponent<ListController>();
             GameManager.instance.ListController = listController;
-            // add game type dropdown:
-            gameTypeDropdown = gameType.GetComponent<Dropdown>();
+            // add options to game type dropdown:
             List<string> gameOptions = new List<string>();
             foreach (var option in gameTypes) gameOptions.Add(option.ToString());
             gameTypeDropdown.AddOptions(gameOptions);
@@ -71,12 +79,6 @@ namespace LastBastion.Game.Managers
             // if autoGameModeToggle is on, disable gameTypeDropdown:
             autoGameTypeToggle.isOn = true;
             SetAutoGameMode(autoGameTypeToggle);
-
-            //// add analytics dropdown:
-            //analyticsDropdown = analytics.GetComponent<Dropdown>();
-            //analyticsDropdown.AddOptions(new List<string>() { "enabled", "disabled" });
-            //if (GameManager.instance.AnalyticsEnabled) analyticsDropdown.value = 0;
-            //else analyticsDropdown.value = 1;
 
             // set up analytics and debug mode toggles:
             analyticsToggle.isOn = GameManager.instance.AnalyticsEnabled;
@@ -95,11 +97,11 @@ namespace LastBastion.Game.Managers
         void Update()
         {
             // update the list of connected Bands if needed:
-            if (GameManager.instance.BBModule.IsConnectedBandsListChanged)
+            if (GameManager.instance.BBModule.ConnectedBandsListChanged)
             {
                 listController.ClearList();
                 listController.UpdateList(GameManager.instance.BBModule.ConnectedBands.ToArray());
-                GameManager.instance.BBModule.IsConnectedBandsListChanged = false;
+                GameManager.instance.BBModule.ConnectedBandsListChanged = false;
                 GameManager.instance.IsReadyForNewBandData = true;
             }
 
@@ -116,7 +118,7 @@ namespace LastBastion.Game.Managers
 
         #region Public methods
         /// <summary>
-        /// Starts new game.
+        /// Starts a new game.
         /// </summary>
         public void StartNewGame()
         {
@@ -132,15 +134,13 @@ namespace LastBastion.Game.Managers
             // get analytics and debug mode toggles values:
             GameManager.instance.AnalyticsEnabled = analyticsToggle.isOn;
             GameManager.instance.DebugMode = debugModeToggle.isOn;
-            //if (analyticsDropdown.value == 0) GameManager.instance.AnalyticsEnabled = true;
-            //else if (analyticsDropdown.value == 1) GameManager.instance.AnalyticsEnabled = false;
 
             // start new game:
             GameManager.instance.StartNewGame();
         }
 
         /// <summary>
-        /// Turn on settings menu panel.
+        /// Turns on settings menu panel.
         /// </summary>
         public void TurnOnSettingsMenu()
         {
@@ -148,7 +148,7 @@ namespace LastBastion.Game.Managers
         }
 
         /// <summary>
-        /// Turn off settings menu panel.
+        /// Turns off settings menu panel.
         /// </summary>
         public void TurnOffSettingsMenu()
         {
@@ -189,7 +189,7 @@ namespace LastBastion.Game.Managers
         /// <summary>
         /// Sets game language based on language assigned to given toggle.
         /// </summary>
-        /// <param name="toggle">Toggle</param>
+        /// <param name="toggle">Language toggle</param>
         public void SetGameLanguage(Toggle toggle)
         {
             // if toggle is on change game language:
@@ -200,7 +200,10 @@ namespace LastBastion.Game.Managers
             }
         }
 
-
+        /// <summary>
+        /// Sets auto-choose mode of game mode if given toggle is on.
+        /// </summary>
+        /// <param name="toggle">Toggle</param>
         public void SetAutoGameMode(Toggle toggle)
         {
             if (toggle.isOn) gameTypeDropdown.enabled = false;

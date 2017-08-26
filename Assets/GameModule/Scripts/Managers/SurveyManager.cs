@@ -15,16 +15,21 @@ namespace LastBastion.Game.Managers
     public class SurveyManager : MonoBehaviour
     {
         #region Private fields
+        /// <summary>Button object that ends current scene.</summary>
         [SerializeField] private Button endSceneButton;
+        /// <summary>Button object that returns to main menu scene.</summary>
         [SerializeField] private Button backToMainMenuButton;
+        /// <summary>Component that represents questionnaire.</summary>
         [SerializeField] private QuestionnairePanelController questionnairePC;
+        /// <summary>Path to a file with survey questions.</summary>
         [SerializeField] private string filePath;
+        /// <summary>The survey with evaluation questions.</summary>
         private Survey survey;
         #endregion
 
 
         #region Public fields & properties
-        /// <summary>The evaluation questionnaire.</summary>
+        /// <summary>The survey with evaluation questions.</summary>
         public Survey Survey { get { return survey; } }
         #endregion
 
@@ -34,7 +39,7 @@ namespace LastBastion.Game.Managers
         private void Awake()
         {
             Assert.IsNotNull(questionnairePC);
-
+            // load survey questions from a file:
             filePath = Application.streamingAssetsPath + "/Resources/TextData/survey.json";
             survey = LoadSurveyQuestionnaireFromFile(filePath);
             if (survey == null)
@@ -48,6 +53,7 @@ namespace LastBastion.Game.Managers
         // Use this for initialization
         void Start()
         {
+            // set up actions of buttons:
             endSceneButton.onClick.AddListener(() =>
             {
                 if (GameManager.instance.AnalyticsEnabled) DataManager.AddSurveyAnswers(questionnairePC.GetSurveyAnswers());
@@ -84,9 +90,9 @@ namespace LastBastion.Game.Managers
         }
 
         /// <summary>
-        /// Saves survey data to a file with specified file path.
+        /// Saves survey questions to a file with specified file path.
         /// </summary>
-        /// <param name="intro">Intro text data to save</param>
+        /// <param name="survey">Survey questions to save</param>
         /// <param name="filePath">Path of the file</param>
         private void SaveSurveyToFile(Survey survey, string filePath)
         {

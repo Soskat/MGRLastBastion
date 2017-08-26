@@ -6,12 +6,19 @@ using UnityEngine.Assertions;
 
 namespace LastBastion.Game.Managers
 {
+    /// <summary>
+    /// Component that manages displaying player's achievements.
+    /// </summary>
     public class AchievementManager : MonoBehaviour
     {
         #region Private fields
+        /// <summary>Time achievement panel.</summary>
         [SerializeField] private AchievementPanelController timeAchievement;
+        /// <summary>Collected runes achievement panel.</summary>
         [SerializeField] private AchievementPanelController runesAchievement;
+        /// <summary>Searched rooms achievement panel.</summary>
         [SerializeField] private AchievementPanelController roomsAchievement;
+        /// <summary>Used light switches achievement panel.</summary>
         [SerializeField] private AchievementPanelController lightSwitchAchievement;
         #endregion
 
@@ -46,7 +53,7 @@ namespace LastBastion.Game.Managers
                                                GameManager.instance.GameTime.Hours,
                                                GameManager.instance.GameTime.Minutes,
                                                GameManager.instance.GameTime.Seconds);
-            // polish is the chosen language:
+            // if polish is the chosen language:
             if (GameManager.instance.ChosenLanguage == GameLanguage.Polish)
             {
                 // update time achievement:
@@ -68,7 +75,7 @@ namespace LastBastion.Game.Managers
                 else lightSwitchAchievementTitle = "Beznadziejny klikacz >>";
                 lightSwitchAchievement.UpdateAchievementData(lightSwitchAchievementTitle, GameManager.instance.LightSwitchUses.ToString());
             }
-            // english is the chosen language:
+            // if english is the chosen language:
             else
             {
                 // update time achievement:

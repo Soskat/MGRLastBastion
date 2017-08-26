@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 namespace LastBastion.Game.Managers
 {
     /// <summary>
-    /// Component that manages all game logic.
+    /// Component that manages the game main logic.
     /// </summary>
     [RequireComponent(typeof(AssetManager))]
     [RequireComponent(typeof(BiofeedbackSimulator))]
@@ -23,14 +23,23 @@ namespace LastBastion.Game.Managers
 
 
         #region Private fields
+        /// <summary>Current biofeedback mode.</summary>
         [SerializeField] private BiofeedbackMode biofeedbackMode = BiofeedbackMode.BiofeedbackON;
+        /// <summary>Current level id.</summary>
         [SerializeField] private int currentLevelID = -1;
+        /// <summary>Game levels.</summary>
         [SerializeField] private string[] gameLevels;
+        /// <summary>Current calculation type id.</summary>
         [SerializeField] private int currentCalculationTypeID = 0;
+        /// <summary>Calculation types.</summary>
         [SerializeField] private CalculationType[] calculationTypes;
+        /// <summary>Index of first game level.</summary>
         private int indexOfFirstLevel;
+        /// <summary>Index of second game level.</summary>
         private int indexOfSecondLevel;
+        /// <summary>ID of IgnoreLight layer.</summary>
         private int ignoreLightLayer;
+        /// <summary>ID of InteractiveObjects layer.</summary>
         private int interactiveObjectsLayer;
         #endregion
 
@@ -69,9 +78,9 @@ namespace LastBastion.Game.Managers
         public int CollectedRunes { get; set; }
         /// <summary>Amount of runes at all.</summary>
         public int RunesAmount { get; set; }
-        /// <summary>Searched rooms count.</summary>
+        /// <summary>Amount of searched rooms.</summary>
         public int SearchedRooms { get; set; }
-        /// <summary>Uses of the lightswitches count.</summary>
+        /// <summary>Amount of uesd light switches.</summary>
         public int LightSwitchUses { get; set; }
         #endregion
         /// <summary>Informs all objects that chosen language has changed.</summary>

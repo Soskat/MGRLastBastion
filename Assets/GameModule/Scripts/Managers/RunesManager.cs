@@ -6,12 +6,14 @@ using UnityEngine;
 namespace LastBastion.Game.Managers
 {
     /// <summary>
-    /// Component that manages behaviour of child RuneHolder objects.
+    /// Component that manages behaviour of game object's child RuneHolder objects.
     /// </summary>
     public class RunesManager : MonoBehaviour
     {
         #region Private fields
+        /// <summary>List of child <see cref="RuneHolder"/> components.</summary>
         private List<RuneHolder> runeHolders;
+        /// <summary>Amount of collected runes.</summary>
         private int collectedRunes;
         #endregion
 

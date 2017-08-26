@@ -1,7 +1,7 @@
 ﻿namespace LastBastion.Analytics
 {
     /// <summary>
-    /// Calculation type for calculating arousal from HR and GSR data.
+    /// Represents type of calculation for processing HR and GSR data.
     /// </summary>
     public enum CalculationType
     {

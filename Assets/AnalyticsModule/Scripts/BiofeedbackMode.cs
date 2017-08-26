@@ -1,7 +1,7 @@
 ﻿namespace LastBastion.Analytics
 {
     /// <summary>
-    /// Biofeedback mode.
+    /// Represents biofeedback mode used in game.
     /// </summary>
     public enum BiofeedbackMode : byte
     {

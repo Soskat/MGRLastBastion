@@ -19,39 +19,60 @@ namespace LastBastion.Biofeedback
         #region Constants
         /// <summary>Default remote host name.</summary>
         public const string DefaultHostName = "192.168.0.73";
-        //public const string DefaultHostName = "DESKTOP-KPBRM2V";
         /// <summary>Default remote host service port.</summary>
         public const int DefaultServicePort = 2055;
         #endregion
 
 
         #region Private fields
+        /// <summary>Is BandBridge module enabled?</summary>
         [SerializeField] private bool isEnabled = true;
+        /// <summary>Remote host name.</summary>
         [SerializeField] private string remoteHostName;
+        /// <summary>Remote host service port.</summary>
         [SerializeField] private int remoteServicePort;
+        /// <summary>Tresholds for HR data.</summary>
         [SerializeField] private TripleTreshold hrLevel;
+        /// <summary>Tresholds for GSR data.</summary>
         [SerializeField] private TripleTreshold gsrLevel;
-        //[SerializeField] private int refreshingTime = 5000;
+        /// <summary>Is MS Band device connected?</summary>
         private bool isBandPaired = false;
+        /// <summary>Is calibration in progress?</summary>
         private bool isCalibrationOn = false;
+        /// <summary>Can receive new Band readings?</summary>
         private bool canReceiveBandReadings = false;
-        private int averageHr = 1;
-        private int averageGsr = 1;
-        private int currentHr = 1;
-        private int currentGsr = 1;
-        [SerializeField] private float hrModifier = 1.0f;
-        private DataState hrState;
-        [SerializeField] private float gsrModifier = 1.0f;
-        private DataState gsrState;
-        [SerializeField] private float arousalModifier = 1.0f;
-        private DataState arousalState;
+        /// <summary>List of connected MS Band devices.</summary>
         private List<string> connectedBands;
-        private BackgroundWorker refresherWorker;
+        #region Biofeedback data
+        /// <summary>Average HR value.</summary>
+        private int averageHr = 1;
+        /// <summary>Average GSR value.</summary>
+        private int averageGsr = 1;
+        /// <summary>Current HR value.</summary>
+        private int currentHr = 1;
+        /// <summary>Current GSR value.</summary>
+        private int currentGsr = 1;
+        /// <summary>Current HR modifier.</summary>
+        [SerializeField]
+        private float hrModifier = 1.0f;
+        /// <summary>Current HR state.</summary>
+        private DataState hrState;
+        /// <summary>Current GSR modifier.</summary>
+        [SerializeField]
+        private float gsrModifier = 1.0f;
+        /// <summary>Current GSR state.</summary>
+        private DataState gsrState;
+        /// <summary>Current arousal modifier.</summary>
+        [SerializeField]
+        private float arousalModifier = 1.0f;
+        /// <summary>Current arousal state.</summary>
+        private DataState arousalState;
+        #endregion
         #endregion
         
 
         #region Public fields & properties
-        /// <summary>Is module enabled (taht means isEnabled ang isBandPaired flags are set to true)?</summary>
+        /// <summary>Is module enabled (that means isEnabled and isBandPaired flags are set to true)?</summary>
         public bool IsEnabled { get { return isEnabled && isBandPaired; } }
         /// <summary>Name of the remote host.</summary>
         public string RemoteHostName
@@ -59,7 +80,7 @@ namespace LastBastion.Biofeedback
             get { return remoteHostName; }
             set { remoteHostName = value; }
         }
-        /// <summary>Port number of the remote host.</summary>
+        /// <summary>Service port number of the remote host.</summary>
         public int RemoteServicePort
         {
             get { return remoteServicePort; }
@@ -67,22 +88,27 @@ namespace LastBastion.Biofeedback
         }
         /// <summary>Name of the connected MS Band device.</summary>
         public StringBuilder PairedBand;
-        /// <summary>Informs that new message has arrived.</summary>
-        public Action<Message> MessageArrived;
         /// <summary>Is MS Band device connected?</summary>
         public bool IsBandPaired { get { return isBandPaired; } }
-        /// <summary>Is calibration on?</summary>
+        /// <summary>Is calibration in progress?</summary>
         public bool IsCalibrationOn { get { return isCalibrationOn; } }
         /// <summary>Can receive MS Band device current readings?</summary>
         public bool CanReceiveBandReadings { get { return canReceiveBandReadings; } }
-        /// <summary>Is paired MS Band device changed?</summary>
+        /// <summary>Has paired MS Band device changed?</summary>
         public bool IsPairedBandChanged { get; set; }
-        /// <summary>Is average values of sensors readings changed?</summary>
-        public bool IsAverageReadingsChanged { get; set; }
-        /// <summary>Is current values of sensors readings changed?</summary>
-        public bool IsSensorsReadingsChanged { get; set; }
-        /// <summary>Is list of connected MS Band devices changed?</summary>
-        public bool IsConnectedBandsListChanged { get; set; }
+        /// <summary>Have average values of sensors readings changed?</summary>
+        public bool AverageReadingsChanged { get; set; }
+        /// <summary>Have current values of sensors readings changed?</summary>
+        public bool SensorsReadingsChanged { get; set; }
+        /// <summary>Has list of connected MS Band devices changed?</summary>
+        public bool ConnectedBandsListChanged { get; set; }
+        /// <summary>List of connected MS Band devices.</summary>
+        public List<string> ConnectedBands { get { return connectedBands; } }
+        /// <summary>Informs that new message has arrived.</summary>
+        public Action<Message> MessageArrived;
+        /// <summary>Informs that biofeedback data has changed.</summary>
+        public Action BiofeedbackDataChanged;
+        #region Biofeedback data
         /// <summary>Average HR value.</summary>
         public int AverageHr { get { return averageHr; } }
         /// <summary>Average GSR value.</summary>
@@ -103,10 +129,7 @@ namespace LastBastion.Biofeedback
         public float GsrModifier { get { return gsrModifier; } }
         /// <summary>Current GSR state.</summary>
         public DataState GsrState { get { return gsrState; } }
-        /// <summary>List of connected MS Band devices.</summary>
-        public List<string> ConnectedBands { get { return connectedBands; } }
-        /// <summary>Informs that biofeedback data has changed.</summary>
-        public Action BiofeedbackDataChanged;
+        #endregion
         #endregion
 
 
@@ -131,17 +154,16 @@ namespace LastBastion.Biofeedback
             connectedBands = new List<string>();
         }
 
-        // Sent to all game objects before the application is quit
-        private void OnApplicationQuit()
-        {
-            if (refresherWorker != null) refresherWorker.CancelAsync();
-        }
+        //// Sent to all game objects before the application is quit
+        //private void OnApplicationQuit()
+        //{
+        //}
         #endregion
 
 
         #region Public methods
         /// <summary>
-        /// Sends to BandBridge server request to get latest list of connected MS Band devices.
+        /// Sends to BandBridge server request for latest list of connected MS Band devices.
         /// </summary>
         public void RefreshList()
         {
@@ -157,7 +179,7 @@ namespace LastBastion.Biofeedback
         }
 
         /// <summary>
-        /// Saves info about chosen Band device name.
+        /// Saves information about chosen MS Band device name.
         /// </summary>
         public void PairBand()
         {
@@ -172,7 +194,7 @@ namespace LastBastion.Biofeedback
         }
 
         /// <summary>
-        /// Removes info about chosen Band device name.
+        /// Removes information about chosen MS Band device name.
         /// </summary>
         public void UnpairBand()
         {
@@ -183,11 +205,11 @@ namespace LastBastion.Biofeedback
             averageGsr = 0;
             currentHr = 0;
             currentGsr = 0;
-            IsSensorsReadingsChanged = true;
+            SensorsReadingsChanged = true;
         }
 
         /// <summary>
-        /// Refresh connection with chosen Band.
+        /// Refreshes connection with chosen MS Band.
         /// </summary>
         public void RefreshPairedBand()
         {
@@ -202,7 +224,7 @@ namespace LastBastion.Biofeedback
         }
 
         /// <summary>
-        /// Gets current sensors readings from paired Band.
+        /// Gets current sensors readings from paired MS Band.
         /// </summary>
         public void GetBandData()
         {
@@ -218,8 +240,8 @@ namespace LastBastion.Biofeedback
         }
 
         /// <summary>
-        /// Initiates calibration of sensors data on chosen Band.
-        /// The result of calibration is the control average value of sensors data from specific range of time.
+        /// Initiates calibration of sensors data on chosen MS Band.
+        /// The result of calibration is the control average value of sensors data from specific period of time.
         /// </summary>
         public void CalibrateBandData()
         {
@@ -242,7 +264,7 @@ namespace LastBastion.Biofeedback
 
         #region Private methods
         /// <summary>
-        /// Sends specified message to BandBridge server and returns its response.
+        /// Sends a message to BandBridge server and gets its response.
         /// </summary>
         /// <param name="msg">Message to send</param>
         /// <returns>Received response</returns>
@@ -278,7 +300,7 @@ namespace LastBastion.Biofeedback
                         // update connected Bands list:
                         ConnectedBands.Clear();
                         ConnectedBands.AddRange((string[])msg.Result);
-                        IsConnectedBandsListChanged = true;
+                        ConnectedBandsListChanged = true;
                     }
                     RefreshPairedBand();
                     break;
@@ -287,15 +309,7 @@ namespace LastBastion.Biofeedback
                 case MessageCode.GET_DATA_ANS:
                     if (msg.Result != null && msg.Result.GetType() == typeof(SensorData[]))
                     {
-                        //// update sensors data readings:
-                        //currentHr = ((SensorData[])msg.Result)[0].Data;
-                        //currentGsr = ((SensorData[])msg.Result)[1].Data;
-                        //IsSensorsReadingsChanged = true;
-                        //// calculate biofeedback modifiers and assign stated:
-                        //UpdateCurrentBiofeedbackData(averageHr, currentHr, averageGsr, currentGsr);
-
                         // calculate biofeedback modifiers and assign stated:
-                        //UpdateCurrentBiofeedbackData(averageHr, ((SensorData[])msg.Result)[0].Data, averageGsr, ((SensorData[])msg.Result)[1].Data);
                         UpdateCurrentBiofeedbackData(((SensorData[])msg.Result)[0].Data, ((SensorData[])msg.Result)[1].Data);
                     }
                     break;
@@ -305,10 +319,8 @@ namespace LastBastion.Biofeedback
                     if (msg.Result != null && msg.Result.GetType() == typeof(SensorData[]))
                     {
                         // update sensors data readings:
-                        //averageHr = ((SensorData[])msg.Result)[0].Data;
-                        //averageGsr = ((SensorData[])msg.Result)[1].Data;
                         UpdateAverageBiofeedbackData(((SensorData[])msg.Result)[0].Data, ((SensorData[])msg.Result)[1].Data);
-                        IsAverageReadingsChanged = true;
+                        AverageReadingsChanged = true;
                         canReceiveBandReadings = true;
                     }
                     break;
@@ -330,12 +342,11 @@ namespace LastBastion.Biofeedback
         /// Updates current biofeedback data values.
         /// </summary>
         public void UpdateCurrentBiofeedbackData(int currentHr, int currentGsr)
-        //public void UpdateCurrentBiofeedbackData(int averageHr, int currentHr, int averageGsr, int currentGsr)
         {
             // update current HR and GSR values:
             this.currentHr = currentHr;
             this.currentGsr = currentGsr;
-            IsSensorsReadingsChanged = true;
+            SensorsReadingsChanged = true;
             // update HR modifier & state:
             hrModifier = (float)currentHr / averageHr;
             if (hrModifier < 0.5f) hrModifier = 0.5f;   // prevents hrModifier from getting too small values

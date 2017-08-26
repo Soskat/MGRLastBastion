@@ -1,7 +1,7 @@
 ﻿namespace LastBastion.Analytics
 {
     /// <summary>
-    /// Game mode.
+    /// Represents game mode. Related to <see cref="BiofeedbackMode"/>.
     /// </summary>
     public enum GameMode : byte
     {

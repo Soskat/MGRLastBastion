@@ -12,14 +12,23 @@ namespace LastBastion.Game.Managers
     public class AssetManager : MonoBehaviour
     {
         #region Private fields
+        /// <summary>Highlight color.</summary>
         [SerializeField] private Color highlightColor;
+        /// <summary>Hint color.</summary>
         [SerializeField] private Color hintColor;
+        /// <summary>Interaction range.</summary>
         [SerializeField] private float interactionRange = 2f;
+        /// <summary>Hint range.</summary>
         [SerializeField] private float hintRange = 4f;
+        /// <summary>List of metal door squeak sounds.</summary>
         [SerializeField] private List<AudioClip> metalDoorSqueak;
+        /// <summary>List of wooden door squeak sounds.</summary>
         [SerializeField] private List<AudioClip> woodenDoorSqueak;
+        /// <summary>List of footsteps on gravel sounds.</summary>
         [SerializeField] private List<AudioClip> footstepsGravel;
+        /// <summary>Main plot goals.</summary>
         [SerializeField] private Goals goals;
+        /// <summary>Current footstep on gravel sound.</summary>
         private int footstepGravelIndex;
         #endregion
 

@@ -13,13 +13,19 @@ namespace LastBastion.Game.Managers
     public class SummaryManager : MonoBehaviour
     {
         #region Private fields
+        /// <summary>Button object that ends current scene.</summary>
         [SerializeField] private Button endSceneButton;
+        /// <summary>Button object that returns to main menu scene.</summary>
         [SerializeField] private Button backToMainMenuButton;
+        /// <summary>Timer label text.</summary>
         [SerializeField] private Text timerText;
+        /// <summary>Timer label text.</summary>
         [SerializeField] private Text nextLevelText;
-        [SerializeField] private Text summaryHeadline;
+        /// <summary>Achievement panel object with content in english.</summary>
         [SerializeField] private GameObject achievementPanelENG;
+        /// <summary>Achievement panel object with content in polish.</summary>
         [SerializeField] private GameObject achievementPanelPL;
+        /// <summary>Cooldown time.</summary>
         [SerializeField] private int secondsToGo = 120;
         #endregion
 
@@ -30,7 +36,6 @@ namespace LastBastion.Game.Managers
         {
             Assert.IsNotNull(timerText);
             Assert.IsNotNull(nextLevelText);
-            Assert.IsNotNull(summaryHeadline);
             Assert.IsNotNull(achievementPanelENG);
             Assert.IsNotNull(achievementPanelPL);
         }
@@ -55,15 +60,11 @@ namespace LastBastion.Game.Managers
             // update GUI based on chosen game language:
             if (GameManager.instance.ChosenLanguage == GameLanguage.Polish)
             {
-                summaryHeadline.text = "Podsumowanie rozgrywki";
-                nextLevelText.text = "Następna scena rozpocznie się za:";
                 achievementPanelENG.SetActive(false);
                 achievementPanelPL.SetActive(true);
             }
             else
             {
-                summaryHeadline.text = "Summary of the game";
-                nextLevelText.text = "Next scene will start in:";
                 achievementPanelENG.SetActive(true);
                 achievementPanelPL.SetActive(false);
             }

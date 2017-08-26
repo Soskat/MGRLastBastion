@@ -5,11 +5,17 @@ using UnityEngine;
 
 namespace LastBastion.Game.Managers
 {
+    /// <summary>
+    /// Component that manages the progress of game main plot.
+    /// </summary>
     public class PlotManager : MonoBehaviour
     {
         #region Private fields
+        /// <summary>List of clue game objects.</summary>
         [SerializeField] private List<PlotGoal> clueObjects;
+        /// <summary>Plot goal that triggers orb rune holders.</summary>
         private Goal orbGoal;
+        /// <summary>Final plot goal.</summary>
         private Goal lastGoal;
         #endregion
 
@@ -26,7 +32,7 @@ namespace LastBastion.Game.Managers
         /// <summary>
         /// Initializes PlotManager system.
         /// </summary>
-        /// <returns>Current plot goal</returns>
+        /// <returns>First plot goal</returns>
         public Goal Init()
         {
             List<Goal> goals = GameManager.instance.Assets.LoadPlotGoals();

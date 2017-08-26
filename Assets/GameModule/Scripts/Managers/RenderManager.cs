@@ -9,8 +9,11 @@ namespace LastBastion.Game.Managers
     public class RenderManager : MonoBehaviour
     {
         #region Private fields
+        /// <summary>Horizontal clipping distance.</summary>
         [SerializeField] private float horizontalClippingDistance = 20f;
+        /// <summary>Vertical clipping distance.</summary>
         [SerializeField] private float verticalClippingDistance = 6f;
+        /// <summary>Is game object in player's range?</summary>
         [SerializeField] private bool isInRange = false;
         #endregion
 
@@ -47,16 +50,13 @@ namespace LastBastion.Game.Managers
 
         #region Private methods
         /// <summary>
-        /// Switches visibility status of the children of the game object.
+        /// Switches visibility status of game object's children.
         /// </summary>
         /// <param name="visibility">New visibility status</param>
         private void SwitchVisibilityTo(bool visibility)
         {
             isInRange = visibility;
-            foreach(Transform child in transform)
-            {
-                child.gameObject.SetActive(visibility);
-            }
+            foreach(Transform child in transform) child.gameObject.SetActive(visibility);
         }
         #endregion
     }

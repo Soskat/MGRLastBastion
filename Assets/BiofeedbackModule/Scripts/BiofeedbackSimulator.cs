@@ -5,13 +5,16 @@ using UnityEngine;
 namespace LastBastion.Biofeedback
 {
     /// <summary>
-    /// Component that simulates biofeedback data.
+    /// Component that generates biofeedback data for simulation purposes.
     /// </summary>
     public class BiofeedbackSimulator : MonoBehaviour
     {
         #region Private fields
+        /// <summary>Is simulator enabled?</summary>
         [SerializeField] private bool isEnabled;
+        /// <summary>Tresholds for HR data.</summary>
         [SerializeField] private TripleTreshold hrLevel;
+        /// <summary>Tresholds for GSR data.</summary>
         [SerializeField] private TripleTreshold gsrLevel;
         #endregion
 
@@ -49,10 +52,9 @@ namespace LastBastion.Biofeedback
         // Update is called once per frame
         void Update()
         {
-            //if (isEnabled) GameManager.instance.BBModule.UpdateCurrentBiofeedbackData(AverageHr, CurrentHr, AverageGsr, CurrentGsr);
             if (isEnabled) GameManager.instance.BBModule.UpdateCurrentBiofeedbackData(CurrentHr, CurrentGsr);
 
-            // just for test:
+            // manual test:
             if (Input.GetKey(KeyCode.KeypadPlus)) CurrentHr = (++CurrentHr > 200) ? 200 : CurrentHr;
             if (Input.GetKey(KeyCode.KeypadMinus)) CurrentHr = (--CurrentHr < 0) ? 0 : CurrentHr;
             if (Input.GetKey(KeyCode.Keypad8)) CurrentGsr = (++CurrentGsr > 200) ? 200 : CurrentGsr;
