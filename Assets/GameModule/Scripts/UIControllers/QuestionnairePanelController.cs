@@ -4,7 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 namespace LastBastion.Game.UIControllers
 {
@@ -103,6 +103,19 @@ namespace LastBastion.Game.UIControllers
 
             if (givenAnswers == GameManager.instance.SurveyManager.Survey.Questions.Count) GameManager.instance.SurveyManager.SetActiveEndSceneButton(true);
             else GameManager.instance.SurveyManager.SetActiveEndSceneButton(false);
+        }
+
+        /// <summary>
+        /// Prevents from switching to empty option from dropdown menu.
+        /// </summary>
+        /// <param name="dropdown">The dropdown menu</param>
+        public void OnDropdonwValueChanged(Dropdown dropdown)
+        {
+            if (dropdown.options[0].text == "")
+            {
+                dropdown.options.RemoveAt(0);
+                dropdown.value -= 1;
+            }
         }
 
         /// <summary>

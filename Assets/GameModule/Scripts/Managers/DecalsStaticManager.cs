@@ -52,7 +52,8 @@ namespace LastBastion.Game.Managers
         /// </summary>
         public void ActivateDecals()
         {
-            if (WasActivated || GameManager.instance.ActiveRoom.GetComponentInChildren<LightManager>().LightsOn) return;
+            if (WasActivated || (GameManager.instance.ActiveRoom.GetComponentInChildren<LightManager>() != null &&
+                GameManager.instance.ActiveRoom.GetComponentInChildren<LightManager>().LightsOn)) return;
 
             // biofeedback on:
             if (GameManager.instance.BiofeedbackMode == BiofeedbackMode.BiofeedbackON && GameManager.instance.BBModule.IsEnabled)

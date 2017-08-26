@@ -18,7 +18,9 @@ namespace LastBastion.Game.Managers
         #region Private fields
         [SerializeField] private Toggle autoGameTypeToggle;
         [SerializeField] private GameObject gameType;
-        [SerializeField] private GameObject analytics;
+        //[SerializeField] private GameObject analytics;
+        [SerializeField] private Toggle analyticsToggle;
+        [SerializeField] private Toggle debugModeToggle;
         [SerializeField] private GameObject settingsPanel;
         [SerializeField] private GameObject bbMenuPanel;
         [SerializeField] private GameObject listViewport;
@@ -38,6 +40,8 @@ namespace LastBastion.Game.Managers
         {
             Assert.IsNotNull(autoGameTypeToggle);
             Assert.IsNotNull(gameType);
+            Assert.IsNotNull(analyticsToggle);
+            Assert.IsNotNull(debugModeToggle);
             Assert.IsNotNull(settingsPanel);
             Assert.IsNotNull(bbMenuPanel);
             Assert.IsNotNull(listViewport);
@@ -68,11 +72,15 @@ namespace LastBastion.Game.Managers
             autoGameTypeToggle.isOn = true;
             SetAutoGameMode(autoGameTypeToggle);
 
-             // add analytics dropdown:
-             analyticsDropdown = analytics.GetComponent<Dropdown>();
-            analyticsDropdown.AddOptions(new List<string>() { "enabled", "disabled" });
-            if (GameManager.instance.AnalyticsEnabled) analyticsDropdown.value = 0;
-            else analyticsDropdown.value = 1;
+            //// add analytics dropdown:
+            //analyticsDropdown = analytics.GetComponent<Dropdown>();
+            //analyticsDropdown.AddOptions(new List<string>() { "enabled", "disabled" });
+            //if (GameManager.instance.AnalyticsEnabled) analyticsDropdown.value = 0;
+            //else analyticsDropdown.value = 1;
+
+            // set up analytics and debug mode toggles:
+            analyticsToggle.isOn = GameManager.instance.AnalyticsEnabled;
+            debugModeToggle.isOn = GameManager.instance.DebugMode;
             
             // update chosen game language and language toggles:
             GameManager.instance.ChosenLanguage = GameLanguage.Default;
@@ -121,8 +129,13 @@ namespace LastBastion.Game.Managers
                 else GameManager.instance.BiofeedbackMode = BiofeedbackMode.BiofeedbackOFF;                
             }
             else GameManager.instance.BiofeedbackMode = (BiofeedbackMode)gameTypes[gameTypeDropdown.value];
-            if (analyticsDropdown.value == 0) GameManager.instance.AnalyticsEnabled = true;
-            else if (analyticsDropdown.value == 1) GameManager.instance.AnalyticsEnabled = false;
+            // get analytics and debug mode toggles values:
+            GameManager.instance.AnalyticsEnabled = analyticsToggle.isOn;
+            GameManager.instance.DebugMode = debugModeToggle.isOn;
+            //if (analyticsDropdown.value == 0) GameManager.instance.AnalyticsEnabled = true;
+            //else if (analyticsDropdown.value == 1) GameManager.instance.AnalyticsEnabled = false;
+
+            // start new game:
             GameManager.instance.StartNewGame();
         }
 

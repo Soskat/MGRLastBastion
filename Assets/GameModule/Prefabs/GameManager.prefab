@@ -55,7 +55,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   highlightColor: {r: 0, g: 0.5862069, b: 1, a: 1}
-  hintColor: {r: 0, g: 1, b: 0.8344829, a: 1}
+  hintColor: {r: 0.6129598, g: 1, b: 0.39705884, a: 1}
   interactionRange: 2
   hintRange: 4
   metalDoorSqueak: []
@@ -100,13 +100,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   biofeedbackMode: 1
-  debugMode: 1
   currentLevelID: 0
   gameLevels: []
   currentCalculationTypeID: 0
   calculationTypes: 01000000
-  ChoosenLanguage: 0
-  AnalyticsEnabled: 0
+  DebugMode: 0
+  ChosenLanguage: 0
+  AnalyticsEnabled: 1
+  ActiveRoom: {fileID: 0}
 --- !u!114 &114784912383324130
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -118,7 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9872b91a53fcb5b49a6895e11a4d6011, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isEnabled: 1
+  isEnabled: 0
   hrLevel:
     Low: 0.8
     Medium: 1.2

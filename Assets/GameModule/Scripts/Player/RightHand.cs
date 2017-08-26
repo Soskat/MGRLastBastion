@@ -251,10 +251,11 @@ namespace LastBastion.Game.Player
         /// <returns></returns>
         private IEnumerator HideFlashlightOnOutro()
         {
+            flashlight.IsDead = false;
+            flashlight.IsBusy = false;
             yield return new WaitForSeconds(Random.Range(3, 5));
             animator.applyRootMotion = false;
             animator.Play(flashlightHideAnimState);
-            flashlight.IsDead = false;
         }
         #endregion
     }

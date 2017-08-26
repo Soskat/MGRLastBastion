@@ -83,6 +83,9 @@ namespace LastBastion.Game.UIControllers
                     default: break;
                 }
                 answerHolder.GetComponent<Dropdown>().onValueChanged.AddListener(GetComponentInParent<QuestionnairePanelController>().ChangeAnswer);
+                answerHolder.GetComponent<Dropdown>().onValueChanged.AddListener(
+                    delegate { GetComponentInParent<QuestionnairePanelController>().OnDropdonwValueChanged(answerHolder.GetComponent<Dropdown>()); }
+                );
             }
         }
 
