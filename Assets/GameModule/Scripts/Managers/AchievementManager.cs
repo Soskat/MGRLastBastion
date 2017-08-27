@@ -83,7 +83,7 @@ namespace LastBastion.Game.Managers
                 else timeAchievementTitle = "One moment please >>";
                 timeAchievement.UpdateAchievementData(timeAchievementTitle, elapsedTime);
                 // update runes achievement:
-                if (GameManager.instance.CollectedRunes == 0) runesAchievementTitle = "Blind spot >>";
+                if (GameManager.instance.CollectedRunes == 0) runesAchievementTitle = "Blind >>";
                 else if (GameManager.instance.CollectedRunes < GameManager.instance.RunesAmount) runesAchievementTitle = "Lucky find >>";
                 else runesAchievementTitle = "The Collector >>";
                 runesAchievement.UpdateAchievementData(runesAchievementTitle, GameManager.instance.CollectedRunes.ToString());
