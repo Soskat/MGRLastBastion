@@ -1,5 +1,4 @@
-﻿using _Decal;
-using LastBastion.Game.Managers;
+﻿using LastBastion.Game.Managers;
 using UnityEngine;
 
 
@@ -41,7 +40,7 @@ namespace LastBastion.Game.ObjectInteraction
             orbCollider = GetComponent<MeshCollider>();
             SetOrbEnabledFlag(false);
             // deactivate child sign object:
-            runeSign = GetComponentInChildren<Decal>().gameObject;
+            runeSign = transform.GetChild(0).gameObject;
             runeSign.SetActive(false);
         }
         #endregion

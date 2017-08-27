@@ -9,6 +9,7 @@ TagManager:
   - Focusable
   - Door
   - RunesManager
+  - RuneSign
   layers:
   - Default
   - TransparentFX
