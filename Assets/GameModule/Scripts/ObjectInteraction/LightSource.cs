@@ -1,10 +1,9 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 
-namespace LastBastion.Game
+namespace LastBastion.Game.ObjectInteraction
 {
     /// <summary>
     /// Component that represents light source behaviour.
@@ -13,21 +12,37 @@ namespace LastBastion.Game
     public class LightSource : MonoBehaviour
     {
         #region Private fields
+        /// <summary>Is light turned on?</summary>
         [SerializeField] private bool isOn = false;
+        /// <summary>Is light broken?</summary>
         [SerializeField] private bool isBroken = false;
+        /// <summary>Is light dead?</summary>
         [SerializeField] private bool isDead = false;
+        /// <summary>Maximum value of light's intensity.</summary>
         [SerializeField] private float maxLightIntensity = 5f;
+        /// <summary>Bulb game object.</summary>
         [SerializeField] private GameObject lightBulb;
+        /// <summary>Color of the exploding light.</summary>
         [SerializeField] private Color explodeColor;
+        /// <summary>Sound of the static buzz.</summary>
         [SerializeField] private AudioClip staticBuzzSound;
+        /// <summary>Sound of the bulb explosion.</summary>
         [SerializeField] private AudioClip explodeSound;
+        /// <summary>Sound of the broken ignitor.</summary>
         [SerializeField] private AudioClip brokenIgnitorSound;
+        /// <summary>Assigned <see cref="AudioSource"/> component.</summary>
         private AudioSource audioSource;
+        /// <summary>Assigned <see cref="ParticleSystem"/> component.</summary>
         private ParticleSystem sparksBurst;
+        /// <summary>Assigned <see cref="Light"/> component.</summary>
         private Light lightSource;
+        /// <summary>Is light busy?</summary>
         private bool isBusy = false;
+        /// <summary>Hue component of the bulb color.</summary>
         private float hue;
+        /// <summary>Saturation component of the bulb color.</summary>
         private float saturation;
+        /// <summary>Calue component of the bulb color.</summary>
         private float value;
         #endregion
 
@@ -56,7 +71,6 @@ namespace LastBastion.Game
             audioSource.playOnAwake = false;
             lightSource = GetComponentInChildren<Light>();
             sparksBurst = GetComponentInChildren<ParticleSystem>();
-
             // turn the light on or off:
             SetLightMode(isOn);
         }

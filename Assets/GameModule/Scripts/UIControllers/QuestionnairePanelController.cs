@@ -1,10 +1,9 @@
 ﻿using LastBastion.Game.Managers;
 using LastBastion.Game.SurveySystem;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 
 namespace LastBastion.Game.UIControllers
 {
@@ -14,14 +13,17 @@ namespace LastBastion.Game.UIControllers
     public class QuestionnairePanelController : MonoBehaviour
     {
         #region Private fields
+        /// <summary>List of pages with questions.</summary>
         [SerializeField] private List<QuestionsPageController> pages;
+        /// <summary>Amount of given answers.</summary>
         [SerializeField] private int givenAnswers = 0;
+        /// <summary>Index of current page.</summary>
         private int currentPageIndex;
         #endregion
 
 
         #region Public fields & properties
-        /// <summary>Given answers count.</summary>
+        /// <summary>Amount of given answers.</summary>
         public int GivenAnswers { get { return givenAnswers; } }
         #endregion
 
@@ -39,12 +41,6 @@ namespace LastBastion.Game.UIControllers
             // turn off the first BackButton and the last NextButton:
             pages[0].BackButton.SetActive(false);
             pages[pages.Count - 1].NextButton.SetActive(false);
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
         }
         #endregion
 

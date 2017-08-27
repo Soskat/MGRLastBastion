@@ -2,7 +2,7 @@
 using UnityEngine;
 
 
-namespace LastBastion.Game
+namespace LastBastion.Game.ObjectInteraction
 {
     /// <summary>
     /// Component that switches the GameManager.ActiveRoom object based on player's current position.
@@ -11,7 +11,9 @@ namespace LastBastion.Game
     public class RoomActivator : MonoBehaviour
     {
         #region Private fields
+        /// <summary>Inform the <see cref="GameManager"/> that room has been activated?</summary>
         [SerializeField] private bool informGameManager = true;
+        /// <summary>Has room been activated?</summary>
         private bool wasActivated;
         #endregion
 

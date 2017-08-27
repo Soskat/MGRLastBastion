@@ -12,11 +12,16 @@ namespace LastBastion.Game.UIControllers
     public class ListController : MonoBehaviour
     {
         #region Private fields
+        /// <summary>Conent panel of a list.</summary>
         [SerializeField] private GameObject contentPanel;
+        /// <summary>List's item prefab.</summary>
         [SerializeField] private GameObject listItemPrefab;
+        /// <summary>List of connected MS Band devices' names.</summary>
         [SerializeField] private List<string> connectedBands;
+        /// <summary>Index of selected item.</summary>
         [SerializeField] private int selectedItem = 0;
         #endregion
+
 
         #region MonoBehaviour methods
         // Awake is called when the script instance is being loaded
@@ -32,6 +37,7 @@ namespace LastBastion.Game.UIControllers
             connectedBands = new List<string>();
         }
         #endregion
+
 
         #region Public methods
         /// <summary>
@@ -82,6 +88,7 @@ namespace LastBastion.Game.UIControllers
             else return null;
         }
         #endregion
+
 
         #region Private methods
         /// <summary>

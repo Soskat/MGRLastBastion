@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace LastBastion.Game.SurveySystem
 {
     /// <summary>
-    /// Represents a survey questionnaire.
+    /// Class that represents a survey questionnaire.
     /// </summary>
     [Serializable]
     public class Survey

@@ -1,23 +1,33 @@
 ﻿using LastBastion.Game.Managers;
-using LastBastion.Game.ObjectInteraction;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 
 namespace LastBastion.Game.ObjectInteraction
 {
+    /// <summary>
+    /// Component that manages behaviour of light switch object.
+    /// </summary>
     [RequireComponent(typeof(AudioSource))]
     [RequireComponent(typeof(Animator))]
     public class LightSwitch : MonoBehaviour, IInteractiveObject
     {
         #region Private fields
-        [SerializeField] private bool isEnabled = true;
+        ///// <summary>Is light switch enabled?</summary>
+        //[SerializeField] private bool isEnabled = true;
+        /// <summary>Assigned <see cref="LightManager"/> component.</summary>
         [SerializeField] private LightManager lightManager;
+        /// <summary>Sound of turning light on.</summary>
         [SerializeField] private AudioClip turnOnSound;
+        /// <summary>Sound of turning light off.</summary>
         [SerializeField] private AudioClip turnOffSound;
+        /// <summary>Assigned <see cref="Animator"/> component.</summary>
         private Animator animator;
+        /// <summary>Assigned <see cref="AudioSource"/> component.</summary>
         private AudioSource audioSource;
+        /// <summary>ID of animator's trigger that initiates switching button.</summary>
         private int switchButtonTrigger;
+        /// <summary>Is light switch busy?</summary>
         private bool isBusy = false;
         #endregion
 
@@ -56,7 +66,7 @@ namespace LastBastion.Game.ObjectInteraction
         }
 
         /// <summary>
-        /// Sets isBusy flag to true.
+        /// Sets <see cref="isBusy"/> flag to true.
         /// </summary>
         public void SetBusyOn()
         {
@@ -64,7 +74,7 @@ namespace LastBastion.Game.ObjectInteraction
         }
 
         /// <summary>
-        /// Sets isBusy flag to false.
+        /// Sets <see cref="isBusy"/> flag to false.
         /// </summary>
         public void SetBusyOff()
         {
@@ -76,7 +86,8 @@ namespace LastBastion.Game.ObjectInteraction
         /// </summary>
         public void SwitchLightState()
         {
-            if (isEnabled) lightManager.SwitchLights();
+            lightManager.SwitchLights();
+            //if (isEnabled) lightManager.SwitchLights();
         }
 
         /// <summary>

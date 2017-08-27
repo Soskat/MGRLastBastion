@@ -1,22 +1,24 @@
 ﻿using LastBastion.Game.Managers;
 using LastBastion.Game.ObjectInteraction;
 using UnityEngine;
-using UnityStandardAssets.Characters.FirstPerson;
 
 
 namespace LastBastion.Game.Player
 {
     /// <summary>
-    /// Component that manages interaction with interactable game objects.
+    /// Component that manages player's interaction with interactive game objects.
     /// </summary>
     public class InteractionController : MonoBehaviour
     {
         #region Private fields
+        /// <summary>Layer mask used by interactive objects.</summary>
         [SerializeField] private LayerMask layerMask;
+        /// <summary>Current active object.</summary>
         [SerializeField] private GameObject activeObject;
+        /// <summary>Focus point transform.</summary>
         [SerializeField] private Transform focusPoint;
+        /// <summary>Is player focused on interaction with object?</summary>
         [SerializeField] private bool isFocused;
-        //private Transform oldTransform;
         #endregion
 
 
@@ -58,7 +60,6 @@ namespace LastBastion.Game.Player
                     isFocused = false;
                     activeObject.GetComponentInParent<FocusableObject>().PutDown();
                 }
-
             }
         }
 

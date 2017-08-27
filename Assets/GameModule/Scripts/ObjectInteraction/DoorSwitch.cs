@@ -5,21 +5,30 @@ using UnityEngine.Assertions;
 namespace LastBastion.Game.ObjectInteraction
 {
     /// <summary>
-    /// Component that represents door switcher behaviour.
+    /// Component that represents behaviour of the door switch.
     /// </summary>
     [RequireComponent(typeof(AudioSource))]
     [RequireComponent(typeof(Animator))]
     public class DoorSwitch : MonoBehaviour, IInteractiveObject
     {
         #region Private fields
+        /// <summary>Assigned <see cref="Door"/> component.</summary>
         [SerializeField] private Door door;
+        /// <summary>Sound of pushing the button.</summary>
         [SerializeField] private AudioClip pushButtonSound;
+        /// <summary>Sound of buzzer alarm.</summary>
         [SerializeField] private AudioClip buzzerSound;
+        /// <summary>Has <see cref="PlotGoal"/> component need to have a trigger?</summary>
         [SerializeField] private bool hasTriggeringGoal = false;
+        /// <summary>Other <see cref="PlotGoal"/> component that triggers assigned plot goal.</summary>
         [SerializeField] private PlotGoal triggeringGoal;
+        /// <summary>Assigned <see cref="Animator"/> component.</summary>
         private Animator animator;
+        /// <summary>Assigned <see cref="AudioSource"/> component.</summary>
         private AudioSource audioSource;
+        /// <summary>ID of animator's trigger that initiates pushing button animation.</summary>
         private int pushedButtonTrigger;
+        /// <summary>Is button busy?</summary>
         private bool isBusy = false;
         #endregion
 
@@ -66,7 +75,7 @@ namespace LastBastion.Game.ObjectInteraction
         }
 
         /// <summary>
-        /// Sets isBusy flag to true.
+        /// Sets <see cref="isBusy"/> flag to true.
         /// </summary>
         public void SetBusyOn()
         {
@@ -74,7 +83,7 @@ namespace LastBastion.Game.ObjectInteraction
         }
 
         /// <summary>
-        /// Sets isBusy flag to false.
+        /// Sets <see cref="isBusy"/> flag to false.
         /// </summary>
         public void SetBusyOff()
         {

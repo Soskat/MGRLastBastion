@@ -13,10 +13,15 @@ namespace LastBastion.Game.UIControllers
     {
 
         #region Private fields
+        /// <summary>Game object of list view for connected MS Band devices.</summary>
         [SerializeField] private GameObject listView;
+        /// <summary>Paired MS Band name label.</summary>
         [SerializeField] private Text pairedBandMenuLabel;
+        /// <summary>Host name <see cref="InputField"/>.</summary>
         [SerializeField] private InputField hostNameInput;
+        /// <summary>Service port <see cref="InputField"/>.</summary>
         [SerializeField] private InputField servicePortInput;
+        /// <summary><see cref="ListController"/> component of <see cref="listView"/> object.</summary>
         private ListController listController;
         #endregion
 

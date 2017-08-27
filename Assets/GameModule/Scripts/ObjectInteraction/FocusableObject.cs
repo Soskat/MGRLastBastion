@@ -11,13 +11,22 @@ namespace LastBastion.Game.ObjectInteraction
     public class FocusableObject : MonoBehaviour
     {
         #region Private fields
-        [SerializeField] private Quaternion focusedRotation;
-        [SerializeField] private Vector3 focusedScale;
-        private Transform originalParent;
-        private Vector3 originalPosition;
-        private Quaternion originalRotation;
-        private Vector3 originalScale;
-        private int originalLayer;
+        /// <summary>Object's rotation in focus mode.</summary>
+        [SerializeField]
+        private Quaternion focusedRotation;
+        /// <summary>Object's scale in focus mode.</summary>
+        [SerializeField]
+        private Vector3 focusedScale;
+        /// <summary>Object's origin parent.</summary>
+        private Transform originParent;
+        /// <summary>Object's origin position.</summary>
+        private Vector3 originPosition;
+        /// <summary>Object's origin rotation.</summary>
+        private Quaternion originRotation;
+        /// <summary>Object's origin scale.</summary>
+        private Vector3 originScale;
+        /// <summary>Object's origin layer.</summary>
+        private int originLayer;
         #endregion
 
 
@@ -25,22 +34,22 @@ namespace LastBastion.Game.ObjectInteraction
         // Awake is called when the script instance is being loaded
         private void Awake()
         {
-            SetOriginalPositionAndRotation();
-            originalScale = transform.localScale;
-            originalParent = transform.parent;
-            originalLayer = gameObject.layer;
+            SetOriginPositionAndRotation();
+            originScale = transform.localScale;
+            originParent = transform.parent;
+            originLayer = gameObject.layer;
         }
         #endregion
 
 
         #region Public methods
         /// <summary>
-        /// Saves current position and rotation as original ones.
+        /// Saves current position and rotation as origin ones.
         /// </summary>
-        public void SetOriginalPositionAndRotation()
+        public void SetOriginPositionAndRotation()
         {
-            originalPosition = transform.position;
-            originalRotation = transform.rotation;
+            originPosition = transform.position;
+            originRotation = transform.rotation;
         }
 
         /// <summary>
@@ -63,19 +72,19 @@ namespace LastBastion.Game.ObjectInteraction
                 if (child.gameObject.GetComponent<Highlighter>() != null) child.gameObject.GetComponent<Highlighter>().SetHighlightBlockade();
             }
         }
-        
+
         /// <summary>
         /// Puts object down.
         /// </summary>
         public virtual void PutDown()
         {
-            // back to original settings:
-            transform.parent = originalParent;
-            transform.position = originalPosition;
-            transform.rotation = originalRotation;
-            transform.localScale = originalScale;
+            // back to origin settings:
+            transform.parent = originParent;
+            transform.position = originPosition;
+            transform.rotation = originRotation;
+            transform.localScale = originScale;
             // change back layer of game object and turn on highlight:
-            gameObject.layer = originalLayer;
+            gameObject.layer = originLayer;
             GetComponent<Highlighter>().ResetHighlightBlockade();
             // do the same to game object's children:
             foreach (Transform child in transform)
@@ -86,5 +95,4 @@ namespace LastBastion.Game.ObjectInteraction
         }
         #endregion
     }
-
 }

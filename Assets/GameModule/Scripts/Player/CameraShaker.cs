@@ -11,11 +11,17 @@ namespace LastBastion.Game.Player
     public class CameraShaker : MonoBehaviour
     {
         #region Private fields
+        /// <summary>Initial delay of camera shake effect.</summary>
         [SerializeField] private float initialDelay = 5f;
+        /// <summary>Duration of camera shake effect.</summary>
         [SerializeField] private float duration = 35f;
+        /// <summary>Magnitute of camera shake effect.</summary>
         [SerializeField] private float magnitude = 5f;
+        /// <summary>Has camera shake effect been activated?</summary>
         private bool wasActivated;
+        /// <summary>Assigned <see cref="Camera"/> component.</summary>
         private Camera playerCamera;
+        /// <summary>Initial camera Y position.</summary>
         private float initialCameraYPosition;
         #endregion
 

@@ -4,7 +4,7 @@
 namespace LastBastion.Game.SurveySystem
 {
     /// <summary>
-    /// Represents a single question from a survey questionnaire.
+    /// Class that represents a single question from a survey questionnaire.
     /// </summary>
     [Serializable]
     public class Question

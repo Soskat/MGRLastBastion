@@ -9,6 +9,7 @@ namespace LastBastion.Game.ObjectInteraction
     public class DoorState : MonoBehaviour
     {
         #region Private fields
+        /// <summary>Has door been opened?</summary>
         [SerializeField] private bool wasOpened;
         #endregion
 

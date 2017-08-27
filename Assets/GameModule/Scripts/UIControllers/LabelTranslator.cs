@@ -12,7 +12,9 @@ namespace LastBastion.Game.UIControllers
     public class LabelTranslator : MonoBehaviour
     {
         #region Private fields
+        /// <summary>Text in english.</summary>
         [SerializeField] private string textInEnglish;
+        /// <summary>Text in polish.</summary>
         [SerializeField] private string textInPolish;
         #endregion
 

@@ -7,25 +7,38 @@ using UnityEngine.Assertions;
 namespace LastBastion.Game.ObjectInteraction
 {
     /// <summary>
-    /// Component that represents door behaviour.
+    /// Component that represents door game object.
     /// </summary>
     [RequireComponent(typeof(AudioSource))]
     [RequireComponent(typeof(Animator))]
     public class Door : MonoBehaviour, IInteractiveObject
     {
         #region Provate fields
+        /// <summary>Type of the door.</summary>
         [SerializeField] DoorType doorType;
+        /// <summary>Is door closed?</summary>
         [SerializeField] private bool isClosed = true;
+        /// <summary>Is door locked?</summary>
         [SerializeField] private bool isLocked = false;
+        /// <summary>Sound of opening the door.</summary>
         [SerializeField] AudioClip doorOpenSound;
+        /// <summary>Sound of closing the door.</summary>
         [SerializeField] AudioClip doorCloseSound;
+        /// <summary>Sound of locked door.</summary>
         [SerializeField] AudioClip doorLockedSound;
+        /// <summary>Is component busy?</summary>
         private bool isBusy = false;
+        /// <summary>Current state of the door.</summary>
         private DoorState doorState;
+        /// <summary>Assigned <see cref="Animator"/> component.</summary>
         private Animator animator;
+        /// <summary>Assigned <see cref="AudioSource"/> component.</summary>
         private AudioSource audioSource;
+        /// <summary>ID of animator's trigger that initiates opening the door.</summary>
         private int openDoorTrigger;
+        /// <summary>ID of animator's trigger that initiates closing the door.</summary>
         private int closeDoorTrigger;
+        /// <summary>ID of animator's trigger that initiates trying to opent the door.</summary>
         private int tryDoorTrigger;
         #endregion
 
@@ -138,7 +151,7 @@ namespace LastBastion.Game.ObjectInteraction
         }
 
         /// <summary>
-        /// Sets isBusy flag to true.
+        /// Sets <see cref="isBusy"/> flag to true.
         /// </summary>
         public void SetBusyOn()
         {
@@ -146,7 +159,7 @@ namespace LastBastion.Game.ObjectInteraction
         }
 
         /// <summary>
-        /// Sets isBusy flag to false.
+        /// Sets <see cref="isBusy"/> flag to false.
         /// </summary>
         public void SetBusyOff()
         {

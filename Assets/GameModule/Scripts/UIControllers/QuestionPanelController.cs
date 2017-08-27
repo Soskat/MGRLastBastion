@@ -1,6 +1,4 @@
 ﻿using LastBastion.Game.SurveySystem;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
@@ -14,9 +12,13 @@ namespace LastBastion.Game.UIControllers
     public class QuestionPanelController : MonoBehaviour
     {
         #region Private fields
+        /// <summary>Question's content text.</summary>
         [SerializeField] private Text questionContent;
+        /// <summary>Question's answer holder game object (stores position).</summary>
         [SerializeField] private GameObject answerHolderObject;
+        /// <summary>Question's answer holder game object.</summary>
         private GameObject answerHolder;
+        /// <summary>Assigned <see cref="Question"/> object.</summary>
         private Question question;
         #endregion
 

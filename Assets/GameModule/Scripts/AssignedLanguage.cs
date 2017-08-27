@@ -4,7 +4,7 @@
 namespace LastBastion.Game
 {
     /// <summary>
-    /// Components that holds info about assigned language to game object.
+    /// Components that holds information about assigned language to game object.
     /// </summary>
     public class AssignedLanguage : MonoBehaviour
     {

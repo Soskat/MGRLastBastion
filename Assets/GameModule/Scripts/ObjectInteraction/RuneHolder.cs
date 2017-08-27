@@ -6,7 +6,7 @@ using UnityEngine;
 namespace LastBastion.Game.ObjectInteraction
 {
     /// <summary>
-    /// Component that represents rune holder.
+    /// Component that represents a rune holder.
     /// </summary>
     [RequireComponent(typeof(Highlighter))]
     [RequireComponent(typeof(MeshRenderer))]
@@ -14,15 +14,19 @@ namespace LastBastion.Game.ObjectInteraction
     public class RuneHolder : MonoBehaviour, IInteractiveObject
     {
         #region Private fields
+        /// <summary>Is rune holder enabled?</summary>
         [SerializeField] private bool isEnabled;
+        /// <summary>Assigned <see cref="MeshRenderer"/> component</summary>
         private MeshRenderer meshRenderer;
+        /// <summary>Assigned <see cref="MeshRenderer"/> component</summary>
         private MeshCollider orbCollider;
+        /// <summary>Child object that represent a rune sign.</summary>
         private GameObject runeSign;
         #endregion
 
 
         #region Public fields & properties
-        /// <summary>Is rune sign enabled?</summary>
+        /// <summary>Is rune holder enabled?</summary>
         public bool IsEnabled { get { return isEnabled; } }
         #endregion
 

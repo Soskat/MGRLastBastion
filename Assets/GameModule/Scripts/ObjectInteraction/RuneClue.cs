@@ -12,6 +12,7 @@ namespace LastBastion.Game.ObjectInteraction
     public class RuneClue : FocusableObject
     {
         #region Private fields
+        /// <summary>Assigned rune holder.</summary>
         [SerializeField] private RuneHolder runeSign;
         #endregion
 

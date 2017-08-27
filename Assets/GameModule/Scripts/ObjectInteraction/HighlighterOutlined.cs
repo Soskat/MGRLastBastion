@@ -10,6 +10,7 @@ namespace LastBastion.Game.ObjectInteraction
     public class HighlighterOutlined : Highlighter
     {
         #region Private fields
+        /// <summary>The width of the coloured outline.</summary>
         [SerializeField][Range(0.0f, 5.0f)] private float outlineWidth;
         #endregion
         

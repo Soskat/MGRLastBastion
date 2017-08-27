@@ -1,4 +1,5 @@
 ﻿using LastBastion.Analytics;
+using LastBastion.Game.ObjectInteraction;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;

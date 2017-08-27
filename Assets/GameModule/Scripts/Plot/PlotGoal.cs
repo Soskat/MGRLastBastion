@@ -11,9 +11,13 @@ namespace LastBastion.Game.Plot
     public class PlotGoal : MonoBehaviour
     {
         #region Private fields
+        /// <summary>Assigned <see cref="Goal"/> component.</summary>
         [SerializeField] private Goal goal;
+        /// <summary>Does this plot goal need previous goal to be triggered?</summary>
         [SerializeField] private bool needPreviousGoal = false;
+        /// <summary>Is this plot goal a trigger?</summary>
         [SerializeField] private bool isTrigger = false;
+        /// <summary>Has plot goal been activated?</summary>
         private bool wasActivated;
         #endregion
 

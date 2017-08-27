@@ -5,9 +5,13 @@ using UnityEngine.Assertions;
 
 namespace LastBastion.Game
 {
+    /// <summary>
+    /// Component that displays debug information.
+    /// </summary>
     public class DebugInfo : MonoBehaviour
     {
         #region Private fields
+        /// <summary>GUI skin in use.</summary>
         [SerializeField] private GUISkin guiSkin;
         #endregion
 
@@ -19,6 +23,7 @@ namespace LastBastion.Game
             Assert.IsNotNull(guiSkin);
         }
 
+        // OnGUI is called for rendering and handling GUI events
         private void OnGUI()
         {
             if (guiSkin != null) GUI.skin = guiSkin;

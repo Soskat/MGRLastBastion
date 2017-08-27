@@ -11,7 +11,9 @@ namespace LastBastion.Game.UIControllers
     public class AchievementPanelController : MonoBehaviour
     {
         #region Private fields
+        /// <summary>Name of the achievement.</summary>
         [SerializeField] private Text headlineText;
+        /// <summary>Value of the achievement.</summary>
         [SerializeField] private Text valueText;
         #endregion
 

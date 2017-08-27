@@ -1,9 +1,9 @@
 ﻿using LastBastion.Game.Managers;
 using LastBastion.Game.SurveySystem;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 
 namespace LastBastion.Game.UIControllers
 {
@@ -13,18 +13,23 @@ namespace LastBastion.Game.UIControllers
     public class QuestionsPageController : MonoBehaviour
     {
         #region Private fields
+        /// <summary>'Next page' button.</summary>
         [SerializeField] private Button nextButton;
+        /// <summary>'Previous page' button.</summary>
         [SerializeField] private Button backButton;
+        /// <summary>List of y positions of the question panels.</summary>
         [SerializeField] private List<float> yPositions;
+        /// <summary>List of assigned question panels.</summary>
         [SerializeField] private List<QuestionPanelController> questions;
-        private int questionSpaceUnits = 7;                                 // determines how many questions can be displayed on page
+        /// <summary>Determines how many questions can be displayed on page.</summary>
+        private int questionSpaceUnits = 7;
         #endregion
 
 
         #region Public fields & properties
-        /// <summary>Next page button.</summary>
+        /// <summary>'Next page' button.</summary>
         public GameObject NextButton { get { return nextButton.gameObject; } }
-        /// <summary>Back page button.</summary>
+        /// <summary>'Back page' button.</summary>
         public GameObject BackButton { get { return backButton.gameObject; } }
         /// <summary>Questions assigned to this page.</summary>
         public List<QuestionPanelController> Questions { get { return questions; } }
@@ -37,12 +42,6 @@ namespace LastBastion.Game.UIControllers
         {
             nextButton.onClick.AddListener(() => { GetComponentInParent<QuestionnairePanelController>().NextPage(); });
             backButton.onClick.AddListener(() => { GetComponentInParent<QuestionnairePanelController>().PreviousPage(); });
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
         }
         #endregion
 

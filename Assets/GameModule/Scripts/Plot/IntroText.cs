@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace LastBastion.Game.Plot
 {
     /// <summary>
-    /// Class that represents the text of introduction story.
+    /// Class that represents the text of the introduction story.
     /// </summary>
     [Serializable]
     public class IntroText

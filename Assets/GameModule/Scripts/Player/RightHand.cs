@@ -21,13 +21,13 @@ namespace LastBastion.Game.Player
         [SerializeField] private int timeSinceLastBlinkToDeath = 0;
         /// <summary>The equipped flashlight.</summary>
         private Flashlight flashlight;
-        /// <summary>Animator component.</summary>
+        /// <summary>Assigned <see cref="Animator"/> component.</summary>
         private Animator animator;
-        /// <summary>The animator's state of hiding flashlight.</summary>
+        /// <summary>ID of animator's state of hiding flashlight.</summary>
         private int flashlightHideAnimState;
-        /// <summary>The animator's state of drawing flashlight.</summary>
+        /// <summary>ID of animator's state of drawing flashlight.</summary>
         private int flashlightDrawAnimState;
-        /// <summary>The animator's state of reviving flashlight.</summary>
+        /// <summary>ID of animator's state of reviving flashlight.</summary>
         private int flashlightReviveAnimState;
         /// <summary>Current FPS value.</summary>
         private float deltaTime;

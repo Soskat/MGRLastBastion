@@ -4,7 +4,7 @@
 namespace LastBastion.Game.SurveySystem
 {
     /// <summary>
-    /// Represents question type.
+    /// The type of question.
     /// </summary>
     [Serializable]
     public enum QuestionType : short

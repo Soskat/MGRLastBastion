@@ -2,7 +2,7 @@
 using UnityEngine.Assertions;
 
 
-namespace LastBastion.Game
+namespace LastBastion.Game.ObjectInteraction
 {
     /// <summary>
     /// Component that enables playing assigned sound on trigger (collision).
@@ -13,6 +13,7 @@ namespace LastBastion.Game
     public class SoundTrigger : MonoBehaviour
     {
         #region Private fields
+        /// <summary>Sound played after activating the trigger.</summary>
         [SerializeField] private AudioClip triggeredSound;
         #endregion
 

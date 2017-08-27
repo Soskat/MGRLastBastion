@@ -16,22 +16,39 @@ namespace LastBastion.Game.ObjectInteraction
     public class Television : MonoBehaviour
     {
         #region Private fields
+        /// <summary>Activation range.</summary>
         [SerializeField] private float activationRange = 15f;
+        /// <summary>Distant to occur the TV-on event (second activation range).</summary>
         [SerializeField] private float distanceToEvent = 4f;
+        /// <summary>Sound of tv's static buzz.</summary>
         [SerializeField] private AudioClip staticBuzzSound;
+        /// <summary>List of channel sounds.</summary>
         [SerializeField] private List<AudioClip> channelSounds;
+        /// <summary>Audio source component that plays channel sounds.</summary>
         [SerializeField] private AudioSource channelAudioSource;
+        /// <summary>Index of currently used channel sound.</summary>
         private int channelSoundIndex = 0;
+        /// <summary>Assigned audio source.</summary>
         private AudioSource audioSource;
+        /// <summary>Monitor light source.</summary>
         private Light monitorLight;
+        /// <summary>Assigned material.</summary>
         private Material material;
+        /// <summary>Color of the tv's monitor glass.</summary>
         private Color glassColor;
+        /// <summary>Hue component of the glass color.</summary>
         private float hue;
+        /// <summary>Saturation component of the glass color.</summary>
         private float saturation;
+        /// <summary>Value component of the glass color.</summary>
         private float value;
+        /// <summary>Is tv turned on?</summary>
         private bool isOn;
+        /// <summary>Has tv been activated?</summary>
         private bool wasActivated;
+        /// <summary>Can tv be turned on?</summary>
         private bool canTurnOn;
+        /// <summary>Can tv be turned off?</summary>
         private bool canTurnOff;
         #endregion
 
@@ -54,7 +71,7 @@ namespace LastBastion.Game.ObjectInteraction
             material = GetComponent<Renderer>().material;
             glassColor = material.GetColor("_EmissionColor");
             TurnOffTV();
-            // setup collider trigger:
+            // set up collider trigger:
             GetComponent<SphereCollider>().isTrigger = true;
             GetComponent<SphereCollider>().radius = activationRange;
             isOn = false;

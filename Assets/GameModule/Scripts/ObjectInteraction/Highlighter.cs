@@ -4,12 +4,14 @@ using UnityEngine;
 namespace LastBastion.Game.ObjectInteraction
 {
     /// <summary>
-    /// Interface that contains essential methods for highlighting objects.
+    /// Component that manages logic for highlighting objects.
     /// </summary>
     public class Highlighter : MonoBehaviour
     {
         #region Protected fields
+        /// <summary>Is mouse over this game object?</summary>
         protected bool isMouseOver = false;
+        /// <summary>Is game object in player's range?</summary>
         protected bool isInRange = false;
         #endregion
 

@@ -1,12 +1,10 @@
 ﻿using LastBastion.Game.Managers;
-using LastBastion.Game.Player;
-using LastBastion.Game.Plot;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 
-namespace LastBastion.Game
+namespace LastBastion.Game.Plot
 {
     /// <summary>
     /// Component that triggers start of the level outro.
@@ -14,11 +12,17 @@ namespace LastBastion.Game
     public class EndGameTrigger : MonoBehaviour
     {
         #region Private fields
+        /// <summary>Glyph particle system, that is played on game end.</summary>
         [SerializeField] private ParticleSystem glyphParticle;
+        /// <summary><see cref="PlotGoal"/> component that triggers this game object.</summary>
         [SerializeField] private PlotGoal triggeringGoal;
+        /// <summary>Delay for loading new scene.</summary>
         [SerializeField] private float endGameDelay = 38f;
+        /// <summary>Is end game trigger in player's range?</summary>
         private bool isInRange;
+        /// <summary>Has end game trigger been activated?</summary>
         private bool wasActivated;
+        /// <summary>Is end game trigger enabled?</summary>
         private bool isEnabled;
         #endregion
 
@@ -78,7 +82,7 @@ namespace LastBastion.Game
 
         #region Private methods
         /// <summary>
-        /// Counts time to end the level.
+        /// Counts time to the end of the level.
         /// </summary>
         /// <returns></returns>
         private IEnumerator EndGameCounter()

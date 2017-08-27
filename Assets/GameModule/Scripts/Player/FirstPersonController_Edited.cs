@@ -44,13 +44,7 @@ namespace LastBastion.Game.Player
         private float m_NextStep;
         private bool m_Jumping;
         private AudioSource m_AudioSource;
-
-
-        ///// <summary>Is player focused on some object?</summary>
-        //public bool IsFocused { get; set; }
-        ///// <summary>Is level outro playing?</summary>
-        //public bool IsOutroOn { get; set; }
-
+        
 
         // Use this for initialization
         private void Start()
@@ -65,10 +59,6 @@ namespace LastBastion.Game.Player
             m_Jumping = false;
             m_AudioSource = GetComponent<AudioSource>();
 			m_MouseLook.Init(transform , m_Camera.transform);
-
-            //// reset IsFocused and IsOutroOn flags:
-            //IsFocused = false;
-            //IsOutroOn = false;
         }
 
 
@@ -177,8 +167,7 @@ namespace LastBastion.Game.Player
         private void PlayFootStepAudio()
         {
             if (!m_CharacterController.isGrounded) return;
-            // pick & play a random footstep sound from the array,
-            // excluding sound at index 0
+            // pick & play a random footstep sound from the array, excluding sound at index 0
             int n = Random.Range(1, m_FootstepSounds.Length);
             m_AudioSource.clip = m_FootstepSounds[n];
             m_AudioSource.PlayOneShot(m_AudioSource.clip);

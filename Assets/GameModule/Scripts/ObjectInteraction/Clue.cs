@@ -5,7 +5,7 @@ using UnityEngine;
 namespace LastBastion.Game.ObjectInteraction
 {
     /// <summary>
-    /// Component that represents plot clue.
+    /// Component that represents a main plot clue.
     /// </summary>
     [RequireComponent(typeof(PlotGoal))]
     public class Clue : FocusableObject

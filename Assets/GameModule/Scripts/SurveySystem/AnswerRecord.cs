@@ -4,7 +4,7 @@
 namespace LastBastion.Game.SurveySystem
 {
     /// <summary>
-    /// Components that informs if assigned to game object Dropdown component has recorded change of selected value.
+    /// Components that informs if assigned to game object <see cref="Dropdown"/> component has recorded change of selected value.
     /// </summary>
     public class AnswerRecord : MonoBehaviour
     {

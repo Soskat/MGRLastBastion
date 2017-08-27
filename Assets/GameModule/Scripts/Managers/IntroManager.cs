@@ -35,7 +35,7 @@ namespace LastBastion.Game.Managers
         [SerializeField] private AudioClip metalGateOpeningSound;
         /// <summary>Object that contains introduction text.</summary>
         private IntroText introText;
-        /// <summary>Assigned audio source component.</summary>
+        /// <summary>Assigned <see cref="AudioSource"/> component.</summary>
         private AudioSource audioSource;
         /// <summary>Is in-game menu on?</summary>
         private bool menuOn;

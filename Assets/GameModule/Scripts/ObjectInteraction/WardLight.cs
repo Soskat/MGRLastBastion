@@ -10,11 +10,17 @@ namespace LastBastion.Game.ObjectInteraction
     public class WardLight : MonoBehaviour
     {
         #region Private fields
+        /// <summary>Door that is assigned to this ward light.</summary>
         [SerializeField] private Door watchedDoor;
+        /// <summary>Lapm shade object.</summary>
         [SerializeField] private GameObject lampShade;
-        private Light wardLight;
+        /// <summary>Light source.</summary>
+        private Light lightSource;
+        /// <summary>Bulb material.</summary>
         private Material bulbMaterial;
+        /// <summary>Light shade material.</summary>
         private Material lampShadeMaterial;
+        /// <summary>Last state of watched door.</summary>
         private bool lastDoorState;
         #endregion
 
@@ -29,7 +35,7 @@ namespace LastBastion.Game.ObjectInteraction
         // Use this for initialization
         void Start()
         {
-            wardLight = GetComponentInChildren<Light>();
+            lightSource = GetComponentInChildren<Light>();
             bulbMaterial = GetComponent<Renderer>().material;
             if (lampShade != null) lampShadeMaterial = lampShade.GetComponent<Renderer>().material;
             lastDoorState = watchedDoor.IsLocked;
@@ -49,7 +55,7 @@ namespace LastBastion.Game.ObjectInteraction
 
         #region Private methods
         /// <summary>
-        /// Switches light state -> color.
+        /// Switches color of the light based on door's state.
         /// </summary>
         private void SwitchLightState()
         {
@@ -57,13 +63,13 @@ namespace LastBastion.Game.ObjectInteraction
             {
                 bulbMaterial.SetColor("_EmissionColor", Color.red);
                 if (lampShade != null) lampShadeMaterial.SetColor("_EmissionColor", Color.red);
-                if (wardLight != null) wardLight.color = Color.red;
+                if (lightSource != null) lightSource.color = Color.red;
             }
             else
             {
                 bulbMaterial.SetColor("_EmissionColor", Color.green);
                 if (lampShade != null) lampShadeMaterial.SetColor("_EmissionColor", Color.green);
-                if (wardLight != null) wardLight.color = Color.green;
+                if (lightSource != null) lightSource.color = Color.green;
             }
         }
         #endregion
