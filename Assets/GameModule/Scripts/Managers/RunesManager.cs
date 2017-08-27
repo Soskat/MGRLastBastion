@@ -27,8 +27,8 @@ namespace LastBastion.Game.Managers
 
 
         #region MonoBehaviour methods
-        // Use this for initialization
-        void Start()
+        // Awake is called when the script instance is being loaded
+        private void Awake()
         {
             collectedRunes = 0;
             runeHolders = new List<RuneHolder>();

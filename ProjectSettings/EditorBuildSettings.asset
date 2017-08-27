@@ -16,10 +16,10 @@ EditorBuildSettings:
     guid: d497c2c309a98f247866da471e83760f
   - enabled: 1
     path: Assets/GameModule/Scenes/LevelB.unity
-    guid: 00000000000000000000000000000000
+    guid: 21a6e2920945df3418bda6661506fabf
   - enabled: 1
     path: Assets/GameModule/Scenes/Summary.unity
     guid: 8ee7d4ba1e16fed40b1e219609180a33
   - enabled: 1
     path: Assets/GameModule/Scenes/Survey.unity
-    guid: 47da6ccf851dcb84b93db01053c337e5
+    guid: 00000000000000000000000000000000
