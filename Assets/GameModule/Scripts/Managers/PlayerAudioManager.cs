@@ -37,6 +37,7 @@ namespace LastBastion.Game.Managers
         public float RiserSoundLenght { get { return riserSound.length; } }
         #endregion
 
+
         #region MonoBehaviour methods
         // Awake is called when the script instance is being loaded
         private void Awake()
@@ -138,6 +139,7 @@ namespace LastBastion.Game.Managers
             audioSource.volume = startVolume;
         }
         #endregion
+
 
         #region Public methods
         /// <summary>

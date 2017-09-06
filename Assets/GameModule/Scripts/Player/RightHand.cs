@@ -73,7 +73,6 @@ namespace LastBastion.Game.Player
                     flashlight.IsBusy = true;
                     StartCoroutine(TurnOffFlashlightOnOutro());
                 }
-                if (flashlight.IsDead) StartCoroutine(HideFlashlightOnOutro());
                 return;
             }
 
@@ -236,23 +235,15 @@ namespace LastBastion.Game.Player
         }
 
         /// <summary>
-        /// Turns off flashlight after outro has started playing.
+        /// Turns off and hides flashlight after outro has started playing.
         /// </summary>
         /// <returns></returns>
         private IEnumerator TurnOffFlashlightOnOutro()
         {
+            // turn off flashlight's light;
             yield return new WaitForSeconds(Random.Range(3, 5));
             StartCoroutine(flashlight.BlinkToDeath());
-        }
-
-        /// <summary>
-        /// Hides flashlight during outro after delay.
-        /// </summary>
-        /// <returns></returns>
-        private IEnumerator HideFlashlightOnOutro()
-        {
-            flashlight.IsDead = false;
-            flashlight.IsBusy = false;
+            // hide flashlight:
             yield return new WaitForSeconds(Random.Range(3, 5));
             animator.applyRootMotion = false;
             animator.Play(flashlightHideAnimState);
