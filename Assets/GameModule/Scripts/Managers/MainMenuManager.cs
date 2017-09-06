@@ -24,6 +24,8 @@ namespace LastBastion.Game.Managers
         [SerializeField] private Toggle analyticsToggle;
         /// <summary>Debug mode toggle.</summary>
         [SerializeField] private Toggle debugModeToggle;
+        /// <summary>Biofeedback simulator mode toggle.</summary>
+        [SerializeField] private Toggle simulatorToggle;
         /// <summary>Settings panel object.</summary>
         [SerializeField] private GameObject settingsPanel;
         /// <summary>BandBridge menu panel object.</summary>
@@ -51,6 +53,7 @@ namespace LastBastion.Game.Managers
             Assert.IsNotNull(gameTypeDropdown);
             Assert.IsNotNull(analyticsToggle);
             Assert.IsNotNull(debugModeToggle);
+            Assert.IsNotNull(simulatorToggle);
             Assert.IsNotNull(settingsPanel);
             Assert.IsNotNull(bbMenuPanel);
             Assert.IsNotNull(listViewport);
@@ -80,9 +83,10 @@ namespace LastBastion.Game.Managers
             autoGameTypeToggle.isOn = true;
             SetAutoGameMode(autoGameTypeToggle);
 
-            // set up analytics and debug mode toggles:
+            // set up analytics, debug mode and simulator toggles:
             analyticsToggle.isOn = GameManager.instance.AnalyticsEnabled;
             debugModeToggle.isOn = GameManager.instance.DebugMode;
+            simulatorToggle.isOn = GameManager.instance.BBModule.IsSimulatorEnabled;
             
             // update chosen game language and language toggles:
             GameManager.instance.ChosenLanguage = GameLanguage.Default;
@@ -131,9 +135,10 @@ namespace LastBastion.Game.Managers
                 else GameManager.instance.BiofeedbackMode = BiofeedbackMode.BiofeedbackOFF;                
             }
             else GameManager.instance.BiofeedbackMode = (BiofeedbackMode)gameTypes[gameTypeDropdown.value];
-            // get analytics and debug mode toggles values:
+            // get analytics, debug mode and simulator toggles values:
             GameManager.instance.AnalyticsEnabled = analyticsToggle.isOn;
             GameManager.instance.DebugMode = debugModeToggle.isOn;
+            GameManager.instance.BBModule.IsSimulatorEnabled = simulatorToggle.isOn;
 
             // start new game:
             GameManager.instance.StartNewGame();

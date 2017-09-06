@@ -75,14 +75,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isEnabled: 1
+  isSimulatorEnabled: 0
   remoteHostName: 
   remoteServicePort: 0
   hrLevel:
-    Low: 0.8
+    Low: 0.9
     Medium: 1.2
     High: 2
   gsrLevel:
-    Low: 0.8
+    Low: 0.9
     Medium: 1.2
     High: 2
   hrModifier: 1
@@ -104,7 +105,7 @@ MonoBehaviour:
   gameLevels: []
   currentCalculationTypeID: 0
   calculationTypes: 01000000
-  DebugMode: 0
+  DebugMode: 1
   ChosenLanguage: 0
   AnalyticsEnabled: 1
   ActiveRoom: {fileID: 0}
@@ -119,13 +120,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9872b91a53fcb5b49a6895e11a4d6011, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isEnabled: 0
   hrLevel:
-    Low: 0.8
+    Low: 0.9
     Medium: 1.2
     High: 2
   gsrLevel:
-    Low: 0.8
+    Low: 0.9
     Medium: 1.2
     High: 2
   AverageHr: 72

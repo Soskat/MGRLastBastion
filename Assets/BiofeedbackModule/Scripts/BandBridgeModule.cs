@@ -27,6 +27,8 @@ namespace LastBastion.Biofeedback
         #region Private fields
         /// <summary>Is BandBridge module enabled?</summary>
         [SerializeField] private bool isEnabled = true;
+        /// <summary>Is biofeedback simulator module enabled?</summary>
+        [SerializeField] private bool isSimulatorEnabled = false;
         /// <summary>Remote host name.</summary>
         [SerializeField] private string remoteHostName;
         /// <summary>Remote host service port.</summary>
@@ -73,7 +75,13 @@ namespace LastBastion.Biofeedback
 
         #region Public fields & properties
         /// <summary>Is module enabled (that means isEnabled and isBandPaired flags are set to true)?</summary>
-        public bool IsEnabled { get { return isEnabled && isBandPaired; } }
+        public bool IsEnabled { get { return isEnabled && (isBandPaired || IsSimulatorEnabled); } }
+        /// <summary>Is biofeedback simulator module enabled?</summary>
+        public bool IsSimulatorEnabled
+        {
+            get { return isSimulatorEnabled; }
+            set { isSimulatorEnabled = value; UpdateSimulatorToggle(); }
+        }
         /// <summary>Name of the remote host.</summary>
         public string RemoteHostName
         {
@@ -108,6 +116,8 @@ namespace LastBastion.Biofeedback
         public Action<Message> MessageArrived;
         /// <summary>Informs that biofeedback data has changed.</summary>
         public Action BiofeedbackDataChanged;
+        /// <summary>Informs that isSimulatorEnabled toggle has changed.</summary>
+        public Action UpdateSimulatorToggle;
         #region Biofeedback data
         /// <summary>Average HR value.</summary>
         public int AverageHr { get { return averageHr; } }

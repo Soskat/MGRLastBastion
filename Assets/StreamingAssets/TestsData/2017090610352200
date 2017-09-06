@@ -1,0 +1,176 @@
+- ID 2017090610352200
+- GameType BiofeedbackON
+- LevelA Alternative
+GameStart 00:00
+Sound 00:00
+Light 00:06
+Sound 00:15
+Sound 00:17
+Sound 00:17
+Sound 00:18
+Light 00:18
+Sound 00:18
+Light 00:25
+Sound 00:28
+Sound 00:28
+Sound 00:29
+Sound 00:33
+Light 00:35
+Sound 00:35
+Sound 00:35
+Light 00:35
+Sound 00:39
+Sound 00:39
+Sound 00:41
+Sound 00:42
+Sound 00:43
+Sound 00:44
+Light 00:47
+TV 00:48
+Sound 00:50
+Sound 00:51
+Sound 00:54
+Sound 00:54
+Sound 00:55
+Sound 00:56
+Sound 00:57
+Sound 01:00
+Light 01:01
+Sound 01:02
+Sound 01:02
+Sound 01:06
+Sound 01:06
+Light 01:11
+Light 01:16
+Sound 01:16
+Sound 01:16
+Flashlight 01:19
+Sound 01:19
+Sound 01:19
+Sound 01:22
+Sound 01:25
+Sound 01:25
+Light 01:28
+Sound 01:30
+Sound 01:30
+Sound 01:33
+Sound 01:33
+Sound 01:35
+Sound 01:35
+Sound 01:36
+Sound 01:36
+Sound 01:41
+Sound 01:41
+Sound 01:45
+Light 01:48
+Shaking 01:49
+Sound 01:50
+Light 01:50
+Sound 01:51
+Sound 01:51
+Sound 01:52
+Sound 01:52
+Heartbeat 01:54
+Sound 01:55
+Sound 01:56
+Sound 01:56
+Sound 01:58
+Sound 01:58
+Sound 02:00
+Flashlight 02:02
+Sound 02:02
+Sound 02:02
+Sound 02:03
+Sound 02:03
+Decals 02:03
+Flashlight 02:05
+Flashlight 02:06
+Flashlight 02:15
+Flashlight 02:21
+GameEnd 02:52
+- LevelB Conjunction
+GameStart 00:00
+Sound 00:00
+Sound 00:04
+Light 00:06
+Sound 00:07
+Sound 00:08
+Sound 00:08
+Sound 00:08
+Sound 00:08
+Sound 00:12
+Sound 00:12
+Sound 00:13
+Sound 00:13
+Sound 00:13
+Sound 00:13
+Sound 00:15
+Sound 00:15
+Light 00:18
+TV 00:24
+Sound 00:26
+Sound 00:26
+Sound 00:27
+Sound 00:28
+Sound 00:28
+Flashlight 00:30
+Decals 00:30
+Sound 00:30
+Sound 00:32
+Sound 00:34
+Sound 00:34
+Sound 00:37
+Sound 00:37
+Sound 00:42
+Sound 00:42
+Sound 00:44
+Sound 00:44
+Sound 00:46
+Sound 00:46
+Sound 00:50
+Sound 00:50
+Sound 00:52
+Sound 00:52
+Light 00:54
+Sound 00:58
+Sound 00:58
+Sound 01:01
+Sound 01:01
+Sound 01:05
+Sound 01:05
+Sound 01:05
+Sound 01:05
+Sound 01:06
+Sound 01:06
+Sound 01:06
+Sound 01:06
+Sound 01:10
+Light 01:11
+Flashlight 01:17
+Decals 01:17
+Shaking 01:18
+Flashlight 01:21
+Heartbeat 01:22
+Flashlight 01:30
+GameEnd 01:46
+- survey_answers
+0 Sex 0
+1 Age 0
+2 PlayRoutine 0
+3 TrueFalse 0
+4 TrueFalse 0
+5 Scale 0
+6 Scale 4
+7 Scale 0
+8 Scale 1
+9 Scale 0
+10 Scale 2
+11 Scale 2
+12 AorB 1
+5 AorB 0
+13 AorB 1
+14 AorB 0
+15 AorB 0
+16 AorB 1
+17 AorB 0
+18 Open 

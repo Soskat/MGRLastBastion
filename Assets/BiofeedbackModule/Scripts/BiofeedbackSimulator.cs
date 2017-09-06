@@ -10,8 +10,6 @@ namespace LastBastion.Biofeedback
     public class BiofeedbackSimulator : MonoBehaviour
     {
         #region Private fields
-        /// <summary>Is simulator enabled?</summary>
-        [SerializeField] private bool isEnabled;
         /// <summary>Tresholds for HR data.</summary>
         [SerializeField] private TripleTreshold hrLevel;
         /// <summary>Tresholds for GSR data.</summary>
@@ -46,13 +44,16 @@ namespace LastBastion.Biofeedback
             CurrentHr = AverageHr;
             CurrentGsr = AverageGsr;
             GameManager.instance.BBModule.BiofeedbackDataChanged += () => UpdateBiofeedbackVariables();
-            if (isEnabled) GameManager.instance.BBModule.UpdateAverageBiofeedbackData(AverageHr, AverageGsr);
+            GameManager.instance.BBModule.UpdateSimulatorToggle += () =>
+            {
+                if (GameManager.instance.BBModule.IsSimulatorEnabled) GameManager.instance.BBModule.UpdateAverageBiofeedbackData(AverageHr, AverageGsr);
+            };
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (isEnabled) GameManager.instance.BBModule.UpdateCurrentBiofeedbackData(CurrentHr, CurrentGsr);
+            if (GameManager.instance.BBModule.IsSimulatorEnabled) GameManager.instance.BBModule.UpdateCurrentBiofeedbackData(CurrentHr, CurrentGsr);
 
             // manual test:
             if (Input.GetKey(KeyCode.KeypadPlus)) CurrentHr = (++CurrentHr > 200) ? 200 : CurrentHr;

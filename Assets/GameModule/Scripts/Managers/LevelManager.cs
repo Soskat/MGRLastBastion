@@ -363,7 +363,10 @@ namespace LastBastion.Game.Managers
             DataManager.AddGameEvent(eventType, currentTime, value);
             if (GameManager.instance.BBModule.IsEnabled) AddBiofeedbackEvents(currentTime);
         }
+        #endregion
 
+
+        #region Private methods
         /// <summary>
         /// Saves biofeedback info: current HR, GSR and Arousal modifier.
         /// </summary>
@@ -372,9 +375,12 @@ namespace LastBastion.Game.Managers
         {
             if (time != null) currentTime = (TimeSpan)time;
             else currentTime = stopwatch.Elapsed;
-            DataManager.AddGameEvent(Analytics.EventType.HrData, currentTime, GameManager.instance.BBModule.CurrentHr);
-            DataManager.AddGameEvent(Analytics.EventType.GsrData, currentTime, GameManager.instance.BBModule.CurrentGsr);
+            DataManager.AddGameEvent(Analytics.EventType.HrData, currentTime, GameManager.instance.BBModule.HrModifier);
+            DataManager.AddGameEvent(Analytics.EventType.GsrData, currentTime, GameManager.instance.BBModule.GsrModifier);
             DataManager.AddGameEvent(Analytics.EventType.ArousalData, currentTime, GameManager.instance.BBModule.ArousalModifier);
+            //DataManager.AddGameEvent(Analytics.EventType.HrData, currentTime, GameManager.instance.BBModule.CurrentHr);
+            //DataManager.AddGameEvent(Analytics.EventType.GsrData, currentTime, GameManager.instance.BBModule.CurrentGsr);
+            //DataManager.AddGameEvent(Analytics.EventType.ArousalData, currentTime, GameManager.instance.BBModule.ArousalModifier);
         }
         #endregion
     }
