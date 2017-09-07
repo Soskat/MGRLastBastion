@@ -105,7 +105,7 @@ MonoBehaviour:
   gameLevels: []
   currentCalculationTypeID: 0
   calculationTypes: 01000000
-  DebugMode: 1
+  DebugMode: 0
   ChosenLanguage: 0
   AnalyticsEnabled: 1
   ActiveRoom: {fileID: 0}
