@@ -82,7 +82,7 @@ namespace LastBastion.Game.Managers
             else
             {
                 // choose randomly decals set:
-                int choice = Random.Range(0, 2);
+                int choice = RandomNumberGenerator.Range(0, 2);
                 switch (choice)
                 {
                     case 0:

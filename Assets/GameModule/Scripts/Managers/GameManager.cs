@@ -139,7 +139,7 @@ namespace LastBastion.Game.Managers
             currentCalculationTypeID = 0;
 
             // set levels in random order:
-            switch (UnityEngine.Random.Range(0, 2))
+            switch (RandomNumberGenerator.Range(0, 2))
             {
                 case 0:
                     gameLevels[indexOfFirstLevel] = "LevelA";
@@ -152,7 +152,7 @@ namespace LastBastion.Game.Managers
                     break;
             }
             // set biofeedback calculation mode in random order:
-            switch (UnityEngine.Random.Range(0, 2))
+            switch (RandomNumberGenerator.Range(0, 2))
             {
                 case 0:
                     calculationTypes[0] = CalculationType.Alternative;

@@ -78,7 +78,7 @@ namespace LastBastion.Game.Managers
                             if (!lightsOn) SwitchLights();
                             else
                             {
-                                int choice = Random.Range(0, 3);
+                                int choice = RandomNumberGenerator.Range(0, 3);
                                 switch (choice)
                                 {
                                     case 0:
@@ -116,7 +116,7 @@ namespace LastBastion.Game.Managers
                 else
                 {
                     somethingHappened = true;
-                    int randomEvent = Random.Range(0, 5);
+                    int randomEvent = RandomNumberGenerator.Range(0, 5);
                     if (!lightsOn) SwitchLights();
                     else
                     {
@@ -166,7 +166,7 @@ namespace LastBastion.Game.Managers
             if (other.gameObject.tag == "Player" && !lightsBroken)
             {
                 isActive = true;
-                StartCoroutine(CooldownTimer(Random.Range(5f, 7f)));
+                StartCoroutine(CooldownTimer(RandomNumberGenerator.Range(5f, 7f)));
             }
         }
 
@@ -240,7 +240,7 @@ namespace LastBastion.Game.Managers
         public void ExplodeRandomLight()
         {
             List<LightSource> temp = lights.Where(x => x.IsBroken == false).ToList();
-            if (temp.Count > 0) lights[Random.Range(0, temp.Count)].ExplodeLight();
+            if (temp.Count > 0) lights[RandomNumberGenerator.Range(0, temp.Count)].ExplodeLight();
             else
             {
                 // all lights are already broken
@@ -265,7 +265,7 @@ namespace LastBastion.Game.Managers
             if (lightsBroken) return;
             List<LightSource> temp = lights.Where(x => x.IsBroken == false).ToList();
             // choose randomly which light will blink:
-            int index = Random.Range(0, temp.Count);
+            int index = RandomNumberGenerator.Range(0, temp.Count);
             temp[index].DoBlink();
         }
         #endregion

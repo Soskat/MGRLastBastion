@@ -222,7 +222,7 @@ namespace LastBastion.Game.Player
         /// <returns>Time in seconds</returns>
         private int GetRandomSecondsShortRange()
         {
-            return Random.Range(30, 90);
+            return RandomNumberGenerator.Range(30, 90);
         }
 
         /// <summary>
@@ -231,7 +231,7 @@ namespace LastBastion.Game.Player
         /// <returns>Time in seconds</returns>
         private int GetRandomSecondsLongRange()
         {
-            return Random.Range(90, 150);
+            return RandomNumberGenerator.Range(90, 150);
         }
 
         /// <summary>
@@ -241,10 +241,10 @@ namespace LastBastion.Game.Player
         private IEnumerator TurnOffFlashlightOnOutro()
         {
             // turn off flashlight's light;
-            yield return new WaitForSeconds(Random.Range(3, 5));
+            yield return new WaitForSeconds(RandomNumberGenerator.Range(3f, 5f));
             StartCoroutine(flashlight.BlinkToDeath());
             // hide flashlight:
-            yield return new WaitForSeconds(Random.Range(3, 5));
+            yield return new WaitForSeconds(RandomNumberGenerator.Range(3f, 5f));
             animator.applyRootMotion = false;
             animator.Play(flashlightHideAnimState);
         }

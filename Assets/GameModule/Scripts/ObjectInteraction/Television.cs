@@ -114,7 +114,7 @@ namespace LastBastion.Game.ObjectInteraction
                     // biofeedback OFF:
                     else
                     {
-                        GetComponent<SphereCollider>().radius += Random.Range(0.1f, 1.5f) * distanceToEvent;
+                        GetComponent<SphereCollider>().radius += RandomNumberGenerator.Range(0.1f, 1.5f) * distanceToEvent;
                     }
                     wasActivated = true;
                     canTurnOn = true;
@@ -145,7 +145,7 @@ namespace LastBastion.Game.ObjectInteraction
                     // biofeedback OFF:
                     else
                     {
-                        GetComponent<SphereCollider>().radius += Random.Range(0.1f, 1.5f) * activationRange * 2f;
+                        GetComponent<SphereCollider>().radius += RandomNumberGenerator.Range(0.1f, 1.5f) * activationRange * 2f;
                     }
                     canTurnOn = false;
                     canTurnOff = true;
@@ -201,11 +201,11 @@ namespace LastBastion.Game.ObjectInteraction
             // get current hue, saturation and value of material color:
             Color.RGBToHSV(material.GetColor("_EmissionColor"), out hue, out saturation, out value);
             // set new light intensity and color value:
-            monitorLight.intensity = Random.Range(1.0f, 2.0f);
+            monitorLight.intensity = RandomNumberGenerator.Range(1.0f, 2.0f);
             value = monitorLight.intensity - 1f;
             // set new material color:
             material.SetColor("_EmissionColor", Color.HSVToRGB(hue, saturation, value));
-            yield return new WaitForSeconds(Random.Range(0.05f, 0.1f));
+            yield return new WaitForSeconds(RandomNumberGenerator.Range(0.05f, 0.1f));
             StartCoroutine(Blink());
         }
 
@@ -218,7 +218,7 @@ namespace LastBastion.Game.ObjectInteraction
             channelAudioSource.PlayOneShot(channelSounds[channelSoundIndex]);
             channelSoundIndex++;
             if (channelSoundIndex >= channelSounds.Count) channelSoundIndex = 0;
-            yield return new WaitForSeconds(Random.Range(4.0f, 6.0f));
+            yield return new WaitForSeconds(RandomNumberGenerator.Range(4.0f, 6.0f));
             StartCoroutine(ChannelSounds());
         }
         #endregion

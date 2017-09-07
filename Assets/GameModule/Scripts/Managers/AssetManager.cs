@@ -158,7 +158,7 @@ namespace LastBastion.Game.Managers
         {
             if (metalDoorSqueak.Count > 0)
             {
-                int index = Random.Range(0, metalDoorSqueak.Count);
+                int index = RandomNumberGenerator.Range(0, metalDoorSqueak.Count);
                 return metalDoorSqueak[index];
             }
             else return null;
@@ -172,7 +172,7 @@ namespace LastBastion.Game.Managers
         {
             if (woodenDoorSqueak.Count > 0)
             {
-                int index = Random.Range(0, woodenDoorSqueak.Count);
+                int index = RandomNumberGenerator.Range(0, woodenDoorSqueak.Count);
                 return woodenDoorSqueak[index];
             }
             else return null;

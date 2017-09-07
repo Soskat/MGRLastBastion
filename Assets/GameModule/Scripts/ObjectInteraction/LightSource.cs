@@ -104,14 +104,14 @@ namespace LastBastion.Game.ObjectInteraction
         {
             isBusy = true;
             // simulate few light blinks:
-            int blinks = Random.Range(1, 4);
+            int blinks = RandomNumberGenerator.Range(1, 4);
             for(int i = 0; i < blinks; i++)
             {
                 SetLightMode(true);
                 PlayBrokenIgnitorSound();
-                yield return new WaitForSeconds(Random.Range(0.1f, 0.2f));
+                yield return new WaitForSeconds(RandomNumberGenerator.Range(0.1f, 0.2f));
                 SetLightMode(false);
-                yield return new WaitForSeconds(Random.Range(0.2f, 0.4f));
+                yield return new WaitForSeconds(RandomNumberGenerator.Range(0.2f, 0.4f));
             }
             // finally turn the light on:
             SetLightMode(true);
@@ -167,7 +167,7 @@ namespace LastBastion.Game.ObjectInteraction
         {
             isBusy = true;
             SetLightMode(false);
-            yield return new WaitForSeconds(Random.Range(0.1f, 0.3f));
+            yield return new WaitForSeconds(RandomNumberGenerator.Range(0.1f, 0.3f));
             SetLightMode(true);
             PlayBrokenIgnitorSound();
             isBusy = false;

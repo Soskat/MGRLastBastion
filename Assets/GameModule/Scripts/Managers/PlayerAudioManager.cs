@@ -113,9 +113,9 @@ namespace LastBastion.Game.Managers
         /// <returns></returns>
         private IEnumerator Heartbeat()
         {
-            yield return new WaitForSeconds(Random.Range(60, 120));
+            yield return new WaitForSeconds(RandomNumberGenerator.Range(60f, 120f));
             StartPlayingSound();
-            yield return new WaitForSeconds(Random.Range(30, 90));
+            yield return new WaitForSeconds(RandomNumberGenerator.Range(30f, 90f));
             StopPlayingSound();
             StartCoroutine(Heartbeat());
         }

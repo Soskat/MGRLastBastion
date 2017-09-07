@@ -53,9 +53,9 @@ namespace LastBastion.Game.Player
             // simulate hand shaking:
             if (shakeOn)
             {
-                float x = Random.Range(0.0f, GameManager.instance.BBModule.ArousalModifier);
-                float y = Random.Range(0.0f, GameManager.instance.BBModule.ArousalModifier);
-                float z = Random.Range(0.0f, GameManager.instance.BBModule.ArousalModifier);
+                float x = RandomNumberGenerator.Range(0.0f, GameManager.instance.BBModule.ArousalModifier);
+                float y = RandomNumberGenerator.Range(0.0f, GameManager.instance.BBModule.ArousalModifier);
+                float z = RandomNumberGenerator.Range(0.0f, GameManager.instance.BBModule.ArousalModifier);
                 // update transform rotation:
                 transform.localRotation = Quaternion.Euler(x, y, z);
             }
@@ -70,11 +70,11 @@ namespace LastBastion.Game.Player
         /// <returns></returns>
         private IEnumerator Shake()
         {
-            yield return new WaitForSeconds(Random.Range(60, 120));
+            yield return new WaitForSeconds(RandomNumberGenerator.Range(60f, 120f));
             shakeOn = true;
             // save info about start of the shaking event:
             if (GameManager.instance.AnalyticsEnabled) LevelManager.instance.AddGameEvent(Analytics.EventType.Shaking);
-            yield return new WaitForSeconds(Random.Range(30, 90));
+            yield return new WaitForSeconds(RandomNumberGenerator.Range(30f, 90f));
             shakeOn = false;
             StartCoroutine(Shake());
         }
