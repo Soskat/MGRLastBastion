@@ -2013,7 +2013,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: (Only UI)
+  m_Text: 
 --- !u!114 &114183642443660514
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3935,7 +3935,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ca451c12395ff84dbd6f2399ab0b44e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textInEnglish: (Only UI)
+  textInEnglish: 
   textInPolish: (Tylko interfejs)
 --- !u!114 &114751718754107238
 MonoBehaviour:

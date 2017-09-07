@@ -55,6 +55,7 @@ MonoBehaviour:
   gameTypeDropdown: {fileID: 0}
   analyticsToggle: {fileID: 0}
   debugModeToggle: {fileID: 0}
+  simulatorToggle: {fileID: 0}
   settingsPanel: {fileID: 0}
   bbMenuPanel: {fileID: 0}
   listViewport: {fileID: 0}
