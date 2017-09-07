@@ -17,8 +17,6 @@ namespace LastBastion.Game.Player
         [SerializeField] private float duration = 35f;
         /// <summary>Magnitute of camera shake effect.</summary>
         [SerializeField] private float magnitude = 5f;
-        /// <summary>Has camera shake effect been activated?</summary>
-        private bool wasActivated;
         /// <summary>Assigned <see cref="Camera"/> component.</summary>
         private Camera playerCamera;
         /// <summary>Initial camera Y position.</summary>
@@ -30,20 +28,14 @@ namespace LastBastion.Game.Player
         // Use this for initialization
         void Start()
         {
-            wasActivated = false;
+            //wasActivated = false;
             playerCamera = GetComponent<Camera>();
             initialCameraYPosition = playerCamera.transform.localPosition.y;
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-            if (!wasActivated && LevelManager.instance.IsOutroOn)
+            LevelManager.instance.OutroHasStarted += () =>
             {
                 // start camera shaking:
                 StartCoroutine(Shake());
-                wasActivated = true;
-            }
+            };
         }
         #endregion
 

@@ -48,7 +48,7 @@ namespace LastBastion.Game.Plot
                 if (!wasActivated && Input.GetKeyDown(KeyCode.T))
                 {
                     // start playing the level outro:
-                    LevelManager.instance.IsOutroOn = true;
+                    LevelManager.instance.OutroHasStarted();
                     glyphParticle.gameObject.SetActive(true);
                     StartCoroutine(EndGameCounter());
                     wasActivated = true;

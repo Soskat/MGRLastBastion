@@ -55,6 +55,7 @@ namespace LastBastion.Game.Managers
         // Use this for initialization
         void Start()
         {
+            LevelManager.instance.OutroHasStarted += () => { StopCoroutine(Heartbeat()); };
             // set up all audio sources:
             biofeedbackAudio.clip = biofeedbackSound;
             biofeedbackAudio.playOnAwake = false;

@@ -44,18 +44,18 @@ namespace LastBastion.Game.Managers
         {
             lights.AddRange(GetComponentsInChildren<LightSource>());
             somethingHappened = false;
+            LevelManager.instance.OutroHasStarted += () =>
+            {
+                // shut down all lights:
+                if (lightsOn) ExplodeAllLights();
+            };
         }
 
         // Update is called once per frame
         void Update()
         {
             // if level outro is playing, skip all calculations:
-            if (LevelManager.instance.IsOutroOn)
-            {
-                // shut down all lights:
-                if (lightsOn) ExplodeAllLights();
-                return;
-            }
+            if (LevelManager.instance.IsOutroOn) return;
 
             if (isActive && !lightsBroken && !isBusy)
             {

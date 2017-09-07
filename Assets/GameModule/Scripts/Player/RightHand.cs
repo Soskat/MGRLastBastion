@@ -44,6 +44,15 @@ namespace LastBastion.Game.Player
             flashlightHideAnimState = Animator.StringToHash("HideFlashlight");
             flashlightDrawAnimState = Animator.StringToHash("DrawFlashlight");
             flashlightReviveAnimState = Animator.StringToHash("FlashlightRevive");
+            LevelManager.instance.OutroHasStarted += () =>
+            {
+                // if flashilight was turned on before outro has started, turn it off:
+                if (flashlight.LightOn && !flashlight.IsBusy)
+                {
+                    flashlight.IsBusy = true;
+                    StartCoroutine(TurnOffFlashlightOnOutro());
+                }
+            };
             // calculate current fps value:
             deltaTime = 1.0f / Time.deltaTime;
 
@@ -65,16 +74,7 @@ namespace LastBastion.Game.Player
         new void Update()
         {
             // if level outro is playing, skip all calculations:
-            if (LevelManager.instance.IsOutroOn)
-            {
-                // if flashilight was turned on before outro has started, turn it off:
-                if (flashlight.LightOn && !flashlight.IsBusy)
-                {
-                    flashlight.IsBusy = true;
-                    StartCoroutine(TurnOffFlashlightOnOutro());
-                }
-                return;
-            }
+            if (LevelManager.instance.IsOutroOn) return;
 
             // player is focused on object in his hands - skip all calculations:
             if (LevelManager.instance.Player.GetComponent<InteractionController>().IsFocused) return;

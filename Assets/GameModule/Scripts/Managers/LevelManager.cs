@@ -67,6 +67,8 @@ namespace LastBastion.Game.Managers
         private int activatedRunes;
         /// <summary>Is in-game menu on?</summary>
         private bool menuOn;
+        /// <summary>Is the outro of the level playing?</summary>
+        private bool isOutroOn;
         #endregion
 
 
@@ -86,7 +88,9 @@ namespace LastBastion.Game.Managers
         /// <summary>Is current goal the last one?</summary>
         public bool CurrentGoalIsTheOrbGoal { get { return currentGoal.Weight == GetComponent<PlotManager>().OrbGoal.Weight; } }
         /// <summary>Is the outro of the level playing?</summary>
-        public bool IsOutroOn { get; set; }
+        public bool IsOutroOn { get { return isOutroOn; } }
+        /// <summary>Is the outro of the level has started?</summary>
+        public Action OutroHasStarted { get; set; }
         /// <summary>Is game paused?</summary>
         public bool IsPaused { get { return menuOn; } }
         /// <summary>Is render manager on?</summary>
@@ -106,7 +110,7 @@ namespace LastBastion.Game.Managers
                 playerAudioManager = player.GetComponent<PlayerAudioManager>();
                 GameObject go = GameObject.FindGameObjectWithTag("RunesManager");
                 if (go != null) runesManager = go.GetComponent<RunesManager>();
-                IsOutroOn = false;
+                isOutroOn = false;
                 activatedRunes = 0;
                 // make some assertions:
                 Assert.IsNotNull(endGameTriggerPanel);
@@ -127,6 +131,7 @@ namespace LastBastion.Game.Managers
             goalUpdatePanel.SetActive(false);
             SetEndGamePanelActivityStateTo(false);
             currentGoal = GetComponent<PlotManager>().Init();
+            OutroHasStarted += () => { isOutroOn = true; };
             // set up in-game menu:
             resumeButton.onClick.AddListener(() => {
                 menuOn = false;
