@@ -162,7 +162,7 @@ namespace LastBastion.Game.Managers
             // save level info:
             if (GameManager.instance.AnalyticsEnabled)
             {
-                DataManager.AddLevelInfo(levelName, GameManager.instance.CurrentCalculationType);
+                DataManager.AddLevelInfo(GameManager.instance.CurrentLevelOrder, levelName, GameManager.instance.CurrentCalculationType);
                 DataManager.AddGameEvent(Analytics.EventType.GameStart, stopwatch.Elapsed);
             }
         }

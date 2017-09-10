@@ -47,8 +47,7 @@ namespace LastBastion.Analytics
             filePath = dataDirectory + playerID;
             file = File.Create(filePath);
             // save info about player and game settings:
-            AddTestInfo(InfoType.ID, playerID);
-            AddTestInfo(InfoType.GameType, gameType);
+            AddTestInfo(playerID, gameType);
         }
 
         /// <summary>
@@ -64,31 +63,32 @@ namespace LastBastion.Analytics
         /// </summary>
         /// <param name="infoType">Type of game settings data</param>
         /// <param name="value">Value of game settings data</param>
-        public static void AddTestInfo(InfoType infoType, object value)
+        public static void AddTestInfo(long playerID, BiofeedbackMode gameType)
         {
-            string data = "- " + infoType.ToString() + " " + value.ToString();
+            string data = "- TestInfo " + playerID.ToString() + " " + gameType.ToString();
             SaveToFile(data);
         }
 
-        /// <summary>
-        /// Saves calibration data (average HR and GSR values) as string "- Avg_HR_GSR [averageHR] [averageGSR]".
-        /// </summary>
-        /// <param name="averageHr">Average HR</param>
-        /// <param name="averageGsr">Average GSR</param>
-        public static void AddCalibrationData(int averageHr, int averageGsr)
-        {
-            string data = "- " + InfoType.Avg_HR_GSR.ToString() + " " + averageHr.ToString() + " " + averageGsr.ToString();
-            SaveToFile(data);
-        }
+        ///// <summary>
+        ///// Saves calibration data (average HR and GSR values) as string "- Avg_HR_GSR [averageHR] [averageGSR]".
+        ///// </summary>
+        ///// <param name="averageHr">Average HR</param>
+        ///// <param name="averageGsr">Average GSR</param>
+        //public static void AddCalibrationData(int averageHr, int averageGsr)
+        //{
+        //    string data = "- " + InfoType.Avg_HR_GSR.ToString() + " " + averageHr.ToString() + " " + averageGsr.ToString();
+        //    SaveToFile(data);
+        //}
 
         /// <summary>
         /// Saves level data as string: "- [levelName] [calculationType]".
         /// </summary>
+        /// <param name="levelOrder">Order of the level</param>
         /// <param name="levelName">Name of the level</param>
         /// <param name="calculationType">Calculation type associated with the level</param>
-        public static void AddLevelInfo(LevelName levelName, CalculationType calculationType)
+        public static void AddLevelInfo(int levelOrder, LevelName levelName, CalculationType calculationType)
         {
-            string data = "- " + levelName + " " + calculationType;
+            string data = "- " + levelOrder + " " + levelName + " " + calculationType;
             SaveToFile(data);
         }
         
@@ -115,8 +115,6 @@ namespace LastBastion.Analytics
         public static void AddGameEvent(EventType eventType, TimeSpan time, object value = null)
         {
             string data;
-            //if (value != null) data = eventType + " " + String.Format("{0:00}:{1:00}:{2:000}", time.Minutes, time.Seconds, time.Milliseconds) + " " + value.ToString();
-            //else data = eventType + " " + String.Format("{0:00}:{1:00}:{2:000}", time.Minutes, time.Seconds, time.Milliseconds);
             if (value != null) data = eventType + " " + time.TotalMilliseconds + " " + value.ToString();
             else data = eventType + " " + time.TotalMilliseconds;
             SaveToFile(data);
@@ -128,10 +126,8 @@ namespace LastBastion.Analytics
         /// <param name="survey">List of questions</param>
         public static void AddSurveyAnswers(List<Question> questions)
         {
-            //// save section headline:
-            //SaveToFile("- survey_answers");
             // save survey answers:
-            foreach (Question question in questions) SaveToFile("#" + question.ID + " " + question.AnswerType + " " + question.Answer);
+            foreach (Question question in questions) SaveToFile("# " + question.ID + " " + question.Answer);
         }
         #endregion
 

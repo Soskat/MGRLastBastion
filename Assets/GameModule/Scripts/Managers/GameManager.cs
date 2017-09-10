@@ -59,6 +59,8 @@ namespace LastBastion.Game.Managers
         public ListController ListController { get; set; }
         /// <summary>Active method of calculating player's arousal.</summary>
         public CalculationType CurrentCalculationType { get { return calculationTypes[currentCalculationTypeID]; } }
+        /// <summary>Order number of the current level.</summary>
+        public int CurrentLevelOrder { get { return currentCalculationTypeID + 1; } }
         /// <summary>Current biofeedback mode.</summary>
         public BiofeedbackMode BiofeedbackMode { get { return biofeedbackMode; } set { biofeedbackMode = value; } }
         /// <summary>Is analytics module enabled?</summary>

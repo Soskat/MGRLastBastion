@@ -117,7 +117,7 @@ namespace LastBastion.Game.Managers
                 introTextUI.text = "( Loading game level )";
 
                 // safe calibration data:
-                if (GameManager.instance.AnalyticsEnabled) DataManager.AddCalibrationData(GameManager.instance.BBModule.AverageHr, GameManager.instance.BBModule.AverageGsr);
+                //if (GameManager.instance.AnalyticsEnabled) DataManager.AddCalibrationData(GameManager.instance.BBModule.AverageHr, GameManager.instance.BBModule.AverageGsr);
                 GameManager.instance.LoadNextLevel();
             }
 
