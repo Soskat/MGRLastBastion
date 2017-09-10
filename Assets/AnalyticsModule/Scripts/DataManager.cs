@@ -128,10 +128,10 @@ namespace LastBastion.Analytics
         /// <param name="survey">List of questions</param>
         public static void AddSurveyAnswers(List<Question> questions)
         {
-            // save section headline:
-            SaveToFile("- survey_answers");
+            //// save section headline:
+            //SaveToFile("- survey_answers");
             // save survey answers:
-            foreach (Question question in questions) SaveToFile(question.ID + " " + question.AnswerType + " " + question.Answer);
+            foreach (Question question in questions) SaveToFile("#" + question.ID + " " + question.AnswerType + " " + question.Answer);
         }
         #endregion
 

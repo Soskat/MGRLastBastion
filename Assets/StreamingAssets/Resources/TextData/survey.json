@@ -79,43 +79,43 @@
             "Answer": ""
         },
         {
-            "ID": 5,
+            "ID": 13,
             "Content": "Który poziom był bardziej wymagający?",
             "AnswerType": 5,
             "Answer": ""
         },
         {
-            "ID": 13,
+            "ID": 14,
             "Content": "Który poziom był bardziej wciągający?",
             "AnswerType": 5,
             "Answer": ""
         },
         {
-            "ID": 14,
+            "ID": 15,
             "Content": "Który poziom zaskoczył Cię bardziej?",
             "AnswerType": 5,
             "Answer": ""
         },
         {
-            "ID": 15,
+            "ID": 16,
             "Content": "Na którym poziomie bałeś(aś) się bardziej?",
             "AnswerType": 5,
             "Answer": ""
         },
         {
-            "ID": 16,
+            "ID": 17,
             "Content": "Który poziom był łatwiejszy?",
             "AnswerType": 5,
             "Answer": ""
         },
         {
-            "ID": 17,
+            "ID": 18,
             "Content": "Który poziom był bardziej przewidywalny?",
             "AnswerType": 5,
             "Answer": ""
         },
         {
-            "ID": 18,
+            "ID": 19,
             "Content": "Co sprawiało, że się bałeś(aś)?",
             "AnswerType": 6,
             "Answer": ""
