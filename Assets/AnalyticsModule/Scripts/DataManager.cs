@@ -115,8 +115,10 @@ namespace LastBastion.Analytics
         public static void AddGameEvent(EventType eventType, TimeSpan time, object value = null)
         {
             string data;
-            if (value != null) data = eventType + " " + String.Format("{0:00}:{1:00}", time.Minutes, time.Seconds) + " " + value.ToString();
-            else data = eventType + " " + String.Format("{0:00}:{1:00}", time.Minutes, time.Seconds);
+            //if (value != null) data = eventType + " " + String.Format("{0:00}:{1:00}:{2:000}", time.Minutes, time.Seconds, time.Milliseconds) + " " + value.ToString();
+            //else data = eventType + " " + String.Format("{0:00}:{1:00}:{2:000}", time.Minutes, time.Seconds, time.Milliseconds);
+            if (value != null) data = eventType + " " + time.TotalMilliseconds + " " + value.ToString();
+            else data = eventType + " " + time.TotalMilliseconds;
             SaveToFile(data);
         }
 
