@@ -140,28 +140,44 @@ namespace LastBastion.Game.Managers
             currentLevelID = -1;
             currentCalculationTypeID = 0;
 
-            // set levels in random order:
-            switch (RandomNumberGenerator.Range(0, 2))
+            int levelOrder;
+            if (BiofeedbackMode == BiofeedbackMode.BiofeedbackON)
+            {
+                levelOrder = PlayerPrefs.GetInt("levelOrderBiofeedbackOn");
+                PlayerPrefs.SetInt("levelOrderBiofeedbackOn", (levelOrder + 1) % 4);
+            }
+            else
+            {
+                levelOrder = PlayerPrefs.GetInt("levelOrderBiofeedbackOff");
+                PlayerPrefs.SetInt("levelOrderBiofeedbackOff", (levelOrder + 1) % 4);
+            }
+            // set levels and calculation types in chosen order:
+            switch (levelOrder)
             {
                 case 0:
                     gameLevels[indexOfFirstLevel] = "LevelA";
                     gameLevels[indexOfSecondLevel] = "LevelB";
-                    break;
-
-                case 1:
-                    gameLevels[indexOfFirstLevel] = "LevelB";
-                    gameLevels[indexOfSecondLevel] = "LevelA";
-                    break;
-            }
-            // set biofeedback calculation mode in random order:
-            switch (RandomNumberGenerator.Range(0, 2))
-            {
-                case 0:
                     calculationTypes[0] = CalculationType.Alternative;
                     calculationTypes[1] = CalculationType.Conjunction;
                     break;
 
                 case 1:
+                    gameLevels[indexOfFirstLevel] = "LevelA";
+                    gameLevels[indexOfSecondLevel] = "LevelB";
+                    calculationTypes[0] = CalculationType.Conjunction;
+                    calculationTypes[1] = CalculationType.Alternative;
+                    break;
+
+                case 2:
+                    gameLevels[indexOfFirstLevel] = "LevelB";
+                    gameLevels[indexOfSecondLevel] = "LevelA";
+                    calculationTypes[0] = CalculationType.Alternative;
+                    calculationTypes[1] = CalculationType.Conjunction;
+                    break;
+
+                case 3:
+                    gameLevels[indexOfFirstLevel] = "LevelB";
+                    gameLevels[indexOfSecondLevel] = "LevelA";
                     calculationTypes[0] = CalculationType.Conjunction;
                     calculationTypes[1] = CalculationType.Alternative;
                     break;
@@ -186,8 +202,9 @@ namespace LastBastion.Game.Managers
             // set up current calculation type if needed:
             if (currentLevelID == 2) currentCalculationTypeID++;
 
-            // load next scene (or main menu):
+            // load next scene:
             if (currentLevelID < gameLevels.Length) SceneManager.LoadScene(gameLevels[currentLevelID]);
+            // load main menu after survey:
             else
             {
                 // safe info about game mode to PlayerPrefs:

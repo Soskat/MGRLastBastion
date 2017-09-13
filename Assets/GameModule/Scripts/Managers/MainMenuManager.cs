@@ -211,8 +211,8 @@ namespace LastBastion.Game.Managers
         /// <param name="toggle">Toggle</param>
         public void SetAutoGameMode(Toggle toggle)
         {
-            if (toggle.isOn) gameTypeDropdown.enabled = false;
-            else gameTypeDropdown.enabled = true;
+            if (toggle.isOn) gameTypeDropdown.interactable = false;
+            else gameTypeDropdown.interactable = true;
         }
         #endregion
     }
