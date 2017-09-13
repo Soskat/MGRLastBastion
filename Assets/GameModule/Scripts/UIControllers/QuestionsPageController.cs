@@ -59,16 +59,14 @@ namespace LastBastion.Game.UIControllers
             if (question.AnswerType == QuestionType.Open)
             {
                 questionPanel = Instantiate(Resources.Load("UIElements/QuestionPanel_Open") as GameObject, GetComponent<RectTransform>().transform);
-                questionPanel.GetComponent<QuestionPanelController>().UpdatePanel(question);
-                questionPanel.GetComponent<RectTransform>().localPosition.Set(0, yPositions[yPositionIndex] = 40, 0);
             }
             // question panel has got a dropdown menu -> closed question:
             else
             {
                 questionPanel = Instantiate(Resources.Load("UIElements/QuestionPanel") as GameObject, GetComponent<RectTransform>().transform);
-                questionPanel.GetComponent<QuestionPanelController>().UpdatePanel(question);
-                questionPanel.GetComponent<RectTransform>().localPosition = new Vector2(0, questionPanel.GetComponent<RectTransform>().localPosition.y + yPositions[yPositionIndex]);
             }
+            questionPanel.GetComponent<QuestionPanelController>().UpdatePanel(question);
+            questionPanel.GetComponent<RectTransform>().localPosition = new Vector2(0, questionPanel.GetComponent<RectTransform>().localPosition.y + yPositions[yPositionIndex]);
             questions.Add(questionPanel.GetComponent<QuestionPanelController>());
         }
         #endregion
@@ -87,7 +85,7 @@ namespace LastBastion.Game.UIControllers
                 // choose dropdown menu based on AnswerType:
                 int yPositionIndex = yPositions.Count - questionSpaceUnits;
                 int questionSpaceCost = 0;
-                if (GameManager.instance.SurveyManager.Survey.Questions[currentQuestion].AnswerType == QuestionType.Open) questionSpaceCost = 3;
+                if (GameManager.instance.SurveyManager.Survey.Questions[currentQuestion].AnswerType == QuestionType.Open) questionSpaceCost = 2;
                 else questionSpaceCost = 1;
 
                 // if there's enough questionSpaceUnit for next question, continue:
