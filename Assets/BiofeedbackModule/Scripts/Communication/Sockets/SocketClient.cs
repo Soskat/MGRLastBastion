@@ -64,8 +64,14 @@ namespace Communication.Sockets
                 allDone.Reset();
 
                 // Establish the remote endpoint for the socket:
-                IPHostEntry ipHostInfo = Dns.GetHostEntry(hostName);
-                IPAddress ipAddress = Array.Find(ipHostInfo.AddressList, a => a.AddressFamily == AddressFamily.InterNetwork);
+                //Debug.Log("buka 1");
+                //IPHostEntry ipHostInfo = Dns.GetHostEntry(hostName);
+                var ipAddresses = Dns.GetHostAddresses(hostName);
+                //Debug.Log("buka 2");
+                //IPAddress ipAddress = Array.Find(ipHostInfo.AddressList, a => a.AddressFamily == AddressFamily.InterNetwork);
+                IPAddress ipAddress = Array.Find(ipAddresses, a => a.AddressFamily == AddressFamily.InterNetwork);
+                //Debug.Log("IP address: " + ipAddress);
+
                 IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
 
                 // Create a TCP/IP socket:

@@ -18,7 +18,7 @@ namespace LastBastion.Biofeedback
     {
         #region Constants
         /// <summary>Default remote host name.</summary>
-        public const string DefaultHostName = "192.168.0.73";
+        public const string DefaultHostName = "192.168.1.42";
         /// <summary>Default remote host service port.</summary>
         public const int DefaultServicePort = 2055;
         #endregion
@@ -177,6 +177,22 @@ namespace LastBastion.Biofeedback
         /// </summary>
         public void RefreshList()
         {
+            //Message msg1 = new Message(MessageCode.GET_DATA_ASK, "band_0");
+            //Message msg2 = new Message(MessageCode.SHOW_LIST_ASK, null);
+            //Message msg3 = new Message(MessageCode.CALIB_ASK, null);
+
+            ////Debug.Log("1 -- GET_DATA_ASK:"); SendMessageToBandBridgeServer(msg1);
+            //Debug.Log("2 -- SHOW_LIST_ASK:"); SendMessageToBandBridgeServer(msg2);
+            ////Debug.Log("3 -- CALIB_ASK:"); SendMessageToBandBridgeServer(msg3);
+            ////Debug.Log("4 -- GET_DATA_ASK:"); SendMessageToBandBridgeServer(msg1);
+            ////Debug.Log("5 -- CALIB_ASK:"); SendMessageToBandBridgeServer(msg3);
+            ////Debug.Log("6 -- GET_DATA_ASK:"); SendMessageToBandBridgeServer(msg1);
+            ////Debug.Log("7 -- GET_DATA_ASK:"); SendMessageToBandBridgeServer(msg1);
+            ////Debug.Log("8 -- GET_DATA_ASK:"); SendMessageToBandBridgeServer(msg1);
+
+
+
+
             try
             {
                 Message msg = new Message(MessageCode.SHOW_LIST_ASK, null);
