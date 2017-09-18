@@ -95,7 +95,8 @@ namespace Communication.Sockets
                     if (receivedMsg.Length > 0)
                     {
                         receivedResponse = Message.Deserialize(receivedMsg);
-                        Debug.Log("Received: " + receivedResponse);
+                        Debug.Log(String.Format("\tReceived {0} bytes", receivedMsg.Length));
+                        //Debug.Log("Received: " + receivedResponse);
                         allDone.Set();
                     }
                 };
@@ -137,6 +138,8 @@ namespace Communication.Sockets
                 // convert message into byte array and wrap it for network transport:
                 var serializedMsg = Message.Serialize(data);
                 byte[] byteData = PacketProtocol.WrapMessage(serializedMsg);
+
+                Debug.Log(String.Format("\t...almost send {0} bytes [{1}]", byteData.Length, data.Code));//-----------
 
                 // Begin sending the data to the remote device:
                 client.BeginSend(byteData, 0, byteData.Length, 0, new AsyncCallback(SendCallback), client);

@@ -105,8 +105,8 @@ namespace Communication.Packet
         {
             // Process the incoming data in chunks, as the ReadCompleted requests it
 
-            // Logically, we are satisfying read requests with the received data, instead of processing the
-            //  incoming buffer looking for messages.
+            // Logically, we are satisfying read requests with the received data,
+            // instead of processing the incoming buffer looking for messages.
 
             int i = 0;
             while (i != data.Length)
