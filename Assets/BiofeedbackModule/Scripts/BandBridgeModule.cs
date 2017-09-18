@@ -29,6 +29,12 @@ namespace LastBastion.Biofeedback
         [SerializeField] private bool isEnabled = true;
         /// <summary>Is biofeedback simulator module enabled?</summary>
         [SerializeField] private bool isSimulatorEnabled = false;
+        /// <summary>Is MS Band device connected?</summary>
+        [SerializeField] private bool isBandPaired = false;
+        /// <summary>Is calibration in progress?</summary>
+        [SerializeField] private bool isCalibrationOn = false;
+        /// <summary>Can receive new Band readings?</summary>
+        [SerializeField] private bool canReceiveBandReadings = false;
         /// <summary>Remote host name.</summary>
         [SerializeField] private string remoteHostName;
         /// <summary>Remote host service port.</summary>
@@ -37,36 +43,27 @@ namespace LastBastion.Biofeedback
         [SerializeField] private TripleTreshold hrLevel;
         /// <summary>Tresholds for GSR data.</summary>
         [SerializeField] private TripleTreshold gsrLevel;
-        /// <summary>Is MS Band device connected?</summary>
-        private bool isBandPaired = false;
-        /// <summary>Is calibration in progress?</summary>
-        private bool isCalibrationOn = false;
-        /// <summary>Can receive new Band readings?</summary>
-        private bool canReceiveBandReadings = false;
         /// <summary>List of connected MS Band devices.</summary>
         private List<string> connectedBands;
         #region Biofeedback data
         /// <summary>Average HR value.</summary>
-        private int averageHr = 1;
+        [SerializeField] private int averageHr = 1;
         /// <summary>Average GSR value.</summary>
-        private int averageGsr = 1;
+        [SerializeField] private int averageGsr = 1;
         /// <summary>Current HR value.</summary>
-        private int currentHr = 1;
+        [SerializeField] private int currentHr = 1;
         /// <summary>Current GSR value.</summary>
-        private int currentGsr = 1;
+        [SerializeField] private int currentGsr = 1;
         /// <summary>Current HR modifier.</summary>
-        [SerializeField]
-        private float hrModifier = 1.0f;
+        [SerializeField] private float hrModifier = 1.0f;
         /// <summary>Current HR state.</summary>
         private DataState hrState;
         /// <summary>Current GSR modifier.</summary>
-        [SerializeField]
-        private float gsrModifier = 1.0f;
+        [SerializeField] private float gsrModifier = 1.0f;
         /// <summary>Current GSR state.</summary>
         private DataState gsrState;
         /// <summary>Current arousal modifier.</summary>
-        [SerializeField]
-        private float arousalModifier = 1.0f;
+        [SerializeField] private float arousalModifier = 1.0f;
         /// <summary>Current arousal state.</summary>
         private DataState arousalState;
         #endregion
@@ -163,11 +160,6 @@ namespace LastBastion.Biofeedback
         {
             connectedBands = new List<string>();
         }
-
-        //// Sent to all game objects before the application is quit
-        //private void OnApplicationQuit()
-        //{
-        //}
         #endregion
 
 
@@ -177,22 +169,6 @@ namespace LastBastion.Biofeedback
         /// </summary>
         public void RefreshList()
         {
-            //Message msg1 = new Message(MessageCode.GET_DATA_ASK, "band_0");
-            //Message msg2 = new Message(MessageCode.SHOW_LIST_ASK, null);
-            //Message msg3 = new Message(MessageCode.CALIB_ASK, null);
-
-            ////Debug.Log("1 -- GET_DATA_ASK:"); SendMessageToBandBridgeServer(msg1);
-            //Debug.Log("2 -- SHOW_LIST_ASK:"); SendMessageToBandBridgeServer(msg2);
-            ////Debug.Log("3 -- CALIB_ASK:"); SendMessageToBandBridgeServer(msg3);
-            ////Debug.Log("4 -- GET_DATA_ASK:"); SendMessageToBandBridgeServer(msg1);
-            ////Debug.Log("5 -- CALIB_ASK:"); SendMessageToBandBridgeServer(msg3);
-            ////Debug.Log("6 -- GET_DATA_ASK:"); SendMessageToBandBridgeServer(msg1);
-            ////Debug.Log("7 -- GET_DATA_ASK:"); SendMessageToBandBridgeServer(msg1);
-            ////Debug.Log("8 -- GET_DATA_ASK:"); SendMessageToBandBridgeServer(msg1);
-
-
-
-
             try
             {
                 Message msg = new Message(MessageCode.SHOW_LIST_ASK, null);

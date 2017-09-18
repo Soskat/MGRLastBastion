@@ -54,7 +54,7 @@ namespace LastBastion.Game.Managers
         /// <summary>Instance of <see cref="AssetManager"/> class.</summary>
         public AssetManager Assets { get; set; }
         /// <summary>Is ready for new MS Band device sensors data?</summary>
-        public bool IsReadyForNewBandData { get; set; }
+        public bool IsReadyForNewBandData;
         /// <summary>Instance of <see cref="ListController"/> class.</summary>
         public ListController ListController { get; set; }
         /// <summary>Active method of calculating player's arousal.</summary>

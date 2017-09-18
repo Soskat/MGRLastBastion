@@ -70,11 +70,6 @@ namespace LastBastion.Game.Managers
                 GameManager.instance.BackToMainMenu();
             });
             skipIntroButton.onClick.AddListener(() => {
-                // safe calibration data:
-                //if (GameManager.instance.AnalyticsEnabled)
-                //{
-                //    DataManager.AddCalibrationData(GameManager.instance.BBModule.AverageHr, GameManager.instance.BBModule.AverageGsr);
-                //}
                 GameManager.instance.LoadNextLevel();
             });
             skipIntroButton.gameObject.SetActive(GameManager.instance.DebugMode);

@@ -178,8 +178,6 @@ namespace LastBastion.Game.Managers
                 Cursor.visible = true;
             }
 
-            if (Input.GetKeyDown(KeyCode.Y)) renderManagerOn = (renderManagerOn) ? false : true;
-
             // read input:
             if (!Player.GetComponent<InteractionController>().IsFocused && !IsOutroOn && Input.GetKeyDown(KeyCode.Q)) ShowCurrentGoal();
 
@@ -187,6 +185,7 @@ namespace LastBastion.Game.Managers
             if (GameManager.instance.DebugMode)
             {
                 if (Input.GetKeyDown(KeyCode.Keypad1)) EndLevel();
+                if (Input.GetKeyDown(KeyCode.Y)) renderManagerOn = (renderManagerOn) ? false : true;
             }
 
             // manage biofeedback: ===============================================
