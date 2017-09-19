@@ -59,8 +59,9 @@ namespace LastBastion.Game.Player
             // if biofeedback is off set up the blink events at random time:
             if (GameManager.instance.BiofeedbackMode == BiofeedbackMode.BiofeedbackOFF || !GameManager.instance.BBModule.IsEnabled)
             {
+                Debug.Log("niach");
                 StartCoroutine(BlinkFlashlight());
-                StartCoroutine(BlinkFlashlightToDeath());
+                //StartCoroutine(BlinkFlashlightToDeath());
             }
             // if biofeedback is on set up initial counters values:
             else
@@ -201,6 +202,8 @@ namespace LastBastion.Game.Player
         private IEnumerator BlinkFlashlight()
         {
             yield return new WaitForSeconds(GetRandomSecondsShortRange());
+            while (LevelManager.instance.Player.GetComponent<InteractionController>().IsFocused || !flashlight.LightOn)
+                yield return new WaitForSeconds(GetRandomSecondsShortRange());
             StartCoroutine(flashlight.Blink(true));
             StartCoroutine(BlinkFlashlight());
         }
@@ -211,7 +214,9 @@ namespace LastBastion.Game.Player
         /// <returns></returns>
         private IEnumerator BlinkFlashlightToDeath()
         {
-            yield return new WaitForSeconds(GetRandomSecondsLongRange());
+            yield return new WaitForSeconds(GetRandomSecondsShortRange());
+            while (LevelManager.instance.Player.GetComponent<InteractionController>().IsFocused || !flashlight.LightOn)
+                yield return new WaitForSeconds(GetRandomSecondsShortRange());
             StartCoroutine(flashlight.BlinkToDeath());
             StartCoroutine(BlinkFlashlightToDeath());
         }

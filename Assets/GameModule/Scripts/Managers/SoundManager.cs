@@ -37,7 +37,7 @@ namespace LastBastion.Game.Managers
         // Use this for initialization
         void Start()
         {
-            StartCoroutine(CooldownTimer(startDelay * 1.5f));
+            StartCoroutine(CooldownTimer(startDelay * RandomNumberGenerator.Range(1.0f, 2.0f)));
         }
 
         // Update is called once per frame
