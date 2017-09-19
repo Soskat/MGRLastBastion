@@ -59,9 +59,8 @@ namespace LastBastion.Game.Player
             // if biofeedback is off set up the blink events at random time:
             if (GameManager.instance.BiofeedbackMode == BiofeedbackMode.BiofeedbackOFF || !GameManager.instance.BBModule.IsEnabled)
             {
-                Debug.Log("niach");
                 StartCoroutine(BlinkFlashlight());
-                //StartCoroutine(BlinkFlashlightToDeath());
+                StartCoroutine(BlinkFlashlightToDeath());
             }
             // if biofeedback is on set up initial counters values:
             else
